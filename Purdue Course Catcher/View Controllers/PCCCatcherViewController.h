@@ -1,5 +1,5 @@
 //
-//  PCCViewController.h
+//  PCCCatcherViewController.h
 //  Purdue Course Catcher
 //
 //  Created by Kamran Pirwani on 12/2/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PCCViewController : UIViewController
+@interface PCCCatcherViewController : UIViewController
 
 @end

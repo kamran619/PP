@@ -7,20 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE50FF18185E9F190084ED32 /* PCCSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50FF17185E9F190084ED32 /* PCCSideMenuViewController.m */; };
 		FE5530DC184D3C4900D13587 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DB184D3C4900D13587 /* Foundation.framework */; };
 		FE5530DE184D3C4900D13587 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DD184D3C4900D13587 /* CoreGraphics.framework */; };
 		FE5530E0184D3C4900D13587 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DF184D3C4900D13587 /* UIKit.framework */; };
 		FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE5530E4184D3C4900D13587 /* InfoPlist.strings */; };
 		FE5530E8184D3C4900D13587 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE5530E7184D3C4900D13587 /* main.m */; };
 		FE5530EC184D3C4900D13587 /* PCCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE5530EB184D3C4900D13587 /* PCCAppDelegate.m */; };
-		FE5530EF184D3C4900D13587 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE5530ED184D3C4900D13587 /* Main.storyboard */; };
-		FE5530F2184D3C4900D13587 /* PCCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE5530F1184D3C4900D13587 /* PCCViewController.m */; };
 		FE5530F4184D3C4900D13587 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE5530F3184D3C4900D13587 /* Images.xcassets */; };
 		FE5530FB184D3C4900D13587 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530FA184D3C4900D13587 /* XCTest.framework */; };
 		FE5530FC184D3C4900D13587 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DB184D3C4900D13587 /* Foundation.framework */; };
 		FE5530FD184D3C4900D13587 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DF184D3C4900D13587 /* UIKit.framework */; };
 		FE553105184D3C4900D13587 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE553103184D3C4900D13587 /* InfoPlist.strings */; };
 		FE553107184D3C4900D13587 /* Purdue_Course_CatcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE553106184D3C4900D13587 /* Purdue_Course_CatcherTests.m */; };
+		FE553118184D3D9A00D13587 /* PCCScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE553116184D3D9A00D13587 /* PCCScheduleViewController.m */; };
+		FE55311C184D3DF800D13587 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE55311B184D3DF800D13587 /* MainStoryboard.storyboard */; };
+		FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE55311E184D446A00D13587 /* PCCCatcherViewController.m */; };
+		FE553125184D481400D13587 /* PCCMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE553124184D481400D13587 /* PCCMenuViewController.m */; };
+		FE6BBC9B1866777600760E7A /* PCCScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6BBC9A1866777600760E7A /* PCCScheduleCell.m */; };
+		FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6BBC9D1866C10600760E7A /* PCCSettingsViewController.m */; };
+		FE6BBCA21866C74700760E7A /* PCCScheduleHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6BBCA01866C74700760E7A /* PCCScheduleHeaderViewController.m */; };
+		FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE6BBCA11866C74700760E7A /* PCCScheduleHeaderViewController.xib */; };
+		FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628BF185ECF9F00F699B5 /* PCCSearchViewController.m */; };
+		FE9628C4185ED75200F699B5 /* MyPurdueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628C3185ED75200F699B5 /* MyPurdueManager.m */; };
+		FE9628C8185ED7D800F699B5 /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628C7185ED7D800F699B5 /* Helpers.m */; };
+		FE9628D2185ED9A100F699B5 /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628CB185ED9A100F699B5 /* Course.m */; };
+		FE9628D3185ED9A100F699B5 /* PCFClassModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628CD185ED9A100F699B5 /* PCFClassModel.m */; };
+		FE9628D4185ED9A100F699B5 /* PCCCourseSlots.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628CF185ED9A100F699B5 /* PCCCourseSlots.m */; };
+		FE9628D5185ED9A100F699B5 /* PCCObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628D1185ED9A100F699B5 /* PCCObject.m */; };
+		FE9628D8185ED9D500F699B5 /* PCFNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628D7185ED9D500F699B5 /* PCFNetworkManager.m */; };
+		FE9628DB185EDA1700F699B5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628DA185EDA1700F699B5 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FE9628DE185FBCA800F699B5 /* PCCDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628DD185FBCA800F699B5 /* PCCDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE50FF16185E9F190084ED32 /* PCCSideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCSideMenuViewController.h; sourceTree = "<group>"; };
+		FE50FF17185E9F190084ED32 /* PCCSideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCSideMenuViewController.m; sourceTree = "<group>"; };
 		FE5530D8184D3C4900D13587 /* Purdue Course Catcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Purdue Course Catcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE5530DB184D3C4900D13587 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FE5530DD184D3C4900D13587 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -44,15 +63,46 @@
 		FE5530E9184D3C4900D13587 /* Purdue Course Catcher-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Purdue Course Catcher-Prefix.pch"; sourceTree = "<group>"; };
 		FE5530EA184D3C4900D13587 /* PCCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCCAppDelegate.h; sourceTree = "<group>"; };
 		FE5530EB184D3C4900D13587 /* PCCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCCAppDelegate.m; sourceTree = "<group>"; };
-		FE5530EE184D3C4900D13587 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FE5530F0184D3C4900D13587 /* PCCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCCViewController.h; sourceTree = "<group>"; };
-		FE5530F1184D3C4900D13587 /* PCCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCCViewController.m; sourceTree = "<group>"; };
 		FE5530F3184D3C4900D13587 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FE5530F9184D3C4900D13587 /* Purdue Course CatcherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Purdue Course CatcherTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE5530FA184D3C4900D13587 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FE553102184D3C4900D13587 /* Purdue Course CatcherTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Purdue Course CatcherTests-Info.plist"; sourceTree = "<group>"; };
 		FE553104184D3C4900D13587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE553106184D3C4900D13587 /* Purdue_Course_CatcherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Purdue_Course_CatcherTests.m; sourceTree = "<group>"; };
+		FE553115184D3D9A00D13587 /* PCCScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScheduleViewController.h; path = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.h"; sourceTree = "<group>"; };
+		FE553116184D3D9A00D13587 /* PCCScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCScheduleViewController.m; path = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"; sourceTree = "<group>"; };
+		FE55311B184D3DF800D13587 /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		FE55311D184D446A00D13587 /* PCCCatcherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCCatcherViewController.h; path = "Purdue Course Catcher/View Controllers/PCCCatcherViewController.h"; sourceTree = "<group>"; };
+		FE55311E184D446A00D13587 /* PCCCatcherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCCatcherViewController.m; path = "Purdue Course Catcher/View Controllers/PCCCatcherViewController.m"; sourceTree = "<group>"; };
+		FE553123184D481400D13587 /* PCCMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCMenuViewController.h; path = "Purdue Course Catcher/View Controllers/PCCMenuViewController.h"; sourceTree = "<group>"; };
+		FE553124184D481400D13587 /* PCCMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCMenuViewController.m; path = "Purdue Course Catcher/View Controllers/PCCMenuViewController.m"; sourceTree = "<group>"; };
+		FE6BBC991866777600760E7A /* PCCScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScheduleCell.h; path = Cells/PCCScheduleCell.h; sourceTree = "<group>"; };
+		FE6BBC9A1866777600760E7A /* PCCScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCScheduleCell.m; path = Cells/PCCScheduleCell.m; sourceTree = "<group>"; };
+		FE6BBC9C1866C10600760E7A /* PCCSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSettingsViewController.h; path = "Purdue Course Catcher/View Controllers/PCCSettingsViewController.h"; sourceTree = "<group>"; };
+		FE6BBC9D1866C10600760E7A /* PCCSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSettingsViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSettingsViewController.m"; sourceTree = "<group>"; };
+		FE6BBC9F1866C74700760E7A /* PCCScheduleHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScheduleHeaderViewController.h; path = "Purdue Course Catcher/View Controllers/PCCScheduleHeaderViewController.h"; sourceTree = "<group>"; };
+		FE6BBCA01866C74700760E7A /* PCCScheduleHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCScheduleHeaderViewController.m; path = "Purdue Course Catcher/View Controllers/PCCScheduleHeaderViewController.m"; sourceTree = "<group>"; };
+		FE6BBCA11866C74700760E7A /* PCCScheduleHeaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCScheduleHeaderViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCScheduleHeaderViewController.xib"; sourceTree = "<group>"; };
+		FE9628BE185ECF9F00F699B5 /* PCCSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchViewController.h; path = "Purdue Course Catcher/View Controllers/PCCSearchViewController.h"; sourceTree = "<group>"; };
+		FE9628BF185ECF9F00F699B5 /* PCCSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSearchViewController.m"; sourceTree = "<group>"; };
+		FE9628C2185ED75200F699B5 /* MyPurdueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPurdueManager.h; sourceTree = "<group>"; };
+		FE9628C3185ED75200F699B5 /* MyPurdueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPurdueManager.m; sourceTree = "<group>"; };
+		FE9628C6185ED7D800F699B5 /* Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
+		FE9628C7185ED7D800F699B5 /* Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helpers.m; sourceTree = "<group>"; };
+		FE9628CA185ED9A100F699B5 /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
+		FE9628CB185ED9A100F699B5 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
+		FE9628CC185ED9A100F699B5 /* PCFClassModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCFClassModel.h; sourceTree = "<group>"; };
+		FE9628CD185ED9A100F699B5 /* PCFClassModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCFClassModel.m; sourceTree = "<group>"; };
+		FE9628CE185ED9A100F699B5 /* PCCCourseSlots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCCourseSlots.h; sourceTree = "<group>"; };
+		FE9628CF185ED9A100F699B5 /* PCCCourseSlots.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCCourseSlots.m; sourceTree = "<group>"; };
+		FE9628D0185ED9A100F699B5 /* PCCObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCObject.h; sourceTree = "<group>"; };
+		FE9628D1185ED9A100F699B5 /* PCCObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCObject.m; sourceTree = "<group>"; };
+		FE9628D6185ED9D500F699B5 /* PCFNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCFNetworkManager.h; sourceTree = "<group>"; };
+		FE9628D7185ED9D500F699B5 /* PCFNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCFNetworkManager.m; sourceTree = "<group>"; };
+		FE9628D9185EDA1700F699B5 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		FE9628DA185EDA1700F699B5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		FE9628DC185FBCA800F699B5 /* PCCDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCDataManager.h; sourceTree = "<group>"; };
+		FE9628DD185FBCA800F699B5 /* PCCDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +132,11 @@
 		FE5530CF184D3C4900D13587 = {
 			isa = PBXGroup;
 			children = (
+				FE9628C9185ED9A100F699B5 /* Models */,
+				FE9628C5185ED7D800F699B5 /* Convenience */,
+				FE9628C1185ED75200F699B5 /* Managers */,
+				FE55311B184D3DF800D13587 /* MainStoryboard.storyboard */,
+				FE55311A184D3DA900D13587 /* View Controllers */,
 				FE5530E1184D3C4900D13587 /* Purdue Course Catcher */,
 				FE553100184D3C4900D13587 /* Purdue Course CatcherTests */,
 				FE5530DA184D3C4900D13587 /* Frameworks */,
@@ -114,9 +169,6 @@
 			children = (
 				FE5530EA184D3C4900D13587 /* PCCAppDelegate.h */,
 				FE5530EB184D3C4900D13587 /* PCCAppDelegate.m */,
-				FE5530ED184D3C4900D13587 /* Main.storyboard */,
-				FE5530F0184D3C4900D13587 /* PCCViewController.h */,
-				FE5530F1184D3C4900D13587 /* PCCViewController.m */,
 				FE5530F3184D3C4900D13587 /* Images.xcassets */,
 				FE5530E2184D3C4900D13587 /* Supporting Files */,
 			);
@@ -150,6 +202,80 @@
 				FE553103184D3C4900D13587 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FE55311A184D3DA900D13587 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FE553115184D3D9A00D13587 /* PCCScheduleViewController.h */,
+				FE553116184D3D9A00D13587 /* PCCScheduleViewController.m */,
+				FE55311D184D446A00D13587 /* PCCCatcherViewController.h */,
+				FE55311E184D446A00D13587 /* PCCCatcherViewController.m */,
+				FE50FF16185E9F190084ED32 /* PCCSideMenuViewController.h */,
+				FE50FF17185E9F190084ED32 /* PCCSideMenuViewController.m */,
+				FE9628BE185ECF9F00F699B5 /* PCCSearchViewController.h */,
+				FE9628BF185ECF9F00F699B5 /* PCCSearchViewController.m */,
+				FE553123184D481400D13587 /* PCCMenuViewController.h */,
+				FE553124184D481400D13587 /* PCCMenuViewController.m */,
+				FE6BBC9C1866C10600760E7A /* PCCSettingsViewController.h */,
+				FE6BBC9D1866C10600760E7A /* PCCSettingsViewController.m */,
+				FE6BBCA41866C74C00760E7A /* Schedule Header */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		FE6BBCA41866C74C00760E7A /* Schedule Header */ = {
+			isa = PBXGroup;
+			children = (
+				FE6BBC9F1866C74700760E7A /* PCCScheduleHeaderViewController.h */,
+				FE6BBCA01866C74700760E7A /* PCCScheduleHeaderViewController.m */,
+				FE6BBCA11866C74700760E7A /* PCCScheduleHeaderViewController.xib */,
+			);
+			name = "Schedule Header";
+			sourceTree = "<group>";
+		};
+		FE9628C1185ED75200F699B5 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				FE9628D6185ED9D500F699B5 /* PCFNetworkManager.h */,
+				FE9628D7185ED9D500F699B5 /* PCFNetworkManager.m */,
+				FE9628C2185ED75200F699B5 /* MyPurdueManager.h */,
+				FE9628C3185ED75200F699B5 /* MyPurdueManager.m */,
+				FE9628DC185FBCA800F699B5 /* PCCDataManager.h */,
+				FE9628DD185FBCA800F699B5 /* PCCDataManager.m */,
+			);
+			name = Managers;
+			path = "Purdue Course Catcher/Managers";
+			sourceTree = "<group>";
+		};
+		FE9628C5185ED7D800F699B5 /* Convenience */ = {
+			isa = PBXGroup;
+			children = (
+				FE9628D9185EDA1700F699B5 /* Reachability.h */,
+				FE9628DA185EDA1700F699B5 /* Reachability.m */,
+				FE9628C6185ED7D800F699B5 /* Helpers.h */,
+				FE9628C7185ED7D800F699B5 /* Helpers.m */,
+			);
+			name = Convenience;
+			path = "Purdue Course Catcher/Convenience";
+			sourceTree = "<group>";
+		};
+		FE9628C9185ED9A100F699B5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FE9628CA185ED9A100F699B5 /* Course.h */,
+				FE9628CB185ED9A100F699B5 /* Course.m */,
+				FE9628CC185ED9A100F699B5 /* PCFClassModel.h */,
+				FE9628CD185ED9A100F699B5 /* PCFClassModel.m */,
+				FE9628CE185ED9A100F699B5 /* PCCCourseSlots.h */,
+				FE9628CF185ED9A100F699B5 /* PCCCourseSlots.m */,
+				FE9628D0185ED9A100F699B5 /* PCCObject.h */,
+				FE9628D1185ED9A100F699B5 /* PCCObject.m */,
+				FE6BBC991866777600760E7A /* PCCScheduleCell.h */,
+				FE6BBC9A1866777600760E7A /* PCCScheduleCell.m */,
+			);
+			name = Models;
+			path = "Purdue Course Catcher/Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +326,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Kamran Pirwani";
 				TargetAttributes = {
+					FE5530D7184D3C4900D13587 = {
+						DevelopmentTeam = 2QPS7688S6;
+					};
 					FE5530F8184D3C4900D13587 = {
 						TestTargetID = FE5530D7184D3C4900D13587;
 					};
@@ -231,7 +360,8 @@
 			files = (
 				FE5530F4184D3C4900D13587 /* Images.xcassets in Resources */,
 				FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */,
-				FE5530EF184D3C4900D13587 /* Main.storyboard in Resources */,
+				FE55311C184D3DF800D13587 /* MainStoryboard.storyboard in Resources */,
+				FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,9 +380,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */,
+				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,
+				FE9628C4185ED75200F699B5 /* MyPurdueManager.m in Sources */,
+				FE6BBC9B1866777600760E7A /* PCCScheduleCell.m in Sources */,
+				FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */,
+				FE9628D5185ED9A100F699B5 /* PCCObject.m in Sources */,
+				FE9628DB185EDA1700F699B5 /* Reachability.m in Sources */,
+				FE9628D8185ED9D500F699B5 /* PCFNetworkManager.m in Sources */,
+				FE9628DE185FBCA800F699B5 /* PCCDataManager.m in Sources */,
 				FE5530E8184D3C4900D13587 /* main.m in Sources */,
+				FE9628D2185ED9A100F699B5 /* Course.m in Sources */,
+				FE6BBCA21866C74700760E7A /* PCCScheduleHeaderViewController.m in Sources */,
+				FE553125184D481400D13587 /* PCCMenuViewController.m in Sources */,
 				FE5530EC184D3C4900D13587 /* PCCAppDelegate.m in Sources */,
-				FE5530F2184D3C4900D13587 /* PCCViewController.m in Sources */,
+				FE9628C8185ED7D800F699B5 /* Helpers.m in Sources */,
+				FE9628D3185ED9A100F699B5 /* PCFClassModel.m in Sources */,
+				FE9628D4185ED9A100F699B5 /* PCCCourseSlots.m in Sources */,
+				FE553118184D3D9A00D13587 /* PCCScheduleViewController.m in Sources */,
+				FE50FF18185E9F190084ED32 /* PCCSideMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,14 +427,6 @@
 				FE5530E5184D3C4900D13587 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		FE5530ED184D3C4900D13587 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FE5530EE184D3C4900D13587 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		FE553103184D3C4900D13587 /* InfoPlist.strings */ = {
@@ -379,10 +517,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
 				INFOPLIST_FILE = "Purdue Course Catcher/Purdue Course Catcher-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -392,10 +534,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
 				INFOPLIST_FILE = "Purdue Course Catcher/Purdue Course Catcher-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -461,6 +607,7 @@
 				FE55310C184D3C4900D13587 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FE55310D184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Purdue Course CatcherTests" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +616,7 @@
 				FE55310F184D3C4900D13587 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
