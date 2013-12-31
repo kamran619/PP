@@ -39,4 +39,13 @@ NSString *const kEncodeValue = @"kEncodeValue";
     [aCoder encodeObject:self.value forKey:kEncodeValue];
 }
 
+-(BOOL)isEqual:(id)object
+{
+    if ([object isKindOfClass:[self class]]) {
+        PCCObject *obj2 = (PCCObject *)object;
+        if ([self.key isEqualToString:obj2.key] && [self.value isEqualToString:obj2.value]) return YES;
+    }
+    return NO;
+}
+
 @end

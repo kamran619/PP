@@ -159,7 +159,7 @@ static PCFNetworkManager *_sharedInstance = nil;
                             }
                         }
                     }else {
-                        NSLog(@"\nlen is %d\n" , len);
+                        NSLog(@"\nlen is %ld\n" , len);
                     }
                 }else {
                     NSLog(@"no buffer!");

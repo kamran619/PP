@@ -13,7 +13,8 @@
 typedef enum
 {
     DataDictionaryUser = 1,
-    DataDictionarySchedule = 2
+    DataDictionarySchedule = 2,
+    DataDictionarySubject = 3
 } DataDictionary;
 
 +(instancetype)sharedInstance;
@@ -31,8 +32,9 @@ typedef enum
  ->  Terms       -> array
  ->  Professors  -> array of terms -> professors by term
  ->  Schedule    -> array of terms ->  schedule by term
+ ->  Subject     -> array of terms -> subjects by term
  ->  User        -> nsdictionary of elements like purdue username/password ..etc
-                ->preferred search semester
+                 -> preferred search semester
  */
 //keys in kUser dictionary
 #define kPreferredSearchTerm @"kPreferredSearchTerm"
@@ -42,6 +44,7 @@ typedef enum
 @property (nonatomic, strong) NSMutableArray *arrayBasket;
 @property (nonatomic, strong) NSMutableArray *arrayTerms;
 @property (nonatomic, strong) NSMutableArray *arrayProfessors;
+@property (nonatomic, strong) NSMutableDictionary *dictionarySubjects;
 @property (nonatomic, strong) NSMutableDictionary *dictionarySchedule;
 @property (nonatomic, strong) NSMutableDictionary *dictionaryUser;
 

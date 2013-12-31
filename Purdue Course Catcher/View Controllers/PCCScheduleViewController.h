@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCCScheduleHeaderViewController.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface PCCScheduleViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface PCCScheduleViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PCCScheduleHeaderDelegate, EGORefreshTableHeaderDelegate>
 
 @property (nonatomic, strong) IBOutlet UIView *setupContainerView;
 @property (nonatomic, strong) IBOutlet UIPickerView *pickerView;

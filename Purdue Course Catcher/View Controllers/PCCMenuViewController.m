@@ -42,6 +42,7 @@
 	// Do any additional setup after loading the view.
 }
 
+
 #pragma mark Convenience Methods
 
 -(UIViewController *)viewControllerWithStoryboardIdentifier:(NSString *)identifier
@@ -132,6 +133,7 @@
 
 - (void)setupInitialViewWithStoryboardIdentifier:(NSString *)identifier
 {
+    
     self.centralViewController = [self viewControllerWithStoryboardIdentifier:identifier];
 	[self.view addSubview:self.centralViewController.view];
 	[self addChildViewController:self.centralViewController];
@@ -146,6 +148,7 @@
 	[panRecognizer setMinimumNumberOfTouches:1];
 	[panRecognizer setMaximumNumberOfTouches:1];
 	[panRecognizer setDelegate:self];
+    [panRecognizer setCancelsTouchesInView:NO];
     
 	[self.centralViewController.view addGestureRecognizer:panRecognizer];
 }
@@ -154,23 +157,39 @@
 
 -(void)replaceCenterViewControllerWithStoryboardIdentifier:(NSString *)identifier
 {
-    void (^block)() = ^{
-        UIViewController *oldCenterVC = self.centralViewController;
-        [self setupInitialViewWithStoryboardIdentifier:identifier];
-        self.centralViewController.view.frame = CGRectMake(oldCenterVC.view.frame.origin.x, oldCenterVC.view.frame.origin.y, self.centralViewController.view.frame.size.width, self.centralViewController.view.frame.size.height);
-        [oldCenterVC removeFromParentViewController];
-        [oldCenterVC.view removeFromSuperview];
-        //reanimate
-        //move to left too far
-        [UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
-        }
-        completion:^(BOOL finished) {
-            if (finished) {
-                [self movePanelToOriginalPosition];
-            }
-        }];
-    };
+    void (^block)();
+    
+    if ([self.centralViewController.restorationIdentifier isEqualToString:identifier]) {
+        block = ^{
+            [UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
+            }completion:^(BOOL finished) {
+                    if (finished) {
+                        [self.centralViewController viewWillAppear:YES];
+                        [self movePanelToOriginalPosition];
+                    }
+            }];
+        };
+    }else {
+        block = ^{
+            UIViewController *oldCenterVC = self.centralViewController;
+            [self setupInitialViewWithStoryboardIdentifier:identifier];
+            self.centralViewController.view.frame = CGRectMake(oldCenterVC.view.frame.origin.x, oldCenterVC.view.frame.origin.y, self.centralViewController.view.frame.size.width, self.centralViewController.view.frame.size.height);
+            [oldCenterVC removeFromParentViewController];
+            [oldCenterVC.view removeFromSuperview];
+            //reanimate
+            //move to left too far
+            [UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
+            }completion:^(BOOL finished) {
+                if (finished) {
+                    [self movePanelToOriginalPosition];
+                }
+            }];
+        };
+    }
+    
+    
     
     [self bouncePanelRightThenBackToOriginalPositionWithBlock:block];
 

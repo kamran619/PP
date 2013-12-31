@@ -175,7 +175,8 @@ static MyPurdueManager *_sharedInstance = nil;
     //final post
     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/bwskfshd.P_CrseSchdDetl"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"selfservice.mypurdue.purdue.edu" origin:@"https://selfservice.mypurdue.purdue.edu" referer:@"https://selfservice.mypurdue.purdue.edu/prod/bwskcrse.P_CrseSchdDetl"];
-    NSString *form_parameter = [NSString stringWithFormat:@"term_in=%@", [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow]];
+    PCCObject *obj = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+    NSString *form_parameter = [NSString stringWithFormat:@"term_in=%@", obj.value];
     NSData *requestBody = [form_parameter dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[requestBody length]];
     [request setHTTPBody:requestBody];
@@ -223,7 +224,9 @@ static MyPurdueManager *_sharedInstance = nil;
     //final post
     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/bwskcrse.P_CrseSchdDetl"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"selfservice.mypurdue.purdue.edu" origin:@"https://selfservice.mypurdue.purdue.edu" referer:@"https://selfservice.mypurdue.purdue.edu/prod/bwskcrse.P_CrseSchdDetl"];
-    NSData *requestBody = [[NSString stringWithFormat:@"term_in=%@", [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow]] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    PCCObject *obj = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+    NSString *form_parameter = [NSString stringWithFormat:@"term_in=%@", obj.value];
+    NSData *requestBody = [form_parameter dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[requestBody length]];
     [request setHTTPBody:requestBody];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
@@ -367,12 +370,12 @@ static MyPurdueManager *_sharedInstance = nil;
     return results;
 }
 
-+(PCFCourseRecord *)getCourseAvailabilityWithLink:(NSString *)courseLink
++(PCCCourseSlots *)getCourseAvailabilityWithLink:(NSString *)courseLink
 {
     NSString *webData = nil;
     webData = [[self class] queryServer:courseLink connectionType:nil referer:URL_COURSE_SEARCH arguements:nil];
     NSArray *courseRecord = [[self class] parseData:webData type:ParseSlots term:nil];
-    PCFCourseRecord *record = [courseRecord objectAtIndex:0];
+    PCCCourseSlots *record = [courseRecord objectAtIndex:0];
     return record;
 }
 #pragma mark Private Methods
@@ -617,22 +620,20 @@ static MyPurdueManager *_sharedInstance = nil;
                 [scanner scanUpToString:@"<" intoString:&scheduleType];
                 [scanner scanUpToString:@"<TD CLASS=\"ddd" intoString:nil];
                 [scanner setScanLocation:([scanner scanLocation] + 22)];
-                instructor = nil;
-                [scanner scanUpToString:@"<ABBR" intoString:&instructor];
-                if (instructor == nil) {
+                [scanner scanUpToString:@"</TD>" intoString:&instructor];
+                if ([instructor rangeOfString:@"TBA" options:NSCaseInsensitiveSearch range:NSMakeRange(0, instructor.length-1)].location != NSNotFound) {
                     instructor = @"TBA";
+                    instructorEmail = @"N/A";
                 }else {
-                    if ([instructor characterAtIndex:([instructor length]-1)] == '(') instructor = [instructor substringToIndex:([instructor length] -1)];
+                    //we have a valid instructor
+                    NSScanner *tempScanner = [NSScanner scannerWithString:instructor];
+                    [tempScanner scanUpToString:@"mailto:" intoString:nil];
+                    [tempScanner setScanLocation:tempScanner.scanLocation + 7];
+                    [tempScanner scanUpToString:@"\"" intoString:&instructorEmail];
+                    [tempScanner scanUpToString:@"target=\"" intoString:nil];
+                    [tempScanner setScanLocation:tempScanner.scanLocation + 8];
+                    [tempScanner scanUpToString:@"\"" intoString:&instructor];
                 }
-                instructor = [instructor stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                if (![instructor isEqualToString:@"TBA"]) {
-                    [scanner scanUpToString:@"mailto" intoString:nil];
-                    [scanner setScanLocation:([scanner scanLocation] + 7)];
-                    [scanner scanUpToString:@"\"" intoString:&instructorEmail];
-                }else {
-                    instructorEmail = nil;
-                }
-                
                 [classes addObject:[[PCFClassModel alloc] initWithClassTitle:classTitle crn:CRN
                                                                 courseNumber:courseName Time:classTime Days:classDays DateRange:classDateRange ScheduleType:scheduleType Instructor:instructor Credits:numCredits ClassLink:classLink CatalogLink:catalogLink SectionNum:sectionNum ClassLocation:classLocation Email:instructorEmail linkedID:linkID linkedSection:linkedSection]];
             }

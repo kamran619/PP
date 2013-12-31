@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class PCFCourseRecord;
+@class PCCCourseSlots;
 
 @interface MyPurdueManager : NSObject <NSURLConnectionDelegate>
 
@@ -33,5 +33,5 @@
 +(NSArray *)getProfessorsForTerm:(NSString *)term;
 
 +(NSString *)getCatalogInformationWithLink:(NSString *)catalogLink;
-+(PCFCourseRecord *)getCourseAvailabilityWithLink:(NSString *)courseLink;
++(PCCCourseSlots *)getCourseAvailabilityWithLink:(NSString *)courseLink;
 @end

@@ -20,4 +20,10 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *courseSection;
 @property (nonatomic, strong) IBOutlet UILabel *courseType;
+@property (nonatomic, strong) IBOutlet UILabel *date;
+
+
+@property (nonatomic, strong) IBOutlet UILabel *contentDivider;
+@property (nonatomic, strong) IBOutlet UILabel *timeDivider;
+
 @end

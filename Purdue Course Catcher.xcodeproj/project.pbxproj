@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5121870989A00EF24BA /* PCCEmptyCell.m */; };
+		FE50C5161870B3FC00EF24BA /* PCCSearchResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */; };
+		FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */; };
+		FE50C51F1870CB5D00EF24BA /* MHNatGeoSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C51C1870CB5D00EF24BA /* MHNatGeoSegue.m */; };
+		FE50C5201870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C51E1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m */; };
+		FE50C5231870F4CF00EF24BA /* MNHatGeoUnwindSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5221870F4CF00EF24BA /* MNHatGeoUnwindSegue.m */; };
 		FE50FF18185E9F190084ED32 /* PCCSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50FF17185E9F190084ED32 /* PCCSideMenuViewController.m */; };
 		FE5530DC184D3C4900D13587 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DB184D3C4900D13587 /* Foundation.framework */; };
 		FE5530DE184D3C4900D13587 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DD184D3C4900D13587 /* CoreGraphics.framework */; };
@@ -38,6 +44,19 @@
 		FE9628D8185ED9D500F699B5 /* PCFNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628D7185ED9D500F699B5 /* PCFNetworkManager.m */; };
 		FE9628DB185EDA1700F699B5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628DA185EDA1700F699B5 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FE9628DE185FBCA800F699B5 /* PCCDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628DD185FBCA800F699B5 /* PCCDataManager.m */; };
+		FEA2017618711842009DFE84 /* DropAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017318711842009DFE84 /* DropAnimationController.m */; };
+		FEA2017718711842009DFE84 /* ZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017518711842009DFE84 /* ZoomAnimationController.m */; };
+		FEA2017A187119B1009DFE84 /* KPSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA20179187119B1009DFE84 /* KPSegue.m */; };
+		FEE5719E186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57196186A4E4A00FE8FA8 /* blackArrow.png */; };
+		FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57197186A4E4A00FE8FA8 /* blackArrow@2x.png */; };
+		FEE571A1186A4E4A00FE8FA8 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57198186A4E4A00FE8FA8 /* blueArrow.png */; };
+		FEE571A2186A4E4A00FE8FA8 /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57199186A4E4A00FE8FA8 /* blueArrow@2x.png */; };
+		FEE571A3186A4E4A00FE8FA8 /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE5719A186A4E4A00FE8FA8 /* grayArrow.png */; };
+		FEE571A4186A4E4A00FE8FA8 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE5719B186A4E4A00FE8FA8 /* grayArrow@2x.png */; };
+		FEE571A5186A4E4A00FE8FA8 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE5719C186A4E4A00FE8FA8 /* whiteArrow.png */; };
+		FEE571A6186A4E4A00FE8FA8 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE5719D186A4E4A00FE8FA8 /* whiteArrow@2x.png */; };
+		FEE571A9186D00B700FE8FA8 /* PCFAutoCompleteTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE571A8186D00B700FE8FA8 /* PCFAutoCompleteTextField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +70,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE50C5111870989A00EF24BA /* PCCEmptyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCEmptyCell.h; path = "Purdue Course Catcher/Cells/PCCEmptyCell.h"; sourceTree = "<group>"; };
+		FE50C5121870989A00EF24BA /* PCCEmptyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCEmptyCell.m; path = "Purdue Course Catcher/Cells/PCCEmptyCell.m"; sourceTree = "<group>"; };
+		FE50C5141870B3FC00EF24BA /* PCCSearchResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchResultsCell.h; path = "Purdue Course Catcher/Cells/PCCSearchResultsCell.h"; sourceTree = "<group>"; };
+		FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchResultsCell.m; path = "Purdue Course Catcher/Cells/PCCSearchResultsCell.m"; sourceTree = "<group>"; };
+		FE50C5171870BBFB00EF24BA /* PCCSearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchResultsViewController.h; path = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.h"; sourceTree = "<group>"; };
+		FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchResultsViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.m"; sourceTree = "<group>"; };
+		FE50C51B1870CB5D00EF24BA /* MHNatGeoSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHNatGeoSegue.h; sourceTree = "<group>"; };
+		FE50C51C1870CB5D00EF24BA /* MHNatGeoSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHNatGeoSegue.m; sourceTree = "<group>"; };
+		FE50C51D1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHNatGeoViewControllerTransition.h; sourceTree = "<group>"; };
+		FE50C51E1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHNatGeoViewControllerTransition.m; sourceTree = "<group>"; };
+		FE50C5211870F4CF00EF24BA /* MNHatGeoUnwindSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MNHatGeoUnwindSegue.h; path = Segue/MNHatGeoUnwindSegue.h; sourceTree = "<group>"; };
+		FE50C5221870F4CF00EF24BA /* MNHatGeoUnwindSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MNHatGeoUnwindSegue.m; path = Segue/MNHatGeoUnwindSegue.m; sourceTree = "<group>"; };
 		FE50FF16185E9F190084ED32 /* PCCSideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCSideMenuViewController.h; sourceTree = "<group>"; };
 		FE50FF17185E9F190084ED32 /* PCCSideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCSideMenuViewController.m; sourceTree = "<group>"; };
 		FE5530D8184D3C4900D13587 /* Purdue Course Catcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Purdue Course Catcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,8 +107,8 @@
 		FE55311E184D446A00D13587 /* PCCCatcherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCCatcherViewController.m; path = "Purdue Course Catcher/View Controllers/PCCCatcherViewController.m"; sourceTree = "<group>"; };
 		FE553123184D481400D13587 /* PCCMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCMenuViewController.h; path = "Purdue Course Catcher/View Controllers/PCCMenuViewController.h"; sourceTree = "<group>"; };
 		FE553124184D481400D13587 /* PCCMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCMenuViewController.m; path = "Purdue Course Catcher/View Controllers/PCCMenuViewController.m"; sourceTree = "<group>"; };
-		FE6BBC991866777600760E7A /* PCCScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScheduleCell.h; path = Cells/PCCScheduleCell.h; sourceTree = "<group>"; };
-		FE6BBC9A1866777600760E7A /* PCCScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCScheduleCell.m; path = Cells/PCCScheduleCell.m; sourceTree = "<group>"; };
+		FE6BBC991866777600760E7A /* PCCScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScheduleCell.h; path = "Purdue Course Catcher/Models/Cells/PCCScheduleCell.h"; sourceTree = "<group>"; };
+		FE6BBC9A1866777600760E7A /* PCCScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCScheduleCell.m; path = "Purdue Course Catcher/Models/Cells/PCCScheduleCell.m"; sourceTree = "<group>"; };
 		FE6BBC9C1866C10600760E7A /* PCCSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSettingsViewController.h; path = "Purdue Course Catcher/View Controllers/PCCSettingsViewController.h"; sourceTree = "<group>"; };
 		FE6BBC9D1866C10600760E7A /* PCCSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSettingsViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSettingsViewController.m"; sourceTree = "<group>"; };
 		FE6BBC9F1866C74700760E7A /* PCCScheduleHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScheduleHeaderViewController.h; path = "Purdue Course Catcher/View Controllers/PCCScheduleHeaderViewController.h"; sourceTree = "<group>"; };
@@ -103,6 +134,25 @@
 		FE9628DA185EDA1700F699B5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		FE9628DC185FBCA800F699B5 /* PCCDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCDataManager.h; sourceTree = "<group>"; };
 		FE9628DD185FBCA800F699B5 /* PCCDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCDataManager.m; sourceTree = "<group>"; };
+		FEA2017118711842009DFE84 /* ADVAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADVAnimationController.h; sourceTree = "<group>"; };
+		FEA2017218711842009DFE84 /* DropAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropAnimationController.h; sourceTree = "<group>"; };
+		FEA2017318711842009DFE84 /* DropAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropAnimationController.m; sourceTree = "<group>"; };
+		FEA2017418711842009DFE84 /* ZoomAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomAnimationController.h; sourceTree = "<group>"; };
+		FEA2017518711842009DFE84 /* ZoomAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomAnimationController.m; sourceTree = "<group>"; };
+		FEA20178187119B1009DFE84 /* KPSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KPSegue.h; path = Segue/KPSegue.h; sourceTree = "<group>"; };
+		FEA20179187119B1009DFE84 /* KPSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KPSegue.m; path = Segue/KPSegue.m; sourceTree = "<group>"; };
+		FEE57193186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		FEE57196186A4E4A00FE8FA8 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		FEE57197186A4E4A00FE8FA8 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
+		FEE57198186A4E4A00FE8FA8 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		FEE57199186A4E4A00FE8FA8 /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
+		FEE5719A186A4E4A00FE8FA8 /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
+		FEE5719B186A4E4A00FE8FA8 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
+		FEE5719C186A4E4A00FE8FA8 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
+		FEE5719D186A4E4A00FE8FA8 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
+		FEE571A7186D00B700FE8FA8 /* PCFAutoCompleteTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCFAutoCompleteTextField.h; sourceTree = "<group>"; };
+		FEE571A8186D00B700FE8FA8 /* PCFAutoCompleteTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCFAutoCompleteTextField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,9 +179,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FE50C5101870986300EF24BA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FE6BBC991866777600760E7A /* PCCScheduleCell.h */,
+				FE6BBC9A1866777600760E7A /* PCCScheduleCell.m */,
+				FE50C5111870989A00EF24BA /* PCCEmptyCell.h */,
+				FE50C5121870989A00EF24BA /* PCCEmptyCell.m */,
+				FE50C5141870B3FC00EF24BA /* PCCSearchResultsCell.h */,
+				FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		FE50C51A1870C2F600EF24BA /* Segue */ = {
+			isa = PBXGroup;
+			children = (
+				FE50C51B1870CB5D00EF24BA /* MHNatGeoSegue.h */,
+				FE50C51C1870CB5D00EF24BA /* MHNatGeoSegue.m */,
+				FE50C51D1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.h */,
+				FE50C51E1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m */,
+				FE50C5211870F4CF00EF24BA /* MNHatGeoUnwindSegue.h */,
+				FE50C5221870F4CF00EF24BA /* MNHatGeoUnwindSegue.m */,
+				FEA20178187119B1009DFE84 /* KPSegue.h */,
+				FEA20179187119B1009DFE84 /* KPSegue.m */,
+			);
+			name = Segue;
+			sourceTree = "<group>";
+		};
 		FE5530CF184D3C4900D13587 = {
 			isa = PBXGroup;
 			children = (
+				FEA2017018711732009DFE84 /* Transitions */,
+				FE50C51A1870C2F600EF24BA /* Segue */,
+				FE50C5101870986300EF24BA /* Cells */,
 				FE9628C9185ED9A100F699B5 /* Models */,
 				FE9628C5185ED7D800F699B5 /* Convenience */,
 				FE9628C1185ED75200F699B5 /* Managers */,
@@ -220,6 +301,8 @@
 				FE6BBC9C1866C10600760E7A /* PCCSettingsViewController.h */,
 				FE6BBC9D1866C10600760E7A /* PCCSettingsViewController.m */,
 				FE6BBCA41866C74C00760E7A /* Schedule Header */,
+				FE50C5171870BBFB00EF24BA /* PCCSearchResultsViewController.h */,
+				FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -251,6 +334,8 @@
 		FE9628C5185ED7D800F699B5 /* Convenience */ = {
 			isa = PBXGroup;
 			children = (
+				FEE571AA186D00BC00FE8FA8 /* PCFAutoCompleteTextField */,
+				FEE57190186A4E4A00FE8FA8 /* EGOTableViewPullRefresh */,
 				FE9628D9185EDA1700F699B5 /* Reachability.h */,
 				FE9628DA185EDA1700F699B5 /* Reachability.m */,
 				FE9628C6185ED7D800F699B5 /* Helpers.h */,
@@ -271,11 +356,72 @@
 				FE9628CF185ED9A100F699B5 /* PCCCourseSlots.m */,
 				FE9628D0185ED9A100F699B5 /* PCCObject.h */,
 				FE9628D1185ED9A100F699B5 /* PCCObject.m */,
-				FE6BBC991866777600760E7A /* PCCScheduleCell.h */,
-				FE6BBC9A1866777600760E7A /* PCCScheduleCell.m */,
 			);
 			name = Models;
 			path = "Purdue Course Catcher/Models";
+			sourceTree = "<group>";
+		};
+		FEA2017018711732009DFE84 /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				FEA2017118711842009DFE84 /* ADVAnimationController.h */,
+				FEA2017218711842009DFE84 /* DropAnimationController.h */,
+				FEA2017318711842009DFE84 /* DropAnimationController.m */,
+				FEA2017418711842009DFE84 /* ZoomAnimationController.h */,
+				FEA2017518711842009DFE84 /* ZoomAnimationController.m */,
+			);
+			name = Transitions;
+			sourceTree = "<group>";
+		};
+		FEE57190186A4E4A00FE8FA8 /* EGOTableViewPullRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				FEE57191186A4E4A00FE8FA8 /* Classes */,
+				FEE57195186A4E4A00FE8FA8 /* Resources */,
+			);
+			name = EGOTableViewPullRefresh;
+			path = ../../EGOTableViewPullRefresh;
+			sourceTree = "<group>";
+		};
+		FEE57191186A4E4A00FE8FA8 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FEE57192186A4E4A00FE8FA8 /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		FEE57192186A4E4A00FE8FA8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FEE57193186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.h */,
+				FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FEE57195186A4E4A00FE8FA8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FEE57196186A4E4A00FE8FA8 /* blackArrow.png */,
+				FEE57197186A4E4A00FE8FA8 /* blackArrow@2x.png */,
+				FEE57198186A4E4A00FE8FA8 /* blueArrow.png */,
+				FEE57199186A4E4A00FE8FA8 /* blueArrow@2x.png */,
+				FEE5719A186A4E4A00FE8FA8 /* grayArrow.png */,
+				FEE5719B186A4E4A00FE8FA8 /* grayArrow@2x.png */,
+				FEE5719C186A4E4A00FE8FA8 /* whiteArrow.png */,
+				FEE5719D186A4E4A00FE8FA8 /* whiteArrow@2x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		FEE571AA186D00BC00FE8FA8 /* PCFAutoCompleteTextField */ = {
+			isa = PBXGroup;
+			children = (
+				FEE571A7186D00B700FE8FA8 /* PCFAutoCompleteTextField.h */,
+				FEE571A8186D00B700FE8FA8 /* PCFAutoCompleteTextField.m */,
+			);
+			name = PCFAutoCompleteTextField;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,9 +504,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEE571A3186A4E4A00FE8FA8 /* grayArrow.png in Resources */,
+				FEE571A2186A4E4A00FE8FA8 /* blueArrow@2x.png in Resources */,
 				FE5530F4184D3C4900D13587 /* Images.xcassets in Resources */,
+				FEE571A5186A4E4A00FE8FA8 /* whiteArrow.png in Resources */,
+				FEE571A4186A4E4A00FE8FA8 /* grayArrow@2x.png in Resources */,
 				FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */,
+				FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */,
+				FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */,
+				FEE571A1186A4E4A00FE8FA8 /* blueArrow.png in Resources */,
 				FE55311C184D3DF800D13587 /* MainStoryboard.storyboard in Resources */,
+				FEE571A6186A4E4A00FE8FA8 /* whiteArrow@2x.png in Resources */,
 				FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,19 +534,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */,
 				FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,
+				FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */,
+				FE50C51F1870CB5D00EF24BA /* MHNatGeoSegue.m in Sources */,
 				FE9628C4185ED75200F699B5 /* MyPurdueManager.m in Sources */,
+				FE50C5201870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m in Sources */,
 				FE6BBC9B1866777600760E7A /* PCCScheduleCell.m in Sources */,
 				FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */,
 				FE9628D5185ED9A100F699B5 /* PCCObject.m in Sources */,
 				FE9628DB185EDA1700F699B5 /* Reachability.m in Sources */,
+				FE50C5231870F4CF00EF24BA /* MNHatGeoUnwindSegue.m in Sources */,
 				FE9628D8185ED9D500F699B5 /* PCFNetworkManager.m in Sources */,
+				FEA2017618711842009DFE84 /* DropAnimationController.m in Sources */,
 				FE9628DE185FBCA800F699B5 /* PCCDataManager.m in Sources */,
 				FE5530E8184D3C4900D13587 /* main.m in Sources */,
 				FE9628D2185ED9A100F699B5 /* Course.m in Sources */,
+				FEA2017718711842009DFE84 /* ZoomAnimationController.m in Sources */,
+				FEA2017A187119B1009DFE84 /* KPSegue.m in Sources */,
 				FE6BBCA21866C74700760E7A /* PCCScheduleHeaderViewController.m in Sources */,
+				FEE5719E186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m in Sources */,
 				FE553125184D481400D13587 /* PCCMenuViewController.m in Sources */,
+				FE50C5161870B3FC00EF24BA /* PCCSearchResultsCell.m in Sources */,
+				FEE571A9186D00B700FE8FA8 /* PCFAutoCompleteTextField.m in Sources */,
 				FE5530EC184D3C4900D13587 /* PCCAppDelegate.m in Sources */,
 				FE9628C8185ED7D800F699B5 /* Helpers.m in Sources */,
 				FE9628D3185ED9A100F699B5 /* PCFClassModel.m in Sources */,

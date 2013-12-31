@@ -7,6 +7,7 @@
 //
 
 #import "PCCDataManager.h"
+#import "PCCObject.h"
 
 @implementation PCCDataManager
 
@@ -19,6 +20,7 @@ static PCCDataManager *_sharedInstance = nil;
 #define kSchedule @"kSchedule"
 #define kTerms @"kTerms"
 #define kUser @"kUser"
+#define kSubjects @"kSubjects"
 
 +(instancetype)sharedInstance
 {
@@ -51,9 +53,29 @@ static PCCDataManager *_sharedInstance = nil;
     return _dictionarySchedule;
 }
 
+-(NSMutableDictionary *)dictionarySubjects
+{
+    if (!_dictionarySubjects) _dictionarySubjects = [NSMutableDictionary dictionaryWithCapacity:4];
+    return _dictionarySubjects;
+}
+
+-(void)setArrayProfessors:(NSMutableArray *)arrayProfessors
+{
+    if (!_arrayProfessors) {
+        _arrayProfessors = arrayProfessors;
+        return;
+    }
+    
+    if (_arrayProfessors.count == arrayProfessors.count) return;
+    //add remaining items that are not different
+    for (PCCObject *object in arrayProfessors) {
+        if (![_arrayProfessors containsObject:object]) [_arrayProfessors addObject:object];
+    }
+    
+}
 -(BOOL)saveData
 {
-    if (self.arrayBasket || self.arrayFavorites || self.arrayProfessors || self.dictionarySchedule || self.arrayTerms || self.dictionaryUser) {
+    if (self.arrayBasket || self.arrayFavorites || self.arrayProfessors || self.dictionarySchedule || self.arrayTerms || self.dictionaryUser || self.dictionarySubjects) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docDir = [paths objectAtIndex:0];
         NSString *fullPath = [docDir stringByAppendingFormat:@"/%@", kFileName];
@@ -89,6 +111,12 @@ static PCCDataManager *_sharedInstance = nil;
         }else {
             [dictionary setObject:self.dictionaryUser forKey:kUser];
         }
+        
+        if (!self.dictionarySubjects) {
+            [dictionary setObject:[NSNull null] forKey:kSubjects];
+        }else {
+            [dictionary setObject:self.dictionarySubjects forKey:kSubjects];
+        }
     
             return [NSKeyedArchiver archiveRootObject:[dictionary copy] toFile:fullPath];
         
@@ -106,20 +134,21 @@ static PCCDataManager *_sharedInstance = nil;
     if (fileExists) {
         NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
         
-        self.arrayBasket = [dictionary objectForKey:kBasket];
-        self.arrayFavorites = [dictionary objectForKey:kFavorites];
-        self.arrayProfessors = [dictionary objectForKey:kProfessors];
-        self.dictionarySchedule = [dictionary objectForKey:kSchedule];
-        self.arrayTerms = [dictionary objectForKey:kTerms];
-        self.dictionaryUser = [dictionary objectForKey:kUser];
+        _arrayBasket = [dictionary objectForKey:kBasket];
+        _arrayFavorites = [dictionary objectForKey:kFavorites];
+        _arrayProfessors = [dictionary objectForKey:kProfessors];
+        _dictionarySchedule = [dictionary objectForKey:kSchedule];
+        _arrayTerms = [dictionary objectForKey:kTerms];
+        _dictionaryUser = [dictionary objectForKey:kUser];
+        _dictionarySubjects = [dictionary objectForKey:kSubjects];
         
-        if ([self.arrayBasket isEqual:[NSNull null]]) self.arrayBasket = nil;
-        if ([self.arrayFavorites isEqual:[NSNull null]]) self.arrayFavorites = nil;
-        if ([self.arrayProfessors isEqual:[NSNull null]]) self.arrayProfessors = nil;
-        if ([self.dictionarySchedule isEqual:[NSNull null]]) self.dictionarySchedule = nil;
-        if ([self.arrayTerms isEqual:[NSNull null]]) self.arrayTerms = nil;
-        if ([self.dictionaryUser isEqual:[NSNull null]]) self.dictionaryUser = nil;
-        
+        if ([_arrayBasket isEqual:[NSNull null]]) _arrayBasket = nil;
+        if ([_arrayFavorites isEqual:[NSNull null]]) _arrayFavorites = nil;
+        if ([_arrayProfessors isEqual:[NSNull null]]) _arrayProfessors = nil;
+        if ([_dictionarySchedule isEqual:[NSNull null]]) _dictionarySchedule = nil;
+        if ([_arrayTerms isEqual:[NSNull null]]) _arrayTerms = nil;
+        if ([_dictionaryUser isEqual:[NSNull null]]) _dictionaryUser = nil;
+        if ([_dictionarySubjects isEqual:[NSNull null]]) _dictionarySubjects = nil;
         return YES;
     }
     
@@ -134,6 +163,8 @@ static PCCDataManager *_sharedInstance = nil;
         dict = self.dictionarySchedule;
     }else if (dictionary == DataDictionaryUser) {
         dict = self.dictionaryUser;
+    }else if (dictionary == DataDictionarySubject) {
+        dict = self.dictionarySubjects;
     }
     
     [dict setObject:obj forKey:key];
@@ -147,6 +178,8 @@ static PCCDataManager *_sharedInstance = nil;
         dict = self.dictionarySchedule;
     }else if (dictionary == DataDictionaryUser) {
         dict = self.dictionaryUser;
+    }else if (dictionary == DataDictionarySubject) {
+        dict = self.dictionarySubjects;
     }
     
     if (!dict) return nil;

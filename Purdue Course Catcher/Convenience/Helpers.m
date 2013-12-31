@@ -53,10 +53,28 @@
 {
     if ([date isEqualToString:@"TBA"]) return nil;
     NSArray *time = [date componentsSeparatedByString:@"-"];
-    NSString *timeOne = [[time objectAtIndex:0] uppercaseString];
-    NSString *timeTwo = [[time objectAtIndex:1] uppercaseString];
+    NSString *timeOne = [time objectAtIndex:0];
+    NSString *timeTwo = [time objectAtIndex:1];
     NSArray *arr = [NSArray arrayWithObjects:timeOne, timeTwo, nil];
     return arr;
+}
+
+
++(NSArray *)splitTime:(NSString *)time
+{
+    if ([time isEqualToString:@"TBA"]) {
+        return [NSArray arrayWithObjects:@"TBA", @"TBA", nil];
+    }
+    NSArray *timeArray = [time componentsSeparatedByString:@"-"];
+    NSString *timeOne = [[timeArray objectAtIndex:0] uppercaseString];
+    NSString *timeTwo = [[timeArray objectAtIndex:1] uppercaseString];
+    NSArray *arr = [NSArray arrayWithObjects:timeOne, timeTwo, nil];
+    return arr;
+}
+
++ (BOOL)isDate:(NSDate *)date inRangeFirstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate {
+    return [date compare:firstDate] == NSOrderedDescending &&
+    [date compare:lastDate]  == NSOrderedAscending;
 }
 
 @end

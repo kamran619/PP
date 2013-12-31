@@ -10,6 +10,7 @@
 #import "PCCMenuViewController.h"
 #import "PCCDataManager.h"
 
+
 @implementation PCCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -18,8 +19,17 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[PCCMenuViewController alloc] init];
     [self.window makeKeyAndVisible];
+    UIColor *navigationTextColor = [UIColor whiteColor];
+    
+    self.window.tintColor = navigationTextColor;
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:@{
+                                                           NSForegroundColorAttributeName : navigationTextColor
+                                                           }];
+    [[UITextField appearance] setTintColor:[UIColor blackColor]];
     return YES;
 }
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {

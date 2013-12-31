@@ -12,6 +12,14 @@
 #define PORT 12345
 @interface Helpers : NSObject
 
+enum direction
+{
+    directionUp = 0,
+    directionDown = 1,
+    directionLeft = 2,
+    directionRight = 3
+} typedef direction;
+
 
 /*Get details of the type of devices we are working with */
 +(BOOL)isiPhone;
@@ -31,5 +39,6 @@
 
 /*Parse Date*/
 +(NSArray *)splitDate:(NSString *)date;
-
++(NSArray *)splitTime:(NSString *)time;
++ (BOOL)isDate:(NSDate *)date inRangeFirstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
 @end
