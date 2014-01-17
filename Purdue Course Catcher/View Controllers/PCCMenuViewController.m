@@ -14,6 +14,9 @@
 #import "PCCSideMenuViewController.h"
 #import "PCCScheduleViewController.h"
 #import "PCCCatcherViewController.h"
+#import "Helpers.h"
+
+#import "KPLightBoxManager.h"
 
 #define CORNER_RADIUS 4
 
@@ -35,21 +38,40 @@
     return self;
 }
 
+-(id)initCentralViewControllerWithIdentifier:(NSString *)vc
+{
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+        if (!vc) {
+            [self setupInitialViewWithStoryboardIdentifier:@"PCCSearch"];
+        }else {
+            [self setupInitialViewWithStoryboardIdentifier:vc];
+        }
+    }
+    
+    return self;
+
+}
+
+-(id)initCentralViewControllerWithViewController:(id)vc
+{
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+        [self setupInitialViewWithViewController:vc];
+    }
+    
+    return self;
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setupInitialViewWithStoryboardIdentifier:@"PCCSearch"];
 	// Do any additional setup after loading the view.
 }
 
 
 #pragma mark Convenience Methods
 
--(UIViewController *)viewControllerWithStoryboardIdentifier:(NSString *)identifier
-{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    return [storyboard instantiateViewControllerWithIdentifier:identifier];
-}
 
 -(void)resetMainView {
 	// remove left and right views, and reset variables, if needed
@@ -73,7 +95,7 @@
 	if (self.leftViewController == nil)
 	{
 		// this is where you define the view for the left panel
-		self.leftViewController = [self viewControllerWithStoryboardIdentifier:@"PCCSideMenu"];
+		self.leftViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCSideMenu"];
         
 		[self.view addSubview:self.leftViewController.view];
         
@@ -97,7 +119,7 @@
 	if (self.rightViewController == nil)
 	{
 		// this is where you define the view for the right panel
-		self.rightViewController = [self viewControllerWithStoryboardIdentifier:@"PCCSettings"];
+		self.rightViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCSettings"];
 		
 		[self.view addSubview:self.rightViewController.view];
 		
@@ -134,7 +156,7 @@
 - (void)setupInitialViewWithStoryboardIdentifier:(NSString *)identifier
 {
     
-    self.centralViewController = [self viewControllerWithStoryboardIdentifier:identifier];
+    self.centralViewController = [Helpers viewControllerWithStoryboardIdentifier:identifier];
 	[self.view addSubview:self.centralViewController.view];
 	[self addChildViewController:self.centralViewController];
 	[self.centralViewController didMoveToParentViewController:self];
@@ -142,6 +164,16 @@
     [self setupGestures];
 }
 
+- (void)setupInitialViewWithViewController:(id)vc
+{
+    [self.centralViewController.view removeFromSuperview];
+    self.centralViewController = vc;
+	[self.view addSubview:self.centralViewController.view];
+	[self addChildViewController:self.centralViewController];
+	[self.centralViewController didMoveToParentViewController:self];
+    
+    [self setupGestures];
+}
 -(void)setupGestures
 {
 	UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(movePanel:)];
@@ -166,6 +198,7 @@
             }completion:^(BOOL finished) {
                     if (finished) {
                         [self.centralViewController viewWillAppear:YES];
+                        [[KPLightBoxManager sharedInstance] dismissLightBox];
                         [self movePanelToOriginalPosition];
                     }
             }];
@@ -194,6 +227,38 @@
     [self bouncePanelRightThenBackToOriginalPositionWithBlock:block];
 
 
+}
+
+-(void)replaceCenterViewControllerWithViewController:(id)vc animated:(BOOL)animated
+{
+    void (^block)();
+    
+        block = ^{
+            UIViewController *oldCenterVC = self.centralViewController;
+            [self setupInitialViewWithViewController:vc];
+            self.centralViewController.view.frame = CGRectMake(oldCenterVC.view.frame.origin.x, oldCenterVC.view.frame.origin.y, self.centralViewController.view.frame.size.width, self.centralViewController.view.frame.size.height);
+            [oldCenterVC removeFromParentViewController];
+            [oldCenterVC.view removeFromSuperview];
+            //reanimate
+            //move to left too far
+            if (animated) {
+                [UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                    self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
+                }completion:^(BOOL finished) {
+                    if (finished) {
+                        [self movePanelToOriginalPosition];
+                    }
+                }];
+            }else {
+                 self.centralViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+            }
+            
+        };
+    
+    
+    [self bouncePanelRightThenBackToOriginalPositionWithBlock:block];
+    
+    
 }
 
 

@@ -22,11 +22,20 @@
 
 #import "EGORefreshTableHeaderView.h"
 
+#import "UIView+Animations.h"
+
 @interface PCCScheduleViewController ()
 
 @end
 
 #define CUSTOM_COLOR [UIColor colorWithRed:.89411f green:.8980f blue:.97254f alpha:1.0f]
+enum CellType
+{
+    CellTypeNormal = 0,
+    CellTypeFlipped = 1
+} typedef CellType;
+
+
 enum AnimationDirection
 {
     AnimationDirectionLeft = 0,
@@ -45,7 +54,6 @@ enum AnimationDirection
     BOOL isLoading;
     EGORefreshTableHeaderView *refreshView;
     AnimationDirection animationDirection;
-    
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,8 +67,8 @@ enum AnimationDirection
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    isLoading = NO;
-    animationDirection = AnimationDirectionUp;
+    isLoading = YES;
+    animationDirection = AnimationDirectionLeft;
     [self initRefreshView];
     [self initHeader];
     [self loadSchedule];
@@ -72,6 +80,7 @@ enum AnimationDirection
     [super viewWillAppear:animated];
     [headerViewController springHeader];
 }
+
 - (void)initRefreshView
 {
     if (refreshView == nil) {
@@ -89,13 +98,14 @@ enum AnimationDirection
 {
     if (headerViewController) return;
     headerViewController = [[PCCScheduleHeaderViewController alloc] initWithNibName:@"PCCScheduleHeaderViewController" bundle:[NSBundle mainBundle]];
+    //force load view
     [headerViewController view];
     headerViewController.delegate = self;
 }
 
 -(void)fetchSchedule
 {
-    isLoading = YES;
+        isLoading = YES;
         scheduleArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySchedule WithKey:preferredSchedule.value];
         if (scheduleArray != nil) {
             self.containerViewForSchedule.hidden = NO;
@@ -108,9 +118,9 @@ enum AnimationDirection
             [headerViewController.headerTitle setText:preferredSchedule.key];
             self.containerViewForSchedule.hidden = NO;
             dayArray = nil;
-            [self.tableView reloadData];
             isLoading = YES;
             [self.activityIndicator startAnimating];
+            [self.tableView reloadData];
         }
 
     
@@ -121,7 +131,11 @@ enum AnimationDirection
 {
     dispatch_queue_t task = dispatch_queue_create("Login to myPurdue", nil);
     dispatch_async(task, ^{
-        if ([[MyPurdueManager sharedInstance] loginWithUsername:@"kpirwani" andPassword:@"!ScirockS619"] == NO) {
+        NSDictionary *credentials = [Helpers getCredentials];
+        NSString *username, *password;
+        username = [credentials objectForKey:kUsername];
+        password = [credentials objectForKey:kPassword];
+        if ([[MyPurdueManager sharedInstance] loginWithUsername:username andPassword:password] == NO) {
             NSLog(@"The login failed");
         }else {
             scheduleArray = [[MyPurdueManager sharedInstance] getCurrentScheduleViaDetailSchedule];
@@ -140,27 +154,46 @@ enum AnimationDirection
     if (!preferredScheduleToShow) {
         if (![PCCDataManager sharedInstance].arrayTerms) {
             //terms have never been aggregated
-            [self.setupContainerView setHidden:YES];
-            [self.containerViewForSchedule setHidden:YES];
+            [self.setupContainerView setAlpha:0.0f];
+            [self.containerViewForSchedule setAlpha:0.0f];
             [self.activityIndicator startAnimating];
             [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-                [[PCCDataManager sharedInstance] setArrayTerms:[MyPurdueManager getMinimalTerms].mutableCopy];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.activityIndicator stopAnimating];
-                    [self.setupContainerView setHidden:NO];
-                    [self.pickerView reloadAllComponents];
-                    preferredSchedule = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-                });
+                NSArray *terms = [MyPurdueManager getMinimalTerms];
+                if (terms.count > 0) {
+                    //we got the terms
+                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.activityIndicator stopAnimating];
+                        [self.setupContainerView fadeIn];
+                        [self.pickerView reloadAllComponents];
+                        PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
+                        preferredSchedule = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
+                    });
+                }else {
+                    //failed getting terms
+                    //error getting terms. show another screen
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.activityIndicator stopAnimating];
+                        [self.setupContainerView fadeIn];
+                        [self.pickerView fadeOut];
+                        self.displayText.text = @"The myPurdue portal is currently unavailable!";
+                        self.displayText.tag = 1;
+                        [self.buttonNext setTitle:@"Retry" forState:UIControlStateNormal];
+                        //PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
+                        //myPreferredSearchTerm = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
+                    });
+                }
             }];
         }else {
-            [self.setupContainerView setHidden:NO];
-            [self.containerViewForSchedule setHidden:YES];
+            [self.pickerView selectRow:0 inComponent:0 animated:YES];
+            [self.setupContainerView setAlpha:1.0];
+            [self.containerViewForSchedule setAlpha:0.0f];
             [self.pickerView reloadAllComponents];
             preferredSchedule =  [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
             //we have terms..lets show them, and still make a network call
             [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
                 NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
-                if ([tempTerms count] != [[[PCCDataManager sharedInstance] arrayTerms] count]) [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
+                [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.pickerView reloadAllComponents];
                 });
@@ -170,13 +203,13 @@ enum AnimationDirection
     }else {
         //setup view
         self.setupContainerView.center = CGPointMake(320, 21);
-        self.setupContainerView.hidden = YES;
-        self.containerViewForSchedule.hidden = YES;
+        self.setupContainerView.alpha = 0.0f;
+        self.containerViewForSchedule.alpha = 0.0f;
         [self addBarButtonItem];
         //we have terms..lets show them, and still make a network call
         [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
             NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
-            if ([tempTerms count] != [[[PCCDataManager sharedInstance] arrayTerms] count]) [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
+            [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.pickerView reloadAllComponents];
             });
@@ -188,8 +221,9 @@ enum AnimationDirection
         if (scheduleArray == nil) {
             [self fetchSchedule];
         }else {
-            self.containerViewForSchedule.hidden = NO;
+            self.containerViewForSchedule.alpha = 1.0f;
             //reload tableview data
+            isLoading = NO;
             headerViewController.headerTitle.text = preferredSchedule.key;
             dayArray = [self generateDayArray];
             [self.tableView reloadData];
@@ -210,9 +244,9 @@ enum AnimationDirection
         self.containerViewForSchedule.transform = t;
     }completion:^(BOOL finished) {
         if (finished) {
-            self.containerViewForSchedule.hidden = YES;
+            self.containerViewForSchedule.alpha = 0.0f;
             self.containerViewForSchedule.transform = CGAffineTransformIdentity;
-            [self.setupContainerView setHidden:NO];
+            [self.setupContainerView setAlpha:1.0f];
             self.setupContainerView.transform = CGAffineTransformMakeScale(0.001, 0.001);
             [UIView animateWithDuration:0.5f animations:^{
                 self.setupContainerView.center = self.containerViewForSchedule.center;
@@ -226,6 +260,39 @@ enum AnimationDirection
 
 - (IBAction)proceedToSchedule:(id)sender
 {
+    if (self.displayText.tag == 1) {
+        //an error occured getting the terms
+        [self.displayText setAlpha:0.0f];
+        [self.buttonNext setAlpha:0.0f];
+        [self.activityIndicator startAnimating];
+        [Helpers asyncronousBlockWithName:@"Retry Terms" AndBlock:^{
+            NSArray *terms = [MyPurdueManager getMinimalTerms];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (terms.count > 0) {
+                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
+                    self.displayText.tag = 0;
+                    [self.displayText setText:@"Choose a semester to search for courses in."];
+                    [self.buttonNext setTitle:@"Done" forState:UIControlStateNormal];
+                    [self.activityIndicator stopAnimating];
+                    [self.displayText fadeIn];
+                    [self.buttonNext fadeIn];
+                    [self.pickerView fadeIn];
+                    [self.pickerView reloadAllComponents];
+                }else {
+                    //error getting terms. show another screen
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.activityIndicator stopAnimating];
+                        [self.setupContainerView fadeIn];
+                        [self.displayText fadeIn];
+                        [self.buttonNext fadeIn];
+                        [self.pickerView fadeOut];
+                    });
+                }
+            });
+        }];
+        return;
+    }
+    
     [[PCCDataManager sharedInstance] setObject:preferredSchedule ForKey:kPreferredScheduleToShow InDictionary:DataDictionaryUser];
     [headerViewController.headerTitle setText:preferredSchedule.key];
     animationDirection = AnimationDirectionUp;
@@ -235,8 +302,8 @@ enum AnimationDirection
         self.setupContainerView.transform = t;
     }completion:^(BOOL finished) {
         self.setupContainerView.transform = CGAffineTransformIdentity;
-        self.setupContainerView.hidden = YES;
-        self.containerViewForSchedule.hidden = NO;
+        self.setupContainerView.alpha = 0.0f;
+        self.containerViewForSchedule.alpha = 1.0f;
         self.containerViewForSchedule.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, .001);
         [self addBarButtonItem];
         [UIView animateWithDuration:0.5f animations:^{
@@ -313,6 +380,39 @@ enum AnimationDirection
     NSInteger intergerRepresentation = (firstNumber*60) + secondNumber + thirdNumber;
     return intergerRepresentation;
 }
+
+-(void)didClickCell:(UILongPressGestureRecognizer *)gesture
+{
+    PCCScheduleCell *cell = (PCCScheduleCell *)[gesture view];
+    
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        if (cell.tag == CellTypeNormal) {
+            //Flip it
+            [cell.frontView setAlpha:0.0f];
+            [cell.backView setAlpha:1.0f];
+            [UIView transitionWithView:cell duration:0.5f options:UIViewAnimationOptionTransitionCurlUp animations:^{
+                
+                
+            }completion:^(BOOL finished ){
+                if (finished) {
+                    cell.tag = CellTypeFlipped;
+                }
+            }];
+        }else if (cell.tag == CellTypeFlipped) {
+            //Normalize it
+            [cell.backView setAlpha:0.0f];
+            [cell.frontView setAlpha:1.0f];
+            [UIView transitionWithView:cell duration:0.5f options:UIViewAnimationOptionTransitionCurlDown animations:^{
+                
+                
+            }completion:^(BOOL finished ){
+                if (finished) {
+                    cell.tag = CellTypeNormal;
+                }
+            }];
+        }
+    }
+}
 #pragma mark UIPickerView Delegate
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
@@ -369,11 +469,12 @@ enum AnimationDirection
     //1. Setup the CATransform3D structure
     CATransform3D rotation;
     
-    if (animationDirection == AnimationDirectionUp) {
-        rotation = CATransform3DMakeRotation((90.0*M_PI)/180, 0.0, 1.0, 0.0);
+    if (animationDirection == AnimationDirectionLeft || animationDirection == AnimationDirectionRight) {
+        rotation = CATransform3DMakeRotation((25.0*M_PI)/180, 0.0, 1.0f, 0.0f);
         rotation.m34 = 1.0/ -600;
     }else {
-        rotation = CATransform3DMakeRotation((90.0*M_PI)/180, 0.0, 0.7, 0.4);
+        //rotation = CATransform3DMakeRotation((90.0*M_PI)/180, 0.0, 0.7, 0.4);
+        rotation = CATransform3DMakeRotation((25.0*M_PI)/180, 0.0, 1.0f, 0.0f);
         rotation.m34 = 1.0/ -600;
     }
     
@@ -404,7 +505,16 @@ enum AnimationDirection
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (dayArray.count == 0) {
+    if (scheduleArray.count == 0 && isLoading == YES) {
+        PCCEmptyCell *cell = [tableView dequeueReusableCellWithIdentifier:@"kEmptyCell"];
+        [cell.cellLabel setText:@""];
+        return cell;
+    }else if (scheduleArray.count == 0 && isLoading == NO) {
+        PCCEmptyCell *cell = [tableView dequeueReusableCellWithIdentifier:@"kEmptyCell"];
+        [cell.cellLabel setText:@"No classes are being taken for this term."];
+        return cell;
+    }
+    else if (dayArray.count == 0) {
         PCCEmptyCell *cell = [tableView dequeueReusableCellWithIdentifier:@"kEmptyCell"];
         [cell.cellLabel setText:@"No classes held today :)"];
         return cell;
@@ -413,6 +523,11 @@ enum AnimationDirection
     PCFClassModel *obj = [dayArray objectAtIndex:indexPath.row];
     static NSString *cellIdentifier = @"kScheduleCell";
     PCCScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    //put cell in default state
+    cell.tag = CellTypeNormal;
+    cell.frontView.alpha = 1.0f;
+    cell.backView.alpha = 0.0f;
     
     NSArray *timeArray = [Helpers splitTime:obj.time];
     if (timeArray) {
@@ -426,6 +541,13 @@ enum AnimationDirection
     [[cell courseType] setText:obj.scheduleType];
     [[cell date] setText:obj.dateRange];
     [[cell courseSection] setText:obj.sectionNum];
+    [[cell professor] setTitle:obj.instructor forState:UIControlStateNormal];
+    
+    
+    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didClickCell:)];
+    [longGesture setDelegate:self];
+    [cell addGestureRecognizer:longGesture];
+    
     
     //Hilight date if it is in the range
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -441,20 +563,24 @@ enum AnimationDirection
             [[cell date] setTextColor:[cell location].textColor];
     }
     
-    if (indexPath.row % 2 == 0) {
+    /*if (indexPath.row % 2 == 0) {
         cell.backgroundView.backgroundColor = [UIColor clearColor];
         cell.backgroundColor = CUSTOM_COLOR;
         cell.alpha = 0.25;
          //228 229 248
-    }else {
+    }else {*/
         cell.backgroundView.backgroundColor = [UIColor clearColor];
         [cell setBackgroundColor:[UIColor whiteColor]];
-    }
+    //}
     return cell;
     
 }
 
-
+#pragma mark UIGestureRecognizer Delegate
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    return YES;
+}
 #pragma mark UITableView Data Source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -479,7 +605,7 @@ enum AnimationDirection
 
 -(void)animationDirectionChangedTo:(int)direction
 {
-    animationDirection = AnimationDirectionUp;
+    animationDirection = direction;
 }
 #pragma mark Data Source Loading / Reloading Methods
 

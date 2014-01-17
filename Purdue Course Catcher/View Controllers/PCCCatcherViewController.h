@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EGORefreshTableHeaderView.h"
 
-@interface PCCCatcherViewController : UIViewController
+@interface PCCCatcherViewController : UIViewController <UITableViewDataSource, UITableViewDataSource, EGORefreshTableHeaderDelegate>
 
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSArray *dataSource;
 @end

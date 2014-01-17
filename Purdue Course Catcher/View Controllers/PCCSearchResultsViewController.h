@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ADVAnimationController.h"
+#import <MessageUI/MessageUI.h>
+#import "PCFNetworkManager.h"
 
-@interface PCCSearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface PCCSearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, MFMailComposeViewControllerDelegate, PCFNetworkDelegate>
 
+@property (nonatomic, strong) id<ADVAnimationController> animationController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataSource;
 
--(IBAction)unwindViewController:(UIStoryboardSegue *)segue;
+-(void)showCatalogInfoWithVC:(id)vc;
 @end

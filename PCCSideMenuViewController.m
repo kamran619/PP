@@ -8,6 +8,11 @@
 
 #import "PCCSideMenuViewController.h"
 #import "PCCMenuViewController.h"
+#import "PCCCatcherViewController.h"
+#import "Helpers.h"
+#import "PCCDataManager.h"
+#import "PCCPurdueLoginViewController.h"
+
 @interface PCCSideMenuViewController ()
 
 @end
@@ -43,7 +48,14 @@
 }
 
 - (IBAction)schedule:(id)sender {
-    [self menuItemPressed:@"Schedule"];
+    if (![Helpers getCredentials]) {
+        [self menuItemPressed:@"PurdueLogin"];
+    }else {
+        [self menuItemPressed:@"Schedule"];
+    }
+}
+- (IBAction)basket:(id)sender {
+    [self menuItemPressed:@"Basket"];
 }
 
 -(void)menuItemPressed:(NSString *)itemName
@@ -55,13 +67,26 @@
         PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
         [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCSchedule"];
     }else if ([itemName isEqualToString:@"Ratings"]) {
-        
+
     }else if ([itemName isEqualToString:@"Basket"]) {
+        PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
+        UINavigationController *controller = [Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];
+        if (![PCCDataManager sharedInstance].arrayBasket.count > 0) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Basket empty" message:@"Search for a course and then catch it." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
+            [alertView show];
+            return;
+        }
+        PCCCatcherViewController *catcherVC = [controller.childViewControllers lastObject];
+        [catcherVC setDataSource:[PCCDataManager sharedInstance].arrayBasket];
+        [menuViewController replaceCenterViewControllerWithViewController:controller animated:YES];
         
     }else if ([itemName isEqualToString:@"Store"]) {
         
     }else if ([itemName isEqualToString:@"Settings"]) {
     
+    }else if ([itemName isEqualToString:@"PurdueLogin"]) {
+        PCCPurdueLoginViewController *vc = [Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
+        [self presentViewController:vc animated:YES completion:nil];
     }
     
 }

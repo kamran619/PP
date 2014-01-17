@@ -12,11 +12,18 @@
 #import "Helpers.h"
 #import "MyPurdueManager.h"
 #import "PCCCourseSlots.h"
-#import "MHNatGeoViewControllerTransition.h"
-#import "MNHatGeoUnwindSegue.h"
+
+#import "KPLightBoxManager.h"
+#import "PCCHUDManager.h"
+#import "PCCCatalogViewController.h"
+#import "DropAnimationController.h"
+#import "PCFNetworkManager.h"
+#import "PCCDataManager.h"
 
 @interface PCCSearchResultsViewController ()
-
+{
+    PCCCatalogViewController *catalogVC;
+}
 @end
 
 @implementation PCCSearchResultsViewController
@@ -33,6 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.animationController = [[DropAnimationController alloc] init];
 	// Do any additional setup after loading the view.
 }
 
@@ -49,6 +57,7 @@
     PCCSearchResultsCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     PCFClassModel *obj = [self.dataSource objectAtIndex:indexPath.row];
+    cell.course = obj;
     
     NSArray *timeArray = [Helpers splitTime:obj.time];
     if (timeArray) {
@@ -88,6 +97,18 @@
             [[cell date] setTextColor:[cell location].textColor];
     }
 
+    cell.catalogButton.tag = indexPath.row;
+    cell.emailProfessor.tag = indexPath.row;
+    cell.actionButton.tag = indexPath.row;
+
+    [cell.catalogButton addTarget:self action:@selector(showCatalogInfo:) forControlEvents:UIControlEventTouchUpInside];
+    if (obj.instructorEmail.length > 0) {
+        [cell.emailProfessor addTarget:self action:@selector(sendEmail:) forControlEvents:UIControlEventTouchUpInside];
+    }else {
+        [cell.emailProfessor setHidden:YES];
+    }
+    
+    
     return cell;
 }
 - (IBAction)BackPressed:(id)sender {
@@ -109,9 +130,10 @@
             [newCell.slots setText:[NSString stringWithFormat:@"SLOTS: %@/%@", slots.enrolled, slots.capacity]];
             if (slots.enrolled.intValue <= 0) {
                 //no slots left
-                [newCell performSelector:@selector(setupCatcher) withObject:nil afterDelay:1.0f];
+                [newCell setupCatcherWithCourse:class];
             }else {
-                [newCell performSelector:@selector(setupRegister) withObject:nil afterDelay:1.0f];
+                [newCell setupRegister];
+                //[newCell setupCatcherWithCourse:class];
             }
         });
     }];
@@ -126,5 +148,115 @@
 {
     return self.dataSource.count;
 }
+
+
+
+#pragma mark Cell Methods
+-(IBAction)dismissCatalog:(id)sender
+{
+    [UIView animateWithDuration:0.25f delay:0.0f usingSpringWithDamping:0.90f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        catalogVC.view.center = CGPointMake(self.view.center.x, self.view.center.y + 50);
+    }completion:^(BOOL finished) {
+        if (finished) {
+            [UIView animateWithDuration:0.25f delay:0.0f usingSpringWithDamping:0.90f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                catalogVC.view.center = CGPointMake(self.view.center.x, -500);
+            }completion:^(BOOL finished) {
+                [catalogVC.view removeFromSuperview];
+                [[KPLightBoxManager sharedInstance] dismissLightBox];
+            }];
+        }
+    }];
+}
+-(void)showCatalogInfo:(id)sender
+{
+    NSInteger row = [sender tag];
+    [[KPLightBoxManager sharedInstance] showLightBox];
+    [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
+    
+    [Helpers asyncronousBlockWithName:@"Retreiving Catalog Info" AndBlock:^{
+        PCFClassModel *class = [self.dataSource objectAtIndex:row];
+        NSString *catalogInfo = [MyPurdueManager getCatalogInformationWithLink:class.catalogLink];
+        catalogVC = [[PCCCatalogViewController alloc] initWithNibName:@"PCCCatalogViewController" bundle:[NSBundle mainBundle]];
+        catalogVC.body = catalogInfo;
+        catalogVC.header = class.classTitle;
+        catalogVC.vc = self;
+        //[[KPLightBoxManager sharedInstance] dismissLightBox];
+        [[PCCHUDManager sharedInstance] dismissHUD];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //[vc setTransitioningDelegate:self];
+            catalogVC.view.alpha = 0.0f;
+            CGPoint center = [UIApplication sharedApplication].keyWindow.center;
+            catalogVC.view.center = CGPointMake(center.x, -800);
+            [[UIApplication sharedApplication].keyWindow addSubview:catalogVC.view];
+            [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:0.80f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                catalogVC.view.alpha = 0.7f;
+                catalogVC.view.center = center;
+            }completion:nil];
+        });
+    }];
+    //do later
+
+}
+
+-(IBAction)sendEmail:(id)sender
+{
+    NSInteger row = [sender tag];
+    PCFClassModel *course = [self.dataSource objectAtIndex:row];
+
+    Class mailView = NSClassFromString(@"MFMailComposeViewController");
+    if (mailView) {
+        if ([mailView canSendMail]) {
+            MFMailComposeViewController *mailSender = [[MFMailComposeViewController alloc] init];
+            mailSender.mailComposeDelegate = self;
+            NSArray *toRecipient = [NSArray arrayWithObject:[course instructorEmail]];
+            [mailSender setToRecipients:toRecipient];
+            NSString *emailBody = [[NSString alloc] initWithFormat:@"Professor %@,\n", [course instructor]];
+            [mailSender setMessageBody:emailBody isHTML:NO];
+            [mailSender setSubject:[NSString stringWithFormat:@"%@: %@", course.courseNumber, course.classTitle]];
+            [self presentViewController:mailSender animated:YES completion:nil];
+        }else {
+            NSString *recipients = [[NSString alloc] initWithFormat:@"mailto:%@&subject=%@: %@", [course instructorEmail], [course courseNumber], course.classTitle];
+            NSString *body = [[NSString alloc] initWithFormat:@"&body=Professor %@,\n", [course instructor]];
+            NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+            email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+        }
+    }else {
+        NSString *recipients = [[NSString alloc] initWithFormat:@"mailto:%@&subject=%@", [course instructorEmail], [course courseNumber]];
+        NSString *body = [[NSString alloc] initWithFormat:@"&body=Professor %@,\n", [course instructor]];
+        NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+        email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+    }
+
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    if (error) NSLog(@"%@",error.description);
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
+{
+    self.animationController.isPresenting = YES;
+    
+    return self.animationController;
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    self.animationController.isPresenting = NO;
+    
+    return self.animationController;
+}
+
+
 
 @end

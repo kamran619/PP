@@ -7,6 +7,7 @@
 //
 
 #import "PCCSettingsViewController.h"
+#import "PCCDataManager.h"
 
 @interface PCCSettingsViewController ()
 
@@ -29,10 +30,8 @@
 	// Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
+-(IBAction)resetPressed:(id)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [[PCCDataManager sharedInstance] resetData];
 }
-
 @end

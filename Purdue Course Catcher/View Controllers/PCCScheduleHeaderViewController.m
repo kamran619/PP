@@ -279,12 +279,25 @@
 
 - (void)springHeader
 {
+    [self getLabelOfDay].textColor = [UIColor blackColor];
+    [self.leftArrow setAlpha:0.0f];
+    [self.rightArrow setAlpha:0.0f];
+    [self.headerTitle setAlpha:0.0f];
     [UIView animateWithDuration:.3f delay:0.00f usingSpringWithDamping:0.8f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.headerTitle.transform = CGAffineTransformMakeTranslation(-20, 0);
+        self.circle.transform = CGAffineTransformMakeTranslation(-20, 0);
     }completion:^(BOOL finished) {
         if (finished) {
             [UIView animateWithDuration:0.15f animations:^{
                 self.headerTitle.transform = CGAffineTransformIdentity;
+                self.circle.transform = CGAffineTransformIdentity;
+            }completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.5f animations:^{
+                    [self getLabelOfDay].textColor = [UIColor whiteColor];
+                    [self.leftArrow setAlpha:1.0f];
+                    [self.rightArrow setAlpha:1.0f];
+                    [self.headerTitle setAlpha:1.0f];
+                }];
             }];
         }
     }];
@@ -309,7 +322,40 @@
     if ([self.delegate respondsToSelector:@selector(animationDirectionChangedTo:)]) {
         [self.delegate animationDirectionChangedTo:direction];
     }
-    [self moveBallToDay:currentDay animated:YES];
+    
+    //special case
+    if (currentDay == 8) {
+        //if we are at 8 we change the frame to be the the right of the button
+        CGRect circleFrame = self.circle.frame;
+        
+        CGRect frame = CGRectOffset(circleFrame, -20, 0);
+        CGRect frameFinal = CGRectMake(self.labelQuestion.frame.origin.x + 30, self.labelQuestion.frame.origin.y, circleFrame.size.width, circleFrame.size.height);//(self.labelQuestion.frame, 30, 0);
+        if (self.delegate) {
+            if ([self.delegate respondsToSelector:@selector(dayChangedTo:)]) [self.delegate dayChangedTo:[self getCurrentDay]];
+        }
+        [self pulseCircle];
+        [UIView animateWithDuration:0.25f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+            self.circle.frame = frame;
+        }completion:^(BOOL finished) {
+            if (finished) {
+                self.circle.alpha = 0.0f;
+                self.circle.frame = frameFinal;
+                [UIView animateWithDuration:0.25f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+                    self.circle.center = self.labelQuestion.center;
+                    self.circle.alpha = 1.0f;
+                }completion:^(BOOL finished) {
+                    if (finished) {
+                        [UIView animateWithDuration:0.25f animations:^{
+                            [self changeColors];
+                            [self pulseCircle];
+                        }];
+                    }
+                }];
+            }
+        }];
+    }else {
+        [self moveBallToDay:currentDay animated:YES];
+    }
 }
 
 - (IBAction)rightArrowPushed:(id)sender {
@@ -331,7 +377,42 @@
     if ([self.delegate respondsToSelector:@selector(animationDirectionChangedTo:)]) {
         [self.delegate animationDirectionChangedTo:direction];
     }
-    [self moveBallToDay:currentDay animated:YES];
+    
+    //special case
+    if (currentDay == 7) {
+        //move off the screen to the right
+        CGRect frame = CGRectMake(self.circle.frame.origin.x + 60, self.circle.frame.origin.y, self.circle.frame.size.width, self.circle.frame.size.height);
+        //move to the left of the screen so we can animate it in
+        CGRect frameFinal = CGRectMake(-20, self.circle.frame.origin.y, self.circle.frame.size.width, self.circle.frame.size.height);
+        
+        if (self.delegate) {
+            if ([self.delegate respondsToSelector:@selector(dayChangedTo:)]) [self.delegate dayChangedTo:[self getCurrentDay]];
+        }
+        
+        [self pulseCircle];
+        [UIView animateWithDuration:0.25f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+            self.circle.frame = frame;
+        }completion:^(BOOL finished) {
+            if (finished) {
+                self.circle.alpha = 0.0f;
+                self.circle.frame = frameFinal;
+                [UIView animateWithDuration:0.25f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+                    self.circle.center = self.labelSun.center;
+                    self.circle.alpha = 1.0f;
+                }completion:^(BOOL finished) {
+                    if (finished) {
+                        [UIView animateWithDuration:0.25f animations:^{
+                            [self changeColors];
+                            [self pulseCircle];
+                        }];
+                    }
+                }];
+            }
+        }];
+    }else {
+        [self moveBallToDay:currentDay animated:YES];
+    }
+    
 }
 
 @end

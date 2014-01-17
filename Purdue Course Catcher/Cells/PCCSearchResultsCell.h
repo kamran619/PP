@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import "PCCSearchResultsViewController.h"
+#import "PCFClassModel.h"
+@interface PCCSearchResultsCell : UITableViewCell <UIViewControllerTransitioningDelegate, MFMailComposeViewControllerDelegate, PCFNetworkDelegate>
 
-@interface PCCSearchResultsCell : UITableViewCell
-
+@property (nonatomic, strong) PCFClassModel *course;
 @property (nonatomic, strong) IBOutlet UILabel *startTime;
 @property (nonatomic, strong) IBOutlet UILabel *endTime;
 
@@ -37,7 +41,12 @@
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 
--(void)setupCatcher;
+@property (nonatomic, strong) NSString *catalogLink;
+
+@property (nonatomic, strong) PCCSearchResultsViewController *viewController;
+
+
+-(void)setupCatcherWithCourse:(PCFClassModel *)course;
 -(void)setupRegister;
 
 @end

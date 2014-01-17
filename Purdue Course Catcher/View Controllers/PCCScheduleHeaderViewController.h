@@ -29,7 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelQuestion;
 
 @property (weak, nonatomic) IBOutlet UIButton *leftArrow;
-@property (weak, nonatomic) IBOutlet UIButton *rightArrpw;
+@property (weak, nonatomic) IBOutlet UIButton *rightArrow;
 
 @property (weak, nonatomic) IBOutlet UILabel *headerTitle;
 

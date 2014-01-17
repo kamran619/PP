@@ -13,6 +13,8 @@
 #import "Course.h"
 #import "PCFNetworkManager.h"
 #import "PCCDataManager.h"
+#import "Helpers.h"
+
 
 enum Parse
 {
@@ -25,7 +27,8 @@ enum Parse
     ParseCourseReviews                                  = 6,
     ParseScheduleDataFromWeekAtAGlance                  = 7,
     ParseScheduleDataFromConciseSchedule                = 8,
-    ParseScheduleDataFromDetailSchedule                 = 9
+    ParseScheduleDataFromDetailSchedule                 = 9,
+    ParseStudentInformation                             = 10
 };
 
 #define URL_SEMESTER @"https://selfservice.mypurdue.purdue.edu/prod/bwckschd.p_disp_dyn_sched?"
@@ -44,7 +47,7 @@ enum Parse
 
 @interface MyPurdueManager()
 +(NSString *)queryServer:(NSString *)address connectionType:(NSString *)type referer:(NSString *)referer arguements:(NSString *)args;
-+(NSArray *)parseData:(NSString *)data type:(int)type term:(NSString *)term;
++(id)parseData:(NSString *)data type:(int)type term:(NSString *)term;
 +(NSArray *)getCoursesWithQueryString:(NSString *)queryString;
 -(void)setupRequest:(NSMutableURLRequest *)request type:(NSString *)type host:(NSString *)host origin:(NSString *)origin referer:(NSString *)referer;
 @end
@@ -94,6 +97,17 @@ static MyPurdueManager *_sharedInstance = nil;
     //login response received
     //validate it
     NSRange range = [data rangeOfString:@"loginok.html" options:NSCaseInsensitiveSearch];
+    
+    //lets get their information if we have never gotten it
+    if (range.location != NSNotFound) {
+        if (![[PCCDataManager sharedInstance].dictionaryUser objectForKey:kEducationInfoDictionary]) {
+            [Helpers asyncronousBlockWithName:@"Get Student Info" AndBlock:^{
+                NSDictionary *studentDictionary = [[MyPurdueManager sharedInstance] getStudentInformation];
+                [[PCCDataManager sharedInstance] setObject:studentDictionary ForKey:kEducationInfoDictionary InDictionary:DataDictionaryUser];
+            }];
+            
+        }
+    }
     return !(range.location == NSNotFound);
 }
 
@@ -135,6 +149,23 @@ static MyPurdueManager *_sharedInstance = nil;
         NSLog(@"Logon and accept purdue agreement");
         return nil;
     }
+}
+
+-(NSDictionary *)getStudentInformation
+{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/cp/home/next"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+    [self setupRequest:request type:@"POST" host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
+    NSString *data = [[self class] queryServerWithRequest:request];
+    //return [self gotoUPNP];
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:@"https://wl.mypurdue.purdue.edu" referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
+    data = [[self class] queryServerWithRequest:request];
+    //goto Academic
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/tag.255ba722eec6462f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"];
+    data = [[self class] queryServerWithRequest:request];
+    //parse here
+    return [[self class] parseData:data type:ParseStudentInformation term:nil];
 }
 
 -(NSArray *)getCurrentScheduleViaDetailSchedule
@@ -281,16 +312,14 @@ static MyPurdueManager *_sharedInstance = nil;
 //retrieve the semesters for Purdue without clutter and only the most 5 recent ones
 +(NSArray *)getMinimalTerms
 {
-    NSArray *term = nil;
-    NSMutableArray *legitimateElements = [NSMutableArray array];
-    NSString *webData = [[self class] queryServer:URL_SEMESTER connectionType:nil referer:nil arguements:nil];
-    if (webData) term = [[self class] parseData:webData type:ParseSemester term:nil];
+    NSMutableArray *legitimateElements = [NSMutableArray arrayWithCapacity:3];
+    NSArray *term = [[self class] getTerms];
     for (PCCObject *obj in term) {
         NSString *val = obj.value;
         if (![[val substringFromIndex:[val length] - 2] isEqualToString:@"15"]) [legitimateElements addObject:obj];
     }
     
-    term = [legitimateElements subarrayWithRange:NSMakeRange(0, 4)];
+    if (legitimateElements.count > 0) term = [legitimateElements subarrayWithRange:NSMakeRange(0, 4)];
     return [term copy];
 }
 
@@ -367,6 +396,12 @@ static MyPurdueManager *_sharedInstance = nil;
     if (webData) {
         results = (NSString *)[[self class] parseData:webData type:ParseCourseCatalog term:nil];
     }
+    
+    NSRange range = [results rangeOfString:@"CTL:" options:NSCaseInsensitiveSearch];
+    
+    if (range.location != NSNotFound) {
+        results = [results substringToIndex:[results rangeOfString:@"CTL"].location];
+    }
     return results;
 }
 
@@ -415,8 +450,11 @@ static MyPurdueManager *_sharedInstance = nil;
     return [[NSString alloc] initWithData:webData encoding:NSUTF8StringEncoding];
 }
 
-+(NSArray *)parseData:(NSString *)data type:(int)type term:(NSString *)term
++(id)parseData:(NSString *)data type:(int)type term:(NSString *)term
 {
+    
+    if (!data) return nil;
+    
     if (type == ParseSemester) {
         static NSString *const kLookFor = @"<OPTION VALUE=";
         NSScanner *scanner = [NSScanner scannerWithString:data];
@@ -623,7 +661,7 @@ static MyPurdueManager *_sharedInstance = nil;
                 [scanner scanUpToString:@"</TD>" intoString:&instructor];
                 if ([instructor rangeOfString:@"TBA" options:NSCaseInsensitiveSearch range:NSMakeRange(0, instructor.length-1)].location != NSNotFound) {
                     instructor = @"TBA";
-                    instructorEmail = @"N/A";
+                    instructorEmail = @"";
                 }else {
                     //we have a valid instructor
                     NSScanner *tempScanner = [NSScanner scannerWithString:instructor];
@@ -956,6 +994,37 @@ static MyPurdueManager *_sharedInstance = nil;
                 scanner = nil;
                 return array;
             }
+    }else if (type == ParseStudentInformation) {
+        NSScanner *scanner = [NSScanner scannerWithString:data];
+        [scanner setCaseSensitive:YES];
+        NSString *name, *classification, *major;
+        
+        NSString *kLookForName = @"Welcome";
+        
+        //get name by searching for Welcome message
+        [scanner scanUpToString:kLookForName intoString:nil];
+        [scanner setScanLocation:scanner.scanLocation + 8];
+        [scanner scanUpToString:@"<" intoString:&name];
+        
+        NSString *kLookForClassStanding = @"Class Standing";
+        
+        [scanner scanUpToString:kLookForClassStanding intoString:nil];
+        [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
+        [scanner setScanLocation:scanner.scanLocation + 21];
+        [scanner scanUpToString:@"<" intoString:&classification];
+        //remove hours
+        NSArray *arr = [classification componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        classification = [arr objectAtIndex:0];
+        
+        NSString *kLookForMajor = @"Major:";
+        [scanner scanUpToString:kLookForMajor intoString:nil];
+        [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
+        [scanner setScanLocation:scanner.scanLocation + 21];
+        [scanner scanUpToString:@"<" intoString:&major];
+        
+        NSArray *objects = [NSArray arrayWithObjects:name, classification, major, nil];
+        NSArray *keys = [NSArray arrayWithObjects:kName, kClassification, kMajor, nil];
+        return [NSDictionary dictionaryWithObjects:objects forKeys:keys];
     }
 }
 

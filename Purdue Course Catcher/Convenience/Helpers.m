@@ -7,6 +7,9 @@
 //
 
 #import "Helpers.h"
+#import "PCCDataManager.h"
+#import "PCFNetworkManager.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation Helpers
 
@@ -33,13 +36,12 @@
 #define FIRST_TIME_RUNNING_APP @"first_time_running_app"
 +(BOOL)hasRanAppBefore
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:FIRST_TIME_RUNNING_APP];
+    return [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:FIRST_TIME_RUNNING_APP];
 }
 
 +(void)setHasRanAppBefore
 {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:FIRST_TIME_RUNNING_APP];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[PCCDataManager sharedInstance] setObject:@YES ForKey:FIRST_TIME_RUNNING_APP InDictionary:DataDictionaryUser];
 }
 
 #pragma mark Easy Block Use
@@ -75,6 +77,47 @@
 + (BOOL)isDate:(NSDate *)date inRangeFirstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate {
     return [date compare:firstDate] == NSOrderedDescending &&
     [date compare:lastDate]  == NSOrderedAscending;
+}
+
++(UIViewController *)viewControllerWithStoryboardIdentifier:(NSString *)identifier
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier:identifier];
+}
+
++(void)requestFacebookIdentifier
+{
+    NSString *identifier = [[self class] getFacebookIdentifier];
+    if (identifier) return;
+    
+    if ([FBSession.activeSession isOpen]) {
+        [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary <FBGraphUser> *user, NSError *error) {
+            [[PCCDataManager sharedInstance] setObject:user.id ForKey:kUserID InDictionary:DataDictionaryUser];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationReceivedFacebookIdentifier object:[PCFNetworkManager sharedInstance] userInfo:user];
+        }];
+    }
+}
+
++(NSString *)getFacebookIdentifier
+{
+    NSString *identifier = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kUserID];
+    return identifier;
+}
+
++(BOOL)getInitialization
+{
+    NSNumber *number = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kInitialized];
+    return number.intValue;
+}
+
++(void)setInitialization
+{
+    [[PCCDataManager sharedInstance] setObject:[NSNumber numberWithInt:1] ForKey:kInitialized InDictionary:DataDictionaryUser];
+}
+
++(NSDictionary *)getCredentials
+{
+    return [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kCredentials];
 }
 
 @end

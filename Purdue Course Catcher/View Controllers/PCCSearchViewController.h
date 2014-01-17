@@ -14,6 +14,7 @@
 -(IBAction)valueChanged:(id)sender;
 
 @property (nonatomic, strong) IBOutlet UILabel *fadeText;
+@property (nonatomic, strong) IBOutlet UILabel *displayText;
 
 @property (nonatomic, strong) IBOutlet UIView *containerViewSearch;
 @property (nonatomic, strong) IBOutlet UIView *containerView;

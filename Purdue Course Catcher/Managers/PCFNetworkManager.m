@@ -9,6 +9,20 @@
 #import "PCFNetworkManager.h"
 #import "Reachability.h"
 #import "Helpers.h"
+#import "PCCDataManager.h"
+#import "KPLightBoxManager.h"
+#import "PCCHUDManager.h"
+
+#import "PCCFacebookLoginViewController.h"
+#import "PCCFTUEViewController.h"
+#import "PCCMenuViewController.h"
+#import "PCCAppDelegate.h"
+
+#define SERVER_COMMAND @"command"
+#define kData @"data"
+#define kCRN @"crn"
+#define kClassLink @"classLink"
+#define kCourseNumber @"courseNumber"
 
 @interface PCFNetworkManager()
 -(void)checkNetworkStatus:(NSNotification *)notification;
@@ -66,11 +80,13 @@ static PCFNetworkManager *_sharedInstance = nil;
 {
     if (self = [super init]) {
         self.initializedSocket = NO;
+        [self registerForNotifications];
         internetReachable = [Reachability reachabilityForInternetConnection];
         [internetReachable startNotifier];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initSocket) name:@"connectToServer" object:nil];
         [self checkNetworkStatus:nil];
+        
     }
     return self;
 }
@@ -90,6 +106,25 @@ static PCFNetworkManager *_sharedInstance = nil;
     [self.outputStream open];
     [self.outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     self.initializedSocket = YES;
+}
+
+-(void)registerForNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processNotification:) name:kNotificationReceivedFacebookIdentifier object:nil];
+}
+
+-(void)processNotification:(NSNotification *)notification
+{
+    if ([[notification name] isEqualToString:kNotificationReceivedFacebookIdentifier]) {
+        [self prepareDataForCommand:ServerCommandInitialization withDictionary:notification.userInfo];
+    }
+    
+}
+-(void)fireTimeout:(NSTimer *)timer
+{
+    if ([self.delegate respondsToSelector:@selector(responseFromServer:initialRequest:wasSuccessful:)]) {
+        [self.delegate responseFromServer:nil initialRequest:timer.userInfo wasSuccessful:NO];
+    }
 }
 
 -(void)tearDownSocket
@@ -131,33 +166,9 @@ static PCFNetworkManager *_sharedInstance = nil;
                     if(len > 0 && len <= 4096) {
                         NSError *error;
                         NSString *str = [[NSString alloc] initWithBytes:buf length:len encoding:NSUTF8StringEncoding];
-                        NSArray *array = [str componentsSeparatedByString:@"*/*"];
-                        if (array.count == 1) {
-                            if (!buffer) {
-                                buffer = [[NSString alloc] initWithBytes:buf length:len encoding:NSUTF8StringEncoding];
-                            }else {
-                                buffer = [buffer stringByAppendingString:[[NSString alloc] initWithBytes:buf length:len encoding:NSUTF8StringEncoding]];
-                            }
-                            
-                            incompleteBuffer = YES;
-                            return;
-                        }
-                        if (incompleteBuffer) {
-                            incompleteBuffer = NO;
-                            NSString *bufferedDate = [[NSString alloc] initWithBytes:buf length:len encoding:NSUTF8StringEncoding];
-                            NSString *strBuff = [NSString stringWithFormat:@"%@%@", buffer, bufferedDate];
-                            buffer = nil;
-                            array = [strBuff componentsSeparatedByString:@"*/*"];
-                        }
-                        for (int i = 0; i < array.count - 1; i++) {
-                            NSData *data = [[array objectAtIndex:i] dataUsingEncoding:NSUTF8StringEncoding];
-                            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-                            if (error) {
-                                NSLog(@"Still error");
-                            }else {
-                                [self processServerData:dictionary];
-                            }
-                        }
+                        NSData *JSONData = [str dataUsingEncoding:NSUTF8StringEncoding];
+                        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:&error];
+                        [self processServerData:dictionary];
                     }else {
                         NSLog(@"\nlen is %ld\n" , len);
                     }
@@ -183,18 +194,40 @@ static PCFNetworkManager *_sharedInstance = nil;
 
 -(void)processServerData:(NSDictionary *)feedback
 {
-    NSString *command = [feedback objectForKey:@"command"];
-    NSNumber *error = [feedback objectForKey:@"error"];
-    NSArray *data = [feedback objectForKey:@"data"];
+    [self.timoutTimer invalidate];
     
-    if ([command isEqualToString:@"CLASS_RATING"]) {
+    NSNumber *command = [feedback objectForKey:@"command"];
+    NSNumber *error = [feedback objectForKey:@"error"];
+    
+    if ([self.delegate respondsToSelector:@selector(responseFromServer:initialRequest:wasSuccessful:)]) {
+        [self.delegate responseFromServer:feedback initialRequest:nil wasSuccessful:(error.integerValue == 0) ? YES : NO];
+    }
+    
+    
+    switch (command.intValue) {
+        case ServerCommandCatch:
+            break;
+            
+        case ServerCommandUnCatch:
+            break;
+            
+        case ServerCommandInitialization:
+        
+            break;
+        default:
+            break;
+    }
+    
+    
+    
+    /*if ([command isEqualToString:@"CLASS_RATING"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ClassesReceived" object:data];
     }else if ([command isEqualToString:@"PROFESSOR_RATING"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ProfessorRatingsReceived" object:data];
     }else if ([command isEqualToString:@"SUBMIT_CLASS_REVIEW"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReviewResponseReceived" object:error];
     }else if ([command isEqualToString:@"COMPLETE_CLASS_RATING"]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ServerClassReceived" object:data.lastObject];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"ServerClassReceived" object:data.lastObject];
     }else if ([command isEqualToString:@"SUBMIT_PROFESSOR_REVIEW"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ReviewResponseReceived" object:error];
     }else if ([command isEqualToString:@"COMPLETE_CLASS_COMMENTS"]) {
@@ -207,7 +240,117 @@ static PCFNetworkManager *_sharedInstance = nil;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"WatcherResponse" object:feedback];
     }else if ([command isEqualToString:@"REMOVE_CLASS"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"WatcherResponse" object:feedback];
+    }*/
+}
+
+-(void)prepareDataForCommand:(ServerCommand)command withDictionary:(NSDictionary *)dict
+{
+    
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+    [dictionary setObject:[NSNumber numberWithInt:command] forKey:SERVER_COMMAND];
+    
+    
+    if (command == ServerCommandCatch) {
+        
+        [[KPLightBoxManager sharedInstance] showLightBox];
+        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Catching..."];
+        
+        NSString *identifier = [Helpers getFacebookIdentifier];
+        if (!identifier) identifier = @"no id";
+        
+        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:4];
+        
+        [dataDictionary setObject:identifier forKey:kUserID];
+        [dataDictionary setObject:[dict objectForKey:kCRN] forKey:kCRN];
+        [dataDictionary setObject:[dict objectForKey:kClassLink] forKey:kClassLink];
+        [dataDictionary setObject:[dict objectForKey:kCourseNumber] forKey:kCourseNumber];
+        
+        [dictionary setObject:dataDictionary.copy forKey:kData];
+        
+        NSError *error;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        const char* newLine = "\r\n";
+        [JSONData appendBytes:(const uint8_t*)newLine length:2];
+        //pass to timer
+        if (!error) [self sendDataToServer:JSONData.copy forCommand:command];
+    
+    }else if (command == ServerCommandUnCatch) {
+        
+        [[KPLightBoxManager sharedInstance] showLightBox];
+        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Uncatching..."];
+        
+        NSString *identifier = [Helpers getFacebookIdentifier];
+        if (!identifier) identifier = @"no id";
+        
+        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:4];
+        
+        [dataDictionary setObject:identifier forKey:kUserID];
+        [dataDictionary setObject:[dict objectForKey:kCRN] forKey:kCRN];
+        
+        [dictionary setObject:dataDictionary.copy forKey:kData];
+        
+        NSError *error;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        const char* newLine = "\r\n";
+        [JSONData appendBytes:(const uint8_t*)newLine length:2];
+        //pass to timer
+        if (!error) [self sendDataToServer:JSONData.copy forCommand:command];
+    
+    }else if (command == ServerCommandInitialization) {
+        //create dictionary to send
+        NSString *identifier = [dict objectForKey:@"id"];
+        NSString *token = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
+
+        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+        [dataDictionary setObject:token forKey:kDeviceToken];
+        [dataDictionary setObject:identifier forKey:kUserID];
+        
+        [dictionary setObject:dataDictionary.copy forKey:kData];
+        
+        NSError *error;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        const char* newLine = "\r\n";
+        [JSONData appendBytes:(const uint8_t*)newLine length:2];
+        
+        if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandInitialization];
+    
+    }else if (command == ServerCommandUpdate) {
+        
+        NSString *identifier = [Helpers getFacebookIdentifier];
+        NSString *token = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
+        NSDictionary *schoolInfo = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary];
+        
+        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+        [dataDictionary setObject:token forKey:kDeviceToken];
+        [dataDictionary setObject:identifier forKey:kUserID];
+        
+        if (schoolInfo) [dataDictionary setObject:schoolInfo forKey:kEducationInfoDictionary];
+        
+        [dictionary setObject:dataDictionary.copy forKey:kData];
+        
+        NSError *error;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        const char* newLine = "\r\n";
+        [JSONData appendBytes:(const uint8_t*)newLine length:2];
+        
+        if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandUpdate];
     }
+}
+-(void)sendDataToServer:(NSData *)data forCommand:(ServerCommand)command
+{
+    if (!self.initializedSocket) [self initSocket];
+    
+    [Helpers asyncronousBlockWithName:@"Send Data" AndBlock:^{
+        
+        if ([self.outputStream hasSpaceAvailable]) {
+            self.timoutTimer = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(fireTimeout:) userInfo:nil repeats:NO];
+            [[NSRunLoop mainRunLoop] addTimer:self.timoutTimer forMode:NSDefaultRunLoopMode];
+                [self.outputStream write:[data bytes] maxLength:[data length]];
+                [self.outputStream write:@"\n".UTF8String maxLength:1];
+        }else {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(responseFromServer:initialRequest:wasSuccessful:)]) [self.delegate responseFromServer:nil initialRequest:self.timoutTimer.userInfo wasSuccessful:NO];
+        }
+    }];
 }
 
 -(void)dealloc

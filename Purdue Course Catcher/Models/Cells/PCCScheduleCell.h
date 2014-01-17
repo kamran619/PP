@@ -26,4 +26,10 @@
 @property (nonatomic, strong) IBOutlet UILabel *contentDivider;
 @property (nonatomic, strong) IBOutlet UILabel *timeDivider;
 
+@property (nonatomic, strong) IBOutlet UIView *backView;
+@property (nonatomic, strong) IBOutlet UIView *frontView;
+
+@property (nonatomic, strong) IBOutlet UIButton *professor;
+@property (nonatomic, strong) IBOutlet UIButton *email;
+@property (nonatomic, strong) IBOutlet UIButton *catalog;
 @end

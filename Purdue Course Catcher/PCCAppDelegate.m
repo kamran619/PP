@@ -9,7 +9,13 @@
 #import "PCCAppDelegate.h"
 #import "PCCMenuViewController.h"
 #import "PCCDataManager.h"
-
+#import "PCFNetworkManager.h"
+#import "Helpers.h"
+#import "PCCFTUEViewController.h"
+#import "PCCFacebookLoginViewController.h"
+#import "PCCHUDManager.h"
+#import "PCCCatcherViewController.h"
+#import "PCCMenuViewController.h"
 
 @implementation PCCAppDelegate
 
@@ -17,16 +23,43 @@
 {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = [[PCCMenuViewController alloc] init];
-    [self.window makeKeyAndVisible];
-    UIColor *navigationTextColor = [UIColor whiteColor];
     
-    self.window.tintColor = navigationTextColor;
-    
-    [[UINavigationBar appearance] setTitleTextAttributes:@{
-                                                           NSForegroundColorAttributeName : navigationTextColor
-                                                           }];
+    //
     [[UITextField appearance] setTintColor:[UIColor blackColor]];
+    //register for PN
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound];
+    
+    //connect to server
+    [PCFNetworkManager sharedInstance];
+    
+    
+    //
+    
+    
+    if ([Helpers hasRanAppBefore] == NO && !(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)) {
+        self.window.rootViewController = [[PCCFTUEViewController alloc] initWithNibName:@"PCCFTUEViewController" bundle:nil];
+    }else {
+        
+        if (launchOptions)
+        {
+            launchOptions = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+            UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];
+            PCCCatcherViewController *vc = [controller.childViewControllers lastObject];
+            [vc setDataSource:[PCCDataManager sharedInstance].arrayBasket.copy];
+            PCCMenuViewController *menuVC  = [[PCCMenuViewController alloc] initCentralViewControllerWithViewController:controller];
+            self.window.rootViewController = menuVC;
+            application.applicationIconBadgeNumber = 0;
+            return YES;
+        }
+        
+        id delegate =  [UIApplication sharedApplication].delegate;
+        [delegate openSession];
+        //load the menu and other things
+        self.window.rootViewController = [[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
+    }
+    
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -52,6 +85,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [FBAppCall handleDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -59,4 +93,167 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+
+    /*if (launchOptions)
+    {
+        launchOptions = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];
+        PCCCatcherViewController *vc = [controller.childViewControllers lastObject];
+        [vc setDataSource:[PCCDataManager sharedInstance].arrayBasket.copy];
+        PCCMenuViewController *menuVC  = [[PCCMenuViewController alloc] initCentralViewControllerWithViewController:controller];
+        self.window.rootViewController = menuVC;
+        application.applicationIconBadgeNumber = 0;
+}*/
+
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    NSString *storedToken = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
+    if ([storedToken isEqualToString:token]) return;
+    
+    [[PCCDataManager sharedInstance] setObject:token ForKey:kDeviceToken InDictionary:DataDictionaryUser];
+    //send back to server if changed and we have already initted
+    if ([Helpers getInitialization] == YES) {
+        //lets update our server as the device token has changed
+        [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:nil];
+    }
+    
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
+}
+
+
+
+#pragma mark FB Interaction
+-(void) openSession
+{
+    
+    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"user_education_history", @"friends_about_me", @"friends_education_history"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+        [self sessionStateChanged:session state:status error:error];
+    }];
+}
+
+// This method will handle ALL the session state changes in the app
+- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
+{
+    // If the session was opened successfully
+    if (!error && state == FBSessionStateOpen){
+        NSLog(@"Session opened");
+        if (![Helpers hasRanAppBefore])  {
+            [PCFNetworkManager sharedInstance].delegate = self;
+            [Helpers requestFacebookIdentifier];
+            //send fbid to server through notification
+            [Helpers setHasRanAppBefore];
+        }
+    }
+    
+    if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
+        // If the session is closed
+        NSLog(@"Session closed");
+        // Show the user the logged-out UI
+        [FBSession.activeSession closeAndClearTokenInformation];
+        if ([PCCFacebookLoginViewController sharedInstance].currentlyDisplayed == NO) [self.window.rootViewController presentViewController:[PCCFacebookLoginViewController sharedInstance] animated:YES completion:nil];
+    }
+    
+    // Handle errors
+    if (error){
+        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Failed" success:NO];
+        NSLog(@"Error");
+        NSString *alertText;
+        NSString *alertTitle;
+        // If the error requires people using an app to make an action outside of the app in order to recover
+        if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
+            alertTitle = @"Something went wrong";
+            alertText = [FBErrorUtility userMessageForError:error];
+            [self showMessage:alertText withTitle:alertTitle];
+        } else {
+            
+            // If the user cancelled login, do nothing
+            if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
+                NSLog(@"User cancelled login");
+                
+                // Handle session closures that happen outside of the app
+            } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession){
+                alertTitle = @"Session Error";
+                alertText = @"Your current session is no longer valid. Please log in again.";
+                [self showMessage:alertText withTitle:alertTitle];
+                
+                // Here we will handle all other errors with a generic error message.
+                // We recommend you check our Handling Errors guide for more information
+                // https://developers.facebook.com/docs/ios/errors/
+            } else {
+                //Get more error information from the error
+                NSDictionary *errorInformation = [[[error.userInfo objectForKey:@"com.facebook.sdk:ParsedJSONResponseKey"] objectForKey:@"body"] objectForKey:@"error"];
+                
+                // Show the user an error message
+                alertTitle = @"Something went wrong";
+                alertText = [NSString stringWithFormat:@"Please retry. \n\n If the problem persists contact us and mention this error code: %@", [errorInformation objectForKey:@"message"]];
+                [self showMessage:alertText withTitle:alertTitle];
+            }
+        }
+        // Clear this token
+        [FBSession.activeSession closeAndClearTokenInformation];
+        // Show the user the logged-out UI
+        if ([PCCFacebookLoginViewController sharedInstance].currentlyDisplayed == NO) [self.window.rootViewController presentViewController:[PCCFacebookLoginViewController sharedInstance] animated:YES completion:nil];
+    }
+}
+
+-(void)showMessage:(NSString *)alertText withTitle:(NSString *)alertTitle
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle message:alertTitle delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+// During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
+// After authentication, your app will be called back with the session information.
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+}
+
+#pragma mark PCFNetwork Delegate
+-(void)responseFromServer:(NSDictionary *)responseDictionary initialRequest:(NSDictionary *)requestDictionary wasSuccessful:(BOOL)success
+{
+    if (success) {
+        [Helpers setInitialization];
+        //mark initialization as successful
+        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Logged In..." success:YES];
+        
+        if ([PCCFacebookLoginViewController sharedInstance].currentlyDisplayed == YES) {
+            if ([PCCFacebookLoginViewController sharedInstance].parentViewController) {
+                PCCFTUEViewController *vc = (PCCFTUEViewController *)[PCCFacebookLoginViewController sharedInstance].parentViewController;
+                if (vc.presentedViewController) {
+                    //this was presented, dismiss me
+                    [vc dismissMe];
+                }else {
+                    PCCMenuViewController *menu = [[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
+
+                    //this was not presented..replace it with ours
+                    [UIView transitionFromView:self.window.rootViewController.view
+                                        toView:menu.view
+                                      duration:0.5
+                                       options:UIViewAnimationOptionTransitionCrossDissolve
+                                    completion:^(BOOL finished)
+                     {
+                         self.window.rootViewController = menu;
+                     }];
+                }
+            }else {
+                [[PCCFacebookLoginViewController sharedInstance] dismissViewControllerAnimated:YES completion:nil];
+            }
+        }
+        return;
+    }
+}
 @end

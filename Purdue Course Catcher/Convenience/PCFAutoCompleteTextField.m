@@ -244,18 +244,10 @@
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
 
-    if (CGRectContainsPoint(self.frame, point)) {
-        if (self.displayingAutoSuggest == NO) return NO;
+    if (CGRectContainsPoint(self.textField.frame, point)) {
         return YES;
-    }else if (CGRectContainsPoint(self.textField.frame, point)) {
+    }else if (CGRectContainsPoint(self.tableView.frame, point) && self.displayingAutoSuggest == YES) {
         return YES;
-    }else if (self.superview.tag == 1) {
-        return NO;
-    }else {
-        PCCSearchViewController *vc = (PCCSearchViewController *) self.delegate;
-        if (!CGAffineTransformEqualToTransform(vc.doneButton.transform, CGAffineTransformIdentity)) {
-            return NO;
-        }
     }
     
     return NO;
@@ -306,11 +298,11 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self.delegate textFieldDidBeginEditing:self];
+    [self.delegate textFieldDidBeginEditing:(UITextField *)self];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    return [self.delegate textFieldShouldReturn:self];
+    return [self.delegate textFieldShouldReturn:self.textField];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -319,7 +311,7 @@
     if (!selectedCell) {
         [self validateInput];
     }
-    [self.delegate textFieldDidEndEditing:self];
+    [self.delegate textFieldDidEndEditing:(UITextField *)self];
 }
 
 -(void)validateInput

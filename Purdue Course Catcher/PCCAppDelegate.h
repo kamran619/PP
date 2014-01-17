@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface PCCAppDelegate : UIResponder <UIApplicationDelegate>
+#import <FacebookSDK/FacebookSDK.h>
+#import "PCFNetworkManager.h"
+@interface PCCAppDelegate : UIResponder <UIApplicationDelegate, PCFNetworkDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+//Facebook stuff
+-(void)openSession;
+- (void)sessionStateChanged:(FBSession *)session
+                      state:(FBSessionState) state
+                      error:(NSError *)error;
+-(void)dismissLoading;
 
 @end

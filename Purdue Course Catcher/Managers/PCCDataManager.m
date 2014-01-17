@@ -8,6 +8,7 @@
 
 #import "PCCDataManager.h"
 #import "PCCObject.h"
+#import "PCFClassModel.h"
 
 @implementation PCCDataManager
 
@@ -59,12 +60,21 @@ static PCCDataManager *_sharedInstance = nil;
     return _dictionarySubjects;
 }
 
+-(NSMutableArray *)arrayBasket
+{
+    if (!_arrayBasket) _arrayBasket = [NSMutableArray arrayWithCapacity:4];
+    return _arrayBasket;
+}
+
 -(void)setArrayProfessors:(NSMutableArray *)arrayProfessors
 {
     if (!_arrayProfessors) {
         _arrayProfessors = arrayProfessors;
         return;
-    }
+    }else if (!arrayProfessors) {
+            _arrayProfessors = nil;
+        return;
+        }
     
     if (_arrayProfessors.count == arrayProfessors.count) return;
     //add remaining items that are not different
@@ -73,56 +83,73 @@ static PCCDataManager *_sharedInstance = nil;
     }
     
 }
+
+-(void)setArrayTerms:(NSMutableArray *)arrayTerms
+{
+
+    if (!_arrayTerms) {
+        _arrayTerms = arrayTerms;
+        return;
+    }else if (!arrayTerms) {
+        _arrayTerms = nil;
+        return;
+    }
+    
+    if (_arrayTerms.count == arrayTerms.count) return;
+    //add remaining items that are not different
+    for (PCCObject *object in arrayTerms) {
+        if (![_arrayTerms containsObject:object]) [_arrayTerms addObject:object];
+    }
+}
+
 -(BOOL)saveData
 {
-    if (self.arrayBasket || self.arrayFavorites || self.arrayProfessors || self.dictionarySchedule || self.arrayTerms || self.dictionaryUser || self.dictionarySubjects) {
+/*    if (self.arrayBasket || self.arrayFavorites || self.arrayProfessors || self.dictionarySchedule || self.arrayTerms || self.dictionaryUser || self.dictionarySubjects) {
+ */
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docDir = [paths objectAtIndex:0];
         NSString *fullPath = [docDir stringByAppendingFormat:@"/%@", kFileName];
         NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:6];
-        if (!self.arrayBasket)  {
+        if (!_arrayBasket)  {
             [dictionary setObject:[NSNull null] forKey:kBasket];
         }else {
-            [dictionary setObject:self.arrayBasket forKey:kBasket];
+            [dictionary setObject:_arrayBasket forKey:kBasket];
         }
-        if (!self.arrayFavorites) {
+        if (!_arrayFavorites) {
             [dictionary setObject:[NSNull null] forKey:kFavorites];
         }else {
-            [dictionary setObject:self.arrayFavorites forKey:kFavorites];
+            [dictionary setObject:_arrayFavorites forKey:kFavorites];
         }
-        if (!self.arrayProfessors) {
+        if (!_arrayProfessors) {
             [dictionary setObject:[NSNull null] forKey:kProfessors];
         }else {
-            [dictionary setObject:self.arrayProfessors forKey:kProfessors];
+            [dictionary setObject:_arrayProfessors forKey:kProfessors];
         }
-        if (!self.dictionarySchedule) {
+        if (!_dictionarySchedule) {
             [dictionary setObject:[NSNull null] forKey:kSchedule];
         }else {
-            [dictionary setObject:self.dictionarySchedule forKey:kSchedule];
+            [dictionary setObject:_dictionarySchedule forKey:kSchedule];
             
-        }if (!self.arrayTerms) {
+        }if (!_arrayTerms) {
             [dictionary setObject:[NSNull null] forKey:kTerms];
         }else {
-            [dictionary setObject:self.arrayTerms forKey:kTerms];
+            [dictionary setObject:_arrayTerms forKey:kTerms];
         }
         
-        if (!self.dictionaryUser) {
+        if (!_dictionaryUser) {
             [dictionary setObject:[NSNull null] forKey:kUser];
         }else {
-            [dictionary setObject:self.dictionaryUser forKey:kUser];
+            [dictionary setObject:_dictionaryUser forKey:kUser];
         }
         
-        if (!self.dictionarySubjects) {
+        if (!_dictionarySubjects) {
             [dictionary setObject:[NSNull null] forKey:kSubjects];
         }else {
-            [dictionary setObject:self.dictionarySubjects forKey:kSubjects];
+            [dictionary setObject:_dictionarySubjects forKey:kSubjects];
         }
     
             return [NSKeyedArchiver archiveRootObject:[dictionary copy] toFile:fullPath];
-        
-    }
     
-    return NO;
 }
 
 -(BOOL)loadData
@@ -155,6 +182,24 @@ static PCCDataManager *_sharedInstance = nil;
     return NO;
 }
 
+-(IBAction)resetPressed:(id)sender
+{
+    [self resetData];
+}
+-(void)resetData
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDir = [paths objectAtIndex:0];
+    NSString *fullPath = [docDir stringByAppendingFormat:@"/%@", kFileName];
+    NSError *error;
+    
+    BOOL success = [[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error];
+    if (!success || error) {
+        
+    }
+    exit(0);
+}
+
 -(void)setObject:(id)obj ForKey:(NSString *)key InDictionary:(DataDictionary)dictionary
 {
     NSMutableDictionary *dict;
@@ -168,6 +213,7 @@ static PCCDataManager *_sharedInstance = nil;
     }
     
     [dict setObject:obj forKey:key];
+    [self saveData];
 }
 
 -(id)getObjectFromDictionary:(DataDictionary)dictionary WithKey:(NSString *)key
@@ -185,7 +231,6 @@ static PCCDataManager *_sharedInstance = nil;
     if (!dict) return nil;
     return [dict objectForKey:key];
 }
-
 
 
 @end

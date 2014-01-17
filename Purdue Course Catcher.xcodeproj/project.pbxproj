@@ -7,12 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE2410541873C6B000AA6328 /* icon-error.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104C1873C6B000AA6328 /* icon-error.png */; };
+		FE2410551873C6B000AA6328 /* icon-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104D1873C6B000AA6328 /* icon-error@2x.png */; };
+		FE2410561873C6B000AA6328 /* icon-info.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104E1873C6B000AA6328 /* icon-info.png */; };
+		FE2410571873C6B000AA6328 /* icon-info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104F1873C6B000AA6328 /* icon-info@2x.png */; };
+		FE2410581873C6B000AA6328 /* icon-success.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2410501873C6B000AA6328 /* icon-success.png */; };
+		FE2410591873C6B000AA6328 /* icon-success@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2410511873C6B000AA6328 /* icon-success@2x.png */; };
+		FE24105A1873C6B000AA6328 /* TWMessageBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2410531873C6B000AA6328 /* TWMessageBarManager.m */; };
+		FE24107718753C5600AA6328 /* PCCCatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24107518753C5600AA6328 /* PCCCatalogViewController.m */; };
+		FE24107818753C5600AA6328 /* PCCCatalogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE24107618753C5600AA6328 /* PCCCatalogViewController.xib */; };
+		FE24107C1875409900AA6328 /* PCCHUDView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24107B1875409900AA6328 /* PCCHUDView.m */; };
+		FE24107E187540B600AA6328 /* PCCHUDView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE24107D187540B600AA6328 /* PCCHUDView.xib */; };
+		FE241082187545A400AA6328 /* PCCHUDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE241081187545A400AA6328 /* PCCHUDManager.m */; };
+		FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24108718754A2200AA6328 /* KPLightBoxManager.m */; };
+		FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFD4187DF27E004D540E /* PCCFTUEViewController.m */; };
+		FE24FFD7187DF27E004D540E /* PCCFTUEViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFD5187DF27E004D540E /* PCCFTUEViewController.xib */; };
+		FE24FFDB187E0622004D540E /* PCCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFDA187E0622004D540E /* PCCScrollView.m */; };
+		FE24FFDE187E0B57004D540E /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFDC187E0B57004D540E /* checkmark.png */; };
+		FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFDD187E0B57004D540E /* checkmark@2x.png */; };
+		FE24FFE2187E1974004D540E /* PCCPurdueLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */; };
+		FE24FFE5187E5F2F004D540E /* PCCFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */; };
+		FE24FFE7187E5FED004D540E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE24FFE6187E5FED004D540E /* FacebookSDK.framework */; };
 		FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5121870989A00EF24BA /* PCCEmptyCell.m */; };
 		FE50C5161870B3FC00EF24BA /* PCCSearchResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */; };
 		FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */; };
-		FE50C51F1870CB5D00EF24BA /* MHNatGeoSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C51C1870CB5D00EF24BA /* MHNatGeoSegue.m */; };
-		FE50C5201870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C51E1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m */; };
-		FE50C5231870F4CF00EF24BA /* MNHatGeoUnwindSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5221870F4CF00EF24BA /* MNHatGeoUnwindSegue.m */; };
 		FE50FF18185E9F190084ED32 /* PCCSideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50FF17185E9F190084ED32 /* PCCSideMenuViewController.m */; };
 		FE5530DC184D3C4900D13587 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DB184D3C4900D13587 /* Foundation.framework */; };
 		FE5530DE184D3C4900D13587 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE5530DD184D3C4900D13587 /* CoreGraphics.framework */; };
@@ -46,7 +64,8 @@
 		FE9628DE185FBCA800F699B5 /* PCCDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628DD185FBCA800F699B5 /* PCCDataManager.m */; };
 		FEA2017618711842009DFE84 /* DropAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017318711842009DFE84 /* DropAnimationController.m */; };
 		FEA2017718711842009DFE84 /* ZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017518711842009DFE84 /* ZoomAnimationController.m */; };
-		FEA2017A187119B1009DFE84 /* KPSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA20179187119B1009DFE84 /* KPSegue.m */; };
+		FEA2017D1873AE4D009DFE84 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017C1873AE4D009DFE84 /* UIView+Animations.m */; };
+		FEBC7084188258BE00BCF873 /* PCCCatcherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEBC7083188258BE00BCF873 /* PCCCatcherCell.m */; };
 		FEE5719E186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57196186A4E4A00FE8FA8 /* blackArrow.png */; };
 		FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57197186A4E4A00FE8FA8 /* blackArrow@2x.png */; };
@@ -70,18 +89,42 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE24104C1873C6B000AA6328 /* icon-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-error.png"; sourceTree = "<group>"; };
+		FE24104D1873C6B000AA6328 /* icon-error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-error@2x.png"; sourceTree = "<group>"; };
+		FE24104E1873C6B000AA6328 /* icon-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-info.png"; sourceTree = "<group>"; };
+		FE24104F1873C6B000AA6328 /* icon-info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-info@2x.png"; sourceTree = "<group>"; };
+		FE2410501873C6B000AA6328 /* icon-success.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-success.png"; sourceTree = "<group>"; };
+		FE2410511873C6B000AA6328 /* icon-success@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-success@2x.png"; sourceTree = "<group>"; };
+		FE2410521873C6B000AA6328 /* TWMessageBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWMessageBarManager.h; sourceTree = "<group>"; };
+		FE2410531873C6B000AA6328 /* TWMessageBarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWMessageBarManager.m; sourceTree = "<group>"; };
+		FE24107418753C5600AA6328 /* PCCCatalogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCCatalogViewController.h; path = "Purdue Course Catcher/View Controllers/PCCCatalogViewController.h"; sourceTree = "<group>"; };
+		FE24107518753C5600AA6328 /* PCCCatalogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCCatalogViewController.m; path = "Purdue Course Catcher/View Controllers/PCCCatalogViewController.m"; sourceTree = "<group>"; };
+		FE24107618753C5600AA6328 /* PCCCatalogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCCatalogViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCCatalogViewController.xib"; sourceTree = "<group>"; };
+		FE24107A1875409900AA6328 /* PCCHUDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCHUDView.h; path = "Purdue Course Catcher/Views/PCCHUDView.h"; sourceTree = "<group>"; };
+		FE24107B1875409900AA6328 /* PCCHUDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCHUDView.m; path = "Purdue Course Catcher/Views/PCCHUDView.m"; sourceTree = "<group>"; };
+		FE24107D187540B600AA6328 /* PCCHUDView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCHUDView.xib; path = EGOTableViewPullRefresh/Classes/View/PCCHUDView.xib; sourceTree = "<group>"; };
+		FE241080187545A400AA6328 /* PCCHUDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCHUDManager.h; path = "Purdue Course Catcher/Views/PCCHUDManager.h"; sourceTree = "<group>"; };
+		FE241081187545A400AA6328 /* PCCHUDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCHUDManager.m; path = "Purdue Course Catcher/Views/PCCHUDManager.m"; sourceTree = "<group>"; };
+		FE24108618754A2200AA6328 /* KPLightBoxManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPLightBoxManager.h; sourceTree = "<group>"; };
+		FE24108718754A2200AA6328 /* KPLightBoxManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPLightBoxManager.m; sourceTree = "<group>"; };
+		FE24FFD3187DF27E004D540E /* PCCFTUEViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCFTUEViewController.h; path = "Purdue Course Catcher/View Controllers/PCCFTUEViewController.h"; sourceTree = "<group>"; };
+		FE24FFD4187DF27E004D540E /* PCCFTUEViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCFTUEViewController.m; path = "Purdue Course Catcher/View Controllers/PCCFTUEViewController.m"; sourceTree = "<group>"; };
+		FE24FFD5187DF27E004D540E /* PCCFTUEViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCFTUEViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCFTUEViewController.xib"; sourceTree = "<group>"; };
+		FE24FFD9187E0622004D540E /* PCCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScrollView.h; path = "Purdue Course Catcher/Convenience/PCCScrollView.h"; sourceTree = "<group>"; };
+		FE24FFDA187E0622004D540E /* PCCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCScrollView.m; path = "Purdue Course Catcher/Convenience/PCCScrollView.m"; sourceTree = "<group>"; };
+		FE24FFDC187E0B57004D540E /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
+		FE24FFDD187E0B57004D540E /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
+		FE24FFE0187E1974004D540E /* PCCPurdueLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCPurdueLoginViewController.h; path = "Purdue Course Catcher/View Controllers/PCCPurdueLoginViewController.h"; sourceTree = "<group>"; };
+		FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCPurdueLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCPurdueLoginViewController.m"; sourceTree = "<group>"; };
+		FE24FFE3187E5F2F004D540E /* PCCFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCFacebookLoginViewController.h; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.h"; sourceTree = "<group>"; };
+		FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCFacebookLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.m"; sourceTree = "<group>"; };
+		FE24FFE6187E5FED004D540E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		FE50C5111870989A00EF24BA /* PCCEmptyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCEmptyCell.h; path = "Purdue Course Catcher/Cells/PCCEmptyCell.h"; sourceTree = "<group>"; };
 		FE50C5121870989A00EF24BA /* PCCEmptyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCEmptyCell.m; path = "Purdue Course Catcher/Cells/PCCEmptyCell.m"; sourceTree = "<group>"; };
 		FE50C5141870B3FC00EF24BA /* PCCSearchResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchResultsCell.h; path = "Purdue Course Catcher/Cells/PCCSearchResultsCell.h"; sourceTree = "<group>"; };
 		FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchResultsCell.m; path = "Purdue Course Catcher/Cells/PCCSearchResultsCell.m"; sourceTree = "<group>"; };
 		FE50C5171870BBFB00EF24BA /* PCCSearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchResultsViewController.h; path = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.h"; sourceTree = "<group>"; };
 		FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchResultsViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.m"; sourceTree = "<group>"; };
-		FE50C51B1870CB5D00EF24BA /* MHNatGeoSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHNatGeoSegue.h; sourceTree = "<group>"; };
-		FE50C51C1870CB5D00EF24BA /* MHNatGeoSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHNatGeoSegue.m; sourceTree = "<group>"; };
-		FE50C51D1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHNatGeoViewControllerTransition.h; sourceTree = "<group>"; };
-		FE50C51E1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHNatGeoViewControllerTransition.m; sourceTree = "<group>"; };
-		FE50C5211870F4CF00EF24BA /* MNHatGeoUnwindSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MNHatGeoUnwindSegue.h; path = Segue/MNHatGeoUnwindSegue.h; sourceTree = "<group>"; };
-		FE50C5221870F4CF00EF24BA /* MNHatGeoUnwindSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MNHatGeoUnwindSegue.m; path = Segue/MNHatGeoUnwindSegue.m; sourceTree = "<group>"; };
 		FE50FF16185E9F190084ED32 /* PCCSideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCSideMenuViewController.h; sourceTree = "<group>"; };
 		FE50FF17185E9F190084ED32 /* PCCSideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCSideMenuViewController.m; sourceTree = "<group>"; };
 		FE5530D8184D3C4900D13587 /* Purdue Course Catcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Purdue Course Catcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,8 +182,10 @@
 		FEA2017318711842009DFE84 /* DropAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropAnimationController.m; sourceTree = "<group>"; };
 		FEA2017418711842009DFE84 /* ZoomAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomAnimationController.h; sourceTree = "<group>"; };
 		FEA2017518711842009DFE84 /* ZoomAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomAnimationController.m; sourceTree = "<group>"; };
-		FEA20178187119B1009DFE84 /* KPSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KPSegue.h; path = Segue/KPSegue.h; sourceTree = "<group>"; };
-		FEA20179187119B1009DFE84 /* KPSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KPSegue.m; path = Segue/KPSegue.m; sourceTree = "<group>"; };
+		FEA2017B1873AE4D009DFE84 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Purdue Course Catcher/Categories/UIView+Animations.h"; sourceTree = "<group>"; };
+		FEA2017C1873AE4D009DFE84 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Purdue Course Catcher/Categories/UIView+Animations.m"; sourceTree = "<group>"; };
+		FEBC7082188258BE00BCF873 /* PCCCatcherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCCatcherCell.h; path = "Purdue Course Catcher/Cells/PCCCatcherCell.h"; sourceTree = "<group>"; };
+		FEBC7083188258BE00BCF873 /* PCCCatcherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCCatcherCell.m; path = "Purdue Course Catcher/Cells/PCCCatcherCell.m"; sourceTree = "<group>"; };
 		FEE57193186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		FEE57196186A4E4A00FE8FA8 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -161,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE5530DE184D3C4900D13587 /* CoreGraphics.framework in Frameworks */,
+				FE24FFE7187E5FED004D540E /* FacebookSDK.framework in Frameworks */,
 				FE5530E0184D3C4900D13587 /* UIKit.framework in Frameworks */,
 				FE5530DC184D3C4900D13587 /* Foundation.framework in Frameworks */,
 			);
@@ -179,6 +225,75 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FE24104B1873C6B000AA6328 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				FE24104C1873C6B000AA6328 /* icon-error.png */,
+				FE24104D1873C6B000AA6328 /* icon-error@2x.png */,
+				FE24104E1873C6B000AA6328 /* icon-info.png */,
+				FE24104F1873C6B000AA6328 /* icon-info@2x.png */,
+				FE2410501873C6B000AA6328 /* icon-success.png */,
+				FE2410511873C6B000AA6328 /* icon-success@2x.png */,
+			);
+			path = Icons;
+			sourceTree = "<group>";
+		};
+		FE24105B1873C6B600AA6328 /* TWMessageBarManager */ = {
+			isa = PBXGroup;
+			children = (
+				FE24104B1873C6B000AA6328 /* Icons */,
+				FE2410521873C6B000AA6328 /* TWMessageBarManager.h */,
+				FE2410531873C6B000AA6328 /* TWMessageBarManager.m */,
+			);
+			name = TWMessageBarManager;
+			sourceTree = "<group>";
+		};
+		FE24107918753C5F00AA6328 /* Catalog View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FE24107418753C5600AA6328 /* PCCCatalogViewController.h */,
+				FE24107518753C5600AA6328 /* PCCCatalogViewController.m */,
+				FE24107618753C5600AA6328 /* PCCCatalogViewController.xib */,
+			);
+			name = "Catalog View Controller";
+			sourceTree = "<group>";
+		};
+		FE24107F187543EE00AA6328 /* PCCHUDView */ = {
+			isa = PBXGroup;
+			children = (
+				FE24FFDC187E0B57004D540E /* checkmark.png */,
+				FE24FFDD187E0B57004D540E /* checkmark@2x.png */,
+				FE24107D187540B600AA6328 /* PCCHUDView.xib */,
+				FE24107A1875409900AA6328 /* PCCHUDView.h */,
+				FE24107B1875409900AA6328 /* PCCHUDView.m */,
+				FE241080187545A400AA6328 /* PCCHUDManager.h */,
+				FE241081187545A400AA6328 /* PCCHUDManager.m */,
+			);
+			name = PCCHUDView;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		FE24108918754A2600AA6328 /* Lightbox Manager */ = {
+			isa = PBXGroup;
+			children = (
+				FE24108618754A2200AA6328 /* KPLightBoxManager.h */,
+				FE24108718754A2200AA6328 /* KPLightBoxManager.m */,
+			);
+			name = "Lightbox Manager";
+			sourceTree = "<group>";
+		};
+		FE24FFD8187DF287004D540E /* FTUE */ = {
+			isa = PBXGroup;
+			children = (
+				FE24FFD3187DF27E004D540E /* PCCFTUEViewController.h */,
+				FE24FFD4187DF27E004D540E /* PCCFTUEViewController.m */,
+				FE24FFD5187DF27E004D540E /* PCCFTUEViewController.xib */,
+				FE24FFD9187E0622004D540E /* PCCScrollView.h */,
+				FE24FFDA187E0622004D540E /* PCCScrollView.m */,
+			);
+			name = FTUE;
+			sourceTree = "<group>";
+		};
 		FE50C5101870986300EF24BA /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +303,8 @@
 				FE50C5121870989A00EF24BA /* PCCEmptyCell.m */,
 				FE50C5141870B3FC00EF24BA /* PCCSearchResultsCell.h */,
 				FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */,
+				FEBC7082188258BE00BCF873 /* PCCCatcherCell.h */,
+				FEBC7083188258BE00BCF873 /* PCCCatcherCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -195,14 +312,6 @@
 		FE50C51A1870C2F600EF24BA /* Segue */ = {
 			isa = PBXGroup;
 			children = (
-				FE50C51B1870CB5D00EF24BA /* MHNatGeoSegue.h */,
-				FE50C51C1870CB5D00EF24BA /* MHNatGeoSegue.m */,
-				FE50C51D1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.h */,
-				FE50C51E1870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m */,
-				FE50C5211870F4CF00EF24BA /* MNHatGeoUnwindSegue.h */,
-				FE50C5221870F4CF00EF24BA /* MNHatGeoUnwindSegue.m */,
-				FEA20178187119B1009DFE84 /* KPSegue.h */,
-				FEA20179187119B1009DFE84 /* KPSegue.m */,
 			);
 			name = Segue;
 			sourceTree = "<group>";
@@ -237,6 +346,7 @@
 		FE5530DA184D3C4900D13587 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE24FFE6187E5FED004D540E /* FacebookSDK.framework */,
 				FE5530DB184D3C4900D13587 /* Foundation.framework */,
 				FE5530DD184D3C4900D13587 /* CoreGraphics.framework */,
 				FE5530DF184D3C4900D13587 /* UIKit.framework */,
@@ -288,6 +398,10 @@
 		FE55311A184D3DA900D13587 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FE24FFE3187E5F2F004D540E /* PCCFacebookLoginViewController.h */,
+				FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */,
+				FE24FFE0187E1974004D540E /* PCCPurdueLoginViewController.h */,
+				FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */,
 				FE553115184D3D9A00D13587 /* PCCScheduleViewController.h */,
 				FE553116184D3D9A00D13587 /* PCCScheduleViewController.m */,
 				FE55311D184D446A00D13587 /* PCCCatcherViewController.h */,
@@ -300,9 +414,11 @@
 				FE553124184D481400D13587 /* PCCMenuViewController.m */,
 				FE6BBC9C1866C10600760E7A /* PCCSettingsViewController.h */,
 				FE6BBC9D1866C10600760E7A /* PCCSettingsViewController.m */,
-				FE6BBCA41866C74C00760E7A /* Schedule Header */,
 				FE50C5171870BBFB00EF24BA /* PCCSearchResultsViewController.h */,
 				FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */,
+				FE6BBCA41866C74C00760E7A /* Schedule Header */,
+				FE24107918753C5F00AA6328 /* Catalog View Controller */,
+				FE24FFD8187DF287004D540E /* FTUE */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -334,12 +450,15 @@
 		FE9628C5185ED7D800F699B5 /* Convenience */ = {
 			isa = PBXGroup;
 			children = (
-				FEE571AA186D00BC00FE8FA8 /* PCFAutoCompleteTextField */,
-				FEE57190186A4E4A00FE8FA8 /* EGOTableViewPullRefresh */,
-				FE9628D9185EDA1700F699B5 /* Reachability.h */,
-				FE9628DA185EDA1700F699B5 /* Reachability.m */,
 				FE9628C6185ED7D800F699B5 /* Helpers.h */,
 				FE9628C7185ED7D800F699B5 /* Helpers.m */,
+				FE9628D9185EDA1700F699B5 /* Reachability.h */,
+				FE9628DA185EDA1700F699B5 /* Reachability.m */,
+				FE24107F187543EE00AA6328 /* PCCHUDView */,
+				FE24105B1873C6B600AA6328 /* TWMessageBarManager */,
+				FEE571AA186D00BC00FE8FA8 /* PCFAutoCompleteTextField */,
+				FEE57190186A4E4A00FE8FA8 /* EGOTableViewPullRefresh */,
+				FE24108918754A2600AA6328 /* Lightbox Manager */,
 			);
 			name = Convenience;
 			path = "Purdue Course Catcher/Convenience";
@@ -369,6 +488,8 @@
 				FEA2017318711842009DFE84 /* DropAnimationController.m */,
 				FEA2017418711842009DFE84 /* ZoomAnimationController.h */,
 				FEA2017518711842009DFE84 /* ZoomAnimationController.m */,
+				FEA2017B1873AE4D009DFE84 /* UIView+Animations.h */,
+				FEA2017C1873AE4D009DFE84 /* UIView+Animations.m */,
 			);
 			name = Transitions;
 			sourceTree = "<group>";
@@ -509,13 +630,24 @@
 				FE5530F4184D3C4900D13587 /* Images.xcassets in Resources */,
 				FEE571A5186A4E4A00FE8FA8 /* whiteArrow.png in Resources */,
 				FEE571A4186A4E4A00FE8FA8 /* grayArrow@2x.png in Resources */,
+				FE2410591873C6B000AA6328 /* icon-success@2x.png in Resources */,
+				FE24FFD7187DF27E004D540E /* PCCFTUEViewController.xib in Resources */,
 				FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */,
 				FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */,
 				FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */,
+				FE2410551873C6B000AA6328 /* icon-error@2x.png in Resources */,
 				FEE571A1186A4E4A00FE8FA8 /* blueArrow.png in Resources */,
+				FE24FFDE187E0B57004D540E /* checkmark.png in Resources */,
 				FE55311C184D3DF800D13587 /* MainStoryboard.storyboard in Resources */,
+				FE2410581873C6B000AA6328 /* icon-success.png in Resources */,
+				FE24107E187540B600AA6328 /* PCCHUDView.xib in Resources */,
+				FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */,
+				FE2410561873C6B000AA6328 /* icon-info.png in Resources */,
+				FE24107818753C5600AA6328 /* PCCCatalogViewController.xib in Resources */,
 				FEE571A6186A4E4A00FE8FA8 /* whiteArrow@2x.png in Resources */,
+				FE2410541873C6B000AA6328 /* icon-error.png in Resources */,
 				FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */,
+				FE2410571873C6B000AA6328 /* icon-info@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,31 +667,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */,
+				FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */,
 				FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */,
+				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,
 				FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */,
-				FE50C51F1870CB5D00EF24BA /* MHNatGeoSegue.m in Sources */,
+				FE24FFE5187E5F2F004D540E /* PCCFacebookLoginViewController.m in Sources */,
+				FE24FFE2187E1974004D540E /* PCCPurdueLoginViewController.m in Sources */,
+				FE24107718753C5600AA6328 /* PCCCatalogViewController.m in Sources */,
 				FE9628C4185ED75200F699B5 /* MyPurdueManager.m in Sources */,
-				FE50C5201870CB5D00EF24BA /* MHNatGeoViewControllerTransition.m in Sources */,
 				FE6BBC9B1866777600760E7A /* PCCScheduleCell.m in Sources */,
+				FEBC7084188258BE00BCF873 /* PCCCatcherCell.m in Sources */,
 				FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */,
 				FE9628D5185ED9A100F699B5 /* PCCObject.m in Sources */,
 				FE9628DB185EDA1700F699B5 /* Reachability.m in Sources */,
-				FE50C5231870F4CF00EF24BA /* MNHatGeoUnwindSegue.m in Sources */,
 				FE9628D8185ED9D500F699B5 /* PCFNetworkManager.m in Sources */,
 				FEA2017618711842009DFE84 /* DropAnimationController.m in Sources */,
 				FE9628DE185FBCA800F699B5 /* PCCDataManager.m in Sources */,
 				FE5530E8184D3C4900D13587 /* main.m in Sources */,
+				FE24105A1873C6B000AA6328 /* TWMessageBarManager.m in Sources */,
 				FE9628D2185ED9A100F699B5 /* Course.m in Sources */,
+				FE24107C1875409900AA6328 /* PCCHUDView.m in Sources */,
 				FEA2017718711842009DFE84 /* ZoomAnimationController.m in Sources */,
-				FEA2017A187119B1009DFE84 /* KPSegue.m in Sources */,
+				FE241082187545A400AA6328 /* PCCHUDManager.m in Sources */,
 				FE6BBCA21866C74700760E7A /* PCCScheduleHeaderViewController.m in Sources */,
 				FEE5719E186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m in Sources */,
 				FE553125184D481400D13587 /* PCCMenuViewController.m in Sources */,
+				FE24FFDB187E0622004D540E /* PCCScrollView.m in Sources */,
 				FE50C5161870B3FC00EF24BA /* PCCSearchResultsCell.m in Sources */,
 				FEE571A9186D00B700FE8FA8 /* PCFAutoCompleteTextField.m in Sources */,
 				FE5530EC184D3C4900D13587 /* PCCAppDelegate.m in Sources */,
 				FE9628C8185ED7D800F699B5 /* Helpers.m in Sources */,
+				FEA2017D1873AE4D009DFE84 /* UIView+Animations.m in Sources */,
 				FE9628D3185ED9A100F699B5 /* PCFClassModel.m in Sources */,
 				FE9628D4185ED9A100F699B5 /* PCCCourseSlots.m in Sources */,
 				FE553118184D3D9A00D13587 /* PCCScheduleViewController.m in Sources */,
@@ -684,6 +823,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/kamranpirwani/Desktop/Git/Purdue\\ Course\\ Catcher",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
 				INFOPLIST_FILE = "Purdue Course Catcher/Purdue Course Catcher-Info.plist";
@@ -701,6 +844,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/kamranpirwani/Desktop/Git/Purdue\\ Course\\ Catcher",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
 				INFOPLIST_FILE = "Purdue Course Catcher/Purdue Course Catcher-Info.plist";

@@ -8,8 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-#define SERVER_ADDRESS @"127.0.0.1"
+#define SERVER_ADDRESS @"192.168.0.3"
 #define PORT 12345
+
+#define RADIANS(degrees) ((degrees * M_PI) / 180.0)
+
+#define kNotificationReceivedFacebookIdentifier @"kNotificationReceivedFacebookIdentifier"
+
+
 @interface Helpers : NSObject
 
 enum direction
@@ -41,4 +47,13 @@ enum direction
 +(NSArray *)splitDate:(NSString *)date;
 +(NSArray *)splitTime:(NSString *)time;
 + (BOOL)isDate:(NSDate *)date inRangeFirstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
++(UIViewController *)viewControllerWithStoryboardIdentifier:(NSString *)identifier;
+
++(NSString *)getFacebookIdentifier;
+
++(void)requestFacebookIdentifier;
+
++(BOOL)getInitialization;
++(void)setInitialization;
++(NSDictionary *)getCredentials;
 @end

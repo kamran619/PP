@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class PCFClassModel;
+
 @interface PCCDataManager : NSObject
 
 typedef enum
@@ -25,20 +27,38 @@ typedef enum
 -(void)setObject:(id)obj ForKey:(NSString *)key InDictionary:(DataDictionary)dictionary;
 -(id)getObjectFromDictionary:(DataDictionary)dictionary WithKey:(NSString *)key;
 
+-(void)resetData;
+
 /*
  Dictionary for saving data
  ->  Favorites   -> array
  ->  Basket      -> array
  ->  Terms       -> array
  ->  Professors  -> array of terms -> professors by term
- ->  Schedule    -> array of terms ->  schedule by term
+ ->  Schedule    -> dictionary of users -> dictionary of terms ->  schedule by term
  ->  Subject     -> array of terms -> subjects by term
- ->  User        -> nsdictionary of elements like purdue username/password ..etc
+ ->  User        ->  of elements like purdue username/password ..etc
                  -> preferred search semester
  */
 //keys in kUser dictionary
 #define kPreferredSearchTerm @"kPreferredSearchTerm"
 #define kPreferredScheduleToShow @"kPreferredScheduleToShow"
+#define kDeviceToken @"kDeviceToken"
+#define kEducationInfoDictionary @"kEducationInfoDictionary"
+//within this
+#define kName @"kName"
+#define kClassification @"kClassification"
+#define kMajor @"kMajor"
+
+#define kCredentials @"kCredentials"
+//login info
+#define kUsername @"kUsername"
+#define kPassword @"kPassword"
+//user id
+#define kUserID @"id"
+//server initialization
+#define kInitialized @"initialized"
+
 
 @property (nonatomic, strong) NSMutableArray *arrayFavorites;
 @property (nonatomic, strong) NSMutableArray *arrayBasket;

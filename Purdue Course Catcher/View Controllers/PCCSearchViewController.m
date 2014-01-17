@@ -13,13 +13,23 @@
 #import "PCCDataManager.h"
 #import "PCFAutoCompleteTextField.h"
 #import  "PCCSearchResultsViewController.h"
-#import "MHNatGeoViewControllerTransition.h"
 #import "ZoomAnimationController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIView+Animations.h"
+#import "TWMessageBarManager.h"
+#import "PCCHUDManager.h"
+#import "KPLightBoxManager.h"
+
 
 #define CENTER_FRAME CGPointMake(320, 21);
-#define RADIANS(degrees) ((degrees * M_PI) / 180.0)
+
+
+
 #define CUSTOM_PURPLE_COLOR [UIColor colorWithRed:.47843f green:0.4f blue:0.6f alpha:1]
+
+#define BUTTON_CORNER_RADIUS 3.0f
+
+
 @interface PCCSearchViewController ()
 
 @end
@@ -33,32 +43,20 @@ enum search
 
 @implementation PCCSearchViewController
 {
-    NSString *myPreferredSearchTerm;
-    CATransition *animationTransition;
-    UITextField *currentTextField;
+    PCCObject *myPreferredSearchTerm;
     NSArray *searchResults;
+    
+    CATransition *animationTransition;
 }
+
+#pragma mark View Lifecycle Methods
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.animationController = [[ZoomAnimationController alloc] init];
+    [self addBarButtonItem];
+    [self initController];
     
-    self.navigationController.view.backgroundColor = [UIColor clearColor];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:255 green:17 blue:0 alpha:0.7f]];
-    self.setOfDays = [NSMutableSet setWithCapacity:5];
-    [self setupSearchView];
-    [self addTapRecognizer];
-    [self setupView];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                             forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-}
-
-- (void)setBarTintColorWithRed:(double)red green:(double)green blue:(double)blue alpha:(double)alpha {
-    UIColor *tintColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
-    self.navigationController.navigationBar.barTintColor = tintColor;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -67,65 +65,110 @@ enum search
     [self fadeTextIn];
 }
 
--(void)addTapRecognizer
+-(void)initController
 {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
-    [tap setNumberOfTapsRequired:1];
-    [tap setNumberOfTouchesRequired:1];
-    [tap setCancelsTouchesInView:NO];
-    [tap setDelegate:self];
-    [self.view addGestureRecognizer:tap];
-}
-
--(void)tapped:(id)sender
-{
-    [self.autoCompleteTextField.textField resignFirstResponder];
-    [self.professorTextField.textField resignFirstResponder];
-    [self.courseNumberTextField resignFirstResponder];
-    [self.courseTitleTextField resignFirstResponder];
-}
-
-- (void)setupView
-{
-    NSString *preferredSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    //init animation controller
+    self.animationController = [[ZoomAnimationController alloc] init];
+    
+    //create set to store days in
+    self.setOfDays = [NSMutableSet setWithCapacity:5];
+    
+    //setup subviews appearance
+    self.advancedView.layer.cornerRadius = 9.0f;
+    self.mondayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
+    self.tuesdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
+    self.wednesdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
+    self.thursdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
+    self.fridayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
+    self.sundayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
+    self.advancedView.hidden = YES;
+    
+    //init autoCompleteViews
+    CGPoint point = self.segmentedControl.center;
+    CGRect frame = CGRectMake(40, point.y + 45, 240, 35);
+    self.autoCompleteTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
+    [self.autoCompleteTextField setDataToAutoComplete:nil];
+    [self.autoCompleteTextField.textField setFont:[UIFont systemFontOfSize:16]];
+    [self.autoCompleteTextField.textField setClearsOnBeginEditing:YES];
+    [self.autoCompleteTextField.textField setPlaceholder:@"Example: SOC 100"];
+    self.autoCompleteTextField.useKey = NO;
+    self.autoCompleteTextField.delegate = self;
+    self.autoCompleteTextField.textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
+    [self.containerViewSearch addSubview:self.autoCompleteTextField];
+    
+    //setup professor autocomplete //15 28 257
+    frame = CGRectMake(15, 28, 257, 35);
+    self.professorTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
+    self.professorTextField.dataToAutoComplete = nil;
+    [self.professorTextField.textField setFont:[UIFont systemFontOfSize:16]];
+    self.professorTextField.delegate = self;
+    self.professorTextField.useKey = YES;
+    [self.professorTextField.textField setClearsOnBeginEditing:YES];
+    [self.professorTextField.textField setPlaceholder:@"Professor"];
+    [self.advancedView addSubview:self.professorTextField];
+    
+    //initialize selected segment
+    self.segmentedControl.selectedSegmentIndex = 0;
+    
+    //setup the views state
+    
+    //Check to see if the user has saved a preference for their search term
+    PCCObject *preferredSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    
     if (!preferredSearchTerm) {
         if (![PCCDataManager sharedInstance].arrayTerms) {
             //terms have never been aggregated
-            [self.containerView setHidden:YES];
-            [self.containerViewSearch setHidden:YES];
+            [self.containerView setAlpha:0.0f];
+            [self.containerViewSearch setAlpha:0.0f];
             [self.activityIndicator startAnimating];
             [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-                [[PCCDataManager sharedInstance] setArrayTerms:[MyPurdueManager getMinimalTerms].mutableCopy];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.activityIndicator stopAnimating];
-                    [self.containerView setHidden:NO];
-                    [self.pickerView reloadAllComponents];
-                    PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-                    myPreferredSearchTerm = obj.value;
-                });
+                NSArray *terms = [MyPurdueManager getMinimalTerms];
+                if (terms.count > 0) {
+                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.activityIndicator stopAnimating];
+                        [self.containerView fadeIn];
+                        [self.pickerView reloadAllComponents];
+                        PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
+                        myPreferredSearchTerm = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
+                    });
+                }else {
+                    //error getting terms. show another screen
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.activityIndicator stopAnimating];
+                        [self.containerView fadeIn];
+                        [self.pickerView fadeOut];
+                        self.displayText.text = @"The myPurdue portal is currently unavailable!";
+                        self.displayText.tag = 1;
+                        [self.buttonNext setTitle:@"Retry" forState:UIControlStateNormal];
+                        //PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
+                        //myPreferredSearchTerm = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
+                    });
+                }
             }];
         }else {
-            [self.containerView setHidden:NO];
-            [self.containerViewSearch setHidden:YES];
+            //we have the terms, lets show them to the user
+            [self.containerViewSearch fadeOut];
+            [self.containerView fadeIn];
             [self.pickerView reloadAllComponents];
-            //we have terms..lets show them, and still make a network call
+            //lets still make a network call and update the data
             [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
                 NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
-                if ([tempTerms count] != [[[PCCDataManager sharedInstance] arrayTerms] count]) [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
+                [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.pickerView reloadAllComponents];
                     PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-                    myPreferredSearchTerm = obj.value;
+                    myPreferredSearchTerm = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
+                    [self.pickerView reloadAllComponents];
                 });
             }];
-
+            
         }
     }else {
         //we have the preferred search term saved..lets let them directly search
-        myPreferredSearchTerm = preferredSearchTerm;
+        myPreferredSearchTerm = [[PCCObject alloc] initWithKey:preferredSearchTerm.key AndValue:preferredSearchTerm.value];
         self.containerView.center = CENTER_FRAME;
-        self.containerView.hidden = YES;
-        self.containerViewSearch.hidden = NO;
+        [self.containerView fadeOut];
+        [self.containerViewSearch fadeIn];
         [self addBarButtonItem];
         //we have terms..lets show them, and still make a network call
         [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
@@ -136,106 +179,71 @@ enum search
             });
         }];
     }
+
 }
 
-#define BUTTON_CORNER_RADIUS 3.0f
--(void)setupSearchView
-{
-    self.advancedView.layer.cornerRadius = 9.0f;
-    self.mondayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.tuesdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.wednesdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.thursdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.fridayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.sundayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.advancedView.hidden = YES;
-    [self initAutoCompleteTextView];
-}
-
-
-
--(void)fadeText:(NSString *)str fromDirection:(direction)direction
-{
-    //self.fadeText.alpha = 0.0f;
-    self.fadeText.text = str;
-    self.fadeText.transform = CGAffineTransformMakeTranslation(-40, 0);
-    [UIView animateWithDuration:0.8f delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:10.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-       self.fadeText.transform = CGAffineTransformTranslate(self.fadeText.transform, 40, 0);
-        //self.fadeText.alpha = 1.0f;
-    }completion:^(BOOL finished) {
-        
-    }];
-    
-}
-
--(void)initAutoCompleteTextView
-{
-    CGPoint point = self.segmentedControl.center;
-    CGRect frame = CGRectMake(40, point.y + 45, 240, 35);
-    self.autoCompleteTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
-    [self.autoCompleteTextField setDataToAutoComplete:nil];
-    [self.autoCompleteTextField.textField setFont:[UIFont systemFontOfSize:16]];
-    [self.autoCompleteTextField.textField setPlaceholder:@"Example: SOC 100"];
-    self.autoCompleteTextField.useKey = NO;
-    self.autoCompleteTextField.delegate = self;
-    [self.containerViewSearch addSubview:self.autoCompleteTextField];
-
-    //setup professor autocomplete //15 28 257
-    frame = CGRectMake(15, 28, 257, 35);
-    self.professorTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
-    self.professorTextField.dataToAutoComplete = nil;
-    [self.professorTextField.textField setFont:[UIFont systemFontOfSize:16]];
-    self.professorTextField.delegate = self;
-    self.professorTextField.useKey = YES;
-    [self.professorTextField.textField setPlaceholder:@"Professor"];
-    [self.advancedView addSubview:self.professorTextField];
-    self.segmentedControl.selectedSegmentIndex = 0;
-    //[self valueChanged:nil];
-}
--(void)addBarButtonItem
-{
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(choosePreferredTerm:)];
-    [self.navItem setRightBarButtonItem:item animated:YES];
-}
-
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (textField == self.courseNumberTextField || textField == self.courseTitleTextField || textField == self.professorTextField)
-    {
-            [self slideViewDown];
-    }
-
-    
-    //currentTextField = nil;
-    PCFAutoCompleteTextField *atf = (PCFAutoCompleteTextField *)textField;
-    [self pulseButton:self.doneButton];
-    [self performSelector:@selector(pulseButton:) withObject:self.doneButton afterDelay:.51];
-}
+#pragma mark Buttons
 - (IBAction)choosePreferredTerm:(id)sender
 {
     [UIView animateWithDuration:0.25f animations:^{
         self.containerViewSearch.transform = CGAffineTransformMakeScale(1, .001);
     }completion:^(BOOL finished) {
-        self.containerViewSearch.hidden = YES;
+        [self.containerViewSearch setAlpha:0.0f];
         self.containerViewSearch.transform = CGAffineTransformIdentity;
-        [self.containerView setHidden:NO];
+        [self.containerView setAlpha:1.0f];
         self.containerView.transform = CGAffineTransformMakeScale(0.001, 0.001);
         [UIView animateWithDuration:0.5f animations:^{
             self.containerView.center = self.containerViewSearch.center;
             self.containerView.transform = CGAffineTransformMakeScale(1, 1);
             [self.navItem setRightBarButtonItem:nil animated:YES];
+            [self.pickerView selectRow:[self getRowFromData] inComponent:0 animated:YES];
         }];
     }];
 }
 
+- (NSInteger)getRowFromData
+{
+    NSArray *array = [PCCDataManager sharedInstance].arrayTerms;
+    PCCObject *termObject = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    NSInteger row = [array indexOfObject:termObject];
+    return row;
+}
 - (IBAction)proceedToSearch:(id)sender
 {
+    if (self.displayText.tag == 1) {
+        //an error occured getting the terms
+        [self.displayText setAlpha:0.0f];
+        [self.buttonNext setAlpha:0.0f];
+        [self.activityIndicator startAnimating];
+        [Helpers asyncronousBlockWithName:@"Retry Terms" AndBlock:^{
+            NSArray *terms = [MyPurdueManager getMinimalTerms];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (terms.count > 0) {
+                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
+                    self.displayText.tag = 0;
+                    [self.displayText setText:@"Choose a semester to search for courses in."];
+                    [self.buttonNext setTitle:@"Done" forState:UIControlStateNormal];
+                    [self.activityIndicator stopAnimating];
+                    [self.displayText fadeIn];
+                    [self.buttonNext fadeIn];
+                    [self.pickerView fadeIn];
+                    [self.pickerView reloadAllComponents];
+                }else {
+                    [self.activityIndicator stopAnimating];
+                    [self.displayText fadeIn];
+                    [self.buttonNext fadeIn];
+                }
+            });
+        }];
+        return;
+    }
+    
     [[PCCDataManager sharedInstance] setObject:myPreferredSearchTerm ForKey:kPreferredSearchTerm InDictionary:DataDictionaryUser];
     NSArray *subjectArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySubject WithKey:kPreferredSearchTerm];
     if (!subjectArray) {
         [Helpers asyncronousBlockWithName:@"Get Subjects for Term" AndBlock:^{
-            NSArray *overallArray = [MyPurdueManager getSubjectsAndProfessorsForTerm:myPreferredSearchTerm];
-            [[PCCDataManager sharedInstance] setObject:[overallArray objectAtIndex:0] ForKey:myPreferredSearchTerm InDictionary:DataDictionarySubject];
+            NSArray *overallArray = [MyPurdueManager getSubjectsAndProfessorsForTerm:myPreferredSearchTerm.value];
+            [[PCCDataManager sharedInstance] setObject:[overallArray objectAtIndex:0] ForKey:myPreferredSearchTerm.value InDictionary:DataDictionarySubject];
             NSMutableArray *professorArray = [overallArray objectAtIndex:1];
             [[PCCDataManager sharedInstance] setArrayProfessors:professorArray.mutableCopy];
         }];
@@ -243,11 +251,11 @@ enum search
     
     [UIView animateWithDuration:0.25f animations:^{
         self.containerView.center = CENTER_FRAME;
-            self.containerView.transform = CGAffineTransformMakeScale(.001, .001);
+        self.containerView.transform = CGAffineTransformMakeScale(.001, .001);
     }completion:^(BOOL finished) {
         self.containerView.transform = CGAffineTransformIdentity;
-        self.containerView.hidden = YES;
-        self.containerViewSearch.hidden = NO;
+        self.containerView.alpha = 0.0f;
+        self.containerViewSearch.alpha = 1.0f;
         self.containerViewSearch.transform = CGAffineTransformMakeScale(1, .001);
         [self addBarButtonItem];
         [UIView animateWithDuration:0.5f animations:^{
@@ -256,11 +264,52 @@ enum search
     }];
 }
 
+#pragma mark - Touches
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];// this will do the trick
+}
+
+#pragma mark - Utility Methods
+
+-(void)addBarButtonItem
+{
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(choosePreferredTerm:)];
+    [self.navItem setRightBarButtonItem:item animated:YES];
+     
+}
+
+-(void)fadeText:(NSString *)str fromDirection:(direction)direction
+{
+    //self.fadeText.alpha = 0.0f;
+    self.fadeText.text = str;
+    self.fadeText.transform = CGAffineTransformMakeTranslation(-40, 0);
+    [UIView animateWithDuration:0.8f delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:10.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.fadeText.transform = CGAffineTransformTranslate(self.fadeText.transform, 40, 0);
+        //self.fadeText.alpha = 1.0f;
+    }completion:^(BOOL finished) {
+        
+    }];
+    
+}
+
+#pragma mark  - UITextFieldDelegate Methods
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == self.courseNumberTextField || textField == self.courseTitleTextField || textField == self.professorTextField)
+    {
+            [self slideViewDown];
+    }
+
+    [self pulseButton:self.doneButton];
+}
+
 #pragma mark UISegmentedControl Delegate
 -(IBAction)valueChanged:(id)sender
 {
     NSInteger val = [self.segmentedControl selectedSegmentIndex];
-    
+    [self.autoCompleteTextField.textField setText:@""];
     if (val == searchCourse) {
         [self.autoCompleteTextField setDataToAutoComplete:nil];
         [self animateAdvancedViewOut];
@@ -272,10 +321,6 @@ enum search
         [self.fadeText setText:[self getTextForControl]];
         [self.autoCompleteTextField.textField setPlaceholder:@"Example: A CRN is 5 digits"];
     }else if (val == searchAdvanced) {
-        NSArray *dataSource = [[PCCDataManager sharedInstance].dictionarySubjects objectForKey:myPreferredSearchTerm];
-        NSArray *professorDataSource = [PCCDataManager sharedInstance].arrayProfessors;
-        [self.autoCompleteTextField setDataToAutoComplete:dataSource.copy];
-        [self.professorTextField setDataToAutoComplete:professorDataSource.copy];
         [self.fadeText setText:[self getTextForControl]];
         [self.autoCompleteTextField.textField setPlaceholder:@"Example: SOC"];
         [self animateAdvancedViewIn];
@@ -396,25 +441,35 @@ enum search
     if ([self validateInput] == NO) return;
 
     if (self.segmentedControl.selectedSegmentIndex == searchCourse) {
+        
         NSArray *splitTerms = [self.autoCompleteTextField.textField.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
+        
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
-            searchResults = [MyPurdueManager getCoursesForTerm:myPreferredSearchTerm WithClassName:[splitTerms objectAtIndex:0] AndCourseNumber:[splitTerms objectAtIndex:1]];
+            
+            searchResults = [MyPurdueManager getCoursesForTerm:myPreferredSearchTerm.value WithClassName:[splitTerms objectAtIndex:0] AndCourseNumber:[splitTerms objectAtIndex:1]];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 //[self performSegueWithIdentifier:@"SearchResultsSegue" sender:self];
+                [[PCCHUDManager sharedInstance] dismissHUD];
                 [self showSearchResults];
             });;
             
         }];
     }else if (self.segmentedControl.selectedSegmentIndex == searchCRN) {
+        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
-            searchResults = [MyPurdueManager getCoursesForTerm:myPreferredSearchTerm WithCRN:self.autoCompleteTextField.textField.text];
+            searchResults = [MyPurdueManager getCoursesForTerm:myPreferredSearchTerm.value WithCRN:self.autoCompleteTextField.textField.text];
             dispatch_async(dispatch_get_main_queue(), ^{
+                [[PCCHUDManager sharedInstance] dismissHUD];
                 [self showSearchResults];
                 //[self performSegueWithIdentifier:@"SearchResultsSegue" sender:self];
             });
             
         }];
     }else if (self.segmentedControl.selectedSegmentIndex == searchAdvanced) {
+        [[KPLightBoxManager sharedInstance] showLightBox];
+        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
             NSString *className = @"", *courseNumber = @"", *fromHours = @"", *toHours = @"", *professor = @"%25";
             
@@ -422,28 +477,31 @@ enum search
             if (self.courseNumberTextField.text.length != 0) courseNumber = self.courseNumberTextField.text;
             if (self.professorTextField.textField.text.length != 0) professor = self.professorTextField.selectedObject.value;
             
-            NSString *day = @"";
-            if (![self.setOfDays containsObject:self.mondayButton]){
-                day = [day stringByAppendingString:@"&sel_day=m"];
-            }
-            if (![self.setOfDays containsObject:self.tuesdayButton]){
-                day = [day stringByAppendingString:@"&sel_day=t"];
-            }
-            if (![self.setOfDays containsObject:self.wednesdayButton]){
-                day = [day stringByAppendingString:@"&sel_day=w"];
-            }
-            if (![self.setOfDays containsObject:self.thursdayButton]){
-                day = [day stringByAppendingString:@"&sel_day=r"];
-            }
-            if (![self.setOfDays containsObject:self.fridayButton]){
-                day = [day stringByAppendingString:@"&sel_day=f"];
-            }
-            if (![self.setOfDays containsObject:self.sundayButton]){
-                day = [day stringByAppendingString:@"&sel_day=u"];
+            NSString *day=@"";
+            if (self.setOfDays.count != 0) {
+                if (![self.setOfDays containsObject:self.mondayButton]){
+                    day = [day stringByAppendingString:@"&sel_day=m"];
+                }
+                if (![self.setOfDays containsObject:self.tuesdayButton]){
+                    day = [day stringByAppendingString:@"&sel_day=t"];
+                }
+                if (![self.setOfDays containsObject:self.wednesdayButton]){
+                    day = [day stringByAppendingString:@"&sel_day=w"];
+                }
+                if (![self.setOfDays containsObject:self.thursdayButton]){
+                    day = [day stringByAppendingString:@"&sel_day=r"];
+                }
+                if (![self.setOfDays containsObject:self.fridayButton]){
+                    day = [day stringByAppendingString:@"&sel_day=f"];
+                }
+                if (![self.setOfDays containsObject:self.sundayButton]){
+                    day = [day stringByAppendingString:@"&sel_day=u"];
+                }
             }
 
-            searchResults = [MyPurdueManager getCoursesWithParametersForTerm:myPreferredSearchTerm WithClassName:className AndCourseNumber:courseNumber AndSubject:self.autoCompleteTextField.textField.text FromHours:fromHours ToHours:toHours AndProfessor:professor AndDays:day];
+            searchResults = [MyPurdueManager getCoursesWithParametersForTerm:myPreferredSearchTerm.value WithClassName:className AndCourseNumber:courseNumber AndSubject:self.autoCompleteTextField.textField.text FromHours:fromHours ToHours:toHours AndProfessor:professor AndDays:day];
             dispatch_async(dispatch_get_main_queue(), ^{
+                [[PCCHUDManager sharedInstance] dismissHUD];
                 [self showSearchResults];
                 //[self performSegueWithIdentifier:@"SearchResultsSegue" sender:self];
             });
@@ -454,55 +512,80 @@ enum search
 
 -(BOOL)validateInput
 {
+    BOOL validation = YES;
+    
     if (self.segmentedControl.selectedSegmentIndex == searchCourse) {
         NSArray *splitTerms = [self.autoCompleteTextField.textField.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        if (splitTerms.count != 2) return NO;
+        if (splitTerms.count != 2) {
+            validation = NO;
+            if (!validation) {
+                [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Format" description:@"Ex: SOC 100" type:TWMessageBarMessageTypeError];
+                return validation;
+            }
+        }
         NSCharacterSet *alphaSet = [NSCharacterSet letterCharacterSet];
         NSCharacterSet *numberSet = [NSCharacterSet decimalDigitCharacterSet];
-        if ([[splitTerms objectAtIndex:0] rangeOfCharacterFromSet:alphaSet].location == NSNotFound) return NO;
-        if ([[splitTerms objectAtIndex:1] rangeOfCharacterFromSet:numberSet].location == NSNotFound) return NO;
-        return YES;
+        if ([[splitTerms objectAtIndex:0] rangeOfCharacterFromSet:alphaSet].location == NSNotFound) validation = NO;
+        if ([[splitTerms objectAtIndex:1] rangeOfCharacterFromSet:numberSet].location == NSNotFound) validation = NO;
+        if (!validation) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Format" description:@"Ex: SOC 100" type:TWMessageBarMessageTypeError];
+            return validation;
+        }
+        return validation;
     }else if (self.segmentedControl.selectedSegmentIndex == searchCRN) {
         NSCharacterSet *characterSet = [NSCharacterSet decimalDigitCharacterSet];
-        if ([self.autoCompleteTextField.textField.text rangeOfCharacterFromSet:characterSet].location == NSNotFound) return NO;
+        if ([self.autoCompleteTextField.textField.text rangeOfCharacterFromSet:characterSet].location == NSNotFound) validation =NO;
+        if (!validation) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Format" description:@"Ex: 12345" type:TWMessageBarMessageTypeError];
+            return NO;
+        }
         return YES;
     }else if (self.segmentedControl.selectedSegmentIndex == searchAdvanced) {
+        validation = NO;
         if ([self.autoCompleteTextField.matchingData containsObject:self.autoCompleteTextField.selectedObject]) {
-            return YES;
+            validation = YES;
         }
+        if (!validation) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Subject" description:@"Pick a subject from the drop down box" type:TWMessageBarMessageTypeError];
+            return NO;
+        }
+        return YES;
     }
-    
     return NO;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if ([textField isKindOfClass:[PCFAutoCompleteTextField class]]) {
-        PCFAutoCompleteTextField *atf = (PCFAutoCompleteTextField *)textField;
-        [atf.textField resignFirstResponder];
-        return YES;
-    }
     [textField resignFirstResponder];
     return YES;
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField == self.courseNumberTextField) {
-        [self slideViewUp:45];
-    }else if (textField == self.professorTextField) {
-        [self slideViewUp:45];
-    }else if (textField == self.courseTitleTextField) {
-        [self slideViewUp:10];
-    }
-    currentTextField = textField;
+    [Helpers asyncronousBlockWithName:@"Textfield begin editing" AndBlock:^{
+        if (textField == self.courseNumberTextField) {
+            [self slideViewUp:45];
+        }else if (textField == self.professorTextField) {
+            if (!self.professorTextField.dataToAutoComplete) {
+                NSArray *professorDataSource = [PCCDataManager sharedInstance].arrayProfessors;
+                [self.professorTextField setDataToAutoComplete:professorDataSource.copy];
+            }
+            [self slideViewUp:45];
+        }else if (textField == self.courseTitleTextField) {
+            [self slideViewUp:10];
+        }else if (textField == self.autoCompleteTextField) {
+            if (self.segmentedControl.selectedSegmentIndex == searchAdvanced) {
+                if (!self.autoCompleteTextField.dataToAutoComplete) {
+                    NSArray *dataSource = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySubject WithKey:myPreferredSearchTerm.value];
+                    [self.autoCompleteTextField setDataToAutoComplete:dataSource.copy];
+                }
+            }
+        }
+ 
+    }];
 }
 
 -(void)slideViewUp:(int)delta
 {
-    /*[UIView animateWithDuration:0.25f animations:^{
-        self.containerViewSearch.transform = CGAffineTransformMakeTranslation(0, -50);
-    }];*/
-    
     [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.containerViewSearch.transform = CGAffineTransformMakeTranslation(0, -delta);
     }completion:^(BOOL finished) {
@@ -513,9 +596,6 @@ enum search
 
 -(void)slideViewDown
 {
-   /* [UIView animateWithDuration:0.25f animations:^{
-        self.containerViewSearch.transform = CGAffineTransformIdentity;
-    }];*/
     [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.containerViewSearch.transform = CGAffineTransformIdentity;
     }completion:^(BOOL finished) {
@@ -525,21 +605,6 @@ enum search
     
 }
 
-
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    if ([currentTextField isKindOfClass:[PCFAutoCompleteTextField class]]) {
-        PCFAutoCompleteTextField *textField = (PCFAutoCompleteTextField *)currentTextField;
-        if (!textField) {
-            return NO;
-        }else if (textField.displayingAutoSuggest == YES) {
-            return NO;
-        }
-        return YES;
-    }else {
-        return YES;
-    }
-}
 -(void)moveDoneButton:(direction)dir WithBlock:(void(^)())block
 {
     if (dir == directionUp) {
@@ -563,11 +628,9 @@ enum search
         state = button.transform;
         button.transform = CGAffineTransformScale(state, 1.25, 1.25);
     }completion:^(BOOL finished) {
-        if (finished) {
             [UIView animateWithDuration:0.25f animations:^{
                 button.transform = state;
             }];
-        }
     }];
 }
 
@@ -575,7 +638,7 @@ enum search
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:row];
-    myPreferredSearchTerm = obj.value;
+    myPreferredSearchTerm = obj;
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component

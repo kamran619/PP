@@ -17,6 +17,8 @@
 //user specific data
 -(BOOL)loginWithUsername:(NSString *)username andPassword:(NSString *)pass;
 
+-(NSDictionary *)getStudentInformation;
+
 -(NSArray *)getCurrentScheduleViaWeekAtAGlance;
 -(NSArray *)getCurrentScheduleViaConciseSchedule;
 -(NSArray *)getCurrentScheduleViaDetailSchedule;

@@ -10,4 +10,9 @@
 
 @interface PCCSettingsViewController : UIViewController
 
+@property (nonatomic, strong) IBOutlet UIButton *report;
+@property (nonatomic, strong) IBOutlet UIButton *rate;
+@property (nonatomic, strong) IBOutlet UIButton *reset;
+@property (weak, nonatomic) IBOutlet UIButton *resetPressed;
+
 @end

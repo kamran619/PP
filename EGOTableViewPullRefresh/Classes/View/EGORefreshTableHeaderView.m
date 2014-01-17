@@ -242,7 +242,6 @@
 	[UIView commitAnimations];
 	
     UITableView *tv = (UITableView *)scrollView;
-    [tv reloadData];
 	[self setState:EGOOPullRefreshNormal];
 
 }
