@@ -65,7 +65,9 @@ typedef enum
 @property (nonatomic, strong) NSMutableArray *arrayTerms;
 @property (nonatomic, strong) NSMutableArray *arrayProfessors;
 @property (nonatomic, strong) NSMutableDictionary *dictionarySubjects;
+
 @property (nonatomic, strong) NSMutableDictionary *dictionarySchedule;
+
 @property (nonatomic, strong) NSMutableDictionary *dictionaryUser;
 
 @end

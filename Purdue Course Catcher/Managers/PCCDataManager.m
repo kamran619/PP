@@ -51,6 +51,10 @@ static PCCDataManager *_sharedInstance = nil;
 -(NSMutableDictionary *)dictionarySchedule
 {
     if (!_dictionarySchedule) _dictionarySchedule = [NSMutableDictionary dictionaryWithCapacity:4];
+    else if (_dictionarySchedule && _dictionarySchedule.count > 0) {
+        NSMutableDictionary *dict = [_dictionarySchedule objectForKey:[[self.dictionaryUser objectForKey:kCredentials] objectForKey:kUsername]];
+        return dict;
+    }
     return _dictionarySchedule;
 }
 
@@ -205,7 +209,13 @@ static PCCDataManager *_sharedInstance = nil;
     NSMutableDictionary *dict;
     
     if (dictionary == DataDictionarySchedule) {
-        dict = self.dictionarySchedule;
+        
+        NSMutableDictionary *terms = [[NSMutableDictionary alloc] initWithDictionary:self.dictionarySchedule copyItems:YES];
+        [terms setObject:obj forKey:key];
+        NSString *username = [[_dictionaryUser objectForKey:kCredentials] objectForKey:kUsername];
+        [_dictionarySchedule setObject:terms forKey:username];
+        [self saveData];
+        return;
     }else if (dictionary == DataDictionaryUser) {
         dict = self.dictionaryUser;
     }else if (dictionary == DataDictionarySubject) {

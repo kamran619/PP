@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define SERVER_ADDRESS @"192.168.0.3"
+#define SERVER_ADDRESS @"192.168.0.5"
 #define PORT 12345
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)

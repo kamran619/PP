@@ -238,7 +238,6 @@
                     [vc dismissMe];
                 }else {
                     PCCMenuViewController *menu = [[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
-
                     //this was not presented..replace it with ours
                     [UIView transitionFromView:self.window.rootViewController.view
                                         toView:menu.view

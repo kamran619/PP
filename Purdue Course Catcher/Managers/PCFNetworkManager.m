@@ -17,6 +17,7 @@
 #import "PCCFTUEViewController.h"
 #import "PCCMenuViewController.h"
 #import "PCCAppDelegate.h"
+#import "PCCObject.h"
 
 #define SERVER_COMMAND @"command"
 #define kData @"data"
@@ -334,6 +335,36 @@ static PCFNetworkManager *_sharedInstance = nil;
         [JSONData appendBytes:(const uint8_t*)newLine length:2];
         
         if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandUpdate];
+    
+    }else if (command == ServerCommandSendSchedule) {
+        
+        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+        
+        NSArray *add = [dict objectForKey:@"add"];
+        if (add.count > 0) {
+            [dataDictionary setObject:add forKey:@"add"];
+        }
+        NSArray *remove = [dict objectForKey:@"remove"];
+        if (remove.count > 0) {
+            [dataDictionary setObject:remove forKey:@"remove"];
+        }
+        
+        if (add.count == 0 && remove.count == 0) return;
+        
+        NSString *user = [[[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kCredentials] objectForKey:kUsername];
+        [dataDictionary setObject:[Helpers getFacebookIdentifier] forKey:kUserID];
+        
+        PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+        [dataDictionary setObject:term.value forKey:@"term"];
+        [dictionary setObject:dataDictionary forKey:kData];
+        
+        NSError *error;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        const char* newLine = "\r\n";
+        [JSONData appendBytes:(const uint8_t*)newLine length:2];
+        
+        if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandSendSchedule];
+        
     }
 }
 -(void)sendDataToServer:(NSData *)data forCommand:(ServerCommand)command

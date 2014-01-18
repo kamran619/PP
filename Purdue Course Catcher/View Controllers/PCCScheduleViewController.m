@@ -24,6 +24,8 @@
 
 #import "UIView+Animations.h"
 
+#import "PCFNetworkManager.h"
+
 @interface PCCScheduleViewController ()
 
 @end
@@ -108,7 +110,7 @@ enum AnimationDirection
         isLoading = YES;
         scheduleArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySchedule WithKey:preferredSchedule.value];
         if (scheduleArray != nil) {
-            self.containerViewForSchedule.hidden = NO;
+            //self.containerViewForSchedule.alpha = 0.0f;
             [headerViewController.headerTitle setText:preferredSchedule.key];
             dayArray = [self generateDayArray];
             //reload tableview data
@@ -116,7 +118,7 @@ enum AnimationDirection
             [self.tableView reloadData];
         }else {
             [headerViewController.headerTitle setText:preferredSchedule.key];
-            self.containerViewForSchedule.hidden = NO;
+            self.containerViewForSchedule.alpha = 0.0f;
             dayArray = nil;
             isLoading = YES;
             [self.activityIndicator startAnimating];
@@ -135,16 +137,50 @@ enum AnimationDirection
         NSString *username, *password;
         username = [credentials objectForKey:kUsername];
         password = [credentials objectForKey:kPassword];
+        NSDictionary *dictionary;
         if ([[MyPurdueManager sharedInstance] loginWithUsername:username andPassword:password] == NO) {
             NSLog(@"The login failed");
         }else {
             scheduleArray = [[MyPurdueManager sharedInstance] getCurrentScheduleViaDetailSchedule];
-            [[PCCDataManager sharedInstance] setObject:scheduleArray ForKey:preferredSchedule.value InDictionary:DataDictionarySchedule];
+            PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+            NSMutableArray *tempArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySchedule WithKey:term.value];
+            NSMutableArray *classesToAdd, *classesToRemove;
+            classesToAdd = [NSMutableArray array], classesToRemove = [NSMutableArray array];
+            if (tempArray && ![tempArray isEqualToArray:scheduleArray]) {
+                for (PCFClassModel *class in scheduleArray) {
+                    if (![tempArray containsObject:class]) {
+                        [classesToAdd addObject:class.CRN];
+                    }
+                }
+
+                for (PCFClassModel *class in tempArray) {
+                    if (![scheduleArray containsObject:class]) {
+                        [classesToRemove addObject:class.CRN];
+                    }
+                }
+                
+                dictionary = @{@"add": classesToAdd, @"remove": classesToRemove};
+            }else {
+                //temp array is full
+                if (!tempArray) {
+                    NSMutableArray *schedule = [NSMutableArray arrayWithCapacity:3];
+                    for (PCFClassModel *class in scheduleArray) {
+                        if (![tempArray containsObject:class]) {
+                            [schedule addObject:class.CRN];
+                        }
+                    }
+                    
+                    dictionary = @{@"add": schedule};
+                }
+            }
+                
+                [[PCCDataManager sharedInstance] setObject:scheduleArray ForKey:preferredSchedule.value InDictionary:DataDictionarySchedule];
+                [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandSendSchedule withDictionary:dictionary];
+            }
             //reload data
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self doneLoadingTableViewData];
             });
-        }
     });
 
 }
@@ -624,6 +660,8 @@ enum AnimationDirection
     [self.activityIndicator stopAnimating];
     dayArray = [self generateDayArray];
 	[refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    self.containerViewForSchedule.alpha = 1.0f;
+    if (self.containerViewForSchedule.alpha) [self.tableView reloadData];
 	
 }
 
