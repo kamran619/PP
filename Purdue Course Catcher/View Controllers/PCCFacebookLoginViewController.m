@@ -78,7 +78,7 @@ static PCCFacebookLoginViewController *_sharedInstance = nil;
              ^(FBSession *session, FBSessionState state, NSError *error) {
                  
                  // Retrieve the app delegate
-                 PCCAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+                 PCCAppDelegate* appDelegate = (PCCAppDelegate*)[UIApplication sharedApplication].delegate;
                  // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
                  [appDelegate sessionStateChanged:session state:state error:error];
              }];

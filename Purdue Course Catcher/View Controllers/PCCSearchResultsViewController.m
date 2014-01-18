@@ -190,7 +190,7 @@
             catalogVC.view.center = CGPointMake(center.x, -800);
             [[UIApplication sharedApplication].keyWindow addSubview:catalogVC.view];
             [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:0.80f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                catalogVC.view.alpha = 0.7f;
+                catalogVC.view.alpha = 0.85f;
                 catalogVC.view.center = center;
             }completion:nil];
         });

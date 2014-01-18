@@ -36,7 +36,7 @@
 #define FIRST_TIME_RUNNING_APP @"first_time_running_app"
 +(BOOL)hasRanAppBefore
 {
-    return [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:FIRST_TIME_RUNNING_APP];
+    return (BOOL)[[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:FIRST_TIME_RUNNING_APP];
 }
 
 +(void)setHasRanAppBefore

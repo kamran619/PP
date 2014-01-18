@@ -269,7 +269,7 @@ static PCFNetworkManager *_sharedInstance = nil;
         [dictionary setObject:dataDictionary.copy forKey:kData];
         
         NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
         const char* newLine = "\r\n";
         [JSONData appendBytes:(const uint8_t*)newLine length:2];
         //pass to timer
@@ -291,7 +291,7 @@ static PCFNetworkManager *_sharedInstance = nil;
         [dictionary setObject:dataDictionary.copy forKey:kData];
         
         NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
         const char* newLine = "\r\n";
         [JSONData appendBytes:(const uint8_t*)newLine length:2];
         //pass to timer
@@ -309,7 +309,7 @@ static PCFNetworkManager *_sharedInstance = nil;
         [dictionary setObject:dataDictionary.copy forKey:kData];
         
         NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
         const char* newLine = "\r\n";
         [JSONData appendBytes:(const uint8_t*)newLine length:2];
         
@@ -330,7 +330,7 @@ static PCFNetworkManager *_sharedInstance = nil;
         [dictionary setObject:dataDictionary.copy forKey:kData];
         
         NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
         const char* newLine = "\r\n";
         [JSONData appendBytes:(const uint8_t*)newLine length:2];
         
@@ -359,7 +359,7 @@ static PCFNetworkManager *_sharedInstance = nil;
         [dictionary setObject:dataDictionary forKey:kData];
         
         NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error].mutableCopy;
+        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
         const char* newLine = "\r\n";
         [JSONData appendBytes:(const uint8_t*)newLine length:2];
         

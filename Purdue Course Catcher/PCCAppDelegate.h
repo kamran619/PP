@@ -18,6 +18,5 @@
 - (void)sessionStateChanged:(FBSession *)session
                       state:(FBSessionState) state
                       error:(NSError *)error;
--(void)dismissLoading;
 
 @end

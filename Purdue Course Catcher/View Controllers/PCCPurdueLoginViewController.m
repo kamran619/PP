@@ -63,7 +63,7 @@
 }
 - (IBAction)dismissPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^{
-        PCCSideMenuViewController *vc = [self presentingViewController];
+        PCCSideMenuViewController *vc = (PCCSideMenuViewController*)[self presentingViewController];
         if (loginSuccessfull) {
             [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:nil];
             [vc menuItemPressed:@"Schedule"];

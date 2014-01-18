@@ -44,7 +44,7 @@ enum ServerCommand
 +(instancetype) sharedInstance;
 
 -(void)processServerData:(NSDictionary *)data;
--(void)sendDataToServer:(NSData *)data;
+-(void)sendDataToServer:(NSData *)data forCommand:(ServerCommand)command;
 -(void)prepareDataForCommand:(ServerCommand)command withDictionary:(NSDictionary *)dict;
 
 @end

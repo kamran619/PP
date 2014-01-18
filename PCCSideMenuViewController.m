@@ -70,7 +70,7 @@
 
     }else if ([itemName isEqualToString:@"Basket"]) {
         PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
-        UINavigationController *controller = [Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];
+        UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];
         if (![PCCDataManager sharedInstance].arrayBasket.count > 0) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Basket empty" message:@"Search for a course and then catch it." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
             [alertView show];
@@ -85,7 +85,7 @@
     }else if ([itemName isEqualToString:@"Settings"]) {
     
     }else if ([itemName isEqualToString:@"PurdueLogin"]) {
-        PCCPurdueLoginViewController *vc = [Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
+        PCCPurdueLoginViewController *vc = (PCCPurdueLoginViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
         [self presentViewController:vc animated:YES completion:nil];
     }
     

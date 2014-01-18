@@ -326,7 +326,10 @@
             s = @selector(value);
         }
         for (PCCObject *obj in self.matchingData) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             if ([[obj performSelector:s withObject:nil] isEqualToString:key]) {
+#pragma clang diagnostic pop
                 self.selectedObject.key = obj.key;
                 self.selectedObject.value = obj.value;
             }

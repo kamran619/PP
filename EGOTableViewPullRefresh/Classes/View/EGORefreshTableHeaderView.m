@@ -241,7 +241,7 @@
 	[scrollView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 	[UIView commitAnimations];
 	
-    UITableView *tv = (UITableView *)scrollView;
+    //UITableView *tv = (UITableView *)scrollView;
 	[self setState:EGOOPullRefreshNormal];
 
 }

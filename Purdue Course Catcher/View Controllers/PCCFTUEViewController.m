@@ -73,7 +73,10 @@
     [self.scrollView addSubview:view];
     [self addChildViewController:[PCCFacebookLoginViewController sharedInstance]];
     [[PCCFacebookLoginViewController sharedInstance] didMoveToParentViewController:self];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     [self.facebookButton addTarget:[PCCFacebookLoginViewController sharedInstance] action:@selector(loginPushed:) forControlEvents:UIControlEventTouchUpInside];
+#pragma clang diagnostic pop
 }
 
 - (void)initAnimations

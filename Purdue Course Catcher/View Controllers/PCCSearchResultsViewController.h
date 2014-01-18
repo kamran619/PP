@@ -11,11 +11,10 @@
 #import <MessageUI/MessageUI.h>
 #import "PCFNetworkManager.h"
 
-@interface PCCSearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, MFMailComposeViewControllerDelegate, PCFNetworkDelegate>
+@interface PCCSearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) id<ADVAnimationController> animationController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataSource;
 
--(void)showCatalogInfoWithVC:(id)vc;
 @end
