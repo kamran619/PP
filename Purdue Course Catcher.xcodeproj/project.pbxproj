@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE18308E188AF90C00EC68FC /* PCCTermViewController.m */; };
 		FE2410541873C6B000AA6328 /* icon-error.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104C1873C6B000AA6328 /* icon-error.png */; };
 		FE2410551873C6B000AA6328 /* icon-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104D1873C6B000AA6328 /* icon-error@2x.png */; };
 		FE2410561873C6B000AA6328 /* icon-info.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104E1873C6B000AA6328 /* icon-info.png */; };
@@ -89,6 +90,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE18308D188AF90C00EC68FC /* PCCTermViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCTermViewController.h; path = "Purdue Course Catcher/View Controllers/PCCTermViewController.h"; sourceTree = "<group>"; };
+		FE18308E188AF90C00EC68FC /* PCCTermViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCTermViewController.m; path = "Purdue Course Catcher/View Controllers/PCCTermViewController.m"; sourceTree = "<group>"; };
 		FE24104C1873C6B000AA6328 /* icon-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-error.png"; sourceTree = "<group>"; };
 		FE24104D1873C6B000AA6328 /* icon-error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-error@2x.png"; sourceTree = "<group>"; };
 		FE24104E1873C6B000AA6328 /* icon-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-info.png"; sourceTree = "<group>"; };
@@ -419,6 +422,8 @@
 				FE6BBCA41866C74C00760E7A /* Schedule Header */,
 				FE24107918753C5F00AA6328 /* Catalog View Controller */,
 				FE24FFD8187DF287004D540E /* FTUE */,
+				FE18308D188AF90C00EC68FC /* PCCTermViewController.h */,
+				FE18308E188AF90C00EC68FC /* PCCTermViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -669,6 +674,7 @@
 				FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */,
 				FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */,
 				FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */,
+				FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */,
 				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,
 				FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */,
