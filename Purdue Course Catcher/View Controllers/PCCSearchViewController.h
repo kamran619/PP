@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "PCFAutoCompleteTextField.h"
 #import "ADVAnimationController.h"
-@interface PCCSearchViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, PCFAutoCompleteTextFieldDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
+#import "PCCTermViewController.h"
+
+@interface PCCSearchViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, PCFAutoCompleteTextFieldDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, PCCTermDelegate>
 
 -(IBAction)valueChanged:(id)sender;
 
@@ -17,20 +19,13 @@
 @property (nonatomic, strong) IBOutlet UILabel *displayText;
 
 @property (nonatomic, strong) IBOutlet UIView *containerViewSearch;
-@property (nonatomic, strong) IBOutlet UIView *containerView;
 
-@property(nonatomic, strong) IBOutlet UIPickerView *pickerView;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) IBOutlet UIButton *buttonNext;
 @property (nonatomic, strong) IBOutlet UIButton *doneButton;
-
-
-@property (nonatomic, strong) IBOutlet UINavigationItem *navItem;
 
 @property (nonatomic, strong) PCFAutoCompleteTextField *autoCompleteTextField;
 @property (nonatomic, strong) PCFAutoCompleteTextField *professorTextField;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
-
 
 @property (nonatomic, strong) IBOutlet UIView *advancedView;
 

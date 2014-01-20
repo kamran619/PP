@@ -19,6 +19,7 @@
 #import "TWMessageBarManager.h"
 #import "PCCHUDManager.h"
 #import "KPLightBoxManager.h"
+#import "PCCTermViewController.h"
 
 
 #define CENTER_FRAME CGPointMake(320, 21);
@@ -43,6 +44,7 @@ enum search
 
 @implementation PCCSearchViewController
 {
+    PCCTermViewController *termVC;
     PCCObject *myPreferredSearchTerm;
     NSArray *searchResults;
     
@@ -54,7 +56,6 @@ enum search
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self addBarButtonItem];
     [self initController];
     
 }
@@ -116,129 +117,30 @@ enum search
     PCCObject *preferredSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
     
     if (!preferredSearchTerm) {
-        if (![PCCDataManager sharedInstance].arrayTerms) {
-            //terms have never been aggregated
-            [self.containerView setAlpha:0.0f];
-            [self.containerViewSearch setAlpha:0.0f];
-            [self.activityIndicator startAnimating];
-            [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-                NSArray *terms = [MyPurdueManager getMinimalTerms];
-                if (terms.count > 0) {
-                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.activityIndicator stopAnimating];
-                        [self.containerView fadeIn];
-                        [self.pickerView reloadAllComponents];
-                        PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-                        myPreferredSearchTerm = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
-                    });
-                }else {
-                    //error getting terms. show another screen
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.activityIndicator stopAnimating];
-                        [self.containerView fadeIn];
-                        [self.pickerView fadeOut];
-                        self.displayText.text = @"The myPurdue portal is currently unavailable!";
-                        self.displayText.tag = 1;
-                        [self.buttonNext setTitle:@"Retry" forState:UIControlStateNormal];
-                        //PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-                        //myPreferredSearchTerm = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
-                    });
-                }
-            }];
-        }else {
-            //we have the terms, lets show them to the user
-            [self.containerViewSearch fadeOut];
-            [self.containerView fadeIn];
-            [self.pickerView reloadAllComponents];
-            //lets still make a network call and update the data
-            [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-                NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
-                [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-                    myPreferredSearchTerm = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
-                    [self.pickerView reloadAllComponents];
-                });
-            }];
-            
-        }
+        [self choosePreferredTerm:nil];
     }else {
         //we have the preferred search term saved..lets let them directly search
         myPreferredSearchTerm = [[PCCObject alloc] initWithKey:preferredSearchTerm.key AndValue:preferredSearchTerm.value];
-        self.containerView.center = CENTER_FRAME;
-        [self.containerView fadeOut];
         [self.containerViewSearch fadeIn];
-        [self addBarButtonItem];
+        //[self addBarButtonItem];
         //we have terms..lets show them, and still make a network call
         [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
             NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
             if ([tempTerms count] != [[[PCCDataManager sharedInstance] arrayTerms] count]) [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.pickerView reloadAllComponents];
-            });
         }];
     }
 
 }
 
-#pragma mark Buttons
-- (IBAction)choosePreferredTerm:(id)sender
+#pragma mark PCCTerm Delegate
+-(void)termPressed:(PCCObject *)term
 {
-    [UIView animateWithDuration:0.25f animations:^{
-        self.containerViewSearch.transform = CGAffineTransformMakeScale(1, .001);
-    }completion:^(BOOL finished) {
-        [self.containerViewSearch setAlpha:0.0f];
-        self.containerViewSearch.transform = CGAffineTransformIdentity;
-        [self.containerView setAlpha:1.0f];
-        self.containerView.transform = CGAffineTransformMakeScale(0.001, 0.001);
-        [UIView animateWithDuration:0.5f animations:^{
-            self.containerView.center = self.containerViewSearch.center;
-            self.containerView.transform = CGAffineTransformMakeScale(1, 1);
-            [self.navItem setRightBarButtonItem:nil animated:YES];
-            [self.pickerView selectRow:[self getRowFromData] inComponent:0 animated:YES];
-        }];
-    }];
-}
-
-- (NSInteger)getRowFromData
-{
-    NSArray *array = [PCCDataManager sharedInstance].arrayTerms;
-    PCCObject *termObject = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
-    NSInteger row = [array indexOfObject:termObject];
-    return row;
-}
-- (IBAction)proceedToSearch:(id)sender
-{
-    if (self.displayText.tag == 1) {
-        //an error occured getting the terms
-        [self.displayText setAlpha:0.0f];
-        [self.buttonNext setAlpha:0.0f];
-        [self.activityIndicator startAnimating];
-        [Helpers asyncronousBlockWithName:@"Retry Terms" AndBlock:^{
-            NSArray *terms = [MyPurdueManager getMinimalTerms];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (terms.count > 0) {
-                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
-                    self.displayText.tag = 0;
-                    [self.displayText setText:@"Choose a semester to search for courses in."];
-                    [self.buttonNext setTitle:@"Done" forState:UIControlStateNormal];
-                    [self.activityIndicator stopAnimating];
-                    [self.displayText fadeIn];
-                    [self.buttonNext fadeIn];
-                    [self.pickerView fadeIn];
-                    [self.pickerView reloadAllComponents];
-                }else {
-                    [self.activityIndicator stopAnimating];
-                    [self.displayText fadeIn];
-                    [self.buttonNext fadeIn];
-                }
-            });
-        }];
-        return;
-    }
+    myPreferredSearchTerm = [[PCCObject alloc] initWithKey:term.key AndValue:term.value];
     
     [[PCCDataManager sharedInstance] setObject:myPreferredSearchTerm ForKey:kPreferredSearchTerm InDictionary:DataDictionaryUser];
+    
+    [self.containerViewSearch fadeIn];
+    
     NSArray *subjectArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySubject WithKey:kPreferredSearchTerm];
     if (!subjectArray) {
         [Helpers asyncronousBlockWithName:@"Get Subjects for Term" AndBlock:^{
@@ -248,20 +150,17 @@ enum search
             [[PCCDataManager sharedInstance] setArrayProfessors:professorArray.mutableCopy];
         }];
     }
-    
-    [UIView animateWithDuration:0.25f animations:^{
-        self.containerView.center = CENTER_FRAME;
-        self.containerView.transform = CGAffineTransformMakeScale(.001, .001);
-    }completion:^(BOOL finished) {
-        self.containerView.transform = CGAffineTransformIdentity;
-        self.containerView.alpha = 0.0f;
-        self.containerViewSearch.alpha = 1.0f;
-        self.containerViewSearch.transform = CGAffineTransformMakeScale(1, .001);
-        [self addBarButtonItem];
-        [UIView animateWithDuration:0.5f animations:^{
-            self.containerViewSearch.transform = CGAffineTransformMakeScale(1, 1);
-        }];
-    }];
+}
+
+#pragma mark Buttons
+- (IBAction)choosePreferredTerm:(id)sender
+{
+    UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCTerm"];
+    termVC = (PCCTermViewController *) controller.childViewControllers.lastObject;
+    [termVC setType:PCCTermTypeSearch];
+    [termVC setDataSource:[PCCDataManager sharedInstance].arrayTerms];
+    termVC.delgate = self;
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 #pragma mark - Touches
@@ -271,13 +170,6 @@ enum search
 }
 
 #pragma mark - Utility Methods
-
--(void)addBarButtonItem
-{
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(choosePreferredTerm:)];
-    [self.navItem setRightBarButtonItem:item animated:YES];
-     
-}
 
 -(void)fadeText:(NSString *)str fromDirection:(direction)direction
 {

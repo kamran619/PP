@@ -25,6 +25,7 @@
 #import "UIView+Animations.h"
 
 #import "PCFNetworkManager.h"
+#import "PCCTermViewController.h"
 
 @interface PCCScheduleViewController ()
 
@@ -56,6 +57,7 @@ enum AnimationDirection
     BOOL isLoading;
     EGORefreshTableHeaderView *refreshView;
     AnimationDirection animationDirection;
+    
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -115,7 +117,7 @@ enum AnimationDirection
             dayArray = [self generateDayArray];
             //reload tableview data
             isLoading = NO;
-            [self.tableView reloadData];
+            //[self.tableView reloadData];
         }else {
             [headerViewController.headerTitle setText:preferredSchedule.key];
             self.containerViewForSchedule.alpha = 0.0f;
@@ -143,6 +145,9 @@ enum AnimationDirection
         }else {
             scheduleArray = [[MyPurdueManager sharedInstance] getCurrentScheduleViaDetailSchedule];
             PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+            preferredSchedule.key = term.key;
+            preferredSchedule.value = term.value;
+            
             NSMutableArray *tempArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySchedule WithKey:term.value];
             NSMutableArray *classesToAdd, *classesToRemove;
             classesToAdd = [NSMutableArray array], classesToRemove = [NSMutableArray array];
@@ -174,7 +179,7 @@ enum AnimationDirection
                 }
             }
                 
-                [[PCCDataManager sharedInstance] setObject:scheduleArray ForKey:preferredSchedule.value InDictionary:DataDictionarySchedule];
+                [[PCCDataManager sharedInstance] setObject:scheduleArray ForKey:term.value InDictionary:DataDictionarySchedule];
                 [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandSendSchedule withDictionary:dictionary];
             }
             //reload data
@@ -188,71 +193,16 @@ enum AnimationDirection
 {
     PCCObject *preferredScheduleToShow = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
     if (!preferredScheduleToShow) {
-        if (![PCCDataManager sharedInstance].arrayTerms) {
-            //terms have never been aggregated
-            [self.setupContainerView setAlpha:0.0f];
-            [self.containerViewForSchedule setAlpha:0.0f];
-            [self.activityIndicator startAnimating];
-            [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-                NSArray *terms = [MyPurdueManager getMinimalTerms];
-                if (terms.count > 0) {
-                    //we got the terms
-                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.activityIndicator stopAnimating];
-                        [self.setupContainerView fadeIn];
-                        [self.pickerView reloadAllComponents];
-                        PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-                        preferredSchedule = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
-                    });
-                }else {
-                    //failed getting terms
-                    //error getting terms. show another screen
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.activityIndicator stopAnimating];
-                        [self.setupContainerView fadeIn];
-                        [self.pickerView fadeOut];
-                        self.displayText.text = @"The myPurdue portal is currently unavailable!";
-                        self.displayText.tag = 1;
-                        [self.buttonNext setTitle:@"Retry" forState:UIControlStateNormal];
-                        //PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-                        //myPreferredSearchTerm = [[PCCObject alloc] initWithKey:obj.key AndValue:obj.value];
-                    });
-                }
-            }];
-        }else {
-            [self.pickerView selectRow:0 inComponent:0 animated:YES];
-            [self.setupContainerView setAlpha:1.0];
-            [self.containerViewForSchedule setAlpha:0.0f];
-            [self.pickerView reloadAllComponents];
-            preferredSchedule =  [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:0];
-            //we have terms..lets show them, and still make a network call
-            [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-                NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
-                [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.pickerView reloadAllComponents];
-                });
-            }];
-            
-        }
+        [self choosepreferredScheduleValue:nil];
     }else {
-        //setup view
-        self.setupContainerView.center = CGPointMake(320, 21);
-        self.setupContainerView.alpha = 0.0f;
-        self.containerViewForSchedule.alpha = 0.0f;
-        [self addBarButtonItem];
-        //we have terms..lets show them, and still make a network call
+        preferredSchedule = [[PCCObject alloc] initWithKey:preferredScheduleToShow.key AndValue:preferredScheduleToShow.value];
+        [self.containerViewForSchedule fadeIn];
+        //
         [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
             NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
-            [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.pickerView reloadAllComponents];
-            });
+            if ([tempTerms count] != [[[PCCDataManager sharedInstance] arrayTerms] count]) [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
         }];
-        //we have the preferred schedule term saved..
-        preferredSchedule = preferredScheduleToShow;
-        
+        //
         scheduleArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySchedule WithKey:preferredSchedule.value];
         if (scheduleArray == nil) {
             [self fetchSchedule];
@@ -263,94 +213,34 @@ enum AnimationDirection
             headerViewController.headerTitle.text = preferredSchedule.key;
             dayArray = [self generateDayArray];
             [self.tableView reloadData];
+            //reload data
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.25f];
+            });
         }
     }
 }
 
--(void)addBarButtonItem
+#pragma mark PCCTerm Delegate
+-(void)termPressed:(PCCObject *)term
 {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(choosepreferredScheduleValue:)];
-    [self.navItem setRightBarButtonItem:item animated:YES];
+    preferredSchedule = [[PCCObject alloc] initWithKey:term.key AndValue:term.value];
+    [[PCCDataManager sharedInstance] setObject:preferredSchedule ForKey:kPreferredScheduleToShow InDictionary:DataDictionaryUser];
+    [headerViewController.headerTitle setText:preferredSchedule.key];
+    animationDirection = AnimationDirectionUp;
+    [self.containerViewForSchedule fadeIn];
+    [self performSelectorOnMainThread:@selector(fetchSchedule) withObject:nil waitUntilDone:NO];
+    
 }
 
 - (IBAction)choosepreferredScheduleValue:(id)sender
 {
-    [UIView animateWithDuration:0.25f animations:^{
-        CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, 1, 0.001);
-        self.containerViewForSchedule.transform = t;
-    }completion:^(BOOL finished) {
-        if (finished) {
-            self.containerViewForSchedule.alpha = 0.0f;
-            self.containerViewForSchedule.transform = CGAffineTransformIdentity;
-            [self.setupContainerView setAlpha:1.0f];
-            self.setupContainerView.transform = CGAffineTransformMakeScale(0.001, 0.001);
-            [UIView animateWithDuration:0.5f animations:^{
-                self.setupContainerView.center = self.containerViewForSchedule.center;
-                CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
-                self.setupContainerView.transform = t;
-                [self.navItem setRightBarButtonItem:nil animated:YES];
-            }];
-        }
-    }];
-}
-
-- (IBAction)proceedToSchedule:(id)sender
-{
-    if (self.displayText.tag == 1) {
-        //an error occured getting the terms
-        [self.displayText setAlpha:0.0f];
-        [self.buttonNext setAlpha:0.0f];
-        [self.activityIndicator startAnimating];
-        [Helpers asyncronousBlockWithName:@"Retry Terms" AndBlock:^{
-            NSArray *terms = [MyPurdueManager getMinimalTerms];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (terms.count > 0) {
-                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
-                    self.displayText.tag = 0;
-                    [self.displayText setText:@"Choose a semester to search for courses in."];
-                    [self.buttonNext setTitle:@"Done" forState:UIControlStateNormal];
-                    [self.activityIndicator stopAnimating];
-                    [self.displayText fadeIn];
-                    [self.buttonNext fadeIn];
-                    [self.pickerView fadeIn];
-                    [self.pickerView reloadAllComponents];
-                }else {
-                    //error getting terms. show another screen
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.activityIndicator stopAnimating];
-                        [self.setupContainerView fadeIn];
-                        [self.displayText fadeIn];
-                        [self.buttonNext fadeIn];
-                        [self.pickerView fadeOut];
-                    });
-                }
-            });
-        }];
-        return;
-    }
-    
-    [[PCCDataManager sharedInstance] setObject:preferredSchedule ForKey:kPreferredScheduleToShow InDictionary:DataDictionaryUser];
-    [headerViewController.headerTitle setText:preferredSchedule.key];
-    animationDirection = AnimationDirectionUp;
-    [UIView animateWithDuration:0.25f animations:^{
-        self.setupContainerView.center = CGPointMake(320, 21);
-        CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, .001, 0.001);
-        self.setupContainerView.transform = t;
-    }completion:^(BOOL finished) {
-        self.setupContainerView.transform = CGAffineTransformIdentity;
-        self.setupContainerView.alpha = 0.0f;
-        self.containerViewForSchedule.alpha = 1.0f;
-        self.containerViewForSchedule.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, .001);
-        [self addBarButtonItem];
-        [UIView animateWithDuration:0.5f animations:^{
-            CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
-            self.containerViewForSchedule.transform = t;
-        }completion:^(BOOL finished) {
-            if (finished) {
-                [self performSelectorOnMainThread:@selector(fetchSchedule) withObject:nil waitUntilDone:NO];
-            }
-        }];
-    }];
+    self.termVC = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCTerm"];
+    PCCTermViewController *vc = self.termVC.childViewControllers.lastObject;
+    [vc setType:PCCTermTypeSchedule];
+    [vc setDataSource:[PCCDataManager sharedInstance].arrayTerms];
+    vc.delgate = self;
+    [self presentViewController:self.termVC animated:YES completion:nil];
 }
 
 -(NSArray *)generateDayArray
@@ -448,39 +338,6 @@ enum AnimationDirection
             }];
         }
     }
-}
-#pragma mark UIPickerView Delegate
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    preferredSchedule = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:row];
-}
-
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    PCCObject *obj = [[[PCCDataManager sharedInstance] arrayTerms] objectAtIndex:row];
-    
-    return obj.key;
-}
-
--(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
-{
-    return 300;
-}
-
--(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
-{
-    return 30;
-}
-
-#pragma mark UIPickerView Data Source
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return [[[PCCDataManager sharedInstance] arrayTerms] count];
-}
-
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
 }
 
 
@@ -660,8 +517,8 @@ enum AnimationDirection
     [self.activityIndicator stopAnimating];
     dayArray = [self generateDayArray];
 	[refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-    self.containerViewForSchedule.alpha = 1.0f;
-    if (self.containerViewForSchedule.alpha) [self.tableView reloadData];
+    [self.containerViewForSchedule fadeIn];
+    [self.tableView reloadData];
 	
 }
 

@@ -279,6 +279,7 @@
 
 - (void)springHeader
 {
+    [self initControl];
     [self getLabelOfDay].textColor = [UIColor blackColor];
     [self.leftArrow setAlpha:0.0f];
     [self.rightArrow setAlpha:0.0f];
@@ -287,19 +288,17 @@
         self.headerTitle.transform = CGAffineTransformMakeTranslation(-20, 0);
         self.circle.transform = CGAffineTransformMakeTranslation(-20, 0);
     }completion:^(BOOL finished) {
-        if (finished) {
             [UIView animateWithDuration:0.15f animations:^{
                 self.headerTitle.transform = CGAffineTransformIdentity;
                 self.circle.transform = CGAffineTransformIdentity;
             }completion:^(BOOL finished) {
-                [UIView animateWithDuration:0.5f animations:^{
-                    [self getLabelOfDay].textColor = [UIColor whiteColor];
-                    [self.leftArrow setAlpha:1.0f];
-                    [self.rightArrow setAlpha:1.0f];
-                    [self.headerTitle setAlpha:1.0f];
-                }];
+                    [UIView animateWithDuration:0.5f animations:^{
+                        [self getLabelOfDay].textColor = [UIColor whiteColor];
+                        [self.leftArrow setAlpha:1.0f];
+                        [self.rightArrow setAlpha:1.0f];
+                        [self.headerTitle setAlpha:1.0f];
+                    }];
             }];
-        }
     }];
 }
 - (IBAction)leftArrowPushed:(id)sender {

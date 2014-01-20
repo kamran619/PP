@@ -42,6 +42,7 @@ typedef enum
  */
 //keys in kUser dictionary
 #define kPreferredSearchTerm @"kPreferredSearchTerm"
+#define kPreferredRegistrationTerm @"kPreferredRegistrationTerm"
 #define kPreferredScheduleToShow @"kPreferredScheduleToShow"
 #define kDeviceToken @"kDeviceToken"
 #define kEducationInfoDictionary @"kEducationInfoDictionary"

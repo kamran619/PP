@@ -92,8 +92,13 @@
     
     if ([FBSession.activeSession isOpen]) {
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary <FBGraphUser> *user, NSError *error) {
-            [[PCCDataManager sharedInstance] setObject:user.id ForKey:kUserID InDictionary:DataDictionaryUser];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationReceivedFacebookIdentifier object:[PCFNetworkManager sharedInstance] userInfo:user];
+            if (!error) {
+                [[PCCDataManager sharedInstance] setObject:user.id ForKey:kUserID InDictionary:DataDictionaryUser];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationReceivedFacebookIdentifier object:[PCFNetworkManager sharedInstance] userInfo:user];
+            }else {
+                NSLog(@"Error getting fbid");
+            }
+
         }];
     }
 }

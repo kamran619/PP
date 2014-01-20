@@ -8,6 +8,11 @@
 
 #import "PCCTermViewController.h"
 #import "PCCObject.h"
+#import "Helpers.h"
+#import "PCCDataManager.h"
+#import "MyPurdueManager.h"
+#import "UIView+Animations.h"
+
 @interface PCCTermViewController ()
 {
     PCCObject *selectedObject;
@@ -28,9 +33,87 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    PCCObject *firstObject = [self.dataSource objectAtIndex:0];
-    selectedObject = [[PCCObject alloc] initWithKey:firstObject.key AndValue:firstObject.value];
+    [self loadData];
+    [self configureDismissButton];
 	// Do any additional setup after loading the view.
+}
+
+-(void)configureDismissButton
+{
+    BOOL show = YES;
+    
+    if (self.type == PCCTermTypeSearch) {
+        if (![[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm]) show = NO;
+    }else if (self.type == PCCTermTypeSchedule) {
+        if (![[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow]) show = NO;
+    }else if (self.type == PCCTermTypeRegistration) {
+        if (![[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredRegistrationTerm]) show = NO;
+    }
+}
+-(void)setHeaderForTermType:(PCCTermType)type
+{
+    if (type == PCCTermTypeSearch) {
+        [self.headerLabel setText:@"Choose a semester to search in:"];
+    }else if (type == PCCTermTypeSchedule) {
+        [self.headerLabel setText:@"Choose a semester to view your schedule for:"];
+    }else if (type == PCCTermTypeRegistration) {
+        [self.headerLabel setText:@"Choose a semester to register for:"];
+    }else {
+        [self.headerLabel setText:@"The myPurdue portal is currently unavailable!"];
+    }
+}
+-(void)loadData
+{
+    [self setHeaderForTermType:self.type];
+    
+    if (!self.dataSource) {
+        [self.headerLabel setAlpha:0.0f];
+        [self.pickerView setAlpha:0.0f];
+        [self.doneButton setAlpha:0.0f];
+        [self.activityIndicator startAnimating];
+        if (![PCCDataManager sharedInstance].arrayTerms) {
+            //terms have never been aggregated
+            [self.activityIndicator startAnimating];
+            [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
+                NSArray *terms = [MyPurdueManager getMinimalTerms];
+                if (terms.count > 0) {
+                    self.dataSource = terms.mutableCopy;
+                    PCCObject *firstObject = [self.dataSource objectAtIndex:0];
+                    selectedObject = [[PCCObject alloc] initWithKey:firstObject.key AndValue:firstObject.value];
+                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.activityIndicator stopAnimating];
+                        [self.headerLabel fadeIn];
+                        [self.pickerView fadeIn];
+                        [self.doneButton fadeIn];
+                        [self.pickerView reloadAllComponents];
+                    });
+                }else {
+                    //error getting terms. show another screen
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.activityIndicator stopAnimating];
+                        [self.pickerView fadeOut];
+                        [self setHeaderForTermType:PCCTermTypeError];
+                        self.doneButton.tag = 1;
+                        [self.doneButton setTitle:@"Retry" forState:UIControlStateNormal];
+                        [self.headerLabel fadeIn];
+                        [self.pickerView fadeIn];
+                        [self.doneButton fadeIn];
+                    });
+                }
+            }];
+        }else {
+            self.dataSource = [PCCDataManager sharedInstance].arrayTerms;
+            //lets still make a network call and update the data
+            [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
+                NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
+                [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
+            }];
+        }
+    }else {
+        PCCObject *firstObject = [self.dataSource objectAtIndex:0];
+        selectedObject = [[PCCObject alloc] initWithKey:firstObject.key AndValue:firstObject.value];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,12 +122,45 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(IBAction)dismissButtonPressed:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 -(IBAction)doneButtonPressed:(id)sender
 {
-    if ([self.delgate respondsToSelector:@selector(termPressed:)]) {
-        [self dismissViewControllerAnimated:YES completion:^{
-            [self.delgate termPressed:selectedObject];
+    if (self.doneButton.tag == 1) {
+        //an error occured getting the terms
+        [self.headerLabel setAlpha:0.0f];
+        [self.doneButton setAlpha:0.0f];
+        [self.activityIndicator startAnimating];
+
+        [Helpers asyncronousBlockWithName:@"Retry Terms" AndBlock:^{
+            NSArray *terms = [MyPurdueManager getMinimalTerms];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (terms.count > 0) {
+                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
+                    self.doneButton.tag = 0;
+                    [self setHeaderForTermType:self.type];
+                    [self.doneButton setTitle:@"Done" forState:UIControlStateNormal];
+                    [self.activityIndicator stopAnimating];
+                    [self.headerLabel fadeIn];
+                    [self.doneButton fadeIn];
+                    [self.pickerView fadeIn];
+                    [self.pickerView reloadAllComponents];
+                }else {
+                    
+                    [self.activityIndicator stopAnimating];
+                    [self.headerLabel fadeIn];
+                    [self.doneButton fadeIn];
+                }
+            });
         }];
+        return;
+    }
+    
+    if ([self.delgate respondsToSelector:@selector(termPressed:)]) {
+        [self.delgate termPressed:selectedObject];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
