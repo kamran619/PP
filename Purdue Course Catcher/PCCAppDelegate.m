@@ -129,6 +129,7 @@
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
 	NSLog(@"Failed to get token, error: %@", error);
+    [[PCCDataManager sharedInstance] setObject:@"simulator_token" ForKey:kDeviceToken InDictionary:DataDictionaryUser];
 }
 
 

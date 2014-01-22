@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
-            timestampString = "411881344.136928"
+            timestampString = "411885832.021721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "475"
-            endingLineNumber = "475"
+            startingLineNumber = "478"
+            endingLineNumber = "478"
             landmarkName = "-gestureRecognizer:shouldReceiveTouch:"
             landmarkType = "5">
          </BreakpointContent>
@@ -52,7 +52,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCMenuViewController.m"
-            timestampString = "411875199.823176"
+            timestampString = "412035595.486165"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "259"
@@ -64,7 +64,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCCatcherViewController.m"
@@ -80,7 +80,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/PCCAppDelegate.m"
@@ -132,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/PCCAppDelegate.m"
-            timestampString = "411445594.82382"
+            timestampString = "411974226.196499"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "-responseFromServer:initialRequest:wasSuccessful:"
             landmarkType = "5">
          </BreakpointContent>
@@ -144,16 +144,76 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/Managers/MyPurdueManager.m"
+            timestampString = "412040998.435979"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "593"
+            endingLineNumber = "593"
+            landmarkName = "+parseData:type:term:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[MyPurdueManager parseData:type:term:]"
+                  moduleName = "Purdue Course Catcher"
+                  urlString = "file:///Users/kamranpirwani/Desktop/Git/Purdue%20Course%20Catcher/Purdue%20Course%20Catcher/Managers/MyPurdueManager.m"
+                  timestampString = "411974472.697451"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "561"
+                  endingLineNumber = "561"
+                  offsetFromSymbolStart = "1404">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[MyPurdueManager parseData:type:term:]"
+                  moduleName = "Purdue Course Catcher"
+                  urlString = "file:///Users/kamranpirwani/Desktop/Git/Purdue%20Course%20Catcher/Purdue%20Course%20Catcher/Managers/MyPurdueManager.m"
+                  timestampString = "411974472.697711"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "561"
+                  endingLineNumber = "561"
+                  offsetFromSymbolStart = "1725">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[MyPurdueManager parseData:type:term:]"
+                  moduleName = "Purdue Course Catcher"
+                  urlString = "file:///Users/kamranpirwani/Desktop/Git/Purdue%20Course%20Catcher/Purdue%20Course%20Catcher/Managers/MyPurdueManager.m"
+                  timestampString = "411974472.697935"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "561"
+                  endingLineNumber = "561"
+                  offsetFromSymbolStart = "1779">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/View Controllers/PCCTermViewController.m"
-            timestampString = "411878542.115394"
+            filePath = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.m"
+            timestampString = "412043297.008066"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "-loadData"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "-dismissHeaderWithDuration:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -163,29 +223,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/View Controllers/PCCTermViewController.m"
-            timestampString = "411878542.115394"
+            filePath = "Purdue Course Catcher/View Controllers/PCCRegistrationViewController.m"
+            timestampString = "412043243.185777"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "-loadData"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
-            timestampString = "411881344.136928"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
-            landmarkName = "-loadSchedule"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-checkRegistration"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

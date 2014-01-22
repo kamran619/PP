@@ -235,11 +235,14 @@ enum AnimationDirection
 
 - (IBAction)choosepreferredScheduleValue:(id)sender
 {
-    self.termVC = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCTerm"];
-    PCCTermViewController *vc = self.termVC.childViewControllers.lastObject;
-    [vc setType:PCCTermTypeSchedule];
-    [vc setDataSource:[PCCDataManager sharedInstance].arrayTerms];
-    vc.delgate = self;
+    if (!self.termVC) {
+        self.termVC = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCTerm"];
+        PCCTermViewController *vc = self.termVC.childViewControllers.lastObject;
+        [vc setType:PCCTermTypeSchedule];
+        [vc setDataSource:[PCCDataManager sharedInstance].arrayTerms];
+        vc.delgate = self;
+    }
+    
     [self presentViewController:self.termVC animated:YES completion:nil];
 }
 

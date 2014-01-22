@@ -154,6 +154,17 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="EeS-jB-KgQ">
+                                <rect key="frame" x="33" y="464" width="89" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerPressed:" destination="dSZ-B8-c9k" eventType="touchUpInside" id="D5M-Pk-rhp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -535,7 +546,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1xL-xm-JZJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1045" y="-610"/>
+            <point key="canvasLocation" x="-519" y="-610"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="shL-09-2Bd">
@@ -1137,6 +1148,27 @@
             </objects>
             <point key="canvasLocation" x="-1457" y="-1274"/>
         </scene>
+        <!--Registration View Controller - Register-->
+        <scene sceneID="IP1-hG-VQc">
+            <objects>
+                <viewController id="QXI-Ld-HtF" customClass="PCCRegistrationViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aZS-Hg-RC1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Register" id="K8F-l5-sXc">
+                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="oLa-0v-poS">
+                            <connections>
+                                <action selector="showTerms:" destination="QXI-Ld-HtF" id="A93-5x-FBN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IcV-sL-qJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1416" y="-571"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="a0d-hh-pkU">
             <objects>
@@ -1157,7 +1189,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7f5-EE-31e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1405" y="-586"/>
+            <point key="canvasLocation" x="-879" y="-586"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="slo-89-vgU">
@@ -1196,6 +1228,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGq-QJ-5PD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1448" y="-2688"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5uL-iz-0XE">
+            <objects>
+                <navigationController storyboardIdentifier="PCCRegister" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="e1T-uM-7Ec" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="K9N-vB-N8I">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.85030995239999996" green="0.23940844319999999" blue="0.28358203160000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="QXI-Ld-HtF" kind="relationship" relationship="rootViewController" id="WjU-4y-O5r"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gOz-tO-z20" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1816" y="-571"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

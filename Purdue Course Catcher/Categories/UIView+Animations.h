@@ -14,4 +14,8 @@
 -(void)fadeInWithDuration:(CGFloat)duration alpha:(CGFloat)alpha;
 -(void)fadeInWithAlpha:(CGFloat)alpha;
 -(void)fadeOut;
+
+-(void)slideIn;
+-(void)slideOut;
+
 @end

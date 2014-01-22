@@ -16,6 +16,8 @@
 
 //user specific data
 -(BOOL)loginWithUsername:(NSString *)username andPassword:(NSString *)pass;
+-(void)loginWithSuccessBlock:(void(^)())success andFailure:(void(^)())failure;
+
 
 -(NSDictionary *)getStudentInformation;
 
@@ -25,6 +27,10 @@
 
 +(NSArray *)getTerms;
 +(NSArray *)getMinimalTerms;
+
+-(NSArray *)getRegistrationTerms;
+-(BOOL)canRegisterForTerm:(NSString *)term;
+
 
 +(NSArray *)getCoursesForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber;
 +(NSArray *)getCoursesForTerm:(NSString *)term WithCRN:(NSString *)CRN;

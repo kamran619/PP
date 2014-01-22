@@ -12,6 +12,7 @@
 #import "Helpers.h"
 #import "PCCDataManager.h"
 #import "PCCPurdueLoginViewController.h"
+#import "PCCRegistrationViewController.h"
 
 @interface PCCSideMenuViewController ()
 
@@ -39,6 +40,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (IBAction)registerPressed:(id)sender {
+    [self menuItemPressed:@"Register"];
+}
+
 
 - (IBAction)search:(id)sender {
     [self menuItemPressed:@"Search"];
@@ -66,8 +71,9 @@
     }else if ([itemName isEqualToString:@"Schedule"]) {
         PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
         [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCSchedule"];
-    }else if ([itemName isEqualToString:@"Ratings"]) {
-
+    }else if ([itemName isEqualToString:@"Register"]) {
+        PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
+        [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCRegister"];
     }else if ([itemName isEqualToString:@"Basket"]) {
         PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
         UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];

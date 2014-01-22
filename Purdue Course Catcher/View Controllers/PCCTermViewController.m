@@ -49,6 +49,8 @@
     }else if (self.type == PCCTermTypeRegistration) {
         if (![[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredRegistrationTerm]) show = NO;
     }
+    
+    if (!show) self.navigationItem.leftBarButtonItem = nil;
 }
 -(void)setHeaderForTermType:(PCCTermType)type
 {
@@ -71,16 +73,14 @@
         [self.pickerView setAlpha:0.0f];
         [self.doneButton setAlpha:0.0f];
         [self.activityIndicator startAnimating];
-        if (![PCCDataManager sharedInstance].arrayTerms) {
-            //terms have never been aggregated
-            [self.activityIndicator startAnimating];
-            [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-                NSArray *terms = [MyPurdueManager getMinimalTerms];
-                if (terms.count > 0) {
-                    self.dataSource = terms.mutableCopy;
+        
+        if (self.type == PCCTermTypeRegistration) {
+            //get reg terms
+            [Helpers asyncronousBlockWithName:@"Get Registration Terms" AndBlock:^{
+                [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
+                    self.dataSource = [[MyPurdueManager sharedInstance] getRegistrationTerms].mutableCopy;
                     PCCObject *firstObject = [self.dataSource objectAtIndex:0];
                     selectedObject = [[PCCObject alloc] initWithKey:firstObject.key AndValue:firstObject.value];
-                    [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.activityIndicator stopAnimating];
                         [self.headerLabel fadeIn];
@@ -88,27 +88,50 @@
                         [self.doneButton fadeIn];
                         [self.pickerView reloadAllComponents];
                     });
-                }else {
-                    //error getting terms. show another screen
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.activityIndicator stopAnimating];
-                        [self.pickerView fadeOut];
-                        [self setHeaderForTermType:PCCTermTypeError];
-                        self.doneButton.tag = 1;
-                        [self.doneButton setTitle:@"Retry" forState:UIControlStateNormal];
-                        [self.headerLabel fadeIn];
-                        [self.pickerView fadeIn];
-                        [self.doneButton fadeIn];
-                    });
-                }
-            }];
+                }andFailure:nil];
+                
+                }];
         }else {
-            self.dataSource = [PCCDataManager sharedInstance].arrayTerms;
-            //lets still make a network call and update the data
-            [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-                NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
-                [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
-            }];
+            //get other terms
+            if (![PCCDataManager sharedInstance].arrayTerms) {
+                //terms have never been aggregated
+                [self.activityIndicator startAnimating];
+                [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
+                    NSArray *terms = [MyPurdueManager getMinimalTerms];
+                    if (terms.count > 0) {
+                        self.dataSource = terms.mutableCopy;
+                        PCCObject *firstObject = [self.dataSource objectAtIndex:0];
+                        selectedObject = [[PCCObject alloc] initWithKey:firstObject.key AndValue:firstObject.value];
+                        [[PCCDataManager sharedInstance] setArrayTerms:terms.mutableCopy];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.activityIndicator stopAnimating];
+                            [self.headerLabel fadeIn];
+                            [self.pickerView fadeIn];
+                            [self.doneButton fadeIn];
+                            [self.pickerView reloadAllComponents];
+                        });
+                    }else {
+                        //error getting terms. show another screen
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.activityIndicator stopAnimating];
+                            [self.pickerView fadeOut];
+                            [self setHeaderForTermType:PCCTermTypeError];
+                            self.doneButton.tag = 1;
+                            [self.doneButton setTitle:@"Retry" forState:UIControlStateNormal];
+                            [self.headerLabel fadeIn];
+                            [self.pickerView fadeIn];
+                            [self.doneButton fadeIn];
+                        });
+                    }
+                }];
+            }else {
+                self.dataSource = [PCCDataManager sharedInstance].arrayTerms;
+                //lets still make a network call and update the data
+                [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
+                    NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
+                    [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
+                }];
+            }
         }
     }else {
         PCCObject *firstObject = [self.dataSource objectAtIndex:0];

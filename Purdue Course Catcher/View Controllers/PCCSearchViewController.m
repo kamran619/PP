@@ -44,7 +44,7 @@ enum search
 
 @implementation PCCSearchViewController
 {
-    PCCTermViewController *termVC;
+    
     PCCObject *myPreferredSearchTerm;
     NSArray *searchResults;
     
@@ -155,12 +155,15 @@ enum search
 #pragma mark Buttons
 - (IBAction)choosePreferredTerm:(id)sender
 {
-    UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCTerm"];
-    termVC = (PCCTermViewController *) controller.childViewControllers.lastObject;
-    [termVC setType:PCCTermTypeSearch];
-    [termVC setDataSource:[PCCDataManager sharedInstance].arrayTerms];
-    termVC.delgate = self;
-    [self presentViewController:controller animated:YES completion:nil];
+    if (!self.termVC) {
+        self.termVC = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCTerm"];
+        PCCTermViewController *vc =(PCCTermViewController *) self.termVC.childViewControllers.lastObject;
+        [vc setType:PCCTermTypeSearch];
+        [vc setDataSource:[PCCDataManager sharedInstance].arrayTerms];
+        vc.delgate = self;
+    }
+    
+    [self presentViewController:self.termVC animated:YES completion:nil];
 }
 
 #pragma mark - Touches

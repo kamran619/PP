@@ -62,14 +62,13 @@
     }
 }
 - (IBAction)dismissPressed:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        PCCSideMenuViewController *vc = (PCCSideMenuViewController*)[self presentingViewController];
-        if (loginSuccessfull) {
-            [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:nil];
-            [vc menuItemPressed:@"Schedule"];
-            
-        }
-    }];
+    PCCMenuViewController *vc = (PCCMenuViewController*)[self presentingViewController];
+    if (loginSuccessfull == YES) {
+        [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:nil];
+        PCCSideMenuViewController *menu = (PCCSideMenuViewController *)vc;
+        [menu menuItemPressed:@"Schedule"];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(IBAction)whyPressed:(id)sender
