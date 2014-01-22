@@ -48,26 +48,52 @@
 {
     PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredRegistrationTerm];
     
-    if (!registrationTerm) {
-        [self showTerms:nil];
-    }else {
-        self.registrationHeader = [[PCCHeaderViewController alloc] initWithTerm:registrationTerm.value];
-        [self.registrationHeader changeMessage:registrationTerm.key message:@"Logging into myPurdue" image:nil];
-        [self.registrationHeader slideIn];
-        [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
-            BOOL canRegister = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value];
-            if (!canRegister) {
-                [self.registrationHeader changeMessage:registrationTerm.key message:@"Cannot register at this time" image:@"failure.png"];
-            }else {
+    void (^success)() = ^{
+        [self.registrationHeader changeMessage:registrationTerm.key message:@"Logged in! Verifying pin..." image:nil];
+        [Helpers asyncronousBlockWithName:@"Check valid pin" AndBlock:^{
+            PCCError canRegister = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value];
+            if (canRegister == PCCErrorInvalidPin || canRegister == PCCErrorUnkownError) {
+                [self.registrationHeader changeMessage:registrationTerm.key message:@"Invalid pin" image:@"failure.png"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Incorrect PIN" message:[NSString stringWithFormat:@"Please enter a correct PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                    UITextField *textField = [alertView textFieldAtIndex:0];
+                    textField.keyboardType = UIKeyboardTypeNumberPad;
+                    [alertView show];
+                });
+            }else if (canRegister == PCCErrorOk) {
                 [self.registrationHeader changeMessage:registrationTerm.key message:@"Ready to register" image:@"checkmark.png"];
             }
             [self.registrationHeader dismissHeaderWithDuration:0.75f];
             NSLog(@"%d",canRegister);
-        }andFailure:^{
-            NSLog(@"Login failed");
+        }];
+    };
+    
+    if (!registrationTerm) {
+        [self showTerms:nil];
+    }else {
+        if (!self.registrationHeader) self.registrationHeader = [[PCCHeaderViewController alloc] initWithTerm:registrationTerm.value];
+        [self.registrationHeader changeMessage:registrationTerm.key message:@"Logging into myPurdue" image:nil];
+        [self.registrationHeader slideIn:self.view];
+        [[MyPurdueManager sharedInstance] loginWithSuccessBlock:success andFailure:^{
+            [self.registrationHeader changeMessage:registrationTerm.key message:@"Error logging into myPurdue" image:@"failure.png"];
         }];
     }
     
+}
+
+#pragma mark UIAlertView Delegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    if (textField.text.length > 0) {
+        NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+        if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
+            PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredRegistrationTerm];
+        [dictionary setObject:textField.text forKey:registrationTerm.value];
+        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+        [self checkRegistration];
+    }
 }
 
 -(void)termPressed:(PCCObject *)term

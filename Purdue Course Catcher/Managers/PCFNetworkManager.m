@@ -318,6 +318,7 @@ static PCFNetworkManager *_sharedInstance = nil;
     }else if (command == ServerCommandUpdate) {
         
         NSString *identifier = [Helpers getFacebookIdentifier];
+        if (!identifier) identifier = @"simulator_id";
         NSString *token = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
         NSDictionary *schoolInfo = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary];
         

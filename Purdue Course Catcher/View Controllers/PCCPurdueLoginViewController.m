@@ -65,7 +65,7 @@
     PCCMenuViewController *vc = (PCCMenuViewController*)[self presentingViewController];
     if (loginSuccessfull == YES) {
         [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:nil];
-        PCCSideMenuViewController *menu = (PCCSideMenuViewController *)vc;
+        PCCSideMenuViewController *menu = (PCCSideMenuViewController *)[vc leftViewController];
         [menu menuItemPressed:@"Schedule"];
     }
     [self dismissViewControllerAnimated:YES completion:nil];

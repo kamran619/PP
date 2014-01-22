@@ -15,7 +15,7 @@
 -(void)changeMessage:(NSString *)title message:(NSString *)message image:(NSString *)image;
 -(void)changeMessage:(NSString *)title message:(NSString *)message;
 
--(void)slideIn;
+-(void)slideIn:(UIView *)view;
 -(void)slideOut;
 
 -(void)dismissHeaderWithDuration:(CGFloat)duration;

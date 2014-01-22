@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Helpers.h"
 
 @class PCCCourseSlots;
 
@@ -29,7 +30,7 @@
 +(NSArray *)getMinimalTerms;
 
 -(NSArray *)getRegistrationTerms;
--(BOOL)canRegisterForTerm:(NSString *)term;
+-(PCCError)canRegisterForTerm:(NSString *)term;
 
 
 +(NSArray *)getCoursesForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber;

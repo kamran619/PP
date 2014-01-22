@@ -84,7 +84,7 @@
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
         [invocation setSelector:@selector(dismissHeaderWithDuration:)];
         [invocation setTarget:self];
-        [invocation setArgument:&duration atIndex:1];
+        [invocation setArgument:&duration atIndex:2];
         [invocation retainArguments];
         [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:NO];
         return;
@@ -98,10 +98,12 @@
     [self.view slideOut];
 }
 
--(void)slideIn
+-(void)slideIn:(UIView *)view
 {
     self.view.frame = CGRectMake(0, -self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
-    [[UIApplication sharedApplication].keyWindow addSubview:self.view];
+    self.imageView.alpha = 0.0f;
+    [self.activityIndicator startAnimating];
+    [view addSubview:self.view];
     [self.view slideIn];
 }
 -(void)changeMessage:(NSString *)title message:(NSString *)message

@@ -26,6 +26,12 @@ enum direction
     directionRight = 3
 } typedef direction;
 
+enum PCCError
+{
+    PCCErrorOk = 0,
+    PCCErrorInvalidPin = 1,
+    PCCErrorUnkownError = 2
+} typedef PCCError;
 
 /*Get details of the type of devices we are working with */
 +(BOOL)isiPhone;

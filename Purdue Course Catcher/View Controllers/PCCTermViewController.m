@@ -182,11 +182,46 @@
     }
     
     if ([self.delgate respondsToSelector:@selector(termPressed:)]) {
-        [self.delgate termPressed:selectedObject];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        if (self.type == PCCTermTypeRegistration) {
+            NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+            NSString *pin = [dictionary objectForKey:selectedObject.value];
+            if (!pin) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", selectedObject.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                UITextField *textField = [alertView textFieldAtIndex:0];
+                textField.keyboardType = UIKeyboardTypeNumberPad;
+                [alertView show];
+            }else {
+                [self.delgate termPressed:selectedObject];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+        }else {
+            [self.delgate termPressed:selectedObject];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
     }
 }
 
+#pragma mark UIAlertView Delegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex) {
+        [alertView show];
+        return;
+    }
+    
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    if (textField.text.length > 0) {
+        NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+        if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
+        [dictionary setObject:textField.text forKey:selectedObject.value];
+        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+        [self.delgate termPressed:selectedObject];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else {
+        [alertView show];
+    }
+}
 #pragma mark UIPickerView Delegate
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
@@ -208,7 +243,7 @@
 
 -(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
-    return 40;
+    return 35;
 }
 
 #pragma mark UIPickerView Data Source

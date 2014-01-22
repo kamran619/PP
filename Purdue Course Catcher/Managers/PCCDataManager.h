@@ -39,6 +39,7 @@ typedef enum
  ->  Subject     -> array of terms -> subjects by term
  ->  User        ->  of elements like purdue username/password ..etc
                  -> preferred search semester
+                 -> dictionary of PINS -> term, pin
  */
 //keys in kUser dictionary
 #define kPreferredSearchTerm @"kPreferredSearchTerm"
@@ -46,6 +47,7 @@ typedef enum
 #define kPreferredScheduleToShow @"kPreferredScheduleToShow"
 #define kDeviceToken @"kDeviceToken"
 #define kEducationInfoDictionary @"kEducationInfoDictionary"
+#define kPinDictionary @"kPinDictionary"
 //within this
 #define kName @"kName"
 #define kClassification @"kClassification"

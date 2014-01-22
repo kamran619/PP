@@ -21,7 +21,7 @@ enum PCCTermType
 -(void)termPressed:(PCCObject *)term;
 @end
 
-@interface PCCTermViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
+@interface PCCTermViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate>
 
 @property (nonatomic, weak) id<PCCTermDelegate> delgate;
 @property (nonatomic, strong) NSMutableArray *dataSource;

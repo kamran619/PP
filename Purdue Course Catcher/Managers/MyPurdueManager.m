@@ -319,7 +319,7 @@ static MyPurdueManager *_sharedInstance = nil;
     return terms;
 }
 
--(BOOL)canRegisterForTerm:(NSString *)term
+-(PCCError)canRegisterForTerm:(NSString *)term
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/cp/home/next"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
@@ -358,7 +358,9 @@ static MyPurdueManager *_sharedInstance = nil;
     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/bwskfreg.P_CheckAltPin"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"selfservice.mypurdue.purdue.edu" origin:nil referer:@"https://selfservice.mypurdue.purdue.edu/prod/bwskfreg.P_AltPin"];
     //alt pin post
-    NSString *pin = @"270283";
+    NSMutableDictionary *pinDictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+    NSString *pin = [pinDictionary objectForKey:term];
+    //NSString *pin = @"270283";
     form_parameter = [NSString stringWithFormat:@"pin=%@", pin];
     requestBody = [form_parameter dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[requestBody length]];
@@ -369,9 +371,9 @@ static MyPurdueManager *_sharedInstance = nil;
     NSRange success = [data rangeOfString:@"Add or Drop Classes" options:NSCaseInsensitiveSearch];
     NSRange auth = [data rangeOfString:@"Authorization Failure" options:NSCaseInsensitiveSearch];
     
-    if (success.location != NSNotFound) return YES;
-    if (auth.location != NSNotFound) return NO;
-    return NO;
+    if (success.location != NSNotFound) return PCCErrorOk;
+    if (auth.location != NSNotFound) return PCCErrorInvalidPin;
+    return PCCErrorUnkownError;
 }
 
 -(void)setupRequest:(NSMutableURLRequest *)request type:(NSString *)type host:(NSString *)host origin:(NSString *)origin referer:(NSString *)referer{
