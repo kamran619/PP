@@ -17,8 +17,11 @@
 #import "PCCHUDManager.h"
 #import "PCCCatalogViewController.h"
 #import "DropAnimationController.h"
+#import "ZoomAnimationController.h"
 #import "PCFNetworkManager.h"
 #import "PCCDataManager.h"
+#import "PCCRegistrationBasketViewController.h"
+#import "PCCLinkedSectionViewController.h"
 
 @interface PCCSearchResultsViewController ()
 {
@@ -100,8 +103,10 @@
     cell.catalogButton.tag = indexPath.row;
     cell.emailProfessor.tag = indexPath.row;
     cell.actionButton.tag = indexPath.row;
-
+    cell.actionButton.enabled = YES;
+    
     [cell.catalogButton addTarget:self action:@selector(showCatalogInfo:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.actionButton addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     if (obj.instructorEmail.length > 0) {
         [cell.emailProfessor addTarget:self action:@selector(sendEmail:) forControlEvents:UIControlEventTouchUpInside];
     }else {
@@ -111,6 +116,32 @@
     
     return cell;
 }
+
+-(IBAction)actionButtonPressed:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    PCFClassModel *course = [self.dataSource objectAtIndex:button.tag];
+        if ([button.titleLabel.text isEqualToString:@"Register"]) {
+            if ([course.linkedID isEqualToString:@""]) {
+                //no linked id..let register
+                if (![[PCCDataManager sharedInstance].arrayRegister containsObject:course]) {
+                    [[PCCDataManager sharedInstance].arrayRegister addObject:course];
+                    self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
+                    self.basketVC.transitioningDelegate = self;
+                    [self presentViewController:self.basketVC animated:YES completion:^ {
+                        [button setEnabled:NO];
+                    }];
+                }
+            }else {
+                //calculate linked sections and return
+                self.linkedVC = (PCCLinkedSectionViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCLinkedSection"];
+                [self.linkedVC setDataSource:self.dataSource.mutableCopy];
+                [self.linkedVC setCourse:course];
+                [self presentViewController:self.linkedVC animated:YES completion:nil];
+            }
+        }
+}
+
 - (IBAction)BackPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
     //[self dismissNatGeoViewController];

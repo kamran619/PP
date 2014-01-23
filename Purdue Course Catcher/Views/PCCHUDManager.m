@@ -24,13 +24,38 @@ static PCCHUDManager *_sharedInstance = nil;
     return _sharedInstance;
 }
 
+-(PCCHUDView *)hudView
+{
+    if (!_hudView) {
+            _hudView = [[[NSBundle mainBundle] loadNibNamed:@"PCCHUDView" owner:self options:nil] lastObject];
+            _hudView.layer.cornerRadius = 9.0f;
+    }
+    return _hudView;
+}
+
 -(void)showHUDWithCaption:(NSString *)caption;
 {
-    if (!self.hudView) {
-        self.hudView = [[[NSBundle mainBundle] loadNibNamed:@"PCCHUDView" owner:self options:nil] lastObject];
-        self.hudView.layer.cornerRadius = 9.0f;
-    }
     [self.hudView displayHUDWithCaption:caption onView:[UIApplication sharedApplication].keyWindow];
+}
+
+-(void)flashHUDWithCaption:(NSString *)caption andImage:(UIImage *)image forDuration:(CGFloat)duration
+{
+    if (![NSThread isMainThread]) {
+        NSMethodSignature *sig = [[self class] instanceMethodSignatureForSelector:@selector(flashHUDWithCaption:andImage:forDuration:)];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+        [invocation setSelector:@selector(flashHUDWithCaption:andImage:forDuration:)];
+        [invocation setTarget:self];
+        [invocation setArgument:&caption atIndex:2];
+        [invocation setArgument:&image atIndex:3];
+        [invocation setArgument:&duration atIndex:4];
+        [invocation retainArguments];
+        [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    
+    [self.hudView displayHUDWithCaption:@"Added" withImage:[UIImage imageNamed:@"checkmark.png"] onView:[UIApplication sharedApplication].keyWindow];
+    [self performSelector:@selector(dismissHUD) withObject:nil afterDelay:duration];
+
 }
 
 -(void)updateHUDWithCaption:(NSString *)caption andImage:(UIImage *)image
@@ -51,8 +76,6 @@ static PCCHUDManager *_sharedInstance = nil;
     self.hudView.hudLabel.text = caption;
     [self.hudView.imageView setImage:image];
     [self.hudView.imageView fadeInWithDuration:0.15f alpha:1.0f];
-    
-
     
     [self performSelector:@selector(dismissHUD) withObject:nil afterDelay:0.35f];
     

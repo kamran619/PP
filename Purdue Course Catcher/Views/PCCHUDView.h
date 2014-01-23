@@ -10,6 +10,7 @@
 
 @interface PCCHUDView : UIView
 
+-(void)displayHUDWithCaption:(NSString *)caption withImage:(UIImage *)image onView:(UIView *)view;
 -(void)displayHUDWithCaption:(NSString *)caption onView:(UIView *)view;
 -(void)hideHUD;
 

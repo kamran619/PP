@@ -10,9 +10,13 @@
 #import "PCCTermViewController.h"
 #import "PCCHeaderViewController.h"
 
-@interface PCCRegistrationViewController : UIViewController <PCCTermDelegate>
+@interface PCCRegistrationViewController : UIViewController <PCCTermDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UINavigationController *navController;
 @property (nonatomic, strong) PCCHeaderViewController *registrationHeader;
+@property (nonatomic, strong) NSArray *dataSource;
 
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+
+@property (nonatomic, strong) IBOutlet UIButton *submitButton;
 @end

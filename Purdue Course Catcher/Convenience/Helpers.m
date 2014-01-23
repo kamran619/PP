@@ -10,6 +10,7 @@
 #import "PCCDataManager.h"
 #import "PCFNetworkManager.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "PCFClassModel.h"
 
 @implementation Helpers
 
@@ -124,6 +125,7 @@
 {
     return [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kCredentials];
 }
+
 
 @end
 

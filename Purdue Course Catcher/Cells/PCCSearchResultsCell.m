@@ -40,7 +40,6 @@
 - (IBAction)actionButtonPressed:(UIButton *)button {
     
     [PCFNetworkManager sharedInstance].delegate = self;
-    NSInteger row = button.tag;
     
     if ([button.titleLabel.text isEqualToString:@"Catch"]) {
         NSArray *keys = [NSArray arrayWithObjects:@"crn", @"classLink", @"courseNumber" , nil];
@@ -48,7 +47,7 @@
         NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
         [[PCFNetworkManager sharedInstance] setDelegate:self];
         [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandCatch withDictionary:dictionary];
-    }else {
+    }else if ([button.titleLabel.text isEqualToString:@"Uncatch"]) {
         //uncatch
         NSArray *keys = [NSArray arrayWithObjects:@"crn" , nil];
         NSArray *objects = [NSArray arrayWithObjects:self.course.CRN, nil];
@@ -78,8 +77,13 @@
 
 -(void)setupRegister
 {
-    [self.actionButton setTitle:@"Register" forState:UIControlStateNormal];
-    [self.actionButton setEnabled:NO];
+    if ([[PCCDataManager sharedInstance].arrayRegister containsObject:self.course]) {
+        [self.actionButton setTitle:@"Register" forState:UIControlStateNormal];
+        [self.actionButton setEnabled:NO];
+    }else {
+        [self.actionButton setTitle:@"Register" forState:UIControlStateNormal];
+    }
+    
     [UIView animateWithDuration:0.25f animations:^{
         self.actionButton.alpha = 1.0f;
         self.slots.alpha = 1.0f;

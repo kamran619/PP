@@ -15,6 +15,7 @@
 
 #define kNotificationReceivedFacebookIdentifier @"kNotificationReceivedFacebookIdentifier"
 
+@class PCFClassModel;
 
 @interface Helpers : NSObject
 
@@ -62,4 +63,5 @@ enum PCCError
 +(BOOL)getInitialization;
 +(void)setInitialization;
 +(NSDictionary *)getCredentials;
++(NSDictionary *)getLinkedSectionsFromSource:(NSMutableArray *)source ForCourse:(PCFClassModel *)course;
 @end

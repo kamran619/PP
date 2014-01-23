@@ -19,6 +19,17 @@
     return self;
 }
 
+
+-(void)displayHUDWithCaption:(NSString *)caption withImage:(UIImage *)image onView:(UIView *)view
+{
+    self.hudLabel.text = caption;
+    self.imageView.image = image;
+    [self.activityIndicator setHidden:YES];
+    self.alpha = 0.0f;
+    self.center = view.center;
+    [view addSubview:self];
+    [self fadeIn];
+}
 -(void)displayHUDWithCaption:(NSString *)caption onView:(UIView *)view
 {
     

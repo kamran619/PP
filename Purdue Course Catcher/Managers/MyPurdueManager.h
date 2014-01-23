@@ -30,7 +30,7 @@
 +(NSArray *)getMinimalTerms;
 
 -(NSArray *)getRegistrationTerms;
--(PCCError)canRegisterForTerm:(NSString *)term;
+-(NSDictionary *)canRegisterForTerm:(NSString *)term;
 
 
 +(NSArray *)getCoursesForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber;

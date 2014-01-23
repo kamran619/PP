@@ -66,11 +66,21 @@
 		FEA2017618711842009DFE84 /* DropAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017318711842009DFE84 /* DropAnimationController.m */; };
 		FEA2017718711842009DFE84 /* ZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017518711842009DFE84 /* ZoomAnimationController.m */; };
 		FEA2017D1873AE4D009DFE84 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017C1873AE4D009DFE84 /* UIView+Animations.m */; };
+		FEB4D5D01890EE4600386C86 /* PCCRegistrationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */; };
 		FEB99657188DABFE0017C552 /* PCCHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB99655188DABFE0017C552 /* PCCHeaderViewController.m */; };
 		FEB99658188DABFE0017C552 /* PCCHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEB99656188DABFE0017C552 /* PCCHeaderViewController.xib */; };
 		FEB9965C188DFDCB0017C552 /* PCCRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB9965B188DFDCB0017C552 /* PCCRegistrationViewController.m */; };
 		FEB99660188F563F0017C552 /* failure.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB9965F188F563F0017C552 /* failure.png */; };
 		FEBC7084188258BE00BCF873 /* PCCCatcherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEBC7083188258BE00BCF873 /* PCCCatcherCell.m */; };
+		FED58A281890647A001991F2 /* PCCRegistrationDropCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FED58A271890647A001991F2 /* PCCRegistrationDropCell.m */; };
+		FED58A2B18908DF8001991F2 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = FED58A2A18908DF8001991F2 /* add.png */; };
+		FED58A2E1890C375001991F2 /* PCCRegistrationAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FED58A2D1890C375001991F2 /* PCCRegistrationAddCell.m */; };
+		FED58A311890D1FD001991F2 /* PCCRegistrationBasketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FED58A301890D1FD001991F2 /* PCCRegistrationBasketViewController.m */; };
+		FED58A361890D76F001991F2 /* shopping-basket.png in Resources */ = {isa = PBXBuildFile; fileRef = FED58A351890D76F001991F2 /* shopping-basket.png */; };
+		FED58A3A1890D91E001991F2 /* basket.png in Resources */ = {isa = PBXBuildFile; fileRef = FED58A371890D91E001991F2 /* basket.png */; };
+		FED58A3B1890D91E001991F2 /* left_handle.png in Resources */ = {isa = PBXBuildFile; fileRef = FED58A381890D91E001991F2 /* left_handle.png */; };
+		FED58A3C1890D91E001991F2 /* right_side.png in Resources */ = {isa = PBXBuildFile; fileRef = FED58A391890D91E001991F2 /* right_side.png */; };
+		FED58A401890E3B8001991F2 /* PCCLinkedSectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FED58A3E1890E3B8001991F2 /* PCCLinkedSectionViewController.m */; };
 		FEE5719E186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57196186A4E4A00FE8FA8 /* blackArrow.png */; };
 		FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57197186A4E4A00FE8FA8 /* blackArrow@2x.png */; };
@@ -191,6 +201,8 @@
 		FEA2017518711842009DFE84 /* ZoomAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomAnimationController.m; sourceTree = "<group>"; };
 		FEA2017B1873AE4D009DFE84 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Purdue Course Catcher/Categories/UIView+Animations.h"; sourceTree = "<group>"; };
 		FEA2017C1873AE4D009DFE84 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Purdue Course Catcher/Categories/UIView+Animations.m"; sourceTree = "<group>"; };
+		FEB4D5CE1890EE4600386C86 /* PCCRegistrationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRegistrationCell.h; path = "Purdue Course Catcher/Cells/PCCRegistrationCell.h"; sourceTree = "<group>"; };
+		FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationCell.m; path = "Purdue Course Catcher/Cells/PCCRegistrationCell.m"; sourceTree = "<group>"; };
 		FEB99654188DABFE0017C552 /* PCCHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCHeaderViewController.h; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.h"; sourceTree = "<group>"; };
 		FEB99655188DABFE0017C552 /* PCCHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCHeaderViewController.m; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.m"; sourceTree = "<group>"; };
 		FEB99656188DABFE0017C552 /* PCCHeaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCHeaderViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.xib"; sourceTree = "<group>"; };
@@ -199,6 +211,19 @@
 		FEB9965F188F563F0017C552 /* failure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failure.png; sourceTree = "<group>"; };
 		FEBC7082188258BE00BCF873 /* PCCCatcherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCCatcherCell.h; path = "Purdue Course Catcher/Cells/PCCCatcherCell.h"; sourceTree = "<group>"; };
 		FEBC7083188258BE00BCF873 /* PCCCatcherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCCatcherCell.m; path = "Purdue Course Catcher/Cells/PCCCatcherCell.m"; sourceTree = "<group>"; };
+		FED58A261890647A001991F2 /* PCCRegistrationDropCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRegistrationDropCell.h; path = "Purdue Course Catcher/Cells/PCCRegistrationDropCell.h"; sourceTree = "<group>"; };
+		FED58A271890647A001991F2 /* PCCRegistrationDropCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationDropCell.m; path = "Purdue Course Catcher/Cells/PCCRegistrationDropCell.m"; sourceTree = "<group>"; };
+		FED58A2A18908DF8001991F2 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		FED58A2C1890C375001991F2 /* PCCRegistrationAddCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCRegistrationAddCell.h; sourceTree = "<group>"; };
+		FED58A2D1890C375001991F2 /* PCCRegistrationAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCRegistrationAddCell.m; sourceTree = "<group>"; };
+		FED58A2F1890D1FD001991F2 /* PCCRegistrationBasketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRegistrationBasketViewController.h; path = "Purdue Course Catcher/View Controllers/Registration Basket/PCCRegistrationBasketViewController.h"; sourceTree = "<group>"; };
+		FED58A301890D1FD001991F2 /* PCCRegistrationBasketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationBasketViewController.m; path = "Purdue Course Catcher/View Controllers/Registration Basket/PCCRegistrationBasketViewController.m"; sourceTree = "<group>"; };
+		FED58A351890D76F001991F2 /* shopping-basket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shopping-basket.png"; sourceTree = "<group>"; };
+		FED58A371890D91E001991F2 /* basket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = basket.png; path = "Purdue Course Catcher/View Controllers/Registration Basket/basket.png"; sourceTree = "<group>"; };
+		FED58A381890D91E001991F2 /* left_handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = left_handle.png; path = "Purdue Course Catcher/View Controllers/Registration Basket/left_handle.png"; sourceTree = "<group>"; };
+		FED58A391890D91E001991F2 /* right_side.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = right_side.png; path = "Purdue Course Catcher/View Controllers/Registration Basket/right_side.png"; sourceTree = "<group>"; };
+		FED58A3D1890E3B8001991F2 /* PCCLinkedSectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCLinkedSectionViewController.h; path = "Purdue Course Catcher/View Controllers/PCCLinkedSection/PCCLinkedSectionViewController.h"; sourceTree = "<group>"; };
+		FED58A3E1890E3B8001991F2 /* PCCLinkedSectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCLinkedSectionViewController.m; path = "Purdue Course Catcher/View Controllers/PCCLinkedSection/PCCLinkedSectionViewController.m"; sourceTree = "<group>"; };
 		FEE57193186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		FEE57196186A4E4A00FE8FA8 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -319,6 +344,12 @@
 				FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */,
 				FEBC7082188258BE00BCF873 /* PCCCatcherCell.h */,
 				FEBC7083188258BE00BCF873 /* PCCCatcherCell.m */,
+				FED58A261890647A001991F2 /* PCCRegistrationDropCell.h */,
+				FED58A271890647A001991F2 /* PCCRegistrationDropCell.m */,
+				FED58A2C1890C375001991F2 /* PCCRegistrationAddCell.h */,
+				FED58A2D1890C375001991F2 /* PCCRegistrationAddCell.m */,
+				FEB4D5CE1890EE4600386C86 /* PCCRegistrationCell.h */,
+				FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -333,6 +364,7 @@
 		FE5530CF184D3C4900D13587 = {
 			isa = PBXGroup;
 			children = (
+				FED58A2918908DDE001991F2 /* Assets */,
 				FEA2017018711732009DFE84 /* Transitions */,
 				FE50C51A1870C2F600EF24BA /* Segue */,
 				FE50C5101870986300EF24BA /* Cells */,
@@ -438,6 +470,8 @@
 				FE24107918753C5F00AA6328 /* Catalog View Controller */,
 				FE24FFD8187DF287004D540E /* FTUE */,
 				FEB99659188DAC030017C552 /* Registration Header */,
+				FED58A321890D3E9001991F2 /* Registration Basket */,
+				FED58A421890E3BC001991F2 /* Linked Section */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -521,6 +555,36 @@
 				FEB99656188DABFE0017C552 /* PCCHeaderViewController.xib */,
 			);
 			name = "Registration Header";
+			sourceTree = "<group>";
+		};
+		FED58A2918908DDE001991F2 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				FED58A2A18908DF8001991F2 /* add.png */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		FED58A321890D3E9001991F2 /* Registration Basket */ = {
+			isa = PBXGroup;
+			children = (
+				FED58A371890D91E001991F2 /* basket.png */,
+				FED58A381890D91E001991F2 /* left_handle.png */,
+				FED58A391890D91E001991F2 /* right_side.png */,
+				FED58A351890D76F001991F2 /* shopping-basket.png */,
+				FED58A2F1890D1FD001991F2 /* PCCRegistrationBasketViewController.h */,
+				FED58A301890D1FD001991F2 /* PCCRegistrationBasketViewController.m */,
+			);
+			name = "Registration Basket";
+			sourceTree = "<group>";
+		};
+		FED58A421890E3BC001991F2 /* Linked Section */ = {
+			isa = PBXGroup;
+			children = (
+				FED58A3D1890E3B8001991F2 /* PCCLinkedSectionViewController.h */,
+				FED58A3E1890E3B8001991F2 /* PCCLinkedSectionViewController.m */,
+			);
+			name = "Linked Section";
 			sourceTree = "<group>";
 		};
 		FEE57190186A4E4A00FE8FA8 /* EGOTableViewPullRefresh */ = {
@@ -654,6 +718,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FED58A3B1890D91E001991F2 /* left_handle.png in Resources */,
 				FEE571A3186A4E4A00FE8FA8 /* grayArrow.png in Resources */,
 				FEE571A2186A4E4A00FE8FA8 /* blueArrow@2x.png in Resources */,
 				FE5530F4184D3C4900D13587 /* Images.xcassets in Resources */,
@@ -661,11 +726,13 @@
 				FEE571A5186A4E4A00FE8FA8 /* whiteArrow.png in Resources */,
 				FEE571A4186A4E4A00FE8FA8 /* grayArrow@2x.png in Resources */,
 				FE2410591873C6B000AA6328 /* icon-success@2x.png in Resources */,
+				FED58A3A1890D91E001991F2 /* basket.png in Resources */,
 				FE24FFD7187DF27E004D540E /* PCCFTUEViewController.xib in Resources */,
 				FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */,
 				FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */,
 				FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */,
 				FE2410551873C6B000AA6328 /* icon-error@2x.png in Resources */,
+				FED58A361890D76F001991F2 /* shopping-basket.png in Resources */,
 				FEE571A1186A4E4A00FE8FA8 /* blueArrow.png in Resources */,
 				FE24FFDE187E0B57004D540E /* checkmark.png in Resources */,
 				FE55311C184D3DF800D13587 /* MainStoryboard.storyboard in Resources */,
@@ -679,6 +746,8 @@
 				FE2410541873C6B000AA6328 /* icon-error.png in Resources */,
 				FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */,
 				FE2410571873C6B000AA6328 /* icon-info@2x.png in Resources */,
+				FED58A2B18908DF8001991F2 /* add.png in Resources */,
+				FED58A3C1890D91E001991F2 /* right_side.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,14 +770,17 @@
 				FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */,
 				FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */,
 				FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */,
+				FED58A401890E3B8001991F2 /* PCCLinkedSectionViewController.m in Sources */,
 				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,
 				FEB99657188DABFE0017C552 /* PCCHeaderViewController.m in Sources */,
 				FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */,
+				FED58A311890D1FD001991F2 /* PCCRegistrationBasketViewController.m in Sources */,
 				FE24FFE5187E5F2F004D540E /* PCCFacebookLoginViewController.m in Sources */,
 				FE24FFE2187E1974004D540E /* PCCPurdueLoginViewController.m in Sources */,
 				FE24107718753C5600AA6328 /* PCCCatalogViewController.m in Sources */,
 				FE9628C4185ED75200F699B5 /* MyPurdueManager.m in Sources */,
+				FED58A281890647A001991F2 /* PCCRegistrationDropCell.m in Sources */,
 				FE6BBC9B1866777600760E7A /* PCCScheduleCell.m in Sources */,
 				FEBC7084188258BE00BCF873 /* PCCCatcherCell.m in Sources */,
 				FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */,
@@ -724,6 +796,7 @@
 				FEA2017718711842009DFE84 /* ZoomAnimationController.m in Sources */,
 				FE241082187545A400AA6328 /* PCCHUDManager.m in Sources */,
 				FE6BBCA21866C74700760E7A /* PCCScheduleHeaderViewController.m in Sources */,
+				FEB4D5D01890EE4600386C86 /* PCCRegistrationCell.m in Sources */,
 				FEE5719E186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m in Sources */,
 				FE553125184D481400D13587 /* PCCMenuViewController.m in Sources */,
 				FE24FFDB187E0622004D540E /* PCCScrollView.m in Sources */,
@@ -735,6 +808,7 @@
 				FEA2017D1873AE4D009DFE84 /* UIView+Animations.m in Sources */,
 				FE9628D3185ED9A100F699B5 /* PCFClassModel.m in Sources */,
 				FE9628D4185ED9A100F699B5 /* PCCCourseSlots.m in Sources */,
+				FED58A2E1890C375001991F2 /* PCCRegistrationAddCell.m in Sources */,
 				FE553118184D3D9A00D13587 /* PCCScheduleViewController.m in Sources */,
 				FE50FF18185E9F190084ED32 /* PCCSideMenuViewController.m in Sources */,
 			);

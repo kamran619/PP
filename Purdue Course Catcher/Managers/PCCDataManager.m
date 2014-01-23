@@ -22,6 +22,7 @@ static PCCDataManager *_sharedInstance = nil;
 #define kTerms @"kTerms"
 #define kUser @"kUser"
 #define kSubjects @"kSubjects"
+#define kRegister @"kRegister"
 
 +(instancetype)sharedInstance
 {
@@ -68,6 +69,13 @@ static PCCDataManager *_sharedInstance = nil;
 {
     if (!_arrayBasket) _arrayBasket = [NSMutableArray arrayWithCapacity:4];
     return _arrayBasket;
+}
+
+
+-(NSMutableArray *)arrayRegister
+{
+    if (!_arrayRegister) _arrayRegister = [NSMutableArray arrayWithCapacity:4];
+    return _arrayRegister;
 }
 
 -(void)setArrayProfessors:(NSMutableArray *)arrayProfessors
@@ -152,6 +160,12 @@ static PCCDataManager *_sharedInstance = nil;
             [dictionary setObject:_dictionarySubjects forKey:kSubjects];
         }
     
+        if (!_arrayRegister) {
+            [dictionary setObject:[NSNull null] forKey:kRegister];
+        }else {
+            [dictionary setObject:_arrayRegister forKey:kRegister];
+        }
+    
             return [NSKeyedArchiver archiveRootObject:[dictionary copy] toFile:fullPath];
     
 }
@@ -168,10 +182,12 @@ static PCCDataManager *_sharedInstance = nil;
         _arrayBasket = [dictionary objectForKey:kBasket];
         _arrayFavorites = [dictionary objectForKey:kFavorites];
         _arrayProfessors = [dictionary objectForKey:kProfessors];
+        
         _dictionarySchedule = [dictionary objectForKey:kSchedule];
         _arrayTerms = [dictionary objectForKey:kTerms];
         _dictionaryUser = [dictionary objectForKey:kUser];
         _dictionarySubjects = [dictionary objectForKey:kSubjects];
+        _arrayRegister = [dictionary objectForKey:kRegister];
         
         if ([_arrayBasket isEqual:[NSNull null]]) _arrayBasket = nil;
         if ([_arrayFavorites isEqual:[NSNull null]]) _arrayFavorites = nil;
@@ -180,6 +196,7 @@ static PCCDataManager *_sharedInstance = nil;
         if ([_arrayTerms isEqual:[NSNull null]]) _arrayTerms = nil;
         if ([_dictionaryUser isEqual:[NSNull null]]) _dictionaryUser = nil;
         if ([_dictionarySubjects isEqual:[NSNull null]]) _dictionarySubjects = nil;
+        if ([_arrayRegister isEqual:[NSNull null]]) _arrayRegister = nil;
         return YES;
     }
     
