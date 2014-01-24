@@ -9,8 +9,16 @@
 #import "PCCLinkedSectionViewController.h"
 #import "PCFClassModel.h"
 #import "PCCRegistrationCell.h"
+#import "Helpers.h"
+#import "UIView+Animations.h"
 
 @interface PCCLinkedSectionViewController ()
+{
+    int position;
+    NSMutableArray *layeredClasses;
+    PCFClassModel *lastSelectedClass;
+    BOOL extraMatching;
+}
 
 @end
 
@@ -27,12 +35,11 @@
 
 - (id)initWithTitle:(NSString *)title
 {
-    self = [super initWithNibName:@"PCCLinkedSectionViewController" bundle:nil];
+    self = (PCCLinkedSectionViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCLinkedSection"];
     if (self) {
         // Custom initialization
-        [self loadView];
-        self.header.text = title;
-        self.tableView.layer.cornerRadius = 4.0f;
+        self.title = title;
+        //self.header.text = title;
     }
     return self;
 }
@@ -40,8 +47,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.header.text = self.title;
+    position = 0;
+    layeredClasses = [[NSMutableArray alloc] initWithCapacity:3];
+    lastSelectedClass = [[PCFClassModel alloc] init];
     [self trimDataSource];
-    [self initSections];
+    [self getLinkedLayerForClass:nil];
+    [self.tableView reloadData];
+    //[self initSections];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -56,6 +69,7 @@
         }
     }
     
+    [array removeObject:self.course];
     self.dataSource = array;
 }
 - (void)didReceiveMemoryWarning
@@ -64,24 +78,37 @@
     // Dispose of any resources that can be recreated.
 }
 
--(NSArray *)firstLayerLinked
+-(BOOL)getLinkedLayerForClass:(PCFClassModel *)class
 {
+    extraMatching = NO;
+    
+    if ([self.course.linkedSection isEqualToString:class.linkedID]) {
+        [self.doneButton pulse];
+        return NO;
+    }
+    
+    if (!class) {
+        class = self.course;
+    }else if (![class isEqual:self.course]) {
+        extraMatching = YES;
+    }
+    
     NSMutableSet *set = [NSMutableSet setWithCapacity:4];
-    for (PCFClassModel *class in self.dataSource) {
-        if ([self.course.linkedID isEqualToString:class.linkedSection]) [set addObject:class];
+    for (PCFClassModel *course in self.dataSource) {
+        if ([class.linkedID isEqualToString:course.linkedSection]) {
+            if (extraMatching) {
+                if (![self.course.linkedSection isEqualToString:course.linkedID]) continue;
+            }
+            
+            [set addObject:course];
+            NSString *message = [NSString stringWithFormat:@"Added LinkID %@ and LinkedSection %@ to set\n", course.linkedID, course.linkedSection];
+            NSLog(@"%@", message);
+        }
     }
     
-    return set.allObjects;
-}
-
--(void)initSections
-{
-    NSMutableSet *set = [[NSMutableSet alloc] initWithCapacity:3];
-    for (PCFClassModel *class in self.dataSource) {
-        [set addObject:class.scheduleType];
-    }
+    [layeredClasses insertObject:set.allObjects atIndex:position];
     
-    self.sectionNames = set.copy;
+    return YES;
 }
 
 -(IBAction)dismissPressed:(id)sender
@@ -91,7 +118,9 @@
 #pragma mark UITableView Delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PCFClassModel *class = [[self firstLayerLinked] objectAtIndex:indexPath.row];
+    
+    PCFClassModel *class = [[layeredClasses objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    
     PCCRegistrationCell *cell = (PCCRegistrationCell *)[tableView dequeueReusableCellWithIdentifier:@"kRegistrationCell"];
     [cell.days setText:class.days];
     [cell.time setText:class.time];
@@ -105,23 +134,33 @@
 {
     PCCRegistrationCell *cell = (PCCRegistrationCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    NSArray *array = [layeredClasses objectAtIndex:indexPath.section];
+    PCFClassModel *class = [array objectAtIndex:0];
+    position++;
+    if ([self getLinkedLayerForClass:class]) {
+         [tableView insertSections:[NSIndexSet indexSetWithIndex:position] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:position] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    }else {
+        position--;
+    }
+   
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) return [self firstLayerLinked].count;
-    return 0;
+    return [[layeredClasses objectAtIndex:section] count];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.sectionNames.count;
+    return layeredClasses.count;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSArray *array = [self.sectionNames allObjects];
-    return [array objectAtIndex:section];
+    NSArray *array = [layeredClasses objectAtIndex:section];
+    PCFClassModel *class = [array objectAtIndex:0];
+    return class.scheduleType;
 }
 
 

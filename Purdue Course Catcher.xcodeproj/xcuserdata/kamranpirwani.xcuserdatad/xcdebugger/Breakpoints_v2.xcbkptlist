@@ -207,13 +207,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/View Controllers/PCCRegistrationViewController.m"
-            timestampString = "412140871.733018"
+            filePath = "Purdue Course Catcher/View Controllers/PCCLinkedSection/PCCLinkedSectionViewController.m"
+            timestampString = "412208579.355045"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "-checkRegistration"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/View Controllers/PCCLinkedSection/PCCLinkedSectionViewController.m"
+            timestampString = "412209013.174384"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "-getLinkedLayerForClass:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

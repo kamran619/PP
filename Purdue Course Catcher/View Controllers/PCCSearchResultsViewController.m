@@ -134,7 +134,10 @@
                 }
             }else {
                 //calculate linked sections and return
-                self.linkedVC = (PCCLinkedSectionViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCLinkedSection"];
+                
+                self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:[NSString stringWithFormat:@"%@ - %@", course.courseNumber, course.classTitle]];
+                //NSMutableArray *source = self.dataSource.mutableCopy;
+                
                 [self.linkedVC setDataSource:self.dataSource.mutableCopy];
                 [self.linkedVC setCourse:course];
                 [self presentViewController:self.linkedVC animated:YES completion:nil];

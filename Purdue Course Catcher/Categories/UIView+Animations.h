@@ -18,4 +18,5 @@
 -(void)slideIn;
 -(void)slideOut;
 
+-(void)pulse;
 @end

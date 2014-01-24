@@ -60,4 +60,18 @@
         [self removeFromSuperview];
     }];
 }
+
+-(void)pulse
+{
+    __block CGAffineTransform state;
+    [UIView animateWithDuration:0.25f animations:^{
+        state = self.transform;
+        self.transform = CGAffineTransformScale(state, 1.25, 1.25);
+    }completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.25f animations:^{
+            self.transform = state;
+        }];
+    }];
+}
+
 @end
