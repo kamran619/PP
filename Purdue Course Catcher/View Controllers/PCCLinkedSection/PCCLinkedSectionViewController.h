@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LinkedSectionProtocol <NSObject>
+
+@required
+-(void)completedRegistrationForClass:(BOOL)success;
+@end
+
+
 @class PCFClassModel;
 @interface PCCLinkedSectionViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
@@ -21,5 +28,8 @@
 @property (nonatomic, strong) PCFClassModel *course;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSSet *sectionNames;
-@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *name;
+
+@property (nonatomic, weak) id<LinkedSectionProtocol> delegate;
+
 @end

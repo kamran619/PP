@@ -11,11 +11,13 @@
 #import "PCCRegistrationCell.h"
 #import "Helpers.h"
 #import "UIView+Animations.h"
+#import "PCCDataManager.h"
 
 @interface PCCLinkedSectionViewController ()
 {
     int position;
     NSMutableArray *layeredClasses;
+    NSMutableArray *selectedCells;
     PCFClassModel *lastSelectedClass;
     BOOL extraMatching;
 }
@@ -38,7 +40,7 @@
     self = (PCCLinkedSectionViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCLinkedSection"];
     if (self) {
         // Custom initialization
-        self.title = title;
+        self.name = title;
         //self.header.text = title;
     }
     return self;
@@ -47,9 +49,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.header.text = self.title;
+    self.header.text = self.name;
     position = 0;
     layeredClasses = [[NSMutableArray alloc] initWithCapacity:3];
+    selectedCells = [[NSMutableArray alloc] initWithCapacity:3];
     lastSelectedClass = [[PCFClassModel alloc] init];
     [self trimDataSource];
     [self getLinkedLayerForClass:nil];
@@ -106,14 +109,92 @@
         }
     }
     
-    [layeredClasses insertObject:set.allObjects atIndex:position];
+    NSArray *array = set.allObjects;
+    array = [array sortedArrayUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"days" ascending:YES comparator:^(id obj1, id obj2) {
+        //PCFClassModel *class = (PCFClassModel *)obj1;
+        //PCFClassModel *classTwo = (PCFClassModel *)obj2;
+        
+        NSString *classOneDay = (NSString *)obj1;
+        NSString *classTwoDay = (NSString *)obj2;
+        
+        int rankOne = [self getRank:classOneDay];
+        int rankTwo = [self getRank:classTwoDay];
+        
+        if (rankOne < rankTwo) return NSOrderedDescending;
+        if (rankOne > rankTwo) return NSOrderedAscending;
+        
+        return NSOrderedSame;
+    }], [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:YES comparator:^(id obj1, id obj2) {
+        
+            NSArray *timeArrayOne = [Helpers splitTime:obj1];
+            NSArray *timeArrayTwo = [Helpers splitTime:obj2];
+            
+            NSInteger timeOneStart = [Helpers getIntegerRepresentationOfTime:[timeArrayOne objectAtIndex:0]];
+            NSInteger timeOneEnd = [Helpers getIntegerRepresentationOfTime:[timeArrayOne objectAtIndex:1]];
+            
+            NSInteger timeTwoStart = [Helpers getIntegerRepresentationOfTime:[timeArrayTwo objectAtIndex:0]];
+            NSInteger timeTwoEnd = [Helpers getIntegerRepresentationOfTime:[timeArrayTwo objectAtIndex:1]];
+            
+            if (timeOneStart < timeTwoStart) return (NSComparisonResult)NSOrderedAscending;
+            if (timeOneStart > timeTwoStart) return (NSComparisonResult)NSOrderedDescending;
+            
+            //equal
+            if (timeOneEnd < timeTwoEnd) {
+                return NSOrderedAscending;
+            }else if (timeOneEnd < timeTwoEnd) {
+                return NSOrderedDescending;
+            }else {
+                return NSOrderedSame;
+            }
+    }], nil]];
+    [layeredClasses insertObject:array atIndex:position];
     
     return YES;
 }
 
+-(int)getRank:(NSString *)str
+{
+    NSString *letter = [str substringToIndex:1];
+    if ([letter isEqualToString:@"M"]) {
+        return 0;
+    }else if ([letter isEqualToString:@"T"]) {
+        return 1;
+    }else if ([letter isEqualToString:@"W"]) {
+        return 2;
+    }else if ([letter isEqualToString:@"R"]) {
+        return 3;
+    }else if ([letter isEqualToString:@"F"]) {
+        return 4;
+    }else {
+        return 5;
+    }
+}
 -(IBAction)dismissPressed:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    NSMutableSet *set = [NSMutableSet setWithCapacity:3];
+    for (PCFClassModel *class in self.dataSource) {
+        [set addObject:class.scheduleType];
+    }
+    //+ 1 for ourself
+    BOOL registrationComplete = (selectedCells.count + 1 == set.count);
+    NSMutableArray *arrayRegister = [PCCDataManager sharedInstance].arrayRegister;
+    
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (registrationComplete) {
+            for (NSIndexPath *indexPath in selectedCells) {
+                PCFClassModel *class = [[layeredClasses objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+                if (![arrayRegister containsObject:class]) [arrayRegister addObject:class];
+            }
+            if (![arrayRegister containsObject:self.course])[arrayRegister addObject:self.course];
+        }
+    });
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        if ([self.delegate respondsToSelector:@selector(completedRegistrationForClass:)]) {
+            [self.delegate completedRegistrationForClass:registrationComplete];
+        }
+    }];
 }
 #pragma mark UITableView Delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -132,18 +213,39 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PCCRegistrationCell *cell = (PCCRegistrationCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-    NSArray *array = [layeredClasses objectAtIndex:indexPath.section];
-    PCFClassModel *class = [array objectAtIndex:0];
-    position++;
-    if ([self getLinkedLayerForClass:class]) {
-         [tableView insertSections:[NSIndexSet indexSetWithIndex:position] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:position] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    }else {
-        position--;
+    
+    if (selectedCells.count > indexPath.section && [selectedCells objectAtIndex:indexPath.section]) {
+        //we are clicking a cell when we already have a new one
+        NSIndexPath *path = [selectedCells objectAtIndex:indexPath.section];
+        [tableView deselectRowAtIndexPath:path animated:YES];
+        [selectedCells removeObject:path];
+        NSRange range = NSMakeRange(position, layeredClasses.count-1);
+        [layeredClasses removeObjectsInRange:range];
+        [tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
+        position = indexPath.section;
     }
+        NSArray *array = [layeredClasses objectAtIndex:indexPath.section];
+        PCFClassModel *class = [array objectAtIndex:indexPath.row];
+        [selectedCells insertObject:indexPath atIndex:position];
+        position++;
+        if ([self getLinkedLayerForClass:class]) {
+            [tableView insertSections:[NSIndexSet indexSetWithIndex:position] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:position] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        }else {
+            position--;
+        }
+
+    
    
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [selectedCells removeObject:indexPath];
+    NSRange range = NSMakeRange(position, layeredClasses.count-1);
+    [layeredClasses removeObjectsInRange:range];
+    [tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
+    position = indexPath.section;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -162,6 +264,5 @@
     PCFClassModel *class = [array objectAtIndex:0];
     return class.scheduleType;
 }
-
 
 @end

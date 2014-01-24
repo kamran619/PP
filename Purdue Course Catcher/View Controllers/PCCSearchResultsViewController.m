@@ -134,13 +134,15 @@
                 }
             }else {
                 //calculate linked sections and return
-                
-                self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:[NSString stringWithFormat:@"%@ - %@", course.courseNumber, course.classTitle]];
-                //NSMutableArray *source = self.dataSource.mutableCopy;
-                
-                [self.linkedVC setDataSource:self.dataSource.mutableCopy];
-                [self.linkedVC setCourse:course];
-                [self presentViewController:self.linkedVC animated:YES completion:nil];
+                if (![[PCCDataManager sharedInstance].arrayRegister containsObject:course]) {
+                    self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:[NSString stringWithFormat:@"%@ - %@", course.courseNumber, course.classTitle]];
+                    self.linkedVC.delegate = self;
+                    //NSMutableArray *source = self.dataSource.mutableCopy;
+                    
+                    [self.linkedVC setDataSource:self.dataSource.mutableCopy];
+                    [self.linkedVC setCourse:course];
+                    [self presentViewController:self.linkedVC animated:YES completion:nil];
+                }
             }
         }
 }
@@ -291,6 +293,16 @@
     return self.animationController;
 }
 
-
+#pragma mark - LinkedSection Delegate
+-(void)completedRegistrationForClass:(BOOL)success
+{
+    if (success) {
+            self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
+            self.basketVC.transitioningDelegate = self;
+            [self presentViewController:self.basketVC animated:YES completion:^ {
+                [self.tableView reloadData];
+            }];
+    }
+}
 
 @end

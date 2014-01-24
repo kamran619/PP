@@ -256,59 +256,9 @@ enum AnimationDirection
         }
     }
     
-    return [self sortArrayUsingTime:array];
+    return [Helpers sortArrayUsingTime:array];
 }
 
--(NSArray *)sortArrayUsingTime:(NSMutableArray *)array {
-    return [array sortedArrayUsingComparator:^(id obj1, id obj2) {
-        PCFClassModel *objectOne = (PCFClassModel *)obj1;
-        PCFClassModel *objectTwo = (PCFClassModel *)obj2;
-        NSArray *timeArrayOne = [Helpers splitTime:objectOne.time];
-        NSArray *timeArrayTwo = [Helpers splitTime:objectTwo.time];
-        
-        NSInteger timeOneStart = [self getIntegerRepresentationOfTime:[timeArrayOne objectAtIndex:0]];
-        NSInteger timeOneEnd = [self getIntegerRepresentationOfTime:[timeArrayOne objectAtIndex:1]];
-
-        NSInteger timeTwoStart = [self getIntegerRepresentationOfTime:[timeArrayTwo objectAtIndex:0]];
-        NSInteger timeTwoEnd = [self getIntegerRepresentationOfTime:[timeArrayTwo objectAtIndex:1]];
-        
-        if (timeOneStart < timeTwoStart) return (NSComparisonResult)NSOrderedAscending;
-        if (timeOneStart > timeTwoStart) return (NSComparisonResult)NSOrderedDescending;
-        
-        //equal
-            if (timeOneEnd < timeTwoEnd) {
-                return NSOrderedAscending;
-            }else if (timeOneEnd < timeTwoEnd) {
-                return NSOrderedDescending;
-            }else {
-                return NSOrderedSame;
-            }
-    }];
-}
-
--(NSInteger)getIntegerRepresentationOfTime:(NSString *)str {
-    if ([str isEqualToString:@"TBA"]) return INFINITY;
-    //str is 09:30 am
-    NSScanner *scanner = [[NSScanner alloc] initWithString:str];
-    NSString *firstStringNumber, *secondStringNumber, *thirdStringNumber;
-    NSInteger firstNumber = 0, secondNumber = 0, thirdNumber = 0;
-    [scanner scanUpToString:@":" intoString:&firstStringNumber];
-    [scanner setScanLocation:([scanner scanLocation] + 1)];
-    [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&secondStringNumber];
-    [scanner setScanLocation:([scanner scanLocation] + 1)];
-    [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&thirdStringNumber];
-    firstNumber = [firstStringNumber integerValue];
-    secondNumber = [secondStringNumber integerValue];
-    if ([thirdStringNumber isEqualToString:@"AM"]) {
-        //am
-        thirdNumber = 0;
-    }else {
-        //pm
-        thirdNumber = 720;
-    }
-    NSInteger intergerRepresentation = (firstNumber*60) + secondNumber + thirdNumber;
-    return intergerRepresentation;
-}
 
 -(void)didClickCell:(UILongPressGestureRecognizer *)gesture
 {

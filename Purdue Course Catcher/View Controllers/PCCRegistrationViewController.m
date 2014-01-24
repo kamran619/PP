@@ -140,7 +140,7 @@
         return cell;
     }else {
         PCCRegistrationAddCell *cell = (PCCRegistrationAddCell *)[tableView dequeueReusableCellWithIdentifier:@"kRegistrationAddCell"];
-        PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
+        PCFClassModel *class = [[PCCDataManager sharedInstance].arrayRegister objectAtIndex:indexPath.row];
         [cell.courseName setText:class.courseNumber];
         [cell.courseTitle setText:class.classTitle];
         [cell.credits setText:[NSString stringWithFormat:@"%@ credits", class.credits]];
@@ -165,9 +165,15 @@
 -(void)removePressed:(id)sender
 {
     NSMutableArray *array = [PCCDataManager sharedInstance].arrayRegister;
-    [array removeObjectAtIndex:[sender tag]];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-    //[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[sender tag] inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    PCFClassModel *class = [array objectAtIndex:[sender tag]];
+    if ([class.linkedID isEqualToString:@""]) {
+        [array removeObjectAtIndex:[sender tag]];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"The course you are trying to remove has linked sections. If you remove this, the linked sections will be deleted as well. Do you wish to proceed?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [alert show];
+    }
+
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -175,7 +181,7 @@
     if (section == 1) {
         return self.dataSource.count;
     }else if (section == 0) {
-        if (![PCCDataManager sharedInstance].arrayRegister || ![PCCDataManager sharedInstance].arrayRegister.count > 0) return 1;
+        if (![PCCDataManager sharedInstance].arrayRegister || (![PCCDataManager sharedInstance].arrayRegister.count > 0)) return 1;
         return [PCCDataManager sharedInstance].arrayRegister.count;
     }
     

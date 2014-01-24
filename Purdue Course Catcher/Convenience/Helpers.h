@@ -64,4 +64,8 @@ enum PCCError
 +(void)setInitialization;
 +(NSDictionary *)getCredentials;
 +(NSDictionary *)getLinkedSectionsFromSource:(NSMutableArray *)source ForCourse:(PCFClassModel *)course;
+
++(NSInteger)getIntegerRepresentationOfTime:(NSString *)str;
++(NSArray *)sortArrayUsingTime:(NSMutableArray *)array;
+
 @end
