@@ -31,7 +31,7 @@
 
 -(NSArray *)getRegistrationTerms;
 -(NSDictionary *)canRegisterForTerm:(NSString *)term;
-
+-(NSDictionary *)submitRegistrationChanges:(NSString *)query;
 
 +(NSArray *)getCoursesForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber;
 +(NSArray *)getCoursesForTerm:(NSString *)term WithCRN:(NSString *)CRN;

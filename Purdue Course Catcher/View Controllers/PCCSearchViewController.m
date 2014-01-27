@@ -35,13 +35,6 @@
 
 @end
 
-enum search
-{
-    searchCourse = 0,
-    searchCRN = 1,
-    searchAdvanced = 2
-} typedef search;
-
 @implementation PCCSearchViewController
 {
     
@@ -329,6 +322,7 @@ enum search
     PCCSearchResultsViewController *vc = [nc.childViewControllers lastObject];
     nc.transitioningDelegate = self;
     vc.dataSource = searchResults;
+    vc.searchType = self.segmentedControl.selectedSegmentIndex;
     [self presentViewController:nc animated:YES completion:nil];
 }
 - (IBAction)searchPressed:(id)sender {
@@ -338,8 +332,8 @@ enum search
     if (self.segmentedControl.selectedSegmentIndex == searchCourse) {
         
         NSArray *splitTerms = [self.autoCompleteTextField.textField.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        [[KPLightBoxManager sharedInstance] showLightBox];
         [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
-        
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
             
             searchResults = [MyPurdueManager getCoursesForTerm:myPreferredSearchTerm.value WithClassName:[splitTerms objectAtIndex:0] AndCourseNumber:[splitTerms objectAtIndex:1]];
@@ -352,6 +346,7 @@ enum search
             
         }];
     }else if (self.segmentedControl.selectedSegmentIndex == searchCRN) {
+        [[KPLightBoxManager sharedInstance] showLightBox];
         [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
             searchResults = [MyPurdueManager getCoursesForTerm:myPreferredSearchTerm.value WithCRN:self.autoCompleteTextField.textField.text];

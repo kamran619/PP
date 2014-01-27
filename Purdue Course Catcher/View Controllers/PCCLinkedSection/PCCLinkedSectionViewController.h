@@ -20,7 +20,10 @@
 
 - (id)initWithTitle:(NSString *)title;
 
-@property (nonatomic, strong) IBOutlet UILabel *header;
+@property (nonatomic, strong) IBOutlet UILabel *courseName;
+@property (nonatomic, strong) IBOutlet UILabel *courseTitle;
+@property (nonatomic, strong) IBOutlet UILabel *type;
+@property (nonatomic, strong) IBOutlet UILabel *days;
 @property (nonatomic, strong) IBOutlet UILabel *detail;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIButton *doneButton;

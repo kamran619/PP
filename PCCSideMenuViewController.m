@@ -41,7 +41,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)registerPressed:(id)sender {
-    [self menuItemPressed:@"Register"];
+        [self menuItemPressed:@"Register"];
 }
 
 
@@ -53,11 +53,7 @@
 }
 
 - (IBAction)schedule:(id)sender {
-    if (![Helpers getCredentials]) {
-        [self menuItemPressed:@"PurdueLogin"];
-    }else {
         [self menuItemPressed:@"Schedule"];
-    }
 }
 - (IBAction)basket:(id)sender {
     [self menuItemPressed:@"Basket"];
@@ -69,11 +65,24 @@
         PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
         [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCSearch"];
     }else if ([itemName isEqualToString:@"Schedule"]) {
-        PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
-        [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCSchedule"];
+        if (![Helpers getCredentials]) {
+            PCCPurdueLoginViewController *vc = (PCCPurdueLoginViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
+            vc.type = PCCTermTypeSchedule;
+            [self presentViewController:vc animated:YES completion:nil];
+        }else {
+            PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
+            [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCSchedule"];
+        }
     }else if ([itemName isEqualToString:@"Register"]) {
-        PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
-        [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCRegister"];
+            if (![Helpers getCredentials]) {
+                PCCPurdueLoginViewController *vc = (PCCPurdueLoginViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
+                vc.type = PCCTermTypeRegistration;
+                [self presentViewController:vc animated:YES completion:nil];
+            }else {
+                PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
+                [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCRegister"];
+            }
+        
     }else if ([itemName isEqualToString:@"Basket"]) {
         PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
         UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];
@@ -90,10 +99,6 @@
         
     }else if ([itemName isEqualToString:@"Settings"]) {
     
-    }else if ([itemName isEqualToString:@"PurdueLogin"]) {
-        PCCPurdueLoginViewController *vc = (PCCPurdueLoginViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
-        [self presentViewController:vc animated:YES completion:nil];
     }
-    
 }
 @end

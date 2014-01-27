@@ -23,9 +23,12 @@
 #import "PCCRegistrationBasketViewController.h"
 #import "PCCLinkedSectionViewController.h"
 
+#import "PCCObject.h"
+
 @interface PCCSearchResultsViewController ()
 {
     PCCCatalogViewController *catalogVC;
+    NSArray *linkedCourses;
 }
 @end
 
@@ -44,9 +47,24 @@
 {
     [super viewDidLoad];
     self.animationController = [[DropAnimationController alloc] init];
+    [self getLinkedCoursesWithBlock:nil];
 	// Do any additional setup after loading the view.
 }
 
+-(void)getLinkedCoursesWithBlock:(void(^)())block
+{
+    if (self.searchType == searchCRN) {
+        [Helpers asyncronousBlockWithName:@"Get linked courses" AndBlock:^{
+            PCFClassModel *class = (self.dataSource.count > 0) ? [self.dataSource objectAtIndex:0] : nil;
+            if ([class.linkedID isEqualToString:@""]) return;
+            NSString *course = class.courseNumber;
+            NSArray *split = [course componentsSeparatedByString:@" "];
+            PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+            linkedCourses = [MyPurdueManager getCoursesForTerm:term.value WithClassName:[split objectAtIndex:0] AndCourseNumber:[split objectAtIndex:1]];
+            if (block) block();
+        }];
+    }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -122,29 +140,101 @@
     UIButton *button = (UIButton *)sender;
     PCFClassModel *course = [self.dataSource objectAtIndex:button.tag];
         if ([button.titleLabel.text isEqualToString:@"Register"]) {
+            BOOL identical = [self containsIdenticalClass:course];
             if ([course.linkedID isEqualToString:@""]) {
-                //no linked id..let register
-                if (![[PCCDataManager sharedInstance].arrayRegister containsObject:course]) {
-                    [[PCCDataManager sharedInstance].arrayRegister addObject:course];
-                    self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
-                    self.basketVC.transitioningDelegate = self;
-                    [self presentViewController:self.basketVC animated:YES completion:^ {
-                        [button setEnabled:NO];
-                    }];
+                if (!identical) {
+                    //no linked id..let register
+                    if (![[PCCDataManager sharedInstance].arrayRegister containsObject:course]) {
+                        [[PCCDataManager sharedInstance].arrayRegister addObject:course];
+                        self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
+                        self.basketVC.transitioningDelegate = self;
+                        [self presentViewController:self.basketVC animated:YES completion:^ {
+                            [button setEnabled:NO];
+                            [self.tableView reloadData];
+                        }];
+                    }
+                }else {
+                    __weak PCCSearchResultsViewController *me = self;
+                    self.deletionBlock = ^{
+                        NSMutableArray *registerArray = [PCCDataManager sharedInstance].arrayRegister;
+                        NSMutableArray *deleteArray = [NSMutableArray arrayWithCapacity:3];
+                        for (PCFClassModel *class in registerArray) {
+                            if ([course.courseNumber isEqualToString:class.courseNumber] && [course.classTitle isEqualToString:class.classTitle]) [deleteArray addObject:class];
+                        }
+                        
+                        [registerArray removeObjectsInArray:deleteArray];
+                        
+                        [me actionButtonPressed:sender];
+                    };
+                    
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Course" message:@"You have already added another section of this course into your registration basket. Do you wish to remove the previous course and register for this one?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                    [alertView show];
                 }
             }else {
                 //calculate linked sections and return
-                if (![[PCCDataManager sharedInstance].arrayRegister containsObject:course]) {
-                    self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:[NSString stringWithFormat:@"%@ - %@", course.courseNumber, course.classTitle]];
-                    self.linkedVC.delegate = self;
-                    //NSMutableArray *source = self.dataSource.mutableCopy;
-                    
-                    [self.linkedVC setDataSource:self.dataSource.mutableCopy];
-                    [self.linkedVC setCourse:course];
-                    [self presentViewController:self.linkedVC animated:YES completion:nil];
+                if (!identical) {
+                        self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:@""];
+                        self.linkedVC.delegate = self;
+                        [self.linkedVC setDataSource:self.dataSource.mutableCopy];
+                        [self.linkedVC setCourse:course];
+                    if (self.searchType == searchCRN) {
+                        if (linkedCourses.count > 0) {
+                            [self.linkedVC setDataSource:linkedCourses.mutableCopy];
+                        }else {
+                            [[KPLightBoxManager sharedInstance] showLightBox];
+                            [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Retrieving linked sections..."];
+                            __weak PCCSearchResultsViewController *vc = self;
+                            void (^block)() = ^{
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [[PCCHUDManager sharedInstance] dismissHUD];
+                                    if (linkedCourses.count > 0) {
+                                        [vc.linkedVC setDataSource:linkedCourses.mutableCopy];
+                                        [vc presentViewController:vc.linkedVC animated:YES completion:nil];
+                                    }
+                                });
+                            };
+                            [self getLinkedCoursesWithBlock:block];
+                            return;
+                        }
+                    }
+                        [self presentViewController:self.linkedVC animated:YES completion:nil];
+                }else {
+                    //contains identical courses
+                    __weak PCCSearchResultsViewController *me = self;
+                    self.deletionBlock = ^{
+                        NSMutableArray *registerArray = [PCCDataManager sharedInstance].arrayRegister;
+                        NSMutableArray *deleteArray = [NSMutableArray arrayWithCapacity:3];
+                        for (PCFClassModel *class in registerArray) {
+                            if ([course.courseNumber isEqualToString:class.courseNumber] && [course.classTitle isEqualToString:class.classTitle]) [deleteArray addObject:class];
+                        }
+                        
+                        [registerArray removeObjectsInArray:deleteArray];
+
+                        [me actionButtonPressed:sender];
+                    };
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Course" message:@"You have already added another section of this course into your registration basket. Do you wish to remove the previous course and register for this one?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                    [alertView show];
                 }
             }
         }
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex) return;
+    if (self.deletionBlock) self.deletionBlock();
+    
+    
+}
+-(BOOL)containsIdenticalClass:(PCFClassModel *)class
+{
+    BOOL sameClasses = NO;
+    NSMutableArray *arrayRegister = [PCCDataManager sharedInstance].arrayRegister;
+    for (PCFClassModel *course in arrayRegister) {
+        if ([course.courseNumber isEqualToString:class.courseNumber] && [course.classTitle isEqualToString:class.classTitle]) sameClasses = YES;
+    }
+    
+    return sameClasses;
 }
 
 - (IBAction)BackPressed:(id)sender {

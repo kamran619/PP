@@ -34,6 +34,13 @@ enum PCCError
     PCCErrorUnkownError = 2
 } typedef PCCError;
 
+enum search
+{
+    searchCourse = 0,
+    searchCRN = 1,
+    searchAdvanced = 2
+} typedef search;
+
 /*Get details of the type of devices we are working with */
 +(BOOL)isiPhone;
 +(BOOL)hasTallScreenSize;
@@ -63,7 +70,7 @@ enum PCCError
 +(BOOL)getInitialization;
 +(void)setInitialization;
 +(NSDictionary *)getCredentials;
-+(NSDictionary *)getLinkedSectionsFromSource:(NSMutableArray *)source ForCourse:(PCFClassModel *)course;
+
 
 +(NSInteger)getIntegerRepresentationOfTime:(NSString *)str;
 +(NSArray *)sortArrayUsingTime:(NSMutableArray *)array;

@@ -40,7 +40,7 @@
     self = (PCCLinkedSectionViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCLinkedSection"];
     if (self) {
         // Custom initialization
-        self.name = title;
+        //self.name = title;
         //self.header.text = title;
     }
     return self;
@@ -49,13 +49,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.header.text = self.name;
+    self.courseName.text = self.course.courseNumber;
+    self.courseTitle.text = self.course.classTitle;
+    self.type.text = self.course.scheduleType;
+    self.days.text = self.course.days;
     position = 0;
     layeredClasses = [[NSMutableArray alloc] initWithCapacity:3];
     selectedCells = [[NSMutableArray alloc] initWithCapacity:3];
     lastSelectedClass = [[PCFClassModel alloc] init];
     [self trimDataSource];
     [self getLinkedLayerForClass:nil];
+    [self.tableView.layer setCornerRadius:4.0f];
     [self.tableView reloadData];
     //[self initSections];
     // Do any additional setup after loading the view from its nib.
@@ -147,7 +151,7 @@
                 return NSOrderedSame;
             }
     }], nil]];
-    [layeredClasses insertObject:array atIndex:position];
+    if (array.count > 0) [layeredClasses insertObject:array atIndex:position];
     
     return YES;
 }
@@ -175,6 +179,7 @@
     for (PCFClassModel *class in self.dataSource) {
         [set addObject:class.scheduleType];
     }
+    [set removeObject:@"Distance Learning"];
     //+ 1 for ourself
     BOOL registrationComplete = (selectedCells.count + 1 == set.count);
     NSMutableArray *arrayRegister = [PCCDataManager sharedInstance].arrayRegister;
@@ -217,13 +222,14 @@
     if (selectedCells.count > indexPath.section && [selectedCells objectAtIndex:indexPath.section]) {
         //we are clicking a cell when we already have a new one
         NSIndexPath *path = [selectedCells objectAtIndex:indexPath.section];
-        [tableView deselectRowAtIndexPath:path animated:YES];
+        [tableView deselectRowAtIndexPath:path animated:NO];
         [selectedCells removeObject:path];
         NSRange range = NSMakeRange(position, layeredClasses.count-1);
         [layeredClasses removeObjectsInRange:range];
         [tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
         position = indexPath.section;
     }
+    if (!layeredClasses.count > indexPath.section) return;
         NSArray *array = [layeredClasses objectAtIndex:indexPath.section];
         PCFClassModel *class = [array objectAtIndex:indexPath.row];
         [selectedCells insertObject:indexPath atIndex:position];
@@ -261,6 +267,7 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSArray *array = [layeredClasses objectAtIndex:section];
+    if (array.count < section) return nil;
     PCFClassModel *class = [array objectAtIndex:0];
     return class.scheduleType;
 }

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-@class PCCObject;
 
 enum PCCTermType
 {
@@ -16,6 +15,8 @@ enum PCCTermType
     PCCTermTypeRegistration = 2,
     PCCTermTypeError = 3
 } typedef PCCTermType;
+
+@class PCCObject;
 
 @protocol PCCTermDelegate <NSObject>
 -(void)termPressed:(PCCObject *)term;

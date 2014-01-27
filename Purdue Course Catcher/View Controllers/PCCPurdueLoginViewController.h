@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCCTermViewController.h"
 #import "Helpers.h"
 
 @interface PCCPurdueLoginViewController : UIViewController <UITextFieldDelegate>
@@ -20,6 +21,8 @@
 @property (nonatomic, strong) IBOutlet UIButton *buttonDismiss;
 
 - (void)moveControls:(direction)direction animated:(BOOL)animated;
+
+@property (nonatomic, assign) PCCTermType type;
 
 
 @end

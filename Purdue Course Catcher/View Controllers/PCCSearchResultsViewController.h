@@ -11,10 +11,10 @@
 #import <MessageUI/MessageUI.h>
 #import "PCFNetworkManager.h"
 #import "PCCLinkedSectionViewController.h"
-
+#import "Helpers.h"
 @class PCCRegistrationBasketViewController, PCCLinkedSectionViewController;
 
-@interface PCCSearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, MFMailComposeViewControllerDelegate, LinkedSectionProtocol>
+@interface PCCSearchResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, MFMailComposeViewControllerDelegate, LinkedSectionProtocol, UIAlertViewDelegate>
 
 @property (nonatomic, strong) id<ADVAnimationController> animationController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
@@ -22,6 +22,8 @@
 
 @property (nonatomic, strong) PCCRegistrationBasketViewController *basketVC;
 @property (nonatomic, strong) PCCLinkedSectionViewController *linkedVC;
+@property (nonatomic, assign) search searchType;
+@property (nonatomic, strong) void(^deletionBlock)();
 
 -(void)completedRegistrationForClass:(BOOL)success;
 @end

@@ -14,7 +14,7 @@
 #import "PCFNetworkManager.h"
 #import "PCCDataManager.h"
 #import "Helpers.h"
-
+#import "PCCRegistrationError.h"
 
 enum Parse
 {
@@ -29,7 +29,8 @@ enum Parse
     ParseScheduleDataFromConciseSchedule                = 8,
     ParseScheduleDataFromDetailSchedule                 = 9,
     ParseStudentInformation                             = 10,
-    ParseRegistration                                   = 11
+    ParseRegistration                                   = 11,
+    ParseRegistrationError                              = 12
 };
 
 #define URL_SEMESTER @"https://selfservice.mypurdue.purdue.edu/prod/bwckschd.p_disp_dyn_sched?"
@@ -396,6 +397,40 @@ static MyPurdueManager *_sharedInstance = nil;
     return [NSDictionary dictionaryWithObjects:vaues forKeys:keys];
 }
 
+-(NSDictionary *)submitRegistrationChanges:(NSString *)query
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/bwckcoms.P_Regs"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+    [self setupRequest:request type:@"POST" host:@"selfservice.mypurdue.purdue.edu" origin:@"https://selfservice.mypurdue.purdue.edu" referer:@"https://selfservice.mypurdue.purdue.edu/prod/bwskfreg.P_CheckAltPin"];
+    NSData *requestBody = [query dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[requestBody length]];
+    [request setHTTPBody:requestBody];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    NSString *result = [[self class] queryServerWithRequest:request];
+    NSArray *registeredClasses = [[self class] parseData:result type:ParseRegistration term:nil];
+    
+    NSArray *keys, *values;
+    NSNumber *response;
+    NSString *title = @"";
+    NSArray *errorObjects;
+    
+    NSRange error;
+    error = [result rangeOfString:@"errortext"];
+    if (error.location == NSNotFound) {
+        response = [NSNumber numberWithInt:PCCErrorOk];
+        keys = [NSArray arrayWithObjects:@"response", @"data", nil];
+        values = [NSArray arrayWithObjects:response, registeredClasses, nil];
+    }else {
+        response = [NSNumber numberWithInt:PCCErrorUnkownError];
+        NSDictionary *dictionary = [[self class] parseData:result type:ParseRegistrationError term:nil];
+        title = [dictionary objectForKey:@"title"];
+        errorObjects = [dictionary objectForKey:@"errors"];
+        keys = [NSArray arrayWithObjects:@"response", @"data", @"title", @"errors",  nil];
+        values = [NSArray arrayWithObjects:response, registeredClasses, title, errorObjects, nil];
+    }
+    
+    return [NSDictionary dictionaryWithObjects:values forKeys:keys];
+    
+}
 -(void)setupRequest:(NSMutableURLRequest *)request type:(NSString *)type host:(NSString *)host origin:(NSString *)origin referer:(NSString *)referer{
     
     if (type) [request setHTTPMethod:type];
@@ -1157,36 +1192,132 @@ static MyPurdueManager *_sharedInstance = nil;
         NSArray *keys = [NSArray arrayWithObjects:kName, kClassification, kMajor, nil];
         return [NSDictionary dictionaryWithObjects:objects forKeys:keys];
     }else if (type == ParseRegistration) {
+        NSString *kLookForStatus = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"MESG\"";
+        NSString *kLookForTerm = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"assoc_term_in\" VALUE=\"";
+        NSString *kLookForCRN = @"NAME=\"CRN_IN\" VALUE=\"";
+        NSString *kLookForStartDate = @"NAME=\"start_date_in\" VALUE=\"";
+        NSString *kLookForEndDate = @"NAME=\"end_date_in\" VALUE=\"";
         NSString *kLookForSubject = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"SUBJ\" VALUE=\"";
         NSString *kLookForCourse = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"CRSE\" VALUE=\"";
+        NSString *kLookForSection = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"SEC\" VALUE=\"";
+        NSString *kLookForLevel = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"LEVL\" VALUE=\"";
+        NSString *kLookForGradeMode = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"GMOD\" VALUE=\"";
         NSString *kLookForCredits = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"CRED\" VALUE=\"    ";
         NSString *kLookForTitle = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"TITLE\" VALUE=\"";
-        NSString *subject, *course, *credits, *title;
+        NSString *subject, *course, *credits, *title, *status, *term, *crn, *startDate, *endDate, *section, *level, *gradeMode;
         NSMutableArray *array = [NSMutableArray arrayWithCapacity:4];
         NSScanner *scanner = [NSScanner scannerWithString:data];
         @try {
             while (![scanner isAtEnd]) {
+                [scanner scanUpToString:kLookForStatus intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 53];
+                [scanner scanUpToString:@">" intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 1];
+                [scanner scanUpToString:@"<" intoString:&status];
+                
+                [scanner scanUpToString:kLookForTerm intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 71];
+                [scanner scanUpToString:@"\"" intoString:&term];
+                
+                [scanner scanUpToString:kLookForCRN intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 21];
+                [scanner scanUpToString:@"\"" intoString:&crn];
+                
+                [scanner scanUpToString:kLookForStartDate intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 28];
+                [scanner scanUpToString:@"\"" intoString:&startDate];
+                
+                [scanner scanUpToString:kLookForEndDate intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 26];
+                [scanner scanUpToString:@"\"" intoString:&endDate];
+                
                 [scanner scanUpToString:kLookForSubject intoString:nil];
                 [scanner setScanLocation:scanner.scanLocation + 62];
                 [scanner scanUpToString:@"\"" intoString:&subject];
+                
                 [scanner scanUpToString:kLookForCourse intoString:nil];
                 [scanner setScanLocation:scanner.scanLocation + 62];
                 [scanner scanUpToString:@"\"" intoString:&course];
+                
+                [scanner scanUpToString:kLookForSection intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 61];
+                [scanner scanUpToString:@"\"" intoString:&section];
+                
+                [scanner scanUpToString:kLookForLevel intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 62];
+                [scanner scanUpToString:@"\"" intoString:&level];
+                
                 [scanner scanUpToString:kLookForCredits intoString:nil];
                 [scanner setScanLocation:scanner.scanLocation + 66];
                 [scanner scanUpToString:@"\"" intoString:&credits];
+
+                [scanner scanUpToString:kLookForGradeMode intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 62];
+                [scanner scanUpToString:@"\"" intoString:&gradeMode];
+                
                 [scanner scanUpToString:kLookForTitle intoString:nil];
                 [scanner setScanLocation:scanner.scanLocation + 63];
                 [scanner scanUpToString:@"\"" intoString:&title];
+                
                 course = [course substringToIndex:course.length-2];
                 NSString *courseNumber = [NSString stringWithFormat:@"%@ %@", subject, course];
-                PCFClassModel *class = [[PCFClassModel alloc] initWithClassTitle:title crn:nil courseNumber:courseNumber Time:nil Days:nil DateRange:nil ScheduleType:nil Instructor:nil Credits:credits ClassLink:nil CatalogLink:nil SectionNum:nil ClassLocation:nil Email:nil linkedID:nil linkedSection:nil];
+                PCFClassModel *class = [[PCFClassModel alloc] initWithClassTitle:title crn:crn courseNumber:courseNumber Time:nil Days:nil DateRange:nil ScheduleType:nil Instructor:nil Credits:credits ClassLink:nil CatalogLink:nil SectionNum:section ClassLocation:nil Email:nil linkedID:nil linkedSection:nil];
+                class.gradeMode = gradeMode;
+                class.level = level;
+                class.startDate = startDate;
+                class.endDate = endDate;
+                class.status = status;
+                class.term = term;
+            
                 [array addObject:class];
             }
         }@catch (NSException *e) {
             NSLog(@"%@", e.description);
         }@finally {
             return array;
+        }
+    }else if (type == ParseRegistrationError) {
+        NSScanner *scanner = [NSScanner scannerWithString:data];
+        NSString *kLookForError = @"errortext";
+        NSString *kLookForNextField = @"<TD CLASS=\"dddefault\">";
+        NSString *title, *subject, *courseNumber, *message, *crn, *course;
+        NSMutableArray *regErrors = [NSMutableArray arrayWithCapacity:2];
+        @try {
+            
+            [scanner scanUpToString:kLookForError intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 24];
+            [scanner scanUpToString:@"<" intoString:&title];
+            
+            while (![scanner isAtEnd]) {
+                [scanner scanUpToString:kLookForNextField intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 22];
+                [scanner scanUpToString:@"<" intoString:&message];
+
+                //crn
+                [scanner scanUpToString:kLookForNextField intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 22];
+                [scanner scanUpToString:@"<" intoString:&crn];
+                
+                //subject
+                [scanner scanUpToString:kLookForNextField intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 22];
+                [scanner scanUpToString:@"<" intoString:&subject];
+                
+                //course number
+                [scanner scanUpToString:kLookForNextField intoString:nil];
+                [scanner setScanLocation:scanner.scanLocation + 22];
+                [scanner scanUpToString:@"<" intoString:&courseNumber];
+                
+                course = [NSString stringWithFormat:@"%@ %@", subject, [courseNumber substringToIndex:courseNumber.length-2]];
+                
+                [scanner scanUpToString:@"<TR>" intoString:nil];
+                PCCRegistrationError *regError = [[PCCRegistrationError alloc] initWithErrorMessage:message crn:crn course:course];
+                [regErrors addObject:regError];
+            }
+        }@catch (NSException *exception) {
+            NSLog(@"%@", exception.description);
+        }@finally {
+            return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:title, regErrors.copy, nil] forKeys:[NSArray arrayWithObjects:@"title", @"errors", nil]];
         }
     }
 }

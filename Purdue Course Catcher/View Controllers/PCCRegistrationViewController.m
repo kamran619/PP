@@ -17,13 +17,16 @@
 #import "PCCRegistrationAddCell.h"
 #import "PCFClassModel.h"
 
+#import "KPLightBoxManager.h"
+#import "PCCHUDManager.h"
+
 @interface PCCRegistrationViewController ()
 
 @end
 
 @implementation PCCRegistrationViewController
 {
-
+    NSMutableArray *droppedClasses;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,13 +41,38 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.submitButton addTarget:self action:@selector(submitTapped:)forControlEvents:UIControlEventTouchUpInside];
 	// Do any additional setup after loading the view.
     [self checkRegistration];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+-(void)initDropArray
 {
-    [super viewDidAppear:animated];
+    droppedClasses = [NSMutableArray arrayWithCapacity:self.dataSource.count];
+    for (int i = 0; i < self.dataSource.count; i++) {
+        [droppedClasses insertObject:@NO atIndex:i];
+    }
+}
+
+-(void)submitTapped:(id)sender
+{
+    [[KPLightBoxManager sharedInstance] showLightBox];
+    [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Submitting..."];
+    [Helpers asyncronousBlockWithName:@"Submit Registration" AndBlock:^{
+        NSString *query = [self generateQueryString];
+        NSDictionary *dictionary = [[MyPurdueManager sharedInstance] submitRegistrationChanges:query];
+        [[PCCHUDManager sharedInstance] dismissHUD];
+        NSNumber *response = [dictionary objectForKey:@"response"];
+        NSArray *array = [dictionary objectForKey:@"data"];
+        int val = response.intValue;
+        if (val == PCCErrorOk) {
+            
+        }else if (val  == PCCErrorUnkownError) {
+            NSString *title = [dictionary objectForKey:@"title"];
+            NSArray *errors = [dictionary objectForKey:@"errors"];
+        }
+    }];
+    
 }
 
 -(void)checkRegistration
@@ -67,6 +95,7 @@
                 });
             }else if (canRegister.intValue == PCCErrorOk) {
                 self.dataSource = [response objectForKey:@"data"];
+                [self initDropArray];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [UIView animateWithDuration:0.25f animations:^{
                         self.tableView.alpha = 1.0f;
@@ -95,17 +124,60 @@
     
 }
 
+-(NSString *)generateQueryString
+{
+    PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    NSString *query = [NSString stringWithFormat:@"term_in=%@&RSTS_IN=DUMMY&assoc_term_in=DUMMY&CRN_IN=DUMMY&start_date_in=DUMMY&end_date_in=DUMMY&SUBJ=DUMMY&CRSE=DUMMY&SEC=DUMMY&LEVL=DUMMY&CRED=DUMMY&GMOD=DUMMY&TITLE=DUMMY&MESG=DUMMY&REG_BTN=DUMMY&MESG=DUMMY", term.value];
+    for (int i = 0; i < self.dataSource.count; i++) {
+        PCFClassModel *class = [self.dataSource objectAtIndex:i];
+        NSArray *splitDate = [class.startDate componentsSeparatedByString:@"/"];
+        NSString *startDate = [NSString stringWithFormat:@"%@%%2F%@%%2F%@", splitDate[0], splitDate[1], splitDate[2]];
+        splitDate = [class.endDate componentsSeparatedByString:@"/"];
+        NSString *endDate = [NSString stringWithFormat:@"%@%%2F%@%%2F%@", splitDate[0], splitDate[1], splitDate[2]];
+        NSString *drop = ([[droppedClasses objectAtIndex:i] isEqualToNumber:@NO]) ? @"" : @"DW";
+        
+        NSArray *courseSplit = [class.courseNumber componentsSeparatedByString:@" "];
+        NSString *subject = courseSplit[0];
+        NSString *course = [NSString stringWithFormat:@"%@00", courseSplit[1]];
+        NSString *gradeMode = [class.gradeMode stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        NSString *title = [class.classTitle stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        NSString *innerQuery = [NSString stringWithFormat:@"&RSTS_IN=%@&assoc_term_in=%@&CRN_IN=%@&start_date_in=%@&end_date_in=%@&SUBJ=%@&CRSE=%@&SEC=%@&LEVL=%@&CRED=++++%@&GMOD=%@&TITLE=%@&MESG=DUMMY", drop, class.term ,class.CRN, startDate, endDate, subject, course, class.sectionNum, class.level, class.credits, gradeMode, title];
+        query = [query stringByAppendingString:innerQuery];
+   
+    }
+    
+    for (PCFClassModel *class in [PCCDataManager sharedInstance].arrayRegister) {
+        NSString *innerQuery = [NSString stringWithFormat:@"&RSTS_IN=RW&CRN_IN=%@&assoc_term_in=&start_date_in=&end_date_in=", class.CRN];
+        query = [query stringByAppendingString:innerQuery];
+    }
+    
+    int count = 10 - [PCCDataManager sharedInstance].arrayRegister.count;
+    for (; count > 0; count--) {
+        query = [query stringByAppendingString:@"&RSTS_IN=RW&CRN_IN=&assoc_term_in=&start_date_in=&end_date_in="];
+    }
+    
+    query = [query stringByAppendingString:[NSString stringWithFormat:@"&regs_row=%d&wait_row=0&add_row=10&REG_BTN=Submit+Changes", self.dataSource.count]];
+    return query;
+}
 #pragma mark UIAlertView Delegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    if (textField.text.length > 0) {
-        NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
-        if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
+    if ([alertView tag] == 1) {
+        if (buttonIndex == alertView.cancelButtonIndex) return;
+        if (self.deletionBlock) {
+             self.deletionBlock();
+            self.deletionBlock = nil;
+        }
+    }else {
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        if (textField.text.length > 0) {
+            NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+            if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
             PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredRegistrationTerm];
-        [dictionary setObject:textField.text forKey:registrationTerm.value];
-        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
-        [self checkRegistration];
+            [dictionary setObject:textField.text forKey:registrationTerm.value];
+            [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+            [self checkRegistration];
+        }
     }
 }
 
@@ -122,9 +194,18 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        return @"Classes to enroll in";
+        return @"Attempting to Enroll in";
     }else {
-        return @"Classes enrolled in";
+        return @"Enrolled in";
+    }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1) {
+        return tableView.rowHeight;
+    }else {
+        return 84.0f;
     }
 }
 
@@ -136,30 +217,52 @@
         PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
         [cell.courseName setText:class.courseNumber];
         [cell.courseTitle setText:class.classTitle];
+        [cell.dropButton setEnabled:YES];
+        [cell.dropButton setTag:indexPath.row];
+        [cell.dropButton addTarget:self action:@selector(dropPressed:) forControlEvents:UIControlEventTouchUpInside];
         [cell.credits setText:[NSString stringWithFormat:@"%@ credits", class.credits]];
+        if ([[class.status substringToIndex:4] isEqualToString:@"Drop"]) {
+            [cell.dropButton setTitle:@"Web Dropped" forState:UIControlStateNormal];
+            [cell.dropButton setEnabled:NO];
+        }
         return cell;
     }else {
         PCCRegistrationAddCell *cell = (PCCRegistrationAddCell *)[tableView dequeueReusableCellWithIdentifier:@"kRegistrationAddCell"];
-        PCFClassModel *class = [[PCCDataManager sharedInstance].arrayRegister objectAtIndex:indexPath.row];
-        [cell.courseName setText:class.courseNumber];
-        [cell.courseTitle setText:class.classTitle];
-        [cell.credits setText:[NSString stringWithFormat:@"%@ credits", class.credits]];
-        [cell.removeButton setTag:indexPath.row];
-        [cell.removeButton addTarget:self action:@selector(removePressed:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.removeButton setHidden:NO];
-        [cell.credits setHidden:NO];
         
         if (![PCCDataManager sharedInstance].arrayRegister.count > 0) {
             [cell.courseName setText:@"NO CLASSES ADDED"];
-            [cell.courseTitle setText:@"Search for classes and tap register to add here."];
+            [cell.courseTitle setText:@"Search for classes and tap register"];
             [cell.removeButton setHidden:YES];
+            [cell.scheduleType setHidden:YES];
             [cell.credits setHidden:YES];
+        }else {
+            PCFClassModel *class = [[PCCDataManager sharedInstance].arrayRegister objectAtIndex:indexPath.row];
+            [cell.courseName setText:class.courseNumber];
+            [cell.courseTitle setText:class.classTitle];
+            [cell.credits setText:[NSString stringWithFormat:@"%@ credits", class.credits]];
+            [cell.scheduleType setText:class.scheduleType];
+            [cell.removeButton setTag:indexPath.row];
+            [cell.removeButton addTarget:self action:@selector(removePressed:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.removeButton setHidden:NO];
+            [cell.credits setHidden:NO];
+            [cell.scheduleType setHidden:NO];
         }
-        
         return cell;
     }
+}
+
+-(void)dropPressed:(id)sender
+{
+    NSNumber *value = [droppedClasses objectAtIndex:[sender tag]];
+    if ([value isEqualToNumber:@NO]) {
+        value = @YES;
+        [sender setTitle:@"Undrop" forState:UIControlStateNormal];
+    }else {
+        value = @NO;
+        [sender setTitle:@"Drop" forState:UIControlStateNormal];
+    }
     
-    
+    [droppedClasses replaceObjectAtIndex:[sender tag] withObject:value];
 }
 
 -(void)removePressed:(id)sender
@@ -167,10 +270,21 @@
     NSMutableArray *array = [PCCDataManager sharedInstance].arrayRegister;
     PCFClassModel *class = [array objectAtIndex:[sender tag]];
     if ([class.linkedID isEqualToString:@""]) {
-        [array removeObjectAtIndex:[sender tag]];
+        [array removeObject:class];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }else {
+        __weak PCCRegistrationViewController *me = self;
+        self.deletionBlock = ^{
+            NSMutableArray *elementsToRemove = [NSMutableArray arrayWithCapacity:3];
+            for (PCFClassModel *course in array) {
+                if ([course.courseNumber isEqualToString:class.courseNumber] && [course.classTitle isEqualToString:class.classTitle]) [elementsToRemove addObject:course];
+            }
+            [array removeObjectsInArray:elementsToRemove.copy];
+            [me.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        };
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"The course you are trying to remove has linked sections. If you remove this, the linked sections will be deleted as well. Do you wish to proceed?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [alert setTag:1];
         [alert show];
     }
 

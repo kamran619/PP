@@ -26,15 +26,7 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)dropPressed:(id)sender {
-    if ([self.dropButton tag] == 0) {
-        [self.dropButton setTitle:@"Undrop" forState:UIControlStateNormal];
-        [self.dropButton setTag:1];
-    }else if ([self.dropButton tag] == 1) {
-        [self.dropButton setTitle:@"Drop" forState:UIControlStateNormal];
-        [self.dropButton setTag:0];
-    }
-}
+
 
 
 @end

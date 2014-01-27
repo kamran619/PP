@@ -33,12 +33,8 @@
 -(void)displayHUDWithCaption:(NSString *)caption onView:(UIView *)view
 {
     
-    self.hudLabel.text = caption;
     [self.activityIndicator startAnimating];
-    self.alpha = 0.0f;
-    self.center = view.center;
-    [view addSubview:self];
-    [self fadeIn];
+    [self displayHUDWithCaption:caption withImage:nil onView:view];
 }
 
 -(void)hideHUD

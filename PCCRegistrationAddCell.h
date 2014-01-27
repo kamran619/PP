@@ -13,7 +13,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *courseName;
 @property (nonatomic, strong) IBOutlet UILabel *courseTitle;
 @property (nonatomic, strong) IBOutlet UILabel *credits;
-
+@property (nonatomic, strong) IBOutlet UILabel *scheduleType;
 @property (nonatomic, strong) IBOutlet UIButton *removeButton;
 
 @end

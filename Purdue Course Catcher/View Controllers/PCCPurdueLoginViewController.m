@@ -70,7 +70,12 @@
     [self dismissViewControllerAnimated:YES completion:^{
         if (loginSuccessfull == YES) {
             PCCSideMenuViewController *menu = (PCCSideMenuViewController *)[vc leftViewController];
-            [menu menuItemPressed:@"Schedule"];
+            
+            if (self.type == PCCTermTypeSchedule) {
+                [menu menuItemPressed:@"Schedule"];
+            }else if (self.type == PCCTermTypeRegistration) {
+                [menu menuItemPressed:@"Register"];
+            }
         }
     }];
 }
