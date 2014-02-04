@@ -26,11 +26,24 @@
                     <rect key="frame" x="27" y="12" width="54" height="52"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N13-EW-VaX">
+                    <rect key="frame" x="4" y="1" width="45" height="31"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <state key="normal" title="X">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="closeButtonPressed:" destination="1" eventType="touchUpInside" id="9HX-bl-JrL"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="activityIndicator" destination="2lQ-hi-eAB" id="lM2-Zr-wqK"/>
+                <outlet property="closeButton" destination="N13-EW-VaX" id="VPN-xV-8ME"/>
                 <outlet property="hudLabel" destination="uXN-nR-ZpG" id="lnk-k1-Rh9"/>
                 <outlet property="imageView" destination="59R-RI-Auh" id="qfE-dS-WFQ"/>
             </connections>

@@ -20,6 +20,8 @@
 #import "KPLightBoxManager.h"
 #import "PCCHUDManager.h"
 
+#import "PCCRegistrationStatusViewViewController.h"
+
 @interface PCCRegistrationViewController ()
 
 @end
@@ -60,21 +62,30 @@
     [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Submitting..."];
     [Helpers asyncronousBlockWithName:@"Submit Registration" AndBlock:^{
         NSString *query = [self generateQueryString];
-        NSDictionary *dictionary = [[MyPurdueManager sharedInstance] submitRegistrationChanges:query];
-        [[PCCHUDManager sharedInstance] dismissHUD];
-        NSNumber *response = [dictionary objectForKey:@"response"];
-        NSArray *array = [dictionary objectForKey:@"data"];
+        self.responseDictionary = [[MyPurdueManager sharedInstance] submitRegistrationChanges:query];
+        
+        NSNumber *response = [self.responseDictionary objectForKey:@"response"];
         int val = response.intValue;
         if (val == PCCErrorOk) {
-            
+            [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Completed" andImage:[UIImage imageNamed:@"checkmark.png"]];
         }else if (val  == PCCErrorUnkownError) {
-            NSString *title = [dictionary objectForKey:@"title"];
-            NSArray *errors = [dictionary objectForKey:@"errors"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[PCCHUDManager sharedInstance] dismissHUD];
+                [self performSegueWithIdentifier:@"SegueRegistrationStatus" sender:self];
+            });
+            
         }
     }];
     
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"SegueRegistrationStatus"]) {
+        PCCRegistrationStatusViewViewController *vc = segue.destinationViewController;
+        [vc setErrorArray:[self.responseDictionary objectForKey:@"errors"]];
+    }
+}
 -(void)checkRegistration
 {
     PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredRegistrationTerm];

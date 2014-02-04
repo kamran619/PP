@@ -107,7 +107,7 @@
                 [[PCCDataManager sharedInstance].arrayBasket removeObject:self.course];
                 [self.actionButton setTitle:@"Catch" forState:UIControlStateNormal];
             }else {    
-                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Error" success:YES];
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Error" success:NO];
             }
             break;
         case ServerCommandCatch:
@@ -116,7 +116,7 @@
                 [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Complete" success:YES];
                 [self.actionButton setTitle:@"Uncatch" forState:UIControlStateNormal];
             }else {
-                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Error" success:YES];
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Error" success:NO];
             }
             break;
             

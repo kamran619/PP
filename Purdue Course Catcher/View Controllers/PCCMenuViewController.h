@@ -20,7 +20,7 @@
 @property (nonatomic, assign) BOOL showingLeftPanel;
 @property (nonatomic, assign) BOOL showingRightPanel;
 @property (nonatomic, assign) BOOL showPanel;
-
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
 -(void)replaceCenterViewControllerWithStoryboardIdentifier:(NSString *)identifier;
 -(void)replaceCenterViewControllerWithViewController:(id)vc animated:(BOOL)animated;

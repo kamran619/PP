@@ -12,9 +12,13 @@
 
 -(void)displayHUDWithCaption:(NSString *)caption withImage:(UIImage *)image onView:(UIView *)view;
 -(void)displayHUDWithCaption:(NSString *)caption onView:(UIView *)view;
+-(void)showCloseButton:(BOOL)show;
 -(void)hideHUD;
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UILabel *hudLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) IBOutlet UIButton *closeButton;
+
+@property (nonatomic, strong) NSTimer *timer;
 @end

@@ -19,6 +19,7 @@
 -(BOOL)loginWithUsername:(NSString *)username andPassword:(NSString *)pass;
 -(void)loginWithSuccessBlock:(void(^)())success andFailure:(void(^)())failure;
 
+-(NSString *)getPinForSemester:(NSString *)semester;
 
 -(NSDictionary *)getStudentInformation;
 

@@ -61,6 +61,9 @@
 
 -(void)initController
 {
+
+    [self.segmentedControl setTintColor:[UIColor whiteColor]];
+    
     //init animation controller
     self.animationController = [[ZoomAnimationController alloc] init];
     

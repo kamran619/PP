@@ -12,6 +12,7 @@
 #import "Helpers.h"
 #import "UIView+Animations.h"
 #import "PCCDataManager.h"
+#import "PCCHUDManager.h"
 
 @interface PCCLinkedSectionViewController ()
 {
@@ -90,7 +91,7 @@
     extraMatching = NO;
     
     if ([self.course.linkedSection isEqualToString:class.linkedID]) {
-        [self.doneButton pulse];
+        [[PCCHUDManager sharedInstance] flashHUDWithCaption:@"Linked" andImage:[UIImage imageNamed:@"checkmark.png"] forDuration:1.0f];
         return NO;
     }
     

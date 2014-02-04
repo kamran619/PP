@@ -23,5 +23,6 @@
 
 @property (nonatomic, strong) NSString *queryString;
 
+@property (nonatomic, strong) NSDictionary *responseDictionary;
 
 @end

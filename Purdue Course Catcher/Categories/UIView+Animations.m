@@ -7,6 +7,7 @@
 //
 
 #import "UIView+Animations.h"
+#import "Helpers.h"
 
 @implementation UIView (Animations)
 
@@ -70,6 +71,24 @@
     }completion:^(BOOL finished) {
         [UIView animateWithDuration:0.25f animations:^{
             self.transform = state;
+        }];
+    }];
+}
+
+-(void)wiggle
+{
+    __block CGAffineTransform state;
+    [UIView animateWithDuration:0.25f animations:^{
+        state = self.transform;
+        CGAffineTransform scale = CGAffineTransformScale(state, 1.25, 1.25);
+        CGAffineTransformRotate(scale, RADIANS(15));
+    }completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.25f animations:^{
+            self.transform = CGAffineTransformRotate(self.transform, RADIANS(-30));
+        }completion:^(BOOL finished){
+            [UIView animateWithDuration:0.25f animations:^{
+                self.transform = CGAffineTransformIdentity;
+            }];
         }];
     }];
 }

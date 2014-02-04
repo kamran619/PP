@@ -12,7 +12,7 @@
 #import "PCCDataManager.h"
 #import "MyPurdueManager.h"
 #import "UIView+Animations.h"
-
+#import "PCCHUDManager.h"
 
 
 @interface PCCTermViewController ()
@@ -188,11 +188,31 @@
             NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
             NSString *pin = [dictionary objectForKey:selectedObject.value];
             if (!pin) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", selectedObject.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
-                [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-                UITextField *textField = [alertView textFieldAtIndex:0];
-                textField.keyboardType = UIKeyboardTypeNumberPad;
-                [alertView show];
+                [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Getting pin..."];
+                    [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
+                        NSString *pin = [[MyPurdueManager sharedInstance] getPinForSemester:selectedObject.value];
+                        if (!pin || pin.length != 6) {
+                            [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Failed" success:NO];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", selectedObject.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                                [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                                UITextField *textField = [alertView textFieldAtIndex:0];
+                                textField.keyboardType = UIKeyboardTypeNumberPad;
+                                [alertView show];
+                            });
+                        }else {
+                            [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Success" success:YES];
+                            //pin receieved from purdue
+                            NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+                            if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
+                            [dictionary setObject:pin forKey:selectedObject.value];
+                            [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+                            [self.delgate termPressed:selectedObject];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                            [self dismissViewControllerAnimated:YES completion:nil];
+                            });
+                        }
+                    }andFailure:nil];
             }else {
                 [self.delgate termPressed:selectedObject];
                 [self dismissViewControllerAnimated:YES completion:nil];

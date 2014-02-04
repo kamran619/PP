@@ -30,7 +30,9 @@ enum Parse
     ParseScheduleDataFromDetailSchedule                 = 9,
     ParseStudentInformation                             = 10,
     ParseRegistration                                   = 11,
-    ParseRegistrationError                              = 12
+    ParseRegistrationError                              = 12,
+    ParsePin                                            = 13,
+    ParseTermCount                                      = 14 //for viewing pin//custom
 };
 
 #define URL_SEMESTER @"https://selfservice.mypurdue.purdue.edu/prod/bwckschd.p_disp_dyn_sched?"
@@ -287,6 +289,49 @@ static MyPurdueManager *_sharedInstance = nil;
     return nil;
 }
 
+-(NSString *)getPinForSemester:(NSString *)semester
+{
+    NSMutableURLRequest *request;
+    NSString *data;
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/cp/home/next"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+    [self setupRequest:request type:@"POST" host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
+    data = [[self class] queryServerWithRequest:request];
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:@"https://wl.mypurdue.purdue.edu" referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
+    data = [[self class] queryServerWithRequest:request];
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.UserLayoutRootNode.uP?uP_tparam=utf&utf=%2fcp%2fip%2flogin%3fsys%3dsctssb%26url%3dhttps://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_REGPIN"]];
+    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/tag.d8a9d147e09000d.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="];
+    data = [[self class] queryServerWithRequest:request];
+    //insert
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm=backLinked&uP_tparam=utf&utf=&/cp/ip/login?sys=sctssb&url=https://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_REGPIN"]];
+    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/render.UserLayoutRootNode.uP?uP_tparam=utf&utf=%2fcp%2fip%2flogin%3fsys%3dsctssb%26url%3dhttps://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_REGPIN"];
+    data = [[self class] queryServerWithRequest:request];
+    //
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/cp/ip/login?sys=sctssb&url=https://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_REGPIN"]];
+    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/render.UserLayoutRootNode.uP?uP_tparam=utf&utf=%2fcp%2fip%2flogin%3fsys%3dsctssb%26url%3dhttps://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_REGPIN"];
+    data = [[self class] queryServerWithRequest:request];
+    //
+    //
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_REGPIN"]];
+    [self setupRequest:request type:nil host:@"selfservice.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/render.UserLayoutRootNode.uP?uP_tparam=utf&utf=%2fcp%2fip%2flogin%3fsys%3dsctssb%26url%3dhttps://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_REGPIN"];
+    data = [[self class] queryServerWithRequest:request];
+    //show terms
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/szwvpin.p_selectaltpinterm"]];
+    [self setupRequest:request type:nil host:@"selfservice.mypurdue.purdue.edu" origin:nil referer:@"https://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_REGPIN"];
+    data = [[self class] queryServerWithRequest:request];
+    NSString *term_count = [[self class] parseData:data type:ParseTermCount term:nil];
+    //post
+    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/szwvpin.p_dispaltpin"]];
+    [self setupRequest:request type:@"POST" host:@"selfservice.mypurdue.purdue.edu" origin:@"https://selfservice.mypurdue.purdue.edu" referer:@"https://selfservice.mypurdue.purdue.edu/prod/szwvpin.p_selectaltpinterm"];
+    NSString *form_parameter = [NSString stringWithFormat:@"termcount_in=%@&term_in=%@", term_count, semester];
+    NSData *requestBody = [form_parameter dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[requestBody length]];
+    [request setHTTPBody:requestBody];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    data = [[self class] queryServerWithRequest:request];
+    return [[self class] parseData:data type:ParsePin term:nil];
+}
+
 -(NSArray *)getRegistrationTerms
 {
     /*NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/cp/home/next"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
@@ -392,9 +437,9 @@ static MyPurdueManager *_sharedInstance = nil;
     }
     
     
-    NSArray *vaues = [NSArray arrayWithObjects:response, array, nil];
+    NSArray *values = [NSArray arrayWithObjects:response, array, nil];
     
-    return [NSDictionary dictionaryWithObjects:vaues forKeys:keys];
+    return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 
 -(NSDictionary *)submitRegistrationChanges:(NSString *)query
@@ -460,6 +505,7 @@ static MyPurdueManager *_sharedInstance = nil;
         return -1;
     }
 }
+
 
 
 #pragma mark Class Methods
@@ -1318,6 +1364,36 @@ static MyPurdueManager *_sharedInstance = nil;
             NSLog(@"%@", exception.description);
         }@finally {
             return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:title, regErrors.copy, nil] forKeys:[NSArray arrayWithObjects:@"title", @"errors", nil]];
+        }
+    }else if (type == ParsePin) {
+        NSScanner *scanner = [NSScanner scannerWithString:data];
+        NSString *kLookForPin = @"<TD CLASS=\"dddefault\"><p class=\"centeraligntext\"";
+        NSString *pin;
+        @try {
+            
+            [scanner scanUpToString:kLookForPin intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 49];
+            [scanner scanUpToString:kLookForPin intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 49];
+            [scanner scanUpToString:@"<" intoString:&pin];
+            
+        }@catch (NSException *exception) {
+            NSLog(@"%@", exception.description);
+        }@finally {
+            return pin;
+        }
+    }else if (type == ParseTermCount) {
+        NSScanner *scanner = [NSScanner scannerWithString:data];
+        NSString *kLookForCount = @"<INPUT TYPE=\"hidden\" NAME=\"termcount_in\" VALUE=\"";
+        NSString *strPin;
+        @try {
+            [scanner scanUpToString:kLookForCount intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 48];
+            [scanner scanUpToString:@"\"" intoString:&strPin];
+        }@catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }@finally {
+            return strPin;
         }
     }
 }

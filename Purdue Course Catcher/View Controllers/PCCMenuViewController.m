@@ -20,8 +20,8 @@
 
 #define CORNER_RADIUS 4
 
-#define SLIDE_TIMING .18
-#define PANEL_WIDTH 60
+#define SLIDE_TIMING 0.75f
+#define PANEL_WIDTH 30
 
 @interface PCCMenuViewController () 
 
@@ -85,6 +85,9 @@
 		self.rightViewController = nil;
 		self.showingRightPanel = NO;
 	}
+    
+     [self.centralViewController.view removeGestureRecognizer:self.tapGesture];
+    
 	// remove view shadows
 	[self showCenterViewWithShadow:NO withOffset:0];
 }
@@ -138,7 +141,7 @@
 }
 
 -(void)showCenterViewWithShadow:(BOOL)value withOffset:(double)offset {
-	if (value) {
+	/*if (value) {
 		[self.centralViewController.view.layer setCornerRadius:CORNER_RADIUS];
 		[self.centralViewController.view.layer setShadowColor:[UIColor blackColor].CGColor];
 		[self.centralViewController.view.layer setShadowOpacity:0.8];
@@ -148,7 +151,7 @@
 		[self.centralViewController.view.layer setCornerRadius:0.0f];
 		[self.centralViewController.view.layer setShadowOffset:CGSizeMake(offset, offset)];
         
-    }
+    }*/
 }
 
 #pragma mark Initial Setup
@@ -185,6 +188,24 @@
 	[self.centralViewController.view addGestureRecognizer:panRecognizer];
 }
 
+-(void)addTap
+{
+    if (!self.tapGesture) {
+        self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+        [self.tapGesture setNumberOfTapsRequired:1];
+        [self.tapGesture setNumberOfTouchesRequired:1];
+        [self.tapGesture setDelegate:self];
+        [self.tapGesture setCancelsTouchesInView:YES];
+    }
+    
+    [self.centralViewController.view addGestureRecognizer:self.tapGesture];
+}
+
+-(void)tapped:(UITapGestureRecognizer *)gesture
+{
+    [self movePanelToOriginalPosition];
+}
+
 #pragma mark Replacing Panels
 
 -(void)replaceCenterViewControllerWithStoryboardIdentifier:(NSString *)identifier
@@ -193,7 +214,7 @@
     
     if ([self.centralViewController.restorationIdentifier isEqualToString:identifier]) {
         block = ^{
-            [UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [UIView animateWithDuration:SLIDE_TIMING/3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                 self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
             }completion:^(BOOL finished) {
                     if (finished) {
@@ -212,7 +233,7 @@
             [oldCenterVC.view removeFromSuperview];
             //reanimate
             //move to left too far
-            [UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [UIView animateWithDuration:SLIDE_TIMING/3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                 self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
             }completion:^(BOOL finished) {
                 if (finished) {
@@ -266,6 +287,18 @@
 
 #pragma mark - Panel Movement
 
+-(void)adjustPanel
+{
+    if (!self.showPanel) {
+        [self movePanelToOriginalPosition];
+    } else {
+        if (self.showingLeftPanel) {
+            [self movePanelRight];
+        }  else if (self.showingRightPanel) {
+            [self movePanelLeft];
+        }
+    }
+}
 -(void)movePanel:(UIPanGestureRecognizer *)sender {
     
 	[[[(UITapGestureRecognizer*)sender view] layer] removeAllAnimations];
@@ -293,21 +326,19 @@
     
 	if([(UIPanGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
         
-        if (!self.showPanel) {
-            [self movePanelToOriginalPosition];
-        } else {
-            if (self.showingLeftPanel) {
-                [self movePanelRight];
-            }  else if (self.showingRightPanel) {
-                [self movePanelLeft];
-            }
-        }
-	}
+        [self adjustPanel];
+    }
     
 	if([(UIPanGestureRecognizer*)sender state] == UIGestureRecognizerStateChanged) {
         
         // are we more than halfway, if so, show the panel when done dragging by setting this value to YES (1)
-        self.showPanel = abs([sender view].center.x - self.centralViewController.view.frame.size.width/2) > self.centralViewController.view.frame.size.width/2;
+        if (self.showingLeftPanel == YES && velocity.x < 0) {
+            self.showPanel = NO;
+        }else if (self.showingRightPanel == YES && velocity.x > 0) {
+            self.showPanel = NO;
+        }else {
+            self.showPanel = (abs(velocity.x) > 150 || abs([sender view].center.x - self.centralViewController.view.frame.size.width/2) > self.centralViewController.view.frame.size.width/3);
+        }
         
         // allow dragging only in x coordinates by only updating the x coordinate with translation position
         [sender view].center = CGPointMake([sender view].center.x + translatedPoint.x, [sender view].center.y);
@@ -320,8 +351,22 @@
 -(void)bouncePanelRightThenBackToOriginalPositionWithBlock:(void(^)(void))block
 {
     
-	[UIView animateWithDuration:SLIDE_TIMING/2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+	[UIView animateWithDuration:SLIDE_TIMING/8 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.centralViewController.view.frame = CGRectMake(self.view.frame.size.width + 1, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }completion:^(BOOL finished){
+        if (finished) {
+            //execute our black to change vc's
+            if (block) block();
+        }
+    }];
+}
+
+
+-(void)bouncePanelLeftThenBackToOriginalPositionWithBlock:(void(^)(void))block
+{
+    
+	[UIView animateWithDuration:SLIDE_TIMING/8 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
     }completion:^(BOOL finished){
         if (finished) {
             //execute our black to change vc's
@@ -339,11 +384,15 @@
     UIView *childView = [self getRightView];
 	[self.view sendSubviewToBack:childView];
     
-	[UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    [UIView animateWithDuration:SLIDE_TIMING delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:10.0f options:UIViewAnimationOptionCurveLinear animations:^{
         self.centralViewController.view.frame = CGRectMake(-self.view.frame.size.width + PANEL_WIDTH, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }completion:^(BOOL finished){
-        if (finished) if (block) block();
+    }completion:^(BOOL finished ) {
+        if (finished) {
+            [self addTap];
+            if (block) block();
+        }
     }];
+
 }
 
 -(void)movePanelRight
@@ -356,11 +405,15 @@
     UIView *childView = [self getLeftView];
 	[self.view sendSubviewToBack:childView];
     
-	[UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    [UIView animateWithDuration:SLIDE_TIMING delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:10.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.centralViewController.view.frame = CGRectMake(self.view.frame.size.width - PANEL_WIDTH, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }completion:^(BOOL finished) {
-        if (finished) if (block) block();
+    }completion:^(BOOL finished ) {
+        if (finished) {
+            [self addTap];
+            if (block) block();
+        }
     }];
+    
 }
 
 -(void)movePanelToOriginalPosition
@@ -369,15 +422,16 @@
 }
 
 -(void)movePanelToOriginalPositionWithCompletionBlock:(void(^)(void))block {
-	[UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    
+    [UIView animateWithDuration:SLIDE_TIMING/2 delay:0.0f usingSpringWithDamping:0.75f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
         self.centralViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
-                     completion:^(BOOL finished) {
-                         if (finished) {
-                             [self resetMainView];
-                             if (block) block();
-                         }
-                     }];
+    }completion:^(BOOL finished ) {
+        if (finished) {
+            [self resetMainView];
+            if (block) block();
+        }
+    }];
+    
 }
 
 

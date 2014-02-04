@@ -53,7 +53,7 @@ static PCCHUDManager *_sharedInstance = nil;
         return;
     }
     
-    [self.hudView displayHUDWithCaption:@"Added" withImage:[UIImage imageNamed:@"checkmark.png"] onView:[UIApplication sharedApplication].keyWindow];
+    [self.hudView displayHUDWithCaption:caption withImage:image onView:[UIApplication sharedApplication].keyWindow];
     [self performSelector:@selector(dismissHUD) withObject:nil afterDelay:duration];
 
 }

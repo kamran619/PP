@@ -19,4 +19,5 @@
 -(void)slideOut;
 
 -(void)pulse;
+-(void)wiggle;
 @end

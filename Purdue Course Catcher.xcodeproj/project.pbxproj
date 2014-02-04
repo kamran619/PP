@@ -67,6 +67,8 @@
 		FEA2017618711842009DFE84 /* DropAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017318711842009DFE84 /* DropAnimationController.m */; };
 		FEA2017718711842009DFE84 /* ZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017518711842009DFE84 /* ZoomAnimationController.m */; };
 		FEA2017D1873AE4D009DFE84 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA2017C1873AE4D009DFE84 /* UIView+Animations.m */; };
+		FEAE7FA11897530F001FBC09 /* Ps-x-button.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAE7FA01897530F001FBC09 /* Ps-x-button.png */; };
+		FEAE7FA418976075001FBC09 /* PCCRegistrationStatusViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */; };
 		FEB4D5D01890EE4600386C86 /* PCCRegistrationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */; };
 		FEB99657188DABFE0017C552 /* PCCHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB99655188DABFE0017C552 /* PCCHeaderViewController.m */; };
 		FEB99658188DABFE0017C552 /* PCCHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEB99656188DABFE0017C552 /* PCCHeaderViewController.xib */; };
@@ -204,6 +206,9 @@
 		FEA2017518711842009DFE84 /* ZoomAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomAnimationController.m; sourceTree = "<group>"; };
 		FEA2017B1873AE4D009DFE84 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Purdue Course Catcher/Categories/UIView+Animations.h"; sourceTree = "<group>"; };
 		FEA2017C1873AE4D009DFE84 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Purdue Course Catcher/Categories/UIView+Animations.m"; sourceTree = "<group>"; };
+		FEAE7FA01897530F001FBC09 /* Ps-x-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Ps-x-button.png"; sourceTree = "<group>"; };
+		FEAE7FA218976075001FBC09 /* PCCRegistrationStatusViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRegistrationStatusViewViewController.h; path = "Purdue Course Catcher/View Controllers/PCCRegistrationStatusViewViewController.h"; sourceTree = "<group>"; };
+		FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationStatusViewViewController.m; path = "Purdue Course Catcher/View Controllers/PCCRegistrationStatusViewViewController.m"; sourceTree = "<group>"; };
 		FEB4D5CE1890EE4600386C86 /* PCCRegistrationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRegistrationCell.h; path = "Purdue Course Catcher/Cells/PCCRegistrationCell.h"; sourceTree = "<group>"; };
 		FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationCell.m; path = "Purdue Course Catcher/Cells/PCCRegistrationCell.m"; sourceTree = "<group>"; };
 		FEB99654188DABFE0017C552 /* PCCHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCHeaderViewController.h; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.h"; sourceTree = "<group>"; };
@@ -302,6 +307,7 @@
 		FE24107F187543EE00AA6328 /* PCCHUDView */ = {
 			isa = PBXGroup;
 			children = (
+				FEAE7FA01897530F001FBC09 /* Ps-x-button.png */,
 				FEB9965F188F563F0017C552 /* failure.png */,
 				FE24FFDC187E0B57004D540E /* checkmark.png */,
 				FE24FFDD187E0B57004D540E /* checkmark@2x.png */,
@@ -469,6 +475,8 @@
 				FE18308E188AF90C00EC68FC /* PCCTermViewController.m */,
 				FEB9965A188DFDCB0017C552 /* PCCRegistrationViewController.h */,
 				FEB9965B188DFDCB0017C552 /* PCCRegistrationViewController.m */,
+				FEAE7FA218976075001FBC09 /* PCCRegistrationStatusViewViewController.h */,
+				FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */,
 				FE6BBCA41866C74C00760E7A /* Schedule Header */,
 				FE24107918753C5F00AA6328 /* Catalog View Controller */,
 				FE24FFD8187DF287004D540E /* FTUE */,
@@ -728,6 +736,7 @@
 				FEE571A2186A4E4A00FE8FA8 /* blueArrow@2x.png in Resources */,
 				FE5530F4184D3C4900D13587 /* Images.xcassets in Resources */,
 				FEB99660188F563F0017C552 /* failure.png in Resources */,
+				FEAE7FA11897530F001FBC09 /* Ps-x-button.png in Resources */,
 				FEE571A5186A4E4A00FE8FA8 /* whiteArrow.png in Resources */,
 				FEE571A4186A4E4A00FE8FA8 /* grayArrow@2x.png in Resources */,
 				FE2410591873C6B000AA6328 /* icon-success@2x.png in Resources */,
@@ -774,6 +783,7 @@
 				FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */,
 				FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */,
 				FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */,
+				FEAE7FA418976075001FBC09 /* PCCRegistrationStatusViewViewController.m in Sources */,
 				FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */,
 				FED58A401890E3B8001991F2 /* PCCLinkedSectionViewController.m in Sources */,
 				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
