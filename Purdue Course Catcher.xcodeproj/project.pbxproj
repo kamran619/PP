@@ -28,7 +28,7 @@
 		FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFDD187E0B57004D540E /* checkmark@2x.png */; };
 		FE24FFE2187E1974004D540E /* PCCPurdueLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */; };
 		FE24FFE5187E5F2F004D540E /* PCCFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */; };
-		FE24FFE7187E5FED004D540E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE24FFE6187E5FED004D540E /* FacebookSDK.framework */; };
+		FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */; };
 		FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */; };
 		FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5121870989A00EF24BA /* PCCEmptyCell.m */; };
 		FE50C5161870B3FC00EF24BA /* PCCSearchResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */; };
@@ -138,7 +138,7 @@
 		FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCPurdueLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCPurdueLoginViewController.m"; sourceTree = "<group>"; };
 		FE24FFE3187E5F2F004D540E /* PCCFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCFacebookLoginViewController.h; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.h"; sourceTree = "<group>"; };
 		FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCFacebookLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.m"; sourceTree = "<group>"; };
-		FE24FFE6187E5FED004D540E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		FE4D4C491895F0A900A5DBE1 /* PCCRegistrationError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCRegistrationError.h; sourceTree = "<group>"; };
 		FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCRegistrationError.m; sourceTree = "<group>"; };
 		FE50C5111870989A00EF24BA /* PCCEmptyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCEmptyCell.h; path = "Purdue Course Catcher/Cells/PCCEmptyCell.h"; sourceTree = "<group>"; };
@@ -251,8 +251,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */,
 				FE5530DE184D3C4900D13587 /* CoreGraphics.framework in Frameworks */,
-				FE24FFE7187E5FED004D540E /* FacebookSDK.framework in Frameworks */,
 				FE5530E0184D3C4900D13587 /* UIKit.framework in Frameworks */,
 				FE5530DC184D3C4900D13587 /* Foundation.framework in Frameworks */,
 			);
@@ -366,6 +366,7 @@
 		FE50C51A1870C2F600EF24BA /* Segue */ = {
 			isa = PBXGroup;
 			children = (
+				FE50C5101870986300EF24BA /* Cells */,
 			);
 			name = Segue;
 			sourceTree = "<group>";
@@ -376,7 +377,6 @@
 				FED58A2918908DDE001991F2 /* Assets */,
 				FEA2017018711732009DFE84 /* Transitions */,
 				FE50C51A1870C2F600EF24BA /* Segue */,
-				FE50C5101870986300EF24BA /* Cells */,
 				FE9628C9185ED9A100F699B5 /* Models */,
 				FE9628C5185ED7D800F699B5 /* Convenience */,
 				FE9628C1185ED75200F699B5 /* Managers */,
@@ -401,7 +401,7 @@
 		FE5530DA184D3C4900D13587 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FE24FFE6187E5FED004D540E /* FacebookSDK.framework */,
+				FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */,
 				FE5530DB184D3C4900D13587 /* Foundation.framework */,
 				FE5530DD184D3C4900D13587 /* CoreGraphics.framework */,
 				FE5530DF184D3C4900D13587 /* UIKit.framework */,
@@ -950,6 +950,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/kamranpirwani/Desktop/Git/Purdue\\ Course\\ Catcher",
+					/Users/kamranpirwani/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
@@ -971,6 +972,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/kamranpirwani/Desktop/Git/Purdue\\ Course\\ Catcher",
+					/Users/kamranpirwani/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";

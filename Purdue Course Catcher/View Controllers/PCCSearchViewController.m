@@ -224,15 +224,17 @@
 {
     [self fadeText:[self getTextForControl] fromDirection:directionLeft];
 }
-#define ANIMATION_DURATION 0.8f
+#define ANIMATION_DURATION 0.4f
 -(void)animateAdvancedViewIn
 {
     if (!self.advancedView.hidden) return;
     [self moveDoneButton:directionDown WithBlock:^{
         self.advancedView.transform = CGAffineTransformMakeTranslation(-300, 0);
         self.advancedView.hidden = NO;
-        __block CGAffineTransform state;
-        [UIView animateKeyframesWithDuration:ANIMATION_DURATION delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced animations:^{
+        [UIView animateWithDuration:ANIMATION_DURATION delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:10.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            self.advancedView.transform = CGAffineTransformIdentity;
+        }completion:nil];
+        /*[UIView animateKeyframesWithDuration:ANIMATION_DURATION delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced animations:^{
             //move and rotate view to right wall
             [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:0.3f animations:^{
                 CGAffineTransform translate = CGAffineTransformTranslate(self.advancedView.transform ,self.view.frame.size.width + 10, 0);
@@ -246,22 +248,28 @@
             [UIView addKeyframeWithRelativeStartTime:0.4f relativeDuration:.4f animations:^{
                 self.advancedView.transform = CGAffineTransformIdentity;
             }];
+         
             
         }completion:^(BOOL finished) {
             //if (finished) [self performSelector:@selector(pulseButton) withObject:nil afterDelay:0.15];
-        }];
+        }];*/
     }];
 }
 -(void)animateAdvancedViewOut
 {
     if (self.advancedView.hidden) return;
-    [UIView animateKeyframesWithDuration:ANIMATION_DURATION/2 delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced animations:^{
+    /*[UIView animateKeyframesWithDuration:ANIMATION_DURATION/2 delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeCubicPaced animations:^{
         [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:.20f animations:^{
             self.advancedView.transform = CGAffineTransformMakeTranslation(30, 0);
         }];
         [UIView addKeyframeWithRelativeStartTime:.20f relativeDuration:.20f animations:^{
             self.advancedView.transform = CGAffineTransformTranslate(self.advancedView.transform, -self.view.frame.size.width, 0);
         }];
+    }completion:^(BOOL finished) {
+
+    }];*/
+    [UIView animateWithDuration:ANIMATION_DURATION delay:0.0f usingSpringWithDamping:0.8f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
+        self.advancedView.transform = CGAffineTransformMakeTranslation(-300, 0);
     }completion:^(BOOL finished) {
         if (finished) {
             self.advancedView.hidden = YES;
@@ -501,13 +509,13 @@
 -(void)moveDoneButton:(direction)dir WithBlock:(void(^)())block
 {
     if (dir == directionUp) {
-        [UIView animateWithDuration:0.75f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionAllowUserInteraction animations:^{
+        [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionAllowUserInteraction animations:^{
             self.doneButton.transform = CGAffineTransformIdentity;
         }completion:^(BOOL finished) {
             if (finished) if (block) block();
         }];
     }else if (dir == directionDown) {
-        [UIView animateWithDuration:0.75f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction animations:^{
+        [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction animations:^{
             self.doneButton.transform = CGAffineTransformMakeTranslation(0, self.advancedView.frame.size.height + 10);
         }completion:^(BOOL finished) {
             if (finished) if (block) block();

@@ -39,6 +39,11 @@ static KPLightBoxManager *_sharedInstance = nil;
 }
 -(void)showLightBox
 {
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(showLightBox) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    
     UIView *view = [UIApplication sharedApplication].keyWindow;
     
     self.lightBoxView.alpha = 0.0f;
@@ -49,6 +54,11 @@ static KPLightBoxManager *_sharedInstance = nil;
 
 -(void)dismissLightBox
 {
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(dismissLightBox) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    
     [self.lightBoxView fadeOut];
     [self.lightBoxView removeFromSuperview];
 }
