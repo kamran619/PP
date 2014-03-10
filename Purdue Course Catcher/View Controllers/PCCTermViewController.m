@@ -1,3 +1,4 @@
+
 //
 //  PCCTermViewController.m
 //  Purdue Course Catcher
@@ -215,11 +216,12 @@
                     }andFailure:nil];
             }else {
                 [self.delgate termPressed:selectedObject];
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             }
         }else {
+            //fucked
             [self.delgate termPressed:selectedObject];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
     }
 }

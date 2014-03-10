@@ -111,7 +111,7 @@
             }
             break;
         case ServerCommandCatch:
-            if (success ) {
+            if (success) {
                 [[PCCDataManager sharedInstance].arrayBasket addObject:self.course];
                 [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Complete" success:YES];
                 [self.actionButton setTitle:@"Uncatch" forState:UIControlStateNormal];
@@ -123,6 +123,8 @@
         default:
             break;
     }
+    
+    if (success) [[PCCDataManager sharedInstance] saveData];
 }
 
 

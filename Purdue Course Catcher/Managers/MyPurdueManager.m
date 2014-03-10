@@ -125,6 +125,7 @@ static MyPurdueManager *_sharedInstance = nil;
             [Helpers asyncronousBlockWithName:@"Get Student Info" AndBlock:^{
                 NSDictionary *studentDictionary = [[MyPurdueManager sharedInstance] getStudentInformation];
                 [[PCCDataManager sharedInstance] setObject:studentDictionary ForKey:kEducationInfoDictionary InDictionary:DataDictionaryUser];
+                [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:studentDictionary];
             }];
             
         }

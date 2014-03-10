@@ -8,6 +8,8 @@
 
 #import "PCCHUDView.h"
 #import "UIView+Animations.h"
+#import "KPLightBoxManager.h"
+
 @implementation PCCHUDView
 
 - (id)initWithFrame:(CGRect)frame
@@ -22,6 +24,7 @@
 
 -(void)displayHUDWithCaption:(NSString *)caption withImage:(UIImage *)image onView:(UIView *)view
 {
+    [[KPLightBoxManager sharedInstance] showLightBox];
     self.timer = [NSTimer timerWithTimeInterval:15 target:self selector:@selector(showCloseButton:) userInfo:nil repeats:NO];
     self.hudLabel.text = caption;
     if (image) {

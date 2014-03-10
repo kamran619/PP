@@ -40,7 +40,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *sundayButton;
 
 @property (nonatomic, strong) id<ADVAnimationController> animationController;
-@property (nonatomic, strong) UINavigationController *termVC;
 - (IBAction)dayPressed:(UIButton *)sender;
 @property (nonatomic, strong) NSMutableSet *setOfDays;
 

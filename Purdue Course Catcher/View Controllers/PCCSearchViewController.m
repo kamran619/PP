@@ -59,6 +59,33 @@
     [self fadeTextIn];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self checkIfSavedTerm];
+    
+
+}
+
+-(void)checkIfSavedTerm
+{
+    //Check to see if the user has saved a preference for their search term
+    PCCObject *preferredSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    
+    if (!preferredSearchTerm) {
+        [self choosePreferredTerm:nil];
+    }else {
+        //we have the preferred search term saved..lets let them directly search
+        myPreferredSearchTerm = [[PCCObject alloc] initWithKey:preferredSearchTerm.key AndValue:preferredSearchTerm.value];
+        [self.containerViewSearch fadeIn];
+        //[self addBarButtonItem];
+        //we have terms..lets show them, and still make a network call
+        [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
+            NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
+            if ([tempTerms count] != [[[PCCDataManager sharedInstance] arrayTerms] count]) [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
+        }];
+    }
+}
 -(void)initController
 {
 
@@ -109,23 +136,6 @@
     
     //setup the views state
     
-    //Check to see if the user has saved a preference for their search term
-    PCCObject *preferredSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
-    
-    if (!preferredSearchTerm) {
-        [self choosePreferredTerm:nil];
-    }else {
-        //we have the preferred search term saved..lets let them directly search
-        myPreferredSearchTerm = [[PCCObject alloc] initWithKey:preferredSearchTerm.key AndValue:preferredSearchTerm.value];
-        [self.containerViewSearch fadeIn];
-        //[self addBarButtonItem];
-        //we have terms..lets show them, and still make a network call
-        [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
-            NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
-            if ([tempTerms count] != [[[PCCDataManager sharedInstance] arrayTerms] count]) [[PCCDataManager sharedInstance] setArrayTerms:tempTerms];
-        }];
-    }
-
 }
 
 #pragma mark PCCTerm Delegate
@@ -151,15 +161,24 @@
 #pragma mark Buttons
 - (IBAction)choosePreferredTerm:(id)sender
 {
-    if (!self.termVC) {
-        self.termVC = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCTerm"];
-        PCCTermViewController *vc =(PCCTermViewController *) self.termVC.childViewControllers.lastObject;
-        [vc setType:PCCTermTypeSearch];
-        [vc setDataSource:[PCCDataManager sharedInstance].arrayTerms];
-        vc.delgate = self;
+    [self performSegueWithIdentifier:@"SegueSemester" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"SegueSemester"]) {
+        UINavigationController *controller = segue.destinationViewController;
+            PCCTermViewController *termVC = (PCCTermViewController *)controller.childViewControllers.lastObject;
+            [termVC setType:PCCTermTypeSearch];
+            [termVC setDataSource:[PCCDataManager sharedInstance].arrayTerms];
+            termVC.delgate = self;
+    }else if ([segue.identifier isEqualToString:@"SearchResultsSegue"]) {
+        UINavigationController *controller = segue.destinationViewController;
+        PCCSearchResultsViewController *vc = [controller.childViewControllers lastObject];
+        vc.transitioningDelegate = self;
+        [vc setDataSource:searchResults];
     }
-    
-    [self presentViewController:self.termVC animated:YES completion:nil];
+
 }
 
 #pragma mark - Touches
@@ -317,15 +336,7 @@
     }
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"SearchResultsSegue"]) {
-        UINavigationController *controller = segue.destinationViewController;
-        PCCSearchResultsViewController *vc = [controller.childViewControllers lastObject];
-        vc.transitioningDelegate = self;
-        [vc setDataSource:searchResults];
-    }
-}
+
 
 -(void)showSearchResults
 {
@@ -343,7 +354,6 @@
     if (self.segmentedControl.selectedSegmentIndex == searchCourse) {
         
         NSArray *splitTerms = [self.autoCompleteTextField.textField.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        [[KPLightBoxManager sharedInstance] showLightBox];
         [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
             
@@ -357,7 +367,6 @@
             
         }];
     }else if (self.segmentedControl.selectedSegmentIndex == searchCRN) {
-        [[KPLightBoxManager sharedInstance] showLightBox];
         [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
             searchResults = [MyPurdueManager getCoursesForTerm:myPreferredSearchTerm.value WithCRN:self.autoCompleteTextField.textField.text];
@@ -369,7 +378,6 @@
             
         }];
     }else if (self.segmentedControl.selectedSegmentIndex == searchAdvanced) {
-        [[KPLightBoxManager sharedInstance] showLightBox];
         [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
             NSString *className = @"", *courseNumber = @"", *fromHours = @"", *toHours = @"", *professor = @"%25";

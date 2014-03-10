@@ -63,9 +63,10 @@
 }
 - (IBAction)dismissPressed:(id)sender {
     PCCMenuViewController *vc = (PCCMenuViewController*)[self presentingViewController];
-    if (loginSuccessfull == YES) {
+    //MyPurdueManager will send data once we get it
+    /*if (loginSuccessfull == YES) {
         [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:nil];
-    }
+    }*/
     
     [self dismissViewControllerAnimated:YES completion:^{
         if (loginSuccessfull == YES) {
@@ -98,15 +99,17 @@
     [Helpers asyncronousBlockWithName:@"Check login credentials" AndBlock:^{
         BOOL success = [[MyPurdueManager sharedInstance] loginWithUsername:self.username.text andPassword:self.password.text];
         if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Complete" success:YES];
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Logged in..." success:YES];
                 NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:self.username.text, kUsername, self.password.text, kPassword, nil];
                 [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kCredentials InDictionary:DataDictionaryUser];
                 loginSuccessfull = YES;
-                [self dismissPressed:nil];
-            });
-        } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self performSelector:@selector(dismissPressed:) withObject:nil afterDelay:0.25];
+                });
+            
+        }else {
             loginSuccessfull = NO;
+            [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Failed" success:NO];
         }
     }];
 }

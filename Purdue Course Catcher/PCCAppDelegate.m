@@ -226,34 +226,41 @@
 #pragma mark PCFNetwork Delegate
 -(void)responseFromServer:(NSDictionary *)responseDictionary initialRequest:(NSDictionary *)requestDictionary wasSuccessful:(BOOL)success
 {
+    int command;
+    NSString *str;
+    if (requestDictionary) {
+        str = [requestDictionary objectForKey:@"command"];
+    }else if (responseDictionary) {
+        str = [responseDictionary objectForKey:@"command"];
+    }
+    
+    command = str.intValue;
+    if (command != ServerCommandInitialization) return;
     if (success) {
         [Helpers setInitialization];
         //mark initialization as successful
         [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Logged In..." success:YES];
         
-        if ([PCCFacebookLoginViewController sharedInstance].currentlyDisplayed == YES) {
-            if ([PCCFacebookLoginViewController sharedInstance].parentViewController) {
-                PCCFTUEViewController *vc = (PCCFTUEViewController *)[PCCFacebookLoginViewController sharedInstance].parentViewController;
-                if (vc.presentedViewController) {
-                    //this was presented, dismiss me
-                    [vc dismissMe];
-                }else {
-                    PCCMenuViewController *menu = [[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
-                    //this was not presented..replace it with ours
-                    [UIView transitionFromView:self.window.rootViewController.view
-                                        toView:menu.view
-                                      duration:0.5
-                                       options:UIViewAnimationOptionTransitionCrossDissolve
-                                    completion:^(BOOL finished)
-                     {
-                         self.window.rootViewController = menu;
-                     }];
-                }
-            }else {
-                [[PCCFacebookLoginViewController sharedInstance] dismissViewControllerAnimated:YES completion:nil];
-            }
+        if ([self.window.rootViewController isKindOfClass:[PCCFTUEViewController class]]) {
+            //if the root vc is the ftue, this is the first time lauching the app
+            //we should dismiss the ftue view and show the menu
+            PCCMenuViewController *menu = [[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
+            //this was not presented..replace it with ours
+            /*[UIView transitionFromView:self.window.rootViewController.view
+                                toView:menu.view
+                              duration:0.5
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            completion:^(BOOL finished)
+             {
+                 if (finished) self.window.rootViewController = menu;
+             }];*/
+            self.window.rootViewController = menu;
+        }else {
+            //the fb controller was displayed..minimize it
+            [[PCCFacebookLoginViewController sharedInstance] dismissViewControllerAnimated:YES completion:nil];
         }
-        return;
+    }else {
+        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Error!" success:NO];
     }
 }
 @end

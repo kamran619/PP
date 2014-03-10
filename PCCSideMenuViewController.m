@@ -74,10 +74,18 @@
             [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCSchedule"];
         }
     }else if ([itemName isEqualToString:@"Register"]) {
+        NSString *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredRegistrationTerm];
+        
             if (![Helpers getCredentials]) {
                 PCCPurdueLoginViewController *vc = (PCCPurdueLoginViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
                 vc.type = PCCTermTypeRegistration;
                 [self presentViewController:vc animated:YES completion:nil];
+            }else if (!term) {
+                UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCTerm"];
+                PCCTermViewController *vc = (PCCTermViewController *)controller.childViewControllers.lastObject;
+                    vc.type = PCCTermTypeRegistration;
+                    vc.delgate = self;
+                    [self presentViewController:controller animated:YES completion:nil];
             }else {
                 PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
                 [menuViewController replaceCenterViewControllerWithStoryboardIdentifier:@"PCCRegister"];
@@ -100,5 +108,14 @@
     }else if ([itemName isEqualToString:@"Settings"]) {
     
     }
+}
+
+#pragma mark PCCTerm Delegate
+-(void)termPressed:(PCCObject *)term
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[PCCDataManager sharedInstance] setObject:term ForKey:kPreferredRegistrationTerm InDictionary:DataDictionaryUser];
+        [self menuItemPressed:@"Register"];
+    });
 }
 @end

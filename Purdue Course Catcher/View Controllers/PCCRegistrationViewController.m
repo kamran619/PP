@@ -196,6 +196,7 @@
 -(void)termPressed:(PCCObject *)term
 {
     [[PCCDataManager sharedInstance] setObject:term ForKey:kPreferredRegistrationTerm InDictionary:DataDictionaryUser];
+    [self.tableView setAlpha:0.0f];
     [self checkRegistration];
 }
 
