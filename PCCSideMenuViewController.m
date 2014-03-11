@@ -14,6 +14,7 @@
 #import "PCCPurdueLoginViewController.h"
 #import "PCCRegistrationViewController.h"
 #import "PCCSettingsViewController.h"
+#import "PCCStoreViewController.h"
 
 @interface PCCSideMenuViewController ()
 
@@ -58,6 +59,9 @@
 }
 - (IBAction)basket:(id)sender {
     [self menuItemPressed:@"Basket"];
+}
+- (IBAction)store:(id)sender {
+    [self menuItemPressed:@"Store"];
 }
 
 -(void)menuItemPressed:(NSString *)itemName
@@ -105,7 +109,9 @@
         [menuViewController replaceCenterViewControllerWithViewController:controller animated:YES];
         
     }else if ([itemName isEqualToString:@"Store"]) {
-        
+        PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
+        UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCStore"];
+        [menuViewController replaceCenterViewControllerWithViewController:controller animated:YES];
     }else if ([itemName isEqualToString:@"Settings"]) {
         PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
         UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCSettings"];

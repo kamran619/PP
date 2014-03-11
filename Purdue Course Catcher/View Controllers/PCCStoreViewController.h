@@ -10,4 +10,6 @@
 
 @interface PCCStoreViewController : UITableViewController
 
+-(IBAction)restorePressed:(id)sender;
+
 @end

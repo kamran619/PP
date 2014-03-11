@@ -7,9 +7,13 @@
 //
 
 #import "PCCStoreViewController.h"
+#import "PCCIAPHelper.h"
+#import "PCCStoreCell.h"
 
-@interface PCCStoreViewController ()
-
+@interface PCCStoreViewController () {
+    NSArray *_products;
+    NSNumberFormatter * _priceFormatter;
+}
 @end
 
 @implementation PCCStoreViewController
@@ -26,12 +30,60 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
+    [self reload];
+    [self.refreshControl beginRefreshing];
 
+    //get rid of extranneous cells
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    _priceFormatter = [[NSNumberFormatter alloc] init];
+    [_priceFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+    [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:IAPHelperProductPurchasedNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)reload {
+    _products = nil;
+    [self.tableView reloadData];
+    [[PCCIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
+        if (success) {
+            _products = products;
+            [self.tableView reloadData];
+        }
+        [self.refreshControl endRefreshing];
+    }];
+}
+
+- (void)productPurchased:(NSNotification *)notification {
+    
+    NSString * productIdentifier = notification.object;
+    [_products enumerateObjectsUsingBlock:^(SKProduct * product, NSUInteger idx, BOOL *stop) {
+        if ([product.productIdentifier isEqualToString:productIdentifier]) {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            *stop = YES;
+        }
+    }];
+    
+}
+
+-(void)restorePressed:(id)sender
+{
+    [[PCCIAPHelper sharedInstance] restoreCompletedTransactions];
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,29 +94,53 @@
 
 #pragma mark - Table view data source
 
+#pragma mark - Table View
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    return _products.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    PCCStoreCell *cell = (PCCStoreCell *)[tableView dequeueReusableCellWithIdentifier:@"kStoreCell" forIndexPath:indexPath];
     
-    // Configure the cell...
+    SKProduct * product = (SKProduct *) _products[indexPath.row];
+    cell.title.text = product.localizedTitle;
+    
+    [_priceFormatter setLocale:product.priceLocale];
+    cell.price.text = [_priceFormatter stringFromNumber:product.price];
+    
+    if ([[PCCIAPHelper sharedInstance] productPurchased:product.productIdentifier]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.purchaseButton.hidden = YES;
+        cell.accessoryView = nil;
+    } else {
+        //[cell.purchaseButton setTitle:@"Buy" forState:UIControlStateNormal];
+        //[cell.purchaseButton setTag:indexPath.row];
+        //cell.purchaseButton.hidden = NO;
+        //[cell.purchaseButton addTarget:self action:@selector(buyButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        //cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     return cell;
 }
+
+- (void)buyButtonTapped:(id)sender {
+    
+    UIButton *buyButton = (UIButton *)sender;
+    SKProduct *product = _products[buyButton.tag];
+    
+    NSLog(@"Buying %@...", product.productIdentifier);
+    [[PCCIAPHelper sharedInstance] buyProduct:product];
+    
+}
+
 
 /*
 // Override to support conditional editing of the table view.

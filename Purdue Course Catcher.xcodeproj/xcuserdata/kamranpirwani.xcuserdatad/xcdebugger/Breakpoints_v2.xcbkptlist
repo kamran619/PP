@@ -223,12 +223,12 @@
                   symbolName = "-[PCCAppDelegate responseFromServer:initialRequest:wasSuccessful:]"
                   moduleName = "Purdue Course Catcher"
                   urlString = "file:///Users/kamranpirwani/Desktop/Git/PCC/Purdue%20Course%20Catcher/PCCAppDelegate.m"
-                  timestampString = "416197304.492203"
+                  timestampString = "416201267.675289"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "263"
-                  endingLineNumber = "263"
-                  offsetFromSymbolStart = "1010">
+                  startingLineNumber = "264"
+                  endingLineNumber = "264"
+                  offsetFromSymbolStart = "1024">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -237,12 +237,12 @@
                   symbolName = "-[PCCAppDelegate responseFromServer:initialRequest:wasSuccessful:]"
                   moduleName = "Purdue Course Catcher"
                   urlString = "file:///Users/kamranpirwani/Desktop/Git/PCC/Purdue%20Course%20Catcher/PCCAppDelegate.m"
-                  timestampString = "416197304.49241"
+                  timestampString = "416201267.675456"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "263"
-                  endingLineNumber = "263"
-                  offsetFromSymbolStart = "1138">
+                  startingLineNumber = "264"
+                  endingLineNumber = "264"
+                  offsetFromSymbolStart = "1152">
                </Location>
             </Locations>
          </BreakpointContent>
