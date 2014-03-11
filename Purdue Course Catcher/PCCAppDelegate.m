@@ -260,6 +260,7 @@
             [[PCCFacebookLoginViewController sharedInstance] dismissViewControllerAnimated:YES completion:nil];
         }
     }else {
+        NSLog(@"Hit error statement");
         [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Error!" success:NO];
     }
 }

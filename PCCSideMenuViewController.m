@@ -13,6 +13,7 @@
 #import "PCCDataManager.h"
 #import "PCCPurdueLoginViewController.h"
 #import "PCCRegistrationViewController.h"
+#import "PCCSettingsViewController.h"
 
 @interface PCCSideMenuViewController ()
 
@@ -106,7 +107,9 @@
     }else if ([itemName isEqualToString:@"Store"]) {
         
     }else if ([itemName isEqualToString:@"Settings"]) {
-    
+        PCCMenuViewController *menuViewController = (PCCMenuViewController *) self.parentViewController;
+        UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCSettings"];
+        [menuViewController replaceCenterViewControllerWithViewController:controller animated:YES];
     }
 }
 

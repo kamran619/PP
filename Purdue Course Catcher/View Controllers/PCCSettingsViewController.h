@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PCCSettingsViewController : UIViewController
+@interface PCCSettingsViewController : UITableViewController
 
 @property (nonatomic, strong) IBOutlet UIButton *report;
 @property (nonatomic, strong) IBOutlet UIButton *rate;

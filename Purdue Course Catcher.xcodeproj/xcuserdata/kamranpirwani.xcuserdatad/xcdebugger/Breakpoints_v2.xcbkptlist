@@ -208,11 +208,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/PCCAppDelegate.m"
-            timestampString = "416121405.396974"
+            timestampString = "416197566.180413"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "-responseFromServer:initialRequest:wasSuccessful:"
             landmarkType = "5">
             <Locations>
@@ -223,12 +223,12 @@
                   symbolName = "-[PCCAppDelegate responseFromServer:initialRequest:wasSuccessful:]"
                   moduleName = "Purdue Course Catcher"
                   urlString = "file:///Users/kamranpirwani/Desktop/Git/PCC/Purdue%20Course%20Catcher/PCCAppDelegate.m"
-                  timestampString = "416123450.225507"
+                  timestampString = "416197304.492203"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "263"
                   endingLineNumber = "263"
-                  offsetFromSymbolStart = "912">
+                  offsetFromSymbolStart = "1010">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -237,12 +237,12 @@
                   symbolName = "-[PCCAppDelegate responseFromServer:initialRequest:wasSuccessful:]"
                   moduleName = "Purdue Course Catcher"
                   urlString = "file:///Users/kamranpirwani/Desktop/Git/PCC/Purdue%20Course%20Catcher/PCCAppDelegate.m"
-                  timestampString = "416123450.225681"
+                  timestampString = "416197304.49241"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "263"
                   endingLineNumber = "263"
-                  offsetFromSymbolStart = "1012">
+                  offsetFromSymbolStart = "1138">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -276,22 +276,6 @@
             startingLineNumber = "260"
             endingLineNumber = "260"
             landmarkName = "-responseFromServer:initialRequest:wasSuccessful:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/Managers/PCFNetworkManager.m"
-            timestampString = "416123436.606999"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374"
-            landmarkName = "-sendDataToServer:forCommand:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
