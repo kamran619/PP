@@ -9,6 +9,8 @@
 #import "IAPHelper.h"
 #import <StoreKit/StoreKit.h>
 #import "VerificationController.h"
+#import "PCCDataManager.h"
+#import "PCCHUDManager.h"
 
 NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurchasedNotification";
 
@@ -31,7 +33,7 @@ NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurcha
         // Check for previously purchased products
         _purchasedProductIdentifiers = [NSMutableSet set];
         for (NSString * productIdentifier in _productIdentifiers) {
-            BOOL productPurchased = [[NSUserDefaults standardUserDefaults] boolForKey:productIdentifier];
+            BOOL productPurchased = [[PCCDataManager sharedInstance].arrayPurchases containsObject:productIdentifier];
             if (productPurchased) {
                 [_purchasedProductIdentifiers addObject:productIdentifier];
                 NSLog(@"Previously purchased: %@", productIdentifier);
@@ -68,7 +70,7 @@ NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurcha
 - (void)buyProduct:(SKProduct *)product {
     
     NSLog(@"Buying %@...", product.productIdentifier);
-    
+    [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Purchasing..."];
     SKPayment * payment = [SKPayment paymentWithProduct:product];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
     
@@ -126,12 +128,15 @@ NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurcha
         {
             case SKPaymentTransactionStatePurchased:
                 [self completeTransaction:transaction];
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Success" success:YES];
                 break;
             case SKPaymentTransactionStateFailed:
                 [self failedTransaction:transaction];
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Error" success:NO];
                 break;
             case SKPaymentTransactionStateRestored:
                 [self restoreTransaction:transaction];
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Restored" success:YES];
             default:
                 break;
         }
@@ -165,18 +170,15 @@ NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurcha
 
 - (void)provideContentForProductIdentifier:(NSString *)productIdentifier {
     
-    if ([productIdentifier isEqualToString:@"com.razeware.inapprage.randomrageface"]) {
+    /*if ([productIdentifier isEqualToString:@"com.kamranpirwani.pcc.removeads"]) {
         
-        int currentValue = [[NSUserDefaults standardUserDefaults] integerForKey:@"com.razeware.inapprage.randomrageface"];
-        currentValue += 5;
-        [[NSUserDefaults standardUserDefaults] setInteger:currentValue forKey:@"com.razeware.inapprage.randomrageface"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    }else if ([productIdentifier isEqualToString:@"com.kamranpirwani.pcc.gopro"]) {
         
-    } else {
-        [_purchasedProductIdentifiers addObject:productIdentifier];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:productIdentifier];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    }*/
+    
+    [_purchasedProductIdentifiers addObject:productIdentifier];
+    [[PCCDataManager sharedInstance].arrayPurchases addObject:productIdentifier];
+    [[PCCDataManager sharedInstance] saveData];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:IAPHelperProductPurchasedNotification object:productIdentifier userInfo:nil];
     

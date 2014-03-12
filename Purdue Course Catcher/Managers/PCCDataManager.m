@@ -23,6 +23,7 @@ static PCCDataManager *_sharedInstance = nil;
 #define kUser @"kUser"
 #define kSubjects @"kSubjects"
 #define kRegister @"kRegister"
+#define kPurchases @"kPurchases"
 
 +(instancetype)sharedInstance
 {
@@ -78,6 +79,12 @@ static PCCDataManager *_sharedInstance = nil;
     return _arrayRegister;
 }
 
+-(NSMutableArray *)arrayPurchases
+{
+    if (!_arrayPurchases) _arrayPurchases = [NSMutableArray arrayWithCapacity:4];
+    return _arrayPurchases;
+}
+
 -(void)setArrayProfessors:(NSMutableArray *)arrayProfessors
 {
     if (!_arrayProfessors) {
@@ -122,6 +129,11 @@ static PCCDataManager *_sharedInstance = nil;
         NSString *docDir = [paths objectAtIndex:0];
         NSString *fullPath = [docDir stringByAppendingFormat:@"/%@", kFileName];
         NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:6];
+        if (!_arrayPurchases) {
+            [dictionary setObject:[NSNull null] forKey:kPurchases];
+        }else {
+            [dictionary setObject:_arrayPurchases forKey:kPurchases];
+        }
         if (!_arrayBasket)  {
             [dictionary setObject:[NSNull null] forKey:kBasket];
         }else {
@@ -179,6 +191,7 @@ static PCCDataManager *_sharedInstance = nil;
     if (fileExists) {
         NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
         
+        _arrayPurchases = [dictionary objectForKey:kPurchases];
         _arrayBasket = [dictionary objectForKey:kBasket];
         _arrayFavorites = [dictionary objectForKey:kFavorites];
         _arrayProfessors = [dictionary objectForKey:kProfessors];
@@ -189,6 +202,7 @@ static PCCDataManager *_sharedInstance = nil;
         _dictionarySubjects = [dictionary objectForKey:kSubjects];
         _arrayRegister = [dictionary objectForKey:kRegister];
         
+        if ([_arrayPurchases isEqual:[NSNull null]]) _arrayPurchases = nil;
         if ([_arrayBasket isEqual:[NSNull null]]) _arrayBasket = nil;
         if ([_arrayFavorites isEqual:[NSNull null]]) _arrayFavorites = nil;
         if ([_arrayProfessors isEqual:[NSNull null]]) _arrayProfessors = nil;

@@ -9,6 +9,9 @@
 #import "PCCStoreViewController.h"
 #import "PCCIAPHelper.h"
 #import "PCCStoreCell.h"
+#import "PCCDataManager.h"
+#import "PCCPurchaseViewController.h"
+#import "PCCHUDManager.h"
 
 @interface PCCStoreViewController () {
     NSArray *_products;
@@ -33,8 +36,8 @@
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
-    [self reload];
     [self.refreshControl beginRefreshing];
+    [self reload];
 
     //get rid of extranneous cells
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -54,7 +57,13 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    PCCPurchaseViewController *vc = segue.destinationViewController;
+    [vc setProductToPurchase:_products[[sender row]]];
 }
 
 - (void)reload {
@@ -79,12 +88,14 @@
         }
     }];
     
+    
 }
 
--(void)restorePressed:(id)sender
-{
+- (IBAction)restorePressed:(id)sender {
+    [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Restoring..."];
     [[PCCIAPHelper sharedInstance] restoreCompletedTransactions];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -118,9 +129,11 @@
     
     if ([[PCCIAPHelper sharedInstance] productPurchased:product.productIdentifier]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        cell.purchaseButton.hidden = YES;
+        cell.detail.text = @"Purchased!";
+        cell.backgroundView = nil;
         cell.accessoryView = nil;
     } else {
+        cell.backgroundColor = [UIColor clearColor];
         //[cell.purchaseButton setTitle:@"Buy" forState:UIControlStateNormal];
         //[cell.purchaseButton setTag:indexPath.row];
         //cell.purchaseButton.hidden = NO;
@@ -128,7 +141,19 @@
         //cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
+    cell.tag = indexPath.row;
+    
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SKProduct *product = (SKProduct *) _products[indexPath.row];
+    if ([product.productIdentifier isEqualToString:@"com.kamranpirwani.pcc.removeads"]) {
+        [self performSegueWithIdentifier:@"SegueRemoveAds" sender:indexPath];
+    }else if ([product.productIdentifier isEqualToString:@"com.kamranpirwani.pcc.gopro"]) {
+        [self performSegueWithIdentifier:@"SegueGoPro" sender:indexPath];
+    }
 }
 
 - (void)buyButtonTapped:(id)sender {

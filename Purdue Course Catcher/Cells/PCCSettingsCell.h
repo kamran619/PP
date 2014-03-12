@@ -10,7 +10,8 @@
 
 @interface PCCSettingsCell : UITableViewCell
 
-@property (nonatomic, strong) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) IBOutlet UIImageView *downArrow;
+@property (nonatomic, strong) IBOutlet UIImageView *cart;
 @property (nonatomic, strong) IBOutlet UILabel *title;
 @property (nonatomic, strong) IBOutlet UILabel *detail;
 

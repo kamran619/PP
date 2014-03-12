@@ -80,6 +80,9 @@
 		FEAE7FA11897530F001FBC09 /* Ps-x-button.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAE7FA01897530F001FBC09 /* Ps-x-button.png */; };
 		FEAE7FA418976075001FBC09 /* PCCRegistrationStatusViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */; };
 		FEB4D5D01890EE4600386C86 /* PCCRegistrationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */; };
+		FEB638F518CFEF720066F982 /* cart.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB638F318CFEF720066F982 /* cart.png */; };
+		FEB638F618CFEF720066F982 /* down_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB638F418CFEF720066F982 /* down_arrow.png */; };
+		FEB638F918D000F00066F982 /* PCCPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB638F818D000F00066F982 /* PCCPurchaseViewController.m */; };
 		FEB99657188DABFE0017C552 /* PCCHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB99655188DABFE0017C552 /* PCCHeaderViewController.m */; };
 		FEB99658188DABFE0017C552 /* PCCHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEB99656188DABFE0017C552 /* PCCHeaderViewController.xib */; };
 		FEB9965C188DFDCB0017C552 /* PCCRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB9965B188DFDCB0017C552 /* PCCRegistrationViewController.m */; };
@@ -105,6 +108,7 @@
 		FEE571A6186A4E4A00FE8FA8 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE5719D186A4E4A00FE8FA8 /* whiteArrow@2x.png */; };
 		FEE571A9186D00B700FE8FA8 /* PCFAutoCompleteTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE571A8186D00B700FE8FA8 /* PCFAutoCompleteTextField.m */; };
 		FEE89B8A18CEB3D60026AB5F /* PCCStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE89B8918CEB3D60026AB5F /* PCCStoreCell.m */; };
+		FEE89B8C18CEE4D30026AB5F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE89B8B18CEE4D30026AB5F /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,6 +242,10 @@
 		FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationStatusViewViewController.m; path = "Purdue Course Catcher/View Controllers/PCCRegistrationStatusViewViewController.m"; sourceTree = "<group>"; };
 		FEB4D5CE1890EE4600386C86 /* PCCRegistrationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRegistrationCell.h; path = "Purdue Course Catcher/Cells/PCCRegistrationCell.h"; sourceTree = "<group>"; };
 		FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationCell.m; path = "Purdue Course Catcher/Cells/PCCRegistrationCell.m"; sourceTree = "<group>"; };
+		FEB638F318CFEF720066F982 /* cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cart.png; sourceTree = "<group>"; };
+		FEB638F418CFEF720066F982 /* down_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down_arrow.png; sourceTree = "<group>"; };
+		FEB638F718D000F00066F982 /* PCCPurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCPurchaseViewController.h; path = "Purdue Course Catcher/View Controllers/PCCPurchaseViewController.h"; sourceTree = "<group>"; };
+		FEB638F818D000F00066F982 /* PCCPurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCPurchaseViewController.m; path = "Purdue Course Catcher/View Controllers/PCCPurchaseViewController.m"; sourceTree = "<group>"; };
 		FEB99654188DABFE0017C552 /* PCCHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCHeaderViewController.h; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.h"; sourceTree = "<group>"; };
 		FEB99655188DABFE0017C552 /* PCCHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCHeaderViewController.m; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.m"; sourceTree = "<group>"; };
 		FEB99656188DABFE0017C552 /* PCCHeaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCHeaderViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.xib"; sourceTree = "<group>"; };
@@ -273,6 +281,7 @@
 		FEE571A8186D00B700FE8FA8 /* PCFAutoCompleteTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCFAutoCompleteTextField.m; sourceTree = "<group>"; };
 		FEE89B8818CEB3D60026AB5F /* PCCStoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCStoreCell.h; path = "Purdue Course Catcher/Cells/PCCStoreCell.h"; sourceTree = "<group>"; };
 		FEE89B8918CEB3D60026AB5F /* PCCStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCStoreCell.m; path = "Purdue Course Catcher/Cells/PCCStoreCell.m"; sourceTree = "<group>"; };
+		FEE89B8B18CEE4D30026AB5F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +291,7 @@
 			files = (
 				FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */,
 				FE5530DE184D3C4900D13587 /* CoreGraphics.framework in Frameworks */,
+				FEE89B8C18CEE4D30026AB5F /* StoreKit.framework in Frameworks */,
 				FE5530E0184D3C4900D13587 /* UIKit.framework in Frameworks */,
 				FE5530DC184D3C4900D13587 /* Foundation.framework in Frameworks */,
 			);
@@ -434,6 +444,7 @@
 		FE5530DA184D3C4900D13587 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FEE89B8B18CEE4D30026AB5F /* StoreKit.framework */,
 				FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */,
 				FE5530DB184D3C4900D13587 /* Foundation.framework */,
 				FE5530DD184D3C4900D13587 /* CoreGraphics.framework */,
@@ -512,6 +523,8 @@
 				FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */,
 				FE7B734C18CE9746003D9D11 /* PCCStoreViewController.h */,
 				FE7B734D18CE9746003D9D11 /* PCCStoreViewController.m */,
+				FEB638F718D000F00066F982 /* PCCPurchaseViewController.h */,
+				FEB638F818D000F00066F982 /* PCCPurchaseViewController.m */,
 				FE6BBCA41866C74C00760E7A /* Schedule Header */,
 				FE24107918753C5F00AA6328 /* Catalog View Controller */,
 				FE24FFD8187DF287004D540E /* FTUE */,
@@ -632,6 +645,8 @@
 		FED58A2918908DDE001991F2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				FEB638F318CFEF720066F982 /* cart.png */,
+				FEB638F418CFEF720066F982 /* down_arrow.png */,
 				FE7B735818CEA44A003D9D11 /* Ecommerce-Buy-icon.png */,
 				FE7B735618CEA40E003D9D11 /* info.png */,
 				FE7B735418CEA3A3003D9D11 /* Debug-Bug-icon.png */,
@@ -764,6 +779,11 @@
 				TargetAttributes = {
 					FE5530D7184D3C4900D13587 = {
 						DevelopmentTeam = 2QPS7688S6;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 					FE5530F8184D3C4900D13587 = {
 						TestTargetID = FE5530D7184D3C4900D13587;
@@ -823,10 +843,12 @@
 				FE7B735918CEA44A003D9D11 /* Ecommerce-Buy-icon.png in Resources */,
 				FEE571A6186A4E4A00FE8FA8 /* whiteArrow@2x.png in Resources */,
 				FE2410541873C6B000AA6328 /* icon-error.png in Resources */,
+				FEB638F518CFEF720066F982 /* cart.png in Resources */,
 				FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */,
 				FE7B735518CEA3A3003D9D11 /* Debug-Bug-icon.png in Resources */,
 				FE2410571873C6B000AA6328 /* icon-info@2x.png in Resources */,
 				FE7B735318CEA370003D9D11 /* bug.png in Resources */,
+				FEB638F618CFEF720066F982 /* down_arrow.png in Resources */,
 				FED58A2B18908DF8001991F2 /* add.png in Resources */,
 				FED58A3C1890D91E001991F2 /* right_side.png in Resources */,
 			);
@@ -868,6 +890,7 @@
 				FED58A281890647A001991F2 /* PCCRegistrationDropCell.m in Sources */,
 				FE6BBC9B1866777600760E7A /* PCCScheduleCell.m in Sources */,
 				FEBC7084188258BE00BCF873 /* PCCCatcherCell.m in Sources */,
+				FEB638F918D000F00066F982 /* PCCPurchaseViewController.m in Sources */,
 				FE7B735118CE992F003D9D11 /* PCCSettingsCell.m in Sources */,
 				FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */,
 				FE9628D5185ED9A100F699B5 /* PCCObject.m in Sources */,
@@ -1019,7 +1042,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kamran Pirwani (DNN4RJ3LRM)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1031,7 +1054,7 @@
 				INFOPLIST_FILE = "Purdue Course Catcher/Purdue Course Catcher-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "B533E649-62F4-4A7C-9664-AAD14DF31A3D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1041,7 +1064,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kamran Pirwani (DNN4RJ3LRM)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1053,7 +1076,7 @@
 				INFOPLIST_FILE = "Purdue Course Catcher/Purdue Course Catcher-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "B533E649-62F4-4A7C-9664-AAD14DF31A3D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

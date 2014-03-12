@@ -124,6 +124,7 @@ static MyPurdueManager *_sharedInstance = nil;
         if (![[PCCDataManager sharedInstance].dictionaryUser objectForKey:kEducationInfoDictionary]) {
             [Helpers asyncronousBlockWithName:@"Get Student Info" AndBlock:^{
                 NSDictionary *studentDictionary = [[MyPurdueManager sharedInstance] getStudentInformation];
+                
                 [[PCCDataManager sharedInstance] setObject:studentDictionary ForKey:kEducationInfoDictionary InDictionary:DataDictionaryUser];
                 [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:studentDictionary];
             }];
@@ -1235,6 +1236,8 @@ static MyPurdueManager *_sharedInstance = nil;
         [scanner setScanLocation:scanner.scanLocation + 21];
         [scanner scanUpToString:@"<" intoString:&major];
         
+        //remove & from major
+        major = [major stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
         NSArray *objects = [NSArray arrayWithObjects:name, classification, major, nil];
         NSArray *keys = [NSArray arrayWithObjects:kName, kClassification, kMajor, nil];
         return [NSDictionary dictionaryWithObjects:objects forKeys:keys];

@@ -389,6 +389,7 @@
     if (success) {
             self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
             self.basketVC.transitioningDelegate = self;
+            
             [self presentViewController:self.basketVC animated:YES completion:^ {
                 [self.tableView reloadData];
             }];

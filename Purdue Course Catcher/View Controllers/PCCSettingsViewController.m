@@ -8,6 +8,8 @@
 
 #import "PCCSettingsViewController.h"
 #import "PCCDataManager.h"
+#import "PCCPurchaseViewController.h"
+#import "PCCIAPHelper.h"
 
 @interface PCCSettingsViewController ()
 
@@ -30,6 +32,23 @@
 	// Do any additional setup after loading the view.
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self animateGoPro];
+}
+
+-(void)animateGoPro
+{
+    self.settingsCell.downArrow.alpha = 0.0f;
+    self.settingsCell.downArrow.layer.transform = CATransform3DIdentity;
+    [UIView animateWithDuration:0.45 delay:0.70f usingSpringWithDamping:0.5f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
+        self.settingsCell.downArrow.layer.transform = CATransform3DMakeTranslation(0, 15, 0);
+        self.settingsCell.downArrow.alpha = 1.0f;
+    }completion:^(BOOL finished) {
+            if (finished) [self performSelector:_cmd withObject:nil afterDelay:3.5f];
+    }];
+}
 
 -(IBAction)resetPressed:(id)sender
 {

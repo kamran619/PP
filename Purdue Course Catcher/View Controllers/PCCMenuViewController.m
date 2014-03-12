@@ -122,7 +122,7 @@
 	if (self.rightViewController == nil)
 	{
 		// this is where you define the view for the right panel
-		self.rightViewController = nil;//[Helpers viewControllerWithStoryboardIdentifier:@"PCCSettings"];
+		self.rightViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCSettings"];
 		
 		[self.view addSubview:self.rightViewController.view];
 		

@@ -21,6 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
@@ -129,7 +130,8 @@
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
 	NSLog(@"Failed to get token, error: %@", error);
-    [[PCCDataManager sharedInstance] setObject:@"simulator_token" ForKey:kDeviceToken InDictionary:DataDictionaryUser];
+    NSString *storedToken = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
+    if (!storedToken) [[PCCDataManager sharedInstance] setObject:@"simulator_token" ForKey:kDeviceToken InDictionary:DataDictionaryUser];
 }
 
 
