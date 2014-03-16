@@ -53,6 +53,11 @@ typedef enum
 #define kClassification @"kClassification"
 #define kMajor @"kMajor"
 
+#define kSettings @"kSettings"
+#define kNickname @"kNickname"
+#define kFindMeByMajor @"kFindMeByMajor"
+#define kViewMySchedule @"kViewMySchedule"
+
 #define kCredentials @"kCredentials"
 //login info
 #define kUsername @"kUsername"

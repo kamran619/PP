@@ -54,6 +54,10 @@
 		FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6BBC9D1866C10600760E7A /* PCCSettingsViewController.m */; };
 		FE6BBCA21866C74700760E7A /* PCCScheduleHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6BBCA01866C74700760E7A /* PCCScheduleHeaderViewController.m */; };
 		FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE6BBCA11866C74700760E7A /* PCCScheduleHeaderViewController.xib */; };
+		FE6DD97218D54E3500D033FC /* PCCNicknameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6DD97118D54E3500D033FC /* PCCNicknameTableViewCell.m */; };
+		FE6DD97518D5509900D033FC /* PCCNicknameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6DD97418D5509900D033FC /* PCCNicknameTableViewController.m */; };
+		FE7386CA18D617B7004EA448 /* twitter.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FE7386C818D617B7004EA448 /* twitter.jpg */; };
+		FE7386CB18D617B7004EA448 /* mail.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7386C918D617B7004EA448 /* mail.png */; };
 		FE7B734018CE8A0C003D9D11 /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7B733F18CE8A0C003D9D11 /* IAPHelper.m */; };
 		FE7B734318CE8C0A003D9D11 /* PCCIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7B734218CE8C0A003D9D11 /* PCCIAPHelper.m */; };
 		FE7B734A18CE8D99003D9D11 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7B734718CE8D99003D9D11 /* NSData+Base64.m */; };
@@ -194,6 +198,12 @@
 		FE6BBC9F1866C74700760E7A /* PCCScheduleHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScheduleHeaderViewController.h; path = "Purdue Course Catcher/View Controllers/PCCScheduleHeaderViewController.h"; sourceTree = "<group>"; };
 		FE6BBCA01866C74700760E7A /* PCCScheduleHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCScheduleHeaderViewController.m; path = "Purdue Course Catcher/View Controllers/PCCScheduleHeaderViewController.m"; sourceTree = "<group>"; };
 		FE6BBCA11866C74700760E7A /* PCCScheduleHeaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCScheduleHeaderViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCScheduleHeaderViewController.xib"; sourceTree = "<group>"; };
+		FE6DD97018D54E3500D033FC /* PCCNicknameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCNicknameTableViewCell.h; path = "Purdue Course Catcher/Cells/PCCNicknameTableViewCell.h"; sourceTree = "<group>"; };
+		FE6DD97118D54E3500D033FC /* PCCNicknameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCNicknameTableViewCell.m; path = "Purdue Course Catcher/Cells/PCCNicknameTableViewCell.m"; sourceTree = "<group>"; };
+		FE6DD97318D5509900D033FC /* PCCNicknameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCNicknameTableViewController.h; path = "Purdue Course Catcher/View Controllers/PCCNicknameTableViewController.h"; sourceTree = "<group>"; };
+		FE6DD97418D5509900D033FC /* PCCNicknameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCNicknameTableViewController.m; path = "Purdue Course Catcher/View Controllers/PCCNicknameTableViewController.m"; sourceTree = "<group>"; };
+		FE7386C818D617B7004EA448 /* twitter.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = twitter.jpg; sourceTree = "<group>"; };
+		FE7386C918D617B7004EA448 /* mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mail.png; sourceTree = "<group>"; };
 		FE7B733E18CE8A0C003D9D11 /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
 		FE7B733F18CE8A0C003D9D11 /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
 		FE7B734118CE8C0A003D9D11 /* PCCIAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCIAPHelper.h; sourceTree = "<group>"; };
@@ -402,6 +412,8 @@
 				FE7B735018CE992F003D9D11 /* PCCSettingsCell.m */,
 				FEE89B8818CEB3D60026AB5F /* PCCStoreCell.h */,
 				FEE89B8918CEB3D60026AB5F /* PCCStoreCell.m */,
+				FE6DD97018D54E3500D033FC /* PCCNicknameTableViewCell.h */,
+				FE6DD97118D54E3500D033FC /* PCCNicknameTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -531,6 +543,8 @@
 				FEB99659188DAC030017C552 /* Registration Header */,
 				FED58A321890D3E9001991F2 /* Registration Basket */,
 				FED58A421890E3BC001991F2 /* Linked Section */,
+				FE6DD97318D5509900D033FC /* PCCNicknameTableViewController.h */,
+				FE6DD97418D5509900D033FC /* PCCNicknameTableViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -645,6 +659,8 @@
 		FED58A2918908DDE001991F2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				FE7386C818D617B7004EA448 /* twitter.jpg */,
+				FE7386C918D617B7004EA448 /* mail.png */,
 				FEB638F318CFEF720066F982 /* cart.png */,
 				FEB638F418CFEF720066F982 /* down_arrow.png */,
 				FE7B735818CEA44A003D9D11 /* Ecommerce-Buy-icon.png */,
@@ -829,9 +845,11 @@
 				FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */,
 				FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */,
 				FE2410551873C6B000AA6328 /* icon-error@2x.png in Resources */,
+				FE7386CA18D617B7004EA448 /* twitter.jpg in Resources */,
 				FED58A361890D76F001991F2 /* shopping-basket.png in Resources */,
 				FEE571A1186A4E4A00FE8FA8 /* blueArrow.png in Resources */,
 				FE24FFDE187E0B57004D540E /* checkmark.png in Resources */,
+				FE7386CB18D617B7004EA448 /* mail.png in Resources */,
 				FE55311C184D3DF800D13587 /* MainStoryboard.storyboard in Resources */,
 				FE2410581873C6B000AA6328 /* icon-success.png in Resources */,
 				FE24107E187540B600AA6328 /* PCCHUDView.xib in Resources */,
@@ -909,6 +927,8 @@
 				FEB4D5D01890EE4600386C86 /* PCCRegistrationCell.m in Sources */,
 				FEE5719E186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m in Sources */,
 				FE553125184D481400D13587 /* PCCMenuViewController.m in Sources */,
+				FE6DD97518D5509900D033FC /* PCCNicknameTableViewController.m in Sources */,
+				FE6DD97218D54E3500D033FC /* PCCNicknameTableViewCell.m in Sources */,
 				FE24FFDB187E0622004D540E /* PCCScrollView.m in Sources */,
 				FE50C5161870B3FC00EF24BA /* PCCSearchResultsCell.m in Sources */,
 				FE7B734318CE8C0A003D9D11 /* PCCIAPHelper.m in Sources */,

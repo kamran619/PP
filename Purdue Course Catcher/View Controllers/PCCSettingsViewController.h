@@ -15,7 +15,10 @@
 @property (nonatomic, strong) IBOutlet UIButton *reset;
 @property (weak, nonatomic) IBOutlet UIButton *resetPressed;
 
-@property (nonatomic, weak) IBOutlet PCCSettingsCell *settingsCell;
-
+@property (nonatomic, weak) IBOutlet PCCSettingsCell *upgradeCell;
+@property (nonatomic, weak) IBOutlet PCCSettingsCell *myPurdueCell;
+@property (nonatomic, weak) IBOutlet PCCSettingsCell *nicknameCell;
+@property (nonatomic, weak) IBOutlet PCCSettingsCell *findByMajorCell;
+@property (nonatomic, weak) IBOutlet PCCSettingsCell *viewMyScheduleCell;
 
 @end

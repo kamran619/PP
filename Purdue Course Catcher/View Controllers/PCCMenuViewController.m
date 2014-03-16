@@ -214,7 +214,7 @@
     
     if ([self.centralViewController.restorationIdentifier isEqualToString:identifier]) {
         block = ^{
-            [UIView animateWithDuration:SLIDE_TIMING/3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [UIView animateWithDuration:SLIDE_TIMING/2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                 self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
             }completion:^(BOOL finished) {
                     if (finished) {
@@ -233,7 +233,7 @@
             [oldCenterVC.view removeFromSuperview];
             //reanimate
             //move to left too far
-            [UIView animateWithDuration:SLIDE_TIMING/3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [UIView animateWithDuration:SLIDE_TIMING/2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                 self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
             }completion:^(BOOL finished) {
                 if (finished) {
@@ -263,7 +263,7 @@
             //reanimate
             //move to left too far
             if (animated) {
-                [UIView animateWithDuration:SLIDE_TIMING delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                [UIView animateWithDuration:SLIDE_TIMING/2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                     self.centralViewController.view.frame = CGRectMake(-10, 0, self.view.frame.size.width, self.view.frame.size.height);
                 }completion:^(BOOL finished) {
                     if (finished) {

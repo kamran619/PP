@@ -75,4 +75,5 @@ enum search
 +(NSInteger)getIntegerRepresentationOfTime:(NSString *)str;
 +(NSArray *)sortArrayUsingTime:(NSMutableArray *)array;
 
++(BOOL)isLoggedIn;
 @end

@@ -177,7 +177,14 @@
     return intergerRepresentation;
 }
 
-
++(BOOL)isLoggedIn
+{
+    NSDictionary *credentials = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kCredentials];
+    NSString *username = [credentials objectForKey:kUsername];
+    NSString *password = [credentials objectForKey:kPassword];
+    return username && password;
+    
+}
 
 @end
 
