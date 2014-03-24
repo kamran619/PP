@@ -29,6 +29,7 @@
 
 @property (nonatomic, strong) IBOutlet UIView *advancedView;
 
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *termButton;
 //in view
 @property (nonatomic, strong) IBOutlet UITextField *courseTitleTextField;
 @property (nonatomic, strong) IBOutlet UITextField *courseNumberTextField;

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ADVAnimationController.h"
+#import "PCFNetworkManager.h"
 
-@interface PCCFTUEViewController : UIViewController <UIScrollViewDelegate, UIViewControllerTransitioningDelegate>
+@interface PCCFTUEViewController : UIViewController <UIScrollViewDelegate, UIViewControllerTransitioningDelegate, PCFNetworkDelegate>
 
 -(void)dismissMe;
 
@@ -20,19 +21,22 @@
 @property (nonatomic, strong) IBOutlet UILabel *mainBody;
 @property (nonatomic, strong) IBOutlet UILabel *subBody;
 
-@property (nonatomic, strong) IBOutlet UILabel *bigP;
-@property (nonatomic, strong) IBOutlet UILabel *bigC;
-@property (nonatomic, strong) IBOutlet UILabel *bigCTwo;
+@property (nonatomic, strong) IBOutlet UILabel *bigB;
+@property (nonatomic, strong) IBOutlet UILabel *bigBTwo;
 @property (nonatomic, strong) IBOutlet UILabel *firstLabel;
 @property (nonatomic, strong) IBOutlet UILabel *secondLabel;
 @property (nonatomic, strong) IBOutlet UILabel *thirdLabel;
 
-@property (nonatomic, strong) IBOutlet UIButton *verifyButton;
+@property (nonatomic, strong) IBOutlet UIImageView *bubbles;
+
+@property (nonatomic, strong) IBOutlet UIButton *facebookButton;
+@property (nonatomic, strong) IBOutlet UIButton *purdueButton;
 @property (nonatomic, strong) IBOutlet UIButton *skipButton;
 
-@property (nonatomic, strong) IBOutlet UILabel *labelFacebook;
-@property (nonatomic, strong) IBOutlet UILabel *labelWhyFacebook;
-@property (nonatomic, strong) IBOutlet UIButton *facebookButton;
+@property (nonatomic, strong) IBOutlet UILabel *socialLabel;
+@property (nonatomic, strong) IBOutlet UILabel *socialText;
+
+@property (nonatomic, assign) int fbLaunched;
 
 @property (nonatomic, strong) id <ADVAnimationController> animationController;
 

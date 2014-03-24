@@ -119,7 +119,7 @@ NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurcha
     
 }
 
-#pragma mark SKPaymentTransactionOBserver
+#pragma mark SKPaymentTransactionObserver
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {

@@ -13,4 +13,5 @@
 @property (nonatomic, strong) IBOutlet PCCNicknameTableViewCell *nicknameCell;
 @property (nonatomic, strong) IBOutlet UITapGestureRecognizer *tapGesture;
 
+@property (nonatomic, strong) NSString *nickname;
 @end

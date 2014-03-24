@@ -55,7 +55,7 @@ typedef enum
 
 #define kSettings @"kSettings"
 #define kNickname @"kNickname"
-#define kFindMeByMajor @"kFindMeByMajor"
+#define kFindByMajor @"kFindByMajor"
 #define kViewMySchedule @"kViewMySchedule"
 
 #define kCredentials @"kCredentials"

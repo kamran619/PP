@@ -9,16 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "PCCTermViewController.h"
 #import "Helpers.h"
+#import "PCCNicknameTableViewCell.h"
 
-@interface PCCPurdueLoginViewController : UIViewController <UITextFieldDelegate>
-@property (nonatomic, strong) IBOutlet UILabel *mainTitle;
-@property (nonatomic, strong) IBOutlet UILabel *detailInfo;
-@property (nonatomic, strong) IBOutlet UILabel *becauseLabel;
-@property (nonatomic, strong) IBOutlet UITextField *username;
-@property (nonatomic, strong) IBOutlet UITextField *password;
-@property (nonatomic, strong) IBOutlet UIButton *buttonWhy;
-@property (nonatomic, strong) IBOutlet UIButton *buttonVerify;
-@property (nonatomic, strong) IBOutlet UIButton *buttonDismiss;
+@interface PCCPurdueLoginViewController : UITableViewController <UITextFieldDelegate>
+
+@property (nonatomic, strong) IBOutlet PCCNicknameTableViewCell *username;
+@property (nonatomic, strong) IBOutlet PCCNicknameTableViewCell *password;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
 - (void)moveControls:(direction)direction animated:(BOOL)animated;
 

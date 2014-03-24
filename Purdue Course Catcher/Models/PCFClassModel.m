@@ -25,10 +25,10 @@ NSString *const kEncodeClassLocation = @"kEncodeClassLocation";
 NSString *const kEncodeInstructorEmail = @"kEncodeInstructorEmail";
 NSString *const kEncodeLinkedID = @"kEncodeLinkedID";
 NSString *const kEncodeLinkedSection = @"kEncodeLinkedSection";
-
+NSString *const kEncodeTerm = @"kEncodeTerm";
 @implementation PCFClassModel
 
--(id)initWithClassTitle:(NSString *)classTitle crn:(NSString *)crn courseNumber:(NSString *)courseNumber Time:(NSString *)Time Days:(NSString *)Days DateRange:(NSString *)daterange ScheduleType:(NSString *)scheduletype Instructor:(NSString *)Instructor Credits:(NSString *)Credits ClassLink:(NSString *)ClassLink CatalogLink:(NSString *)CatalogLink SectionNum:(NSString *)SectionNum ClassLocation:(NSString *)ClassLocation Email:(NSString *)InstructorEmail linkedID:(NSString *)linkedID linkedSection:(NSString *)linkedSection
+-(id)initWithClassTitle:(NSString *)classTitle crn:(NSString *)crn courseNumber:(NSString *)courseNumber Time:(NSString *)Time Days:(NSString *)Days DateRange:(NSString *)daterange ScheduleType:(NSString *)scheduletype Instructor:(NSString *)Instructor Credits:(NSString *)Credits ClassLink:(NSString *)ClassLink CatalogLink:(NSString *)CatalogLink SectionNum:(NSString *)SectionNum ClassLocation:(NSString *)ClassLocation Email:(NSString *)InstructorEmail linkedID:(NSString *)linkedID linkedSection:(NSString *)linkedSection term:(NSString *)term
 {
     self.classTitle = classTitle;
     self.CRN = crn;
@@ -46,6 +46,7 @@ NSString *const kEncodeLinkedSection = @"kEncodeLinkedSection";
     self.instructorEmail = InstructorEmail;
     self.linkedID = linkedID;
     self.linkedSection = linkedSection;
+    self.term = term;
     return self;
 }
 
@@ -69,6 +70,7 @@ NSString *const kEncodeLinkedSection = @"kEncodeLinkedSection";
         self.instructorEmail    = [aDecoder decodeObjectForKey:kEncodeInstructorEmail];
         self.linkedSection = [aDecoder decodeObjectForKey:kEncodeLinkedSection];
         self.linkedID = [aDecoder decodeObjectForKey:kEncodeLinkedID];
+        self.term = [aDecoder decodeObjectForKey:kEncodeTerm];
     }
     return self;
 }
@@ -91,6 +93,7 @@ NSString *const kEncodeLinkedSection = @"kEncodeLinkedSection";
     [aCoder encodeObject:self.instructorEmail forKey:kEncodeInstructorEmail];
     [aCoder encodeObject:self.linkedID forKey:kEncodeLinkedID];
     [aCoder encodeObject:self.linkedSection forKey:kEncodeLinkedSection];
+    [aCoder encodeObject:self.term forKey:kEncodeTerm];
 }
 -(BOOL)isEqual:(id)object
 {

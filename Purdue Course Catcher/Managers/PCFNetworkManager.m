@@ -24,6 +24,7 @@
 #define kCRN @"crn"
 #define kClassLink @"classLink"
 #define kCourseNumber @"courseNumber"
+#define kTerm @"term"
 
 @interface PCFNetworkManager()
 -(void)checkNetworkStatus:(NSNotification *)notification;
@@ -111,12 +112,17 @@ static PCFNetworkManager *_sharedInstance = nil;
 
 -(void)registerForNotifications
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processNotification:) name:kNotificationReceivedFacebookIdentifier object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processNotification:) name:kNotificationReceivedFTUEComplete object:nil];
 }
 
 -(void)processNotification:(NSNotification *)notification
 {
-    if ([[notification name] isEqualToString:kNotificationReceivedFacebookIdentifier]) {
+    if ([[notification name] isEqualToString:kNotificationReceivedFTUEComplete]) {
+        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:3];
+        [dictionary setObject:[[[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary] objectForKey:kName] forKey:kNickname];
+        [dictionary setObject:@YES forKey:kViewMySchedule];
+        [dictionary setObject:@YES forKey:kFindByMajor];
+        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kSettings InDictionary:DataDictionaryUser];
         [self prepareDataForCommand:ServerCommandInitialization withDictionary:notification.userInfo];
     }
     
@@ -250,123 +256,160 @@ static PCFNetworkManager *_sharedInstance = nil;
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:2];
     [dictionary setObject:[NSNumber numberWithInt:command] forKey:SERVER_COMMAND];
     
-    
-    if (command == ServerCommandCatch) {
-        
-        [[KPLightBoxManager sharedInstance] showLightBox];
-        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Catching..."];
-        
-        NSString *identifier = [Helpers getFacebookIdentifier];
-        if (!identifier) identifier = @"no id";
-        
-        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:4];
-        
-        [dataDictionary setObject:identifier forKey:kUserID];
-        [dataDictionary setObject:[dict objectForKey:kCRN] forKey:kCRN];
-        [dataDictionary setObject:[dict objectForKey:kClassLink] forKey:kClassLink];
-        [dataDictionary setObject:[dict objectForKey:kCourseNumber] forKey:kCourseNumber];
-        
-        [dictionary setObject:dataDictionary.copy forKey:kData];
-        
-        NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-        const char* newLine = "\r\n";
-        [JSONData appendBytes:(const uint8_t*)newLine length:2];
-        //pass to timer
-        if (!error) [self sendDataToServer:JSONData.copy forCommand:command];
-    
-    }else if (command == ServerCommandUnCatch) {
-        
-        [[KPLightBoxManager sharedInstance] showLightBox];
-        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Uncatching..."];
-        
-        NSString *identifier = [Helpers getFacebookIdentifier];
-        if (!identifier) identifier = @"no id";
-        
-        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:4];
-        
-        [dataDictionary setObject:identifier forKey:kUserID];
-        [dataDictionary setObject:[dict objectForKey:kCRN] forKey:kCRN];
-        
-        [dictionary setObject:dataDictionary.copy forKey:kData];
-        
-        NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-        const char* newLine = "\r\n";
-        [JSONData appendBytes:(const uint8_t*)newLine length:2];
-        //pass to timer
-        if (!error) [self sendDataToServer:JSONData.copy forCommand:command];
-    
-    }else if (command == ServerCommandInitialization) {
-        //create dictionary to send
-        NSString *identifier = [dict objectForKey:@"id"];
-        NSString *token = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
-
-        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
-        [dataDictionary setObject:token forKey:kDeviceToken];
-        [dataDictionary setObject:identifier forKey:kUserID];
-        
-        [dictionary setObject:dataDictionary.copy forKey:kData];
-        
-        NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-        const char* newLine = "\r\n";
-        [JSONData appendBytes:(const uint8_t*)newLine length:2];
-        
-        if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandInitialization];
-    
-    }else if (command == ServerCommandUpdate) {
-        
-        NSString *identifier = [Helpers getFacebookIdentifier];
-        if (!identifier) identifier = @"simulator_id";
-        NSString *token = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
-
-        NSDictionary *schoolInfo = (!dict) ? [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary] : dict;
-        
-        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
-        [dataDictionary setObject:token forKey:kDeviceToken];
-        [dataDictionary setObject:identifier forKey:kUserID];
-        
-        if (schoolInfo) [dataDictionary setObject:schoolInfo forKey:kEducationInfoDictionary];
-        
-        [dictionary setObject:dataDictionary.copy forKey:kData];
-        
-        NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-        const char* newLine = "\r\n";
-        [JSONData appendBytes:(const uint8_t*)newLine length:2];
-        
-        if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandUpdate];
-    
-    }else if (command == ServerCommandSendSchedule) {
-        
-        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
-        
-        NSArray *add = [dict objectForKey:@"add"];
-        if (add.count > 0) {
-            [dataDictionary setObject:add forKey:@"add"];
+    switch (command) {
+        case ServerCommandCatch:
+        {
+            [[KPLightBoxManager sharedInstance] showLightBox];
+            [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Catching..."];
+            
+            NSString *identifier = [Helpers getPUID];
+            
+            NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:4];
+            
+            [dataDictionary setObject:identifier forKey:kUsername];
+            [dataDictionary setObject:[dict objectForKey:kCRN] forKey:kCRN];
+            [dataDictionary setObject:[dict objectForKey:kClassLink] forKey:kClassLink];
+            [dataDictionary setObject:[dict objectForKey:kCourseNumber] forKey:kCourseNumber];
+            [dataDictionary setObject:[dict objectForKey:kTerm] forKey:kTerm];
+            [dictionary setObject:dataDictionary.copy forKey:kData];
+            
+            NSError *error;
+            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
+            const char* newLine = "\r\n";
+            [JSONData appendBytes:(const uint8_t*)newLine length:2];
+            //pass to timer
+            if (!error) [self sendDataToServer:JSONData.copy forCommand:command];
         }
-        NSArray *remove = [dict objectForKey:@"remove"];
-        if (remove.count > 0) {
-            [dataDictionary setObject:remove forKey:@"remove"];
+            break;
+        case ServerCommandUnCatch:
+        {
+            [[KPLightBoxManager sharedInstance] showLightBox];
+            [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Uncatching..."];
+            
+            NSString *identifier = [Helpers getPUID];
+            
+            NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:4];
+            
+            [dataDictionary setObject:identifier forKey:kUsername];
+            [dataDictionary setObject:[dict objectForKey:kCRN] forKey:kCRN];
+            [dataDictionary setObject:[dict objectForKey:kTerm] forKey:kTerm];
+            
+            [dictionary setObject:dataDictionary.copy forKey:kData];
+            
+            NSError *error;
+            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
+            const char* newLine = "\r\n";
+            [JSONData appendBytes:(const uint8_t*)newLine length:2];
+            //pass to timer
+            if (!error) [self sendDataToServer:JSONData.copy forCommand:command];
         }
-        
-        if (add.count == 0 && remove.count == 0) return;
-        
-        NSString *user = [[[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kCredentials] objectForKey:kUsername];
-        [dataDictionary setObject:[Helpers getFacebookIdentifier] forKey:kUserID];
-        
-        PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
-        [dataDictionary setObject:term.value forKey:@"term"];
-        [dictionary setObject:dataDictionary forKey:kData];
-        
-        NSError *error;
-        NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-        const char* newLine = "\r\n";
-        [JSONData appendBytes:(const uint8_t*)newLine length:2];
-        
-        if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandSendSchedule];
-        
+            break;
+        case ServerCommandInitialization:
+        {
+            /*Note, we are now authenticating students first, so in the init packet we will send their purdue username, name, major, classification, and if applicable device token and fbid*/
+            
+            //create dictionary to send
+            NSString *identifier = [dict objectForKey:@"id"];
+            NSString *token = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
+            
+            NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+            if (token) [dataDictionary setObject:token forKey:kDeviceToken];
+            if (identifier) [dataDictionary setObject:identifier forKey:kUserID];
+            
+            NSDictionary *schoolInfo = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary];
+            NSString *purdueUsername = [Helpers getPUID];
+            
+            [dataDictionary setObject:schoolInfo.copy forKey:kEducationInfoDictionary];
+            [dataDictionary setObject:purdueUsername forKey:kUsername];
+            [dictionary setObject:dataDictionary.copy forKey:kData];
+            
+            NSError *error;
+            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
+            const char* newLine = "\r\n";
+            [JSONData appendBytes:(const uint8_t*)newLine length:2];
+            
+            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandInitialization];
+        }
+            break;
+            
+        case ServerCommandUpdate:
+        {
+            NSString *identifier = [Helpers getFacebookIdentifier];
+            if (!identifier) identifier = @"simulator_id";
+            NSString *token = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kDeviceToken];
+            
+            NSDictionary *schoolInfo = (!dict) ? [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary] : dict;
+            
+            NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+            [dataDictionary setObject:token forKey:kDeviceToken];
+            [dataDictionary setObject:identifier forKey:kUserID];
+            [dataDictionary setObject:[Helpers getPUID] forKey:kUsername];
+            if (schoolInfo) [dataDictionary setObject:schoolInfo forKey:kEducationInfoDictionary];
+            
+            [dictionary setObject:dataDictionary.copy forKey:kData];
+            
+            NSError *error;
+            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
+            const char* newLine = "\r\n";
+            [JSONData appendBytes:(const uint8_t*)newLine length:2];
+            
+            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandUpdate];
+        }
+            break;
+            
+        case ServerCommandSendSchedule:
+        {
+            NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+            
+            NSArray *add = [dict objectForKey:@"add"];
+            if (add.count > 0) {
+                [dataDictionary setObject:add forKey:@"add"];
+            }
+            NSArray *remove = [dict objectForKey:@"remove"];
+            if (remove.count > 0) {
+                [dataDictionary setObject:remove forKey:@"remove"];
+            }
+            
+            if (add.count == 0 && remove.count == 0) return;
+            
+            NSString *user = [Helpers getPUID];
+            [dataDictionary setObject:user forKey:kUsername];
+            
+            PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+            [dataDictionary setObject:term.value forKey:@"term"];
+            [dictionary setObject:dataDictionary forKey:kData];
+            
+            NSError *error;
+            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
+            const char* newLine = "\r\n";
+            [JSONData appendBytes:(const uint8_t*)newLine length:2];
+            
+            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandSendSchedule];
+        }
+            break;
+            
+        case ServerCommandSettings:
+        {
+            NSString *identifier = [Helpers getPUID];
+            
+            NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+            [dataDictionary setObject:identifier forKey:kUsername];
+            
+            NSDictionary *settingsDictionary = dict;//[[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kSettings];
+            
+            [dataDictionary setObject:settingsDictionary.copy forKey:kSettings];
+            [dictionary setObject:dataDictionary.copy forKey:kData];
+            
+            NSError *error;
+            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
+            const char* newLine = "\r\n";
+            [JSONData appendBytes:(const uint8_t*)newLine length:2];
+            
+            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandSettings];
+        }
+            break;
+        default:
+            break;
     }
 }
 -(void)sendDataToServer:(NSData *)data forCommand:(ServerCommand)command

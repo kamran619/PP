@@ -14,7 +14,8 @@ enum ServerCommand
     ServerCommandUnCatch = 1,
     ServerCommandInitialization = 2,
     ServerCommandUpdate = 3,
-    ServerCommandSendSchedule = 4
+    ServerCommandSendSchedule = 4,
+    ServerCommandSettings = 5
     
 } typedef ServerCommand;
 

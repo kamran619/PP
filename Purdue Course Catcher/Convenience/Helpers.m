@@ -14,6 +14,37 @@
 
 @implementation Helpers
 
+#pragma mark UI Colors
+
++(UIColor *)purdueColor:(enum PurdueColor)color
+{
+    UIColor *customColor;
+    
+    switch (color) {
+        case PurdueColorYellow:
+            customColor = [UIColor colorWithRed:.890f green:.6824f blue:.1411f alpha:1.0f];
+            break;
+        case PurdueColorDarkGrey:
+            customColor = [UIColor colorWithRed:.455f green:.4235f blue:.4f alpha:1.0f];
+            break;
+            
+        case PurdueColorMidGrey:
+            //167 169 172
+            customColor = [UIColor colorWithRed:.655f green:.6627f blue:.6745f alpha:1.0f];
+            break;
+            
+        case PurdueColorLightGrey:
+            //209 211 212
+            customColor = [UIColor colorWithRed:.8196f green:.8274f blue:.8314f alpha:1.0f];
+            break;
+            
+        default:
+            break;
+    }
+    
+    return customColor;
+}
+
 +(BOOL)isiPhone
 {
     return ([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone);
@@ -95,7 +126,12 @@
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary <FBGraphUser> *user, NSError *error) {
             if (!error) {
                 [[PCCDataManager sharedInstance] setObject:user.id ForKey:kUserID InDictionary:DataDictionaryUser];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationReceivedFacebookIdentifier object:[PCFNetworkManager sharedInstance] userInfo:user];
+                /*creating user for the first time, let's get their name and save it as the nickname and name
+                NSMutableDictionary *schoolInfo = [NSMutableDictionary dictionaryWithCapacity:3];
+                [schoolInfo setObject:user.name forKey:kName];
+                [[PCCDataManager sharedInstance] setObject:schoolInfo ForKey:kEducationInfoDictionary InDictionary:DataDictionaryUser];
+                 */
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationReceivedFTUEComplete object:[PCFNetworkManager sharedInstance] userInfo:user];
             }else {
                 NSLog(@"Error getting fbid");
             }
@@ -118,6 +154,7 @@
 
 +(void)setInitialization
 {
+    //we have created an account on the server side
     [[PCCDataManager sharedInstance] setObject:[NSNumber numberWithInt:1] ForKey:kInitialized InDictionary:DataDictionaryUser];
 }
 
@@ -186,5 +223,11 @@
     
 }
 
++(NSString *)getPUID
+{
+    NSDictionary *credentials = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kCredentials];
+    NSString *username = [credentials objectForKey:kUsername];
+    return username;
+}
 @end
 

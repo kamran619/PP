@@ -50,7 +50,6 @@
 {
     [super viewDidLoad];
     [self initController];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -77,6 +76,7 @@
     }else {
         //we have the preferred search term saved..lets let them directly search
         myPreferredSearchTerm = [[PCCObject alloc] initWithKey:preferredSearchTerm.key AndValue:preferredSearchTerm.value];
+        [self.termButton setTitle:myPreferredSearchTerm.key];
         [self.containerViewSearch fadeIn];
         //[self addBarButtonItem];
         //we have terms..lets show them, and still make a network call
@@ -89,7 +89,7 @@
 -(void)initController
 {
 
-    [self.segmentedControl setTintColor:[UIColor whiteColor]];
+    //[self.segmentedControl setTintColor:[Helpers purdueColor:PurdueColorYellow]];
     
     //init animation controller
     self.animationController = [[ZoomAnimationController alloc] init];
@@ -108,9 +108,10 @@
     self.advancedView.hidden = YES;
     
     //init autoCompleteViews
-    CGPoint point = self.segmentedControl.center;
+    CGPoint point = self.fadeText.center;
     CGRect frame = CGRectMake(40, point.y + 45, 240, 35);
     self.autoCompleteTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
+    self.doneButton.frame = CGRectOffset(frame, 0, 60);
     [self.autoCompleteTextField setDataToAutoComplete:nil];
     [self.autoCompleteTextField.textField setFont:[UIFont systemFontOfSize:16]];
     [self.autoCompleteTextField.textField setClearsOnBeginEditing:YES];
@@ -135,14 +136,15 @@
     self.segmentedControl.selectedSegmentIndex = 0;
     
     //setup the views state
-    
+    PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    if (term) self.termButton.title = term.key;
 }
 
 #pragma mark PCCTerm Delegate
 -(void)termPressed:(PCCObject *)term
 {
     myPreferredSearchTerm = [[PCCObject alloc] initWithKey:term.key AndValue:term.value];
-    
+    self.termButton.title = myPreferredSearchTerm.key;
     [[PCCDataManager sharedInstance] setObject:myPreferredSearchTerm ForKey:kPreferredSearchTerm InDictionary:DataDictionaryUser];
     
     [self.containerViewSearch fadeIn];

@@ -28,6 +28,7 @@
 		FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFDD187E0B57004D540E /* checkmark@2x.png */; };
 		FE24FFE2187E1974004D540E /* PCCPurdueLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */; };
 		FE24FFE5187E5F2F004D540E /* PCCFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */; };
+		FE26BA0B18D7F23300FB1E83 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = FE26BA0A18D7F23300FB1E83 /* bubble.png */; };
 		FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */; };
 		FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */; };
 		FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5121870989A00EF24BA /* PCCEmptyCell.m */; };
@@ -157,6 +158,7 @@
 		FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCPurdueLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCPurdueLoginViewController.m"; sourceTree = "<group>"; };
 		FE24FFE3187E5F2F004D540E /* PCCFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCFacebookLoginViewController.h; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.h"; sourceTree = "<group>"; };
 		FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCFacebookLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.m"; sourceTree = "<group>"; };
+		FE26BA0A18D7F23300FB1E83 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		FE4D4C491895F0A900A5DBE1 /* PCCRegistrationError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCRegistrationError.h; sourceTree = "<group>"; };
 		FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCRegistrationError.m; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 		FED58A2918908DDE001991F2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				FE26BA0A18D7F23300FB1E83 /* bubble.png */,
 				FE7386C818D617B7004EA448 /* twitter.jpg */,
 				FE7386C918D617B7004EA448 /* mail.png */,
 				FEB638F318CFEF720066F982 /* cart.png */,
@@ -855,6 +858,7 @@
 				FE24107E187540B600AA6328 /* PCCHUDView.xib in Resources */,
 				FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */,
 				FEB99658188DABFE0017C552 /* PCCHeaderViewController.xib in Resources */,
+				FE26BA0B18D7F23300FB1E83 /* bubble.png in Resources */,
 				FE7B735718CEA40E003D9D11 /* info.png in Resources */,
 				FE2410561873C6B000AA6328 /* icon-info.png in Resources */,
 				FE24107818753C5600AA6328 /* PCCCatalogViewController.xib in Resources */,

@@ -35,12 +35,18 @@
 {
     [super viewDidLoad];
     loginSuccessfull = NO;
-    [self moveControls:directionDown animated:NO];
-    self.becauseLabel.hidden = NO;
-	// Do any additional setup after loading the view.
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    self.tapGesture.numberOfTapsRequired = 1;
+    self.tapGesture.numberOfTouchesRequired = 1;
+    [self.tableView addGestureRecognizer:self.tapGesture];
 }
 
-- (void)moveControls:(direction)direction animated:(BOOL)animated
+-(void)tapped:(id)sender
+{
+    [self.tableView endEditing:YES];
+}
+
+/*- (void)moveControls:(direction)direction animated:(BOOL)animated
 {
     CGAffineTransform t;
     if (direction == directionDown) {
@@ -60,28 +66,32 @@
         self.buttonWhy.transform = t;
         self.becauseLabel.transform = t;
     }
-}
+}*/
+
 - (IBAction)dismissPressed:(id)sender {
-    PCCMenuViewController *vc = (PCCMenuViewController*)[self presentingViewController];
     //MyPurdueManager will send data once we get it
     /*if (loginSuccessfull == YES) {
         [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:nil];
     }*/
-    
+
     [self dismissViewControllerAnimated:YES completion:^{
         if (loginSuccessfull == YES) {
-            PCCSideMenuViewController *menu = (PCCSideMenuViewController *)[vc leftViewController];
-            
-            if (self.type == PCCTermTypeSchedule) {
-                [menu menuItemPressed:@"Schedule"];
-            }else if (self.type == PCCTermTypeRegistration) {
-                [menu menuItemPressed:@"Register"];
+            if ([self.presentingViewController isKindOfClass:[PCCMenuViewController class]]) {
+                PCCMenuViewController *vc = (PCCMenuViewController*)[self presentingViewController];
+                PCCSideMenuViewController *menu = (PCCSideMenuViewController *)[vc leftViewController];
+                if (self.type == PCCTermTypeSchedule) {
+                    [menu menuItemPressed:@"Schedule"];
+                }else if (self.type == PCCTermTypeRegistration) {
+                    [menu menuItemPressed:@"Register"];
+                }
             }
+            
+            
         }
     }];
 }
 
--(IBAction)whyPressed:(id)sender
+/*-(IBAction)whyPressed:(id)sender
 {
     if (CGAffineTransformEqualToTransform(self.buttonWhy.transform, CGAffineTransformIdentity)) {
         //its moved up.move it down
@@ -90,17 +100,17 @@
         [self moveControls:directionUp animated:YES];
     }
 }
-
+*/
 
 -(IBAction)verifyPressed:(id)sender
 {
     [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Verifying..."];
     
     [Helpers asyncronousBlockWithName:@"Check login credentials" AndBlock:^{
-        BOOL success = [[MyPurdueManager sharedInstance] loginWithUsername:self.username.text andPassword:self.password.text];
+        BOOL success = [[MyPurdueManager sharedInstance] loginWithUsername:self.username.textField.text andPassword:self.password.textField.text];
         if (success) {
                 [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Logged in..." success:YES];
-                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:self.username.text, kUsername, self.password.text, kPassword, nil];
+                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:self.username.textField.text, kUsername, self.password.textField.text, kPassword, nil];
                 [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kCredentials InDictionary:DataDictionaryUser];
                 loginSuccessfull = YES;
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -114,14 +124,10 @@
     }];
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
+/*
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
 }
-
+*/
 @end

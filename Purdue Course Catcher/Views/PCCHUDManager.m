@@ -91,6 +91,15 @@ static PCCHUDManager *_sharedInstance = nil;
     
 }
 
+-(void)dismissHUDOnly
+{
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(dismissHUDOnly) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    [self.hudView hideHUD];
+}
+
 -(void)dismissHUD
 {
     if (![NSThread isMainThread]) {

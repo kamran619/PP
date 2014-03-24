@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PCCSettingsCell.h"
-@interface PCCSettingsViewController : UITableViewController
+#import "PCFNetworkManager.h"
+
+@interface PCCSettingsViewController : UITableViewController <PCFNetworkDelegate>
 
 @property (nonatomic, strong) IBOutlet UIButton *report;
 @property (nonatomic, strong) IBOutlet UIButton *rate;

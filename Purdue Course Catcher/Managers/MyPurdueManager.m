@@ -126,7 +126,8 @@ static MyPurdueManager *_sharedInstance = nil;
                 NSDictionary *studentDictionary = [[MyPurdueManager sharedInstance] getStudentInformation];
                 
                 [[PCCDataManager sharedInstance] setObject:studentDictionary ForKey:kEducationInfoDictionary InDictionary:DataDictionaryUser];
-                [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:studentDictionary];
+                //no longer need to send here, sent at the end of the FTUE
+                //[[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:studentDictionary];
             }];
             
         }
@@ -557,7 +558,8 @@ static MyPurdueManager *_sharedInstance = nil;
 {
     NSArray *courses = nil;
     NSString *webData = [[self class] queryServer:URL_COURSE_SEARCH connectionType:@"POST" referer:URL_LINK_FROM_TERM arguements:queryString];
-    if (webData) courses = [[self class] parseData:webData type:ParseClasses term:nil];
+    PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    if (webData) courses = [[self class] parseData:webData type:ParseClasses term:term.value];
     return courses;
 }
 
@@ -568,7 +570,7 @@ static MyPurdueManager *_sharedInstance = nil;
     NSString *queryString = [[self class] queryServer:URL connectionType:nil referer:nil arguements:nil];
     NSString *query = (NSString *)[[self class] parseData:queryString type:ParseCRN term:term];
     NSString *webData = [[self class] queryServer:URL_COURSE_SEARCH connectionType:@"POST" referer:URL_LINK_FROM_TERM arguements:query];
-    NSArray *classes = [[self class] parseData:webData type:ParseClasses term:nil];
+    NSArray *classes = [[self class] parseData:webData type:ParseClasses term:term];
     for (PCFClassModel *class in classes) {
         if ([CRN isEqualToString:class.CRN]) return [NSArray arrayWithObject:class];
     }
@@ -887,7 +889,7 @@ static MyPurdueManager *_sharedInstance = nil;
                     [tempScanner scanUpToString:@"\"" intoString:&instructor];
                 }
                 [classes addObject:[[PCFClassModel alloc] initWithClassTitle:classTitle crn:CRN
-                                                                courseNumber:courseName Time:classTime Days:classDays DateRange:classDateRange ScheduleType:scheduleType Instructor:instructor Credits:numCredits ClassLink:classLink CatalogLink:catalogLink SectionNum:sectionNum ClassLocation:classLocation Email:instructorEmail linkedID:linkID linkedSection:linkedSection]];
+                                                                courseNumber:courseName Time:classTime Days:classDays DateRange:classDateRange ScheduleType:scheduleType Instructor:instructor Credits:numCredits ClassLink:classLink CatalogLink:catalogLink SectionNum:sectionNum ClassLocation:classLocation Email:instructorEmail linkedID:linkID linkedSection:linkedSection term:term]];
             }
             
         }
@@ -1198,7 +1200,7 @@ static MyPurdueManager *_sharedInstance = nil;
                         [tempScanner setScanLocation:tempScanner.scanLocation + 8];
                         [tempScanner scanUpToString:@"\"" intoString:&instructor];
                     }
-                    PCFClassModel *scheduledCourse = [[PCFClassModel alloc] initWithClassTitle:courseTitle crn:crn courseNumber:courseName Time:time Days:days DateRange:dateRange ScheduleType:classType Instructor:instructor Credits:credits ClassLink:nil CatalogLink:nil SectionNum:section ClassLocation:location Email:instructorEmail linkedID:nil linkedSection:nil];
+                    PCFClassModel *scheduledCourse = [[PCFClassModel alloc] initWithClassTitle:courseTitle crn:crn courseNumber:courseName Time:time Days:days DateRange:dateRange ScheduleType:classType Instructor:instructor Credits:credits ClassLink:nil CatalogLink:nil SectionNum:section ClassLocation:location Email:instructorEmail linkedID:nil linkedSection:nil term:term];
                     if (![array containsObject:scheduledCourse]) [array addObject:scheduledCourse];
                 }
             }@catch (NSException *exception) {
@@ -1311,13 +1313,12 @@ static MyPurdueManager *_sharedInstance = nil;
                 
                 course = [course substringToIndex:course.length-2];
                 NSString *courseNumber = [NSString stringWithFormat:@"%@ %@", subject, course];
-                PCFClassModel *class = [[PCFClassModel alloc] initWithClassTitle:title crn:crn courseNumber:courseNumber Time:nil Days:nil DateRange:nil ScheduleType:nil Instructor:nil Credits:credits ClassLink:nil CatalogLink:nil SectionNum:section ClassLocation:nil Email:nil linkedID:nil linkedSection:nil];
+                PCFClassModel *class = [[PCFClassModel alloc] initWithClassTitle:title crn:crn courseNumber:courseNumber Time:nil Days:nil DateRange:nil ScheduleType:nil Instructor:nil Credits:credits ClassLink:nil CatalogLink:nil SectionNum:section ClassLocation:nil Email:nil linkedID:nil linkedSection:nil term:term];
                 class.gradeMode = gradeMode;
                 class.level = level;
                 class.startDate = startDate;
                 class.endDate = endDate;
                 class.status = status;
-                class.term = term;
             
                 [array addObject:class];
             }

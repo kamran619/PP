@@ -11,6 +11,9 @@
 #import "PCCPurchaseViewController.h"
 #import "PCCIAPHelper.h"
 #import "Helpers.h"
+#import "PCCNicknameTableViewController.h"
+#import "PCFNetworkManager.h"
+#import "PCCHUDManager.h"
 
 enum sections
 {
@@ -23,6 +26,8 @@ enum sections
 @interface PCCSettingsViewController ()
 {
     BOOL loggedIn;
+    NSString *nickname;
+    NSString *oldNickname;
     NSNumber *findByMajor;
     NSNumber *viewMySchedule;
 }
@@ -70,15 +75,56 @@ enum sections
         loggedIn = NO;
     }
     
-    //check settings and load them
     NSDictionary *settings = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kSettings];
-    findByMajor = [settings objectForKey:kFindMeByMajor];
+    nickname = [settings objectForKey:kNickname];
+    //check settings and load them
+    if (oldNickname && ![oldNickname isEqualToString:nickname]) [self showSaveButton];
+    if (!nickname) nickname = [[[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary] objectForKey:kName];
+    self.nicknameCell.detail.text = nickname;
+    findByMajor = [settings objectForKey:kFindByMajor];
     viewMySchedule = [settings objectForKey:kViewMySchedule];
     if (!findByMajor) findByMajor = @YES;
     if (!viewMySchedule) viewMySchedule = @YES;
     
     self.findByMajorCell.detail.text = findByMajor.boolValue ? @"YES" : @"NO";
     self.viewMyScheduleCell.detail.text = viewMySchedule.boolValue ? @"YES" : @"NO";
+    
+    
+}
+
+-(void)showSaveButton
+{
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveSettings:)];
+    [self.navigationItem setRightBarButtonItem:button animated:YES];
+    /*[UIView animateWithDuration:0.25f animations:^{
+        button.
+    }completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.25f animations:^{
+            
+        }];
+    }];*/
+}
+
+-(void)saveSettings:(id)sender
+{
+    [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Saving..."];
+    [PCFNetworkManager sharedInstance].delegate = self;
+    NSDictionary *dictionary = @{kNickname: nickname, kFindByMajor: findByMajor, kViewMySchedule: viewMySchedule};
+    [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandSettings withDictionary:dictionary];
+}
+
+-(void)responseFromServer:(NSDictionary *)responseDictionary initialRequest:(NSDictionary *)requestDictionary wasSuccessful:(BOOL)success
+{
+    if (success) {
+        NSMutableDictionary *settingsDictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kSettings];
+        [settingsDictionary setObject:findByMajor forKey:kFindByMajor];
+        [settingsDictionary setObject:viewMySchedule forKey:kViewMySchedule];
+        [[PCCDataManager sharedInstance] setObject:settingsDictionary ForKey:kSettings InDictionary:DataDictionaryUser];
+        [self.navigationItem setRightBarButtonItem:nil animated:YES];
+        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Saved" success:YES];
+    }else {
+        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Failed" success:NO];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -122,16 +168,20 @@ enum sections
             
         case sectionPrivacy:
             if (indexPath.row == 1) {
+                [self showSaveButton];
                 if ([findByMajor  isEqual: @YES]) {
                     //set to disallow
                     self.findByMajorCell.detail.text = @"NO";
                     findByMajor = @NO;
+                    [self showSaveButton];
                 }else {
                     //set to allow
                     self.findByMajorCell.detail.text = @"YES";
                     findByMajor = @YES;
+            
                 }
             }else if (indexPath.row == 2) {
+                [self showSaveButton];
                 if ([viewMySchedule  isEqual: @YES]) {
                     //set to disallow
                     self.viewMyScheduleCell.detail.text = @"NO";
@@ -152,6 +202,15 @@ enum sections
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"SegueNickname"]) {
+        PCCNicknameTableViewController *vc = segue.destinationViewController;
+        vc.nickname = self.nicknameCell.detail.text;
+        oldNickname = self.nicknameCell.detail.text;
+    }
 }
 
 @end

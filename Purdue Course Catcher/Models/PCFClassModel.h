@@ -29,6 +29,7 @@
 @property (nonatomic, copy) NSString *linkedID;
 @property (nonatomic, copy) NSString *linkedSection;
 
+//for registration purposes
 @property (nonatomic, copy) NSString *gradeMode;
 @property (nonatomic, copy) NSString *level;
 @property (nonatomic, copy) NSString *term;
@@ -36,7 +37,7 @@
 @property (nonatomic, copy) NSString *endDate;
 @property (nonatomic, copy) NSString *status;
 
--(id)initWithClassTitle:(NSString *)classTitle crn:(NSString *)crn courseNumber:(NSString *)courseNumber Time:(NSString *)Time Days:(NSString *)Days DateRange:(NSString *)daterange ScheduleType:(NSString *)scheduletype Instructor:(NSString *)Instructor Credits:(NSString *)Credits ClassLink:(NSString *)ClassLink CatalogLink:(NSString *)CatalogLink SectionNum:(NSString *)SectionNum ClassLocation:(NSString *)ClassLocation Email:(NSString *)InstructorEmail linkedID:(NSString *)linkedID linkedSection:(NSString *)linkedSection;
+-(id)initWithClassTitle:(NSString *)classTitle crn:(NSString *)crn courseNumber:(NSString *)courseNumber Time:(NSString *)Time Days:(NSString *)Days DateRange:(NSString *)daterange ScheduleType:(NSString *)scheduletype Instructor:(NSString *)Instructor Credits:(NSString *)Credits ClassLink:(NSString *)ClassLink CatalogLink:(NSString *)CatalogLink SectionNum:(NSString *)SectionNum ClassLocation:(NSString *)ClassLocation Email:(NSString *)InstructorEmail linkedID:(NSString *)linkedID linkedSection:(NSString *)linkedSection term:(NSString *)term;
 -(id)initWithCoder:(NSCoder *)aDecoder;
 -(void)encodeWithCoder:(NSCoder *)aCoder;
 

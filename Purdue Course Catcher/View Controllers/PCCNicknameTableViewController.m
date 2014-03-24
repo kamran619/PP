@@ -7,6 +7,7 @@
 //
 
 #import "PCCNicknameTableViewController.h"
+#import "PCCDataManager.h"
 
 @interface PCCNicknameTableViewController ()
 
@@ -31,7 +32,25 @@
     [self.tapGesture setNumberOfTapsRequired:1];
     [self.tapGesture setNumberOfTouchesRequired:1];
     [self.tableView addGestureRecognizer:self.tapGesture];
+    
+    self.nicknameCell.textField.text = self.nickname;
     //self.nicknameCell.textField.delegate = self;
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (![self.nickname isEqualToString:self.nicknameCell.textField.text]) {
+        NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kSettings];
+        if (!dictionary) {
+            dictionary = [[NSMutableDictionary alloc] initWithCapacity:3];
+            [dictionary setObject:@YES forKey:kFindByMajor];
+            [dictionary setObject:@YES forKey:kViewMySchedule];
+        }
+        [dictionary setObject:self.nicknameCell.textField.text forKey:kNickname];
+        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kSettings InDictionary:DataDictionaryUser];
+    }
     
 }
 

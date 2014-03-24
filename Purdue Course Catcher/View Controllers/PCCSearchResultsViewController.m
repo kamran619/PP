@@ -103,7 +103,6 @@
     [[cell credits] setText:[NSString stringWithFormat:@"%d %@", credits, credit]];
     [[cell crn] setText:obj.CRN];
     [[cell professor] setText:obj.instructor];
-    
     //Hilight date if it is in the range
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM d, y"];
@@ -307,7 +306,7 @@
         catalogVC.header = class.classTitle;
         catalogVC.vc = self;
         //[[KPLightBoxManager sharedInstance] dismissLightBox];
-        [[PCCHUDManager sharedInstance] dismissHUD];
+        [[PCCHUDManager sharedInstance] dismissHUDOnly];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //[vc setTransitioningDelegate:self];

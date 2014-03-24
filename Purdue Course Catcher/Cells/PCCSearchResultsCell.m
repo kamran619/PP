@@ -42,15 +42,15 @@
     [PCFNetworkManager sharedInstance].delegate = self;
     
     if ([button.titleLabel.text isEqualToString:@"Catch"]) {
-        NSArray *keys = [NSArray arrayWithObjects:@"crn", @"classLink", @"courseNumber" , nil];
-        NSArray *objects = [NSArray arrayWithObjects:self.course.CRN, self.course.classLink, self.course.courseNumber, nil];
+        NSArray *keys = [NSArray arrayWithObjects:@"crn", @"classLink", @"courseNumber" , @"term",  nil];
+        NSArray *objects = [NSArray arrayWithObjects:self.course.CRN, self.course.classLink, self.course.courseNumber, self.course.term , nil];
         NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
         [[PCFNetworkManager sharedInstance] setDelegate:self];
         [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandCatch withDictionary:dictionary];
     }else if ([button.titleLabel.text isEqualToString:@"Uncatch"]) {
         //uncatch
-        NSArray *keys = [NSArray arrayWithObjects:@"crn" , nil];
-        NSArray *objects = [NSArray arrayWithObjects:self.course.CRN, nil];
+        NSArray *keys = [NSArray arrayWithObjects:@"crn" , @"term",  nil];
+        NSArray *objects = [NSArray arrayWithObjects:self.course.CRN, self.course.term, nil];
         NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
         [[PCFNetworkManager sharedInstance] setDelegate:self];
         [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUnCatch withDictionary:dictionary];

@@ -18,6 +18,7 @@
 -(void)flashHUDWithCaption:(NSString *)caption andImage:(UIImage *)image forDuration:(CGFloat)duration;
 -(void)updateHUDWithCaption:(NSString *)caption success:(BOOL)success;
 -(void)dismissHUD;
+-(void)dismissHUDOnly;
 
 @property (nonatomic, strong) PCCHUDView *hudView;
 @end

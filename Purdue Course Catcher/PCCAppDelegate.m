@@ -27,6 +27,7 @@
     
     //
     [[UITextField appearance] setTintColor:[UIColor blackColor]];
+
     //register for PN
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound];
     
@@ -36,8 +37,10 @@
     
     //
     
+    //&& !(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)
+    //we don't care about the fb state anymore
     
-    if ([Helpers hasRanAppBefore] == NO && !(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)) {
+    if ([Helpers hasRanAppBefore] == NO) {
         self.window.rootViewController = [[PCCFTUEViewController alloc] initWithNibName:@"PCCFTUEViewController" bundle:nil];
     }else {
         
@@ -140,7 +143,7 @@
 -(void) openSession
 {
     
-    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"user_education_history", @"friends_about_me", @"friends_education_history"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"user_education_history", @"friends_about_me", @"friends_education_history"] allowLoginUI:NO completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
         [self sessionStateChanged:session state:status error:error];
     }];
 }
@@ -152,6 +155,7 @@
     if (!error && state == FBSessionStateOpen){
         NSLog(@"Session opened");
         if (![Helpers hasRanAppBefore])  {
+            //create settings dict for user
             [PCFNetworkManager sharedInstance].delegate = self;
             [Helpers requestFacebookIdentifier];
             //send fbid to server through notification

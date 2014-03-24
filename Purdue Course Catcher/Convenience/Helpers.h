@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-#define SERVER_ADDRESS @"PCW.crabdance.com"
+#define SERVER_ADDRESS @"127.0.0.1"//@"PCW.crabdance.com"
 #define PORT 12345
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
 
 #define kNotificationReceivedFacebookIdentifier @"kNotificationReceivedFacebookIdentifier"
+#define kNotificationReceivedFTUEComplete @"kNotificationReceivedFTUEComplete"
+
 
 @class PCFClassModel;
 
@@ -40,6 +42,16 @@ enum search
     searchCRN = 1,
     searchAdvanced = 2
 } typedef search;
+
+
+enum PurdueColor {
+    PurdueColorYellow,
+    PurdueColorDarkGrey,
+    PurdueColorMidGrey,
+    PurdueColorLightGrey
+};
+
++(UIColor *)purdueColor:(enum PurdueColor)color;
 
 /*Get details of the type of devices we are working with */
 +(BOOL)isiPhone;
@@ -76,4 +88,5 @@ enum search
 +(NSArray *)sortArrayUsingTime:(NSMutableArray *)array;
 
 +(BOOL)isLoggedIn;
++(NSString *)getPUID;
 @end

@@ -6,7 +6,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             scope = "0"
@@ -27,22 +27,6 @@
             endingLineNumber = "478"
             landmarkName = "@implementation PCCScheduleViewController"
             landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/Managers/PCFNetworkManager.m"
-            timestampString = "411695914.94609"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "-fireTimeout:"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -84,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/PCCAppDelegate.m"
-            timestampString = "416287425.473907"
+            timestampString = "417317224.476021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "-application:didReceiveRemoteNotification:"
             landmarkType = "5">
          </BreakpointContent>
@@ -99,44 +83,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/Convenience/Helpers.m"
-            timestampString = "412152383.588247"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "+requestFacebookIdentifier"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/Managers/PCFNetworkManager.m"
-            timestampString = "411695914.94609"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "-processNotification:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/Managers/MyPurdueManager.m"
-            timestampString = "416212324.513974"
+            timestampString = "416929271.235144"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "696"
-            endingLineNumber = "696"
+            startingLineNumber = "698"
+            endingLineNumber = "698"
             landmarkName = "+parseData:type:term:"
             landmarkType = "5">
             <Locations>
@@ -208,28 +160,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/Managers/PCFNetworkManager.m"
-            timestampString = "416123436.606999"
+            timestampString = "416718051.323865"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
-            landmarkName = "-sendDataToServer:forCommand:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/PCCAppDelegate.m"
-            timestampString = "416287425.473907"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
-            landmarkName = "-responseFromServer:initialRequest:wasSuccessful:"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
+            landmarkName = "-prepareDataForCommand:withDictionary:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -335,22 +271,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/Managers/PCFNetworkManager.m"
-            timestampString = "416290002.541595"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
-            landmarkName = "-prepareDataForCommand:withDictionary:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/Cells/PCCNicknameTableViewCell.m"
             timestampString = "416635232.533353"
             startingColumnNumber = "9223372036854775807"
@@ -367,13 +287,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/Cells/PCCNicknameTableViewCell.m"
-            timestampString = "416675041.600534"
+            filePath = "Purdue Course Catcher/PCCAppDelegate.m"
+            timestampString = "417317224.476021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "-textFieldShouldReturn:"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
+            landmarkName = "-responseFromServer:initialRequest:wasSuccessful:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -383,44 +303,92 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/View Controllers/PCCMenuViewController.m"
-            timestampString = "416684622.415413"
+            filePath = "Purdue Course Catcher/PCCAppDelegate.m"
+            timestampString = "417317224.476021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "256"
-            endingLineNumber = "256"
-            landmarkName = "-replaceCenterViewControllerWithViewController:animated:"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "-sessionStateChanged:state:error:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/PCCAppDelegate.m"
+            timestampString = "417317224.476021"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "-openSession"
             landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[PCCMenuViewController replaceCenterViewControllerWithViewController:animated:]"
+                  symbolName = "-[PCCAppDelegate openSession]"
                   moduleName = "Purdue Course Catcher"
-                  urlString = "file:///Users/kamranpirwani/Desktop/Git/PCC/Purdue%20Course%20Catcher/View%20Controllers/PCCMenuViewController.m"
-                  timestampString = "416684622.425451"
+                  urlString = "file:///Users/kamranpirwani/Desktop/Git/PCC/Purdue%20Course%20Catcher/PCCAppDelegate.m"
+                  timestampString = "417321236.756563"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "257"
-                  endingLineNumber = "257"
-                  offsetFromSymbolStart = "96">
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "97">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__80-[PCCMenuViewController replaceCenterViewControllerWithViewController:animated:]_block_invoke"
+                  symbolName = "__29-[PCCAppDelegate openSession]_block_invoke"
                   moduleName = "Purdue Course Catcher"
-                  urlString = "file:///Users/kamranpirwani/Desktop/Git/PCC/Purdue%20Course%20Catcher/View%20Controllers/PCCMenuViewController.m"
-                  timestampString = "416684622.425814"
+                  urlString = "file:///Users/kamranpirwani/Desktop/Git/PCC/Purdue%20Course%20Catcher/PCCAppDelegate.m"
+                  timestampString = "417321236.75681"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "257"
-                  endingLineNumber = "257"
-                  offsetFromSymbolStart = "32">
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "103">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/Cells/PCCSearchResultsCell.m"
+            timestampString = "416881400.022262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-actionButtonPressed:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/Managers/MyPurdueManager.m"
+            timestampString = "416929271.235144"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1203"
+            endingLineNumber = "1203"
+            landmarkName = "+parseData:type:term:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
