@@ -108,10 +108,10 @@
     self.advancedView.hidden = YES;
     
     //init autoCompleteViews
-    CGPoint point = self.fadeText.center;
-    CGRect frame = CGRectMake(40, point.y + 45, 240, 35);
+    CGPoint point = self.segmentedControl.center;
+    CGRect frame = CGRectMake(10, point.y + 35, 300, 35);
     self.autoCompleteTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
-    self.doneButton.frame = CGRectOffset(frame, 0, 60);
+    self.doneButton.frame = CGRectOffset(frame, 0, 70);
     [self.autoCompleteTextField setDataToAutoComplete:nil];
     [self.autoCompleteTextField.textField setFont:[UIFont systemFontOfSize:16]];
     [self.autoCompleteTextField.textField setClearsOnBeginEditing:YES];
@@ -305,13 +305,13 @@
     switch (self.segmentedControl.selectedSegmentIndex) {
             
         case searchCourse:
-            return @"Begin by specifying the department and course number.";
+            return @"Provide a department and course number";
             break;
         case searchCRN:
-            return @"Begin by specifying the CRN for a course you want to search for.";
+            return @"Provide a 5 digit CRN";
             break;
         case searchAdvanced:
-            return @"Begin by entering the department the course you want to search for is in.";
+            return @"Provide a department";
             break;
         default:
             return nil;
@@ -526,7 +526,7 @@
         }];
     }else if (dir == directionDown) {
         [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction animations:^{
-            self.doneButton.transform = CGAffineTransformMakeTranslation(0, self.advancedView.frame.size.height + 10);
+            self.doneButton.transform = CGAffineTransformMakeTranslation(0, self.advancedView.frame.size.height + 35);
         }completion:^(BOOL finished) {
             if (finished) if (block) block();
         }];

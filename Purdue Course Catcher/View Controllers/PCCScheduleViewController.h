@@ -14,6 +14,7 @@
 @interface PCCScheduleViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PCCScheduleHeaderDelegate, EGORefreshTableHeaderDelegate, UIGestureRecognizerDelegate, PCCTermDelegate>
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *termButton;
 
 @property (nonatomic, strong) IBOutlet UIView *containerViewForSchedule;
 

@@ -37,6 +37,7 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     [self.refreshControl beginRefreshing];
+    [self.tableView setContentOffset:CGPointMake(0, -20) animated:NO];
     [self reload];
 
     //get rid of extranneous cells

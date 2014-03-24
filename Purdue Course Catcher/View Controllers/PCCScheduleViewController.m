@@ -114,12 +114,14 @@ enum AnimationDirection
         if (scheduleArray != nil) {
             //self.containerViewForSchedule.alpha = 0.0f;
             [headerViewController.headerTitle setText:preferredSchedule.key];
+            self.termButton.title = preferredSchedule.key;
             dayArray = [self generateDayArray];
             //reload tableview data
             isLoading = NO;
             //[self.tableView reloadData];
         }else {
             [headerViewController.headerTitle setText:preferredSchedule.key];
+            self.termButton.title = preferredSchedule.key;
             self.containerViewForSchedule.alpha = 0.0f;
             dayArray = nil;
             isLoading = YES;
@@ -227,6 +229,7 @@ enum AnimationDirection
     preferredSchedule = [[PCCObject alloc] initWithKey:term.key AndValue:term.value];
     [[PCCDataManager sharedInstance] setObject:preferredSchedule ForKey:kPreferredScheduleToShow InDictionary:DataDictionaryUser];
     [headerViewController.headerTitle setText:preferredSchedule.key];
+    self.termButton.title = preferredSchedule.key;
     animationDirection = AnimationDirectionUp;
     [self.containerViewForSchedule fadeIn];
     [self performSelectorOnMainThread:@selector(fetchSchedule) withObject:nil waitUntilDone:NO];
