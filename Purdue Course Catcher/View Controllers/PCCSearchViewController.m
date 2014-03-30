@@ -138,6 +138,44 @@
     //setup the views state
     PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
     if (term) self.termButton.title = term.key;
+    
+    //setup gestures
+    UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
+    [gesture setNumberOfTouchesRequired:1];
+    [gesture setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:gesture];
+    
+    gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
+    [gesture setNumberOfTouchesRequired:1];
+    [gesture setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.view addGestureRecognizer:gesture];
+
+}
+
+-(void)swiped:(id)sender
+{
+    UISwipeGestureRecognizer *gesture = (UISwipeGestureRecognizer *)sender;
+    int selected = self.segmentedControl.selectedSegmentIndex;
+    
+    switch (gesture.direction) {
+        case UISwipeGestureRecognizerDirectionRight:
+            if (selected > 0) {
+                selected--;
+                self.segmentedControl.selectedSegmentIndex = selected;
+                [self valueChanged:nil];
+            }
+            break;
+            
+        case UISwipeGestureRecognizerDirectionLeft:
+            if (selected < 2) {
+                selected++;
+                self.segmentedControl.selectedSegmentIndex = selected;
+                [self valueChanged:nil];
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark PCCTerm Delegate
