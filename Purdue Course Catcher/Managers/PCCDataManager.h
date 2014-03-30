@@ -67,6 +67,8 @@ typedef enum
 //server initialization
 #define kInitialized @"initialized"
 
+#define kPurchasedItem @"kPurchasedItem"
+
 @property (nonatomic, strong) NSMutableArray *arrayRegister;
 @property (nonatomic, strong) NSMutableArray *arrayFavorites;
 @property (nonatomic, strong) NSMutableArray *arrayBasket;

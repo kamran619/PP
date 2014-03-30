@@ -122,6 +122,13 @@
     cell.actionButton.tag = indexPath.row;
     cell.actionButton.enabled = YES;
     
+    cell.backgroundView = nil;
+    if (indexPath.row % 2 == 0) {
+        
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+    }else {
+        cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }
     [cell.catalogButton addTarget:self action:@selector(showCatalogInfo:) forControlEvents:UIControlEventTouchUpInside];
     [cell.actionButton addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     if (obj.instructorEmail.length > 0) {

@@ -174,11 +174,12 @@
             [termVC setType:PCCTermTypeSearch];
             [termVC setDataSource:[PCCDataManager sharedInstance].arrayTerms];
             termVC.delgate = self;
-    }else if ([segue.identifier isEqualToString:@"SearchResultsSegue"]) {
+    }else if ([segue.identifier isEqualToString:@"SegueSearchResults"]) {
         UINavigationController *controller = segue.destinationViewController;
         PCCSearchResultsViewController *vc = [controller.childViewControllers lastObject];
+        vc.dataSource = searchResults;
+        vc.searchType = self.segmentedControl.selectedSegmentIndex;
         vc.transitioningDelegate = self;
-        [vc setDataSource:searchResults];
     }
 
 }
@@ -342,12 +343,13 @@
 
 -(void)showSearchResults
 {
-    UINavigationController *nc = [self.storyboard instantiateViewControllerWithIdentifier:@"PCCSearchResults"];
+    /*UINavigationController *nc = [self.storyboard instantiateViewControllerWithIdentifier:@"PCCSearchResults"];
     PCCSearchResultsViewController *vc = [nc.childViewControllers lastObject];
     nc.transitioningDelegate = self;
     vc.dataSource = searchResults;
     vc.searchType = self.segmentedControl.selectedSegmentIndex;
-    [self presentViewController:nc animated:YES completion:nil];
+    [self presentViewController:nc animated:YES completion:nil];*/
+    [self performSegueWithIdentifier:@"SegueSearchResulst" sender:nil];
 }
 - (IBAction)searchPressed:(id)sender {
     

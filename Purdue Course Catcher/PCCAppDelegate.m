@@ -15,7 +15,8 @@
 #import "PCCFacebookLoginViewController.h"
 #import "PCCHUDManager.h"
 #import "PCCCatcherViewController.h"
-#import "PCCMenuViewController.h"
+#import "PCCTabBarController.h"
+
 
 @implementation PCCAppDelegate
 
@@ -33,9 +34,6 @@
     
     //connect to server
     [PCFNetworkManager sharedInstance];
-    
-    
-    //
     
     //&& !(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)
     //we don't care about the fb state anymore
@@ -59,7 +57,9 @@
         id delegate =  [UIApplication sharedApplication].delegate;
         [delegate openSession];
         //load the menu and other things
-        self.window.rootViewController = [[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
+        self.window.rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCTabBar"];
+        //[[PCCTabBarController alloc] initWithNibName:@"PCCTabBarController" bundle:nil];
+        //[[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
     }
     
     [self.window makeKeyAndVisible];

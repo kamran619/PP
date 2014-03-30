@@ -198,6 +198,7 @@ enum AnimationDirection
         [self choosepreferredScheduleValue:nil];
     }else {
         preferredSchedule = [[PCCObject alloc] initWithKey:preferredScheduleToShow.key AndValue:preferredScheduleToShow.value];
+        self.termButton.title = preferredSchedule.key;
         [self.containerViewForSchedule fadeIn];
         //
         [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{

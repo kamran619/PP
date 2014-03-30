@@ -11,6 +11,7 @@
 #import "VerificationController.h"
 #import "PCCDataManager.h"
 #import "PCCHUDManager.h"
+#import "PCFNetworkManager.h"
 
 NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurchasedNotification";
 
@@ -170,12 +171,7 @@ NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurcha
 
 - (void)provideContentForProductIdentifier:(NSString *)productIdentifier {
     
-    /*if ([productIdentifier isEqualToString:@"com.kamranpirwani.pcc.removeads"]) {
-        
-    }else if ([productIdentifier isEqualToString:@"com.kamranpirwani.pcc.gopro"]) {
-        
-    }*/
-    
+    [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandPurchase withDictionary:[NSDictionary dictionaryWithObject:productIdentifier forKey:kPurchasedItem]];
     [_purchasedProductIdentifiers addObject:productIdentifier];
     [[PCCDataManager sharedInstance].arrayPurchases addObject:productIdentifier];
     [[PCCDataManager sharedInstance] saveData];

@@ -15,7 +15,8 @@ enum ServerCommand
     ServerCommandInitialization = 2,
     ServerCommandUpdate = 3,
     ServerCommandSendSchedule = 4,
-    ServerCommandSettings = 5
+    ServerCommandSettings = 5,
+    ServerCommandPurchase = 6
     
 } typedef ServerCommand;
 

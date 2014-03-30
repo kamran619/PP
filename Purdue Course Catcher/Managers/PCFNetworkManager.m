@@ -408,6 +408,24 @@ static PCFNetworkManager *_sharedInstance = nil;
             if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandSettings];
         }
             break;
+            
+        case ServerCommandPurchase:
+        {
+            NSString *identifier = [Helpers getPUID];
+            
+            NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+            [dataDictionary setObject:identifier forKey:kUsername];
+            
+            NSDictionary *purchaseDictionary = dict;
+            [dataDictionary setObject:[purchaseDictionary objectForKey:kPurchasedItem] forKey:kPurchasedItem];
+            NSError *error;
+            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
+            const char* newLine = "\r\n";
+            [JSONData appendBytes:(const uint8_t*)newLine length:2];
+            
+            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandPurchase];
+            break;
+        }
         default:
             break;
     }
