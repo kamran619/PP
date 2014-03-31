@@ -196,10 +196,6 @@
         }else {
             [self animateTableViewOut:NO];
         }
-    }else {
-        //show all
-        self.matchingData = [self.dataToAutoComplete copy];
-        [self animateTableViewIn];
     }
 }
 
@@ -303,7 +299,7 @@
 {
     [self.delegate textFieldDidBeginEditing:(UITextField *)self];
     if ([self.textField.text isEqualToString:@""] && self.dataToAutoComplete.count > 0) {
-        self.matchingData = [self.dataToAutoComplete copy];
+        self.matchingData = [self.dataToAutoComplete mutableCopy];
         [self animateTableViewIn];
     }
 }

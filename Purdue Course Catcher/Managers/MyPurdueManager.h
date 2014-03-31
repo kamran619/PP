@@ -36,7 +36,7 @@
 
 +(NSArray *)getCoursesForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber;
 +(NSArray *)getCoursesForTerm:(NSString *)term WithCRN:(NSString *)CRN;
-+(NSArray *)getCoursesWithParametersForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber AndSubject:(NSString *)subject FromHours:(NSString *)fromHours ToHours:(NSString *)toHours AndProfessor:(NSString *)professor AndDays:(NSString *)days;
++(NSArray *)getCoursesWithParametersForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber AndSubject:(NSString *)subject FromHours:(NSString *)fromHours ToHours:(NSString *)toHours AndProfessor:(NSString *)professor AndDays:(NSString *)days scheduleType:(NSString *)scheduleType;
 
 +(NSArray *)getSubjectsAndProfessorsForTerm:(NSString *)term;
 +(NSArray *)getSubjectsForTerm:(NSString *)term;

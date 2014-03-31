@@ -537,10 +537,10 @@ static MyPurdueManager *_sharedInstance = nil;
 }
 
 //General Search
-+(NSArray *)getCoursesWithParametersForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber AndSubject:(NSString *)subject FromHours:(NSString *)fromHours ToHours:(NSString *)toHours AndProfessor:(NSString *)professor AndDays:(NSString *)days
++(NSArray *)getCoursesWithParametersForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber AndSubject:(NSString *)subject FromHours:(NSString *)fromHours ToHours:(NSString *)toHours AndProfessor:(NSString *)professor AndDays:(NSString *)days scheduleType:(NSString *)scheduleType
 {
 
-    NSString *queryString = [NSString stringWithFormat:@"term_in=%@&sel_subj=dummy&sel_day=dummy&sel_schd=dummy&sel_insm=dummy&sel_camp=dummy&sel_levl=dummy&sel_sess=dummy&sel_instr=dummy&sel_ptrm=dummy&sel_attr=dummy&sel_subj=%@&sel_crse=%@&sel_title=%@&sel_schd=%%25&sel_from_cred=%@&sel_to_cred=%@&sel_camp=%%25&sel_ptrm=%%25&sel_instr=%@&sel_sess=%%25&sel_attr=%%25&begin_hh=0&begin_mi=0&begin_ap=a&end_hh=0&end_mi=0&end_ap=a%@", term, subject, courseNumber,className, fromHours, toHours,professor, days];
+    NSString *queryString = [NSString stringWithFormat:@"term_in=%@&sel_subj=dummy&sel_day=dummy&sel_schd=dummy&sel_insm=dummy&sel_camp=dummy&sel_levl=dummy&sel_sess=dummy&sel_instr=dummy&sel_ptrm=dummy&sel_attr=dummy&sel_subj=%@&sel_crse=%@&sel_title=%@&sel_schd=%@&sel_from_cred=%@&sel_to_cred=%@&sel_camp=%%25&sel_ptrm=%%25&sel_instr=%@&sel_sess=%%25&sel_attr=%%25&begin_hh=0&begin_mi=0&begin_ap=a&end_hh=0&end_mi=0&end_ap=a%@", term, subject, courseNumber,className, scheduleType, fromHours, toHours,professor, days];
     return [self getCoursesWithQueryString:queryString];
 
 }
@@ -750,11 +750,17 @@ static MyPurdueManager *_sharedInstance = nil;
                         passedThroughAllOnce = YES;
                     }
                 }
-                [scanner setScanLocation:([scanner scanLocation] + 2)];
+                /*
+                 <OPTION VALUE="%" SELECTED>All
+                 <OPTION VALUE="CLN">Clinic
+                 <OPTION VALUE="DIS">Distance Learning
+                 */
+                //[scanner setScanLocation:([scanner scanLocation] + 2)];
                 [scanner scanUpToString:@">" intoString:nil];
                 [scanner setScanLocation:([scanner scanLocation] + 1)];
-                [scanner scanUpToString:@"<" intoString:&scheduleType];
-                scheduleType = [scheduleType stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                [scanner scanUpToString:@"\n" intoString:&scheduleType];
+                [scanner setScanLocation:([scanner scanLocation] + 1)];
+                //scheduleType = [scheduleType stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                 [scheduleTypeArray addObject:[[PCCObject alloc] initWithKey:scheduleType AndValue:scheduleTypeVal]];
             }
         

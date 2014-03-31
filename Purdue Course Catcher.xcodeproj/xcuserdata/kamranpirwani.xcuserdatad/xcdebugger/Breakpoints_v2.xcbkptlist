@@ -382,11 +382,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/Managers/MyPurdueManager.m"
-            timestampString = "417919636.621688"
+            timestampString = "417934845.57007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1228"
-            endingLineNumber = "1228"
+            startingLineNumber = "1234"
+            endingLineNumber = "1234"
             landmarkName = "+parseData:type:term:"
             landmarkType = "5">
          </BreakpointContent>
@@ -441,12 +441,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCSearchViewController.m"
-            timestampString = "417933128.796871"
+            timestampString = "417934272.938525"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "709"
-            endingLineNumber = "709"
-            landmarkName = "-slideViewDown:"
+            startingLineNumber = "513"
+            endingLineNumber = "513"
+            landmarkName = "-searchPressed:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -456,29 +456,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/View Controllers/PCCSearchViewController.m"
-            timestampString = "417933019.840384"
+            filePath = "Purdue Course Catcher/Managers/MyPurdueManager.m"
+            timestampString = "417934318.585976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "593"
-            endingLineNumber = "593"
-            landmarkName = "-slideViewUp:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Purdue Course Catcher/View Controllers/PCCSearchViewController.m"
-            timestampString = "417932947.472232"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "-gestureRecognizer:shouldReceiveTouch:"
+            startingLineNumber = "542"
+            endingLineNumber = "542"
+            landmarkName = "+getCoursesWithParametersForTerm:WithClassName:AndCourseNumber:AndSubject:FromHours:ToHours:AndProfessor:AndDays:scheduleType:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

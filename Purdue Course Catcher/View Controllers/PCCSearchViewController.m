@@ -504,12 +504,12 @@
     }else if (self.segmentedControl.selectedSegmentIndex == searchAdvanced) {
         [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
-            NSString *className = @"", *courseNumber = @"", *fromHours = @"", *toHours = @"", *professor = @"%25";
+            NSString *className = @"", *courseNumber = @"", *fromHours = @"", *toHours = @"", *professor = @"%25", *scheduleType = @"%25";
             
             if (self.courseTitleTextField.text.length != 0) className = [self.courseTitleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"%25"];
             if (self.courseNumberTextField.text.length != 0) courseNumber = self.courseNumberTextField.text;
             if (self.professorTextField.textField.text.length != 0) professor = self.professorTextField.selectedObject.value;
-            
+            if (self.scheduleTypeTextField.textField.text.length != 0 && ![self.scheduleTypeTextField.textField.text isEqualToString:@"All"]) scheduleType = self.scheduleTypeTextField.selectedObject.value;
             NSString *day=@"";
             if (self.setOfDays.count != 0) {
                 if (![self.setOfDays containsObject:self.mondayButton]){
@@ -532,7 +532,7 @@
                 }
             }
 
-            searchResults = [MyPurdueManager getCoursesWithParametersForTerm:myPreferredSearchTerm.value WithClassName:className AndCourseNumber:courseNumber AndSubject:self.autoCompleteTextField.textField.text FromHours:fromHours ToHours:toHours AndProfessor:professor AndDays:day];
+            searchResults = [MyPurdueManager getCoursesWithParametersForTerm:myPreferredSearchTerm.value WithClassName:className AndCourseNumber:courseNumber AndSubject:self.autoCompleteTextField.textField.text FromHours:fromHours ToHours:toHours AndProfessor:professor AndDays:day scheduleType:scheduleType];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[PCCHUDManager sharedInstance] dismissHUD];
                 [self showSearchResults];
@@ -578,8 +578,19 @@
         if ([self.autoCompleteTextField.matchingData containsObject:self.autoCompleteTextField.selectedObject]) {
             validation = YES;
         }
+        
         if (!validation) {
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Subject" description:@"Pick a subject from the drop down box" type:TWMessageBarMessageTypeError];
+            return NO;
+        }
+        
+        if (![self.scheduleTypeTextField.textField.text isEqualToString:@""]) {
+            if ([self.scheduleTypeTextField.matchingData containsObject:self.scheduleTypeTextField.selectedObject]) {
+                validation = YES;
+            }
+        }
+        if (!validation) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Schedule Type" description:@"Pick a schedule type from the drop down box" type:TWMessageBarMessageTypeError];
             return NO;
         }
         return YES;
