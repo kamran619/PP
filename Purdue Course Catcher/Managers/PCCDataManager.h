@@ -69,6 +69,11 @@ typedef enum
 
 #define kPurchasedItem @"kPurchasedItem"
 
+
+//withint he subject dictionry
+#define kSubject @"kSubject"
+#define kScheduleType @"kScheduleType"
+
 @property (nonatomic, strong) NSMutableArray *arrayRegister;
 @property (nonatomic, strong) NSMutableArray *arrayFavorites;
 @property (nonatomic, strong) NSMutableArray *arrayBasket;

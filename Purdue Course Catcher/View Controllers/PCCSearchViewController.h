@@ -11,23 +11,27 @@
 #import "ADVAnimationController.h"
 #import "PCCTermViewController.h"
 
-@interface PCCSearchViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, PCFAutoCompleteTextFieldDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, PCCTermDelegate>
+@interface PCCSearchViewController : UIViewController <UIScrollViewDelegate, PCFAutoCompleteTextFieldDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, PCCTermDelegate>
 
 -(IBAction)valueChanged:(id)sender;
 
 @property (nonatomic, strong) IBOutlet UILabel *fadeText;
-@property (nonatomic, strong) IBOutlet UILabel *displayText;
+
 
 @property (nonatomic, strong) IBOutlet UIView *containerViewSearch;
 
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UIButton *doneButton;
+
+@property (nonatomic, strong) IBOutlet UILabel *detailLabel;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic, strong) PCFAutoCompleteTextField *autoCompleteTextField;
 @property (nonatomic, strong) PCFAutoCompleteTextField *professorTextField;
+@property (nonatomic, strong) PCFAutoCompleteTextField *scheduleTypeTextField;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
 
-@property (nonatomic, strong) IBOutlet UIView *advancedView;
+@property (nonatomic, strong) IBOutlet UIScrollView *advancedView;
+@property (nonatomic, strong) IBOutlet UIPageControl *pageControl;
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *termButton;
 //in view

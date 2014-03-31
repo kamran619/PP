@@ -32,6 +32,10 @@
 		FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */; };
 		FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */; };
 		FE50C2DE18E7C39200C82363 /* PCCTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C2DD18E7C39200C82363 /* PCCTabBarController.m */; };
+		FE50C32618E7F9CD00C82363 /* student-256.png in Resources */ = {isa = PBXBuildFile; fileRef = FE50C32518E7F9CD00C82363 /* student-256.png */; };
+		FE50C32818E7FB8000C82363 /* configuration.png in Resources */ = {isa = PBXBuildFile; fileRef = FE50C32718E7FB8000C82363 /* configuration.png */; };
+		FE50C32A18E7FBEA00C82363 /* loupe.png in Resources */ = {isa = PBXBuildFile; fileRef = FE50C32918E7FBEA00C82363 /* loupe.png */; };
+		FE50C32C18E7FC1F00C82363 /* comments.png in Resources */ = {isa = PBXBuildFile; fileRef = FE50C32B18E7FC1F00C82363 /* comments.png */; };
 		FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5121870989A00EF24BA /* PCCEmptyCell.m */; };
 		FE50C5161870B3FC00EF24BA /* PCCSearchResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5151870B3FC00EF24BA /* PCCSearchResultsCell.m */; };
 		FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */; };
@@ -165,6 +169,10 @@
 		FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCRegistrationError.m; sourceTree = "<group>"; };
 		FE50C2DC18E7C39200C82363 /* PCCTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCTabBarController.h; path = "Purdue Course Catcher/View Controllers/PCCTabBarController.h"; sourceTree = "<group>"; };
 		FE50C2DD18E7C39200C82363 /* PCCTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCTabBarController.m; path = "Purdue Course Catcher/View Controllers/PCCTabBarController.m"; sourceTree = "<group>"; };
+		FE50C32518E7F9CD00C82363 /* student-256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "student-256.png"; sourceTree = "<group>"; };
+		FE50C32718E7FB8000C82363 /* configuration.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = configuration.png; sourceTree = "<group>"; };
+		FE50C32918E7FBEA00C82363 /* loupe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loupe.png; sourceTree = "<group>"; };
+		FE50C32B18E7FC1F00C82363 /* comments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comments.png; sourceTree = "<group>"; };
 		FE50C5111870989A00EF24BA /* PCCEmptyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCEmptyCell.h; path = "Purdue Course Catcher/Cells/PCCEmptyCell.h"; sourceTree = "<group>"; };
 		FE50C5121870989A00EF24BA /* PCCEmptyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCEmptyCell.m; path = "Purdue Course Catcher/Cells/PCCEmptyCell.m"; sourceTree = "<group>"; };
 		FE50C5141870B3FC00EF24BA /* PCCSearchResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchResultsCell.h; path = "Purdue Course Catcher/Cells/PCCSearchResultsCell.h"; sourceTree = "<group>"; };
@@ -666,6 +674,10 @@
 		FED58A2918908DDE001991F2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				FE50C32B18E7FC1F00C82363 /* comments.png */,
+				FE50C32918E7FBEA00C82363 /* loupe.png */,
+				FE50C32718E7FB8000C82363 /* configuration.png */,
+				FE50C32518E7F9CD00C82363 /* student-256.png */,
 				FE26BA0A18D7F23300FB1E83 /* bubble.png */,
 				FE7386C818D617B7004EA448 /* twitter.jpg */,
 				FE7386C918D617B7004EA448 /* mail.png */,
@@ -844,10 +856,14 @@
 				FE5530F4184D3C4900D13587 /* Images.xcassets in Resources */,
 				FEB99660188F563F0017C552 /* failure.png in Resources */,
 				FEAE7FA11897530F001FBC09 /* Ps-x-button.png in Resources */,
+				FE50C32A18E7FBEA00C82363 /* loupe.png in Resources */,
 				FEE571A5186A4E4A00FE8FA8 /* whiteArrow.png in Resources */,
 				FEE571A4186A4E4A00FE8FA8 /* grayArrow@2x.png in Resources */,
+				FE50C32818E7FB8000C82363 /* configuration.png in Resources */,
 				FE2410591873C6B000AA6328 /* icon-success@2x.png in Resources */,
 				FED58A3A1890D91E001991F2 /* basket.png in Resources */,
+				FE50C32618E7F9CD00C82363 /* student-256.png in Resources */,
+				FE50C32C18E7FC1F00C82363 /* comments.png in Resources */,
 				FE24FFD7187DF27E004D540E /* PCCFTUEViewController.xib in Resources */,
 				FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */,
 				FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */,

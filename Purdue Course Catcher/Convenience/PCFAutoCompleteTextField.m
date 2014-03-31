@@ -196,7 +196,10 @@
         }else {
             [self animateTableViewOut:NO];
         }
-        
+    }else {
+        //show all
+        self.matchingData = [self.dataToAutoComplete copy];
+        [self animateTableViewIn];
     }
 }
 
@@ -299,6 +302,10 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self.delegate textFieldDidBeginEditing:(UITextField *)self];
+    if ([self.textField.text isEqualToString:@""] && self.dataToAutoComplete.count > 0) {
+        self.matchingData = [self.dataToAutoComplete copy];
+        [self animateTableViewIn];
+    }
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {

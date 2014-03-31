@@ -733,6 +733,31 @@ static MyPurdueManager *_sharedInstance = nil;
             if ([@"YDAE" isEqualToString:classVal]) break;
             if ([@"STAR" isEqualToString:classVal]) break;
         }
+        static NSString *const kLookForScheduleType = @"<SELECT NAME=\"sel_schd\" SIZE=\"3\" MULTIPLE ID=\"schd_id\">";
+        [scanner scanString:kLookForScheduleType intoString:nil];
+        [scanner setScanLocation:([scanner scanLocation] + 55)];
+        NSString *scheduleType, *scheduleTypeVal;
+        NSMutableArray *scheduleTypeArray = [NSMutableArray arrayWithCapacity:7];
+        BOOL passedThroughAllOnce = NO;
+            while (![scanner isAtEnd]) {
+                [scanner scanUpToString:@"<OPTION VALUE=\"" intoString:nil];
+                [scanner setScanLocation:([scanner scanLocation] + 15)];
+                [scanner scanUpToString:@"\"" intoString:&scheduleTypeVal];
+                if ([scheduleTypeVal isEqualToString:@"%"]) {
+                    if (passedThroughAllOnce == YES) {
+                        break;
+                    }else {
+                        passedThroughAllOnce = YES;
+                    }
+                }
+                [scanner setScanLocation:([scanner scanLocation] + 2)];
+                [scanner scanUpToString:@">" intoString:nil];
+                [scanner setScanLocation:([scanner scanLocation] + 1)];
+                [scanner scanUpToString:@"<" intoString:&scheduleType];
+                scheduleType = [scheduleType stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                [scheduleTypeArray addObject:[[PCCObject alloc] initWithKey:scheduleType AndValue:scheduleTypeVal]];
+            }
+        
         static NSString *const kLookForProf = @"<SELECT NAME=\"sel_instr\" SIZE=\"3\" MULTIPLE ID=\"instr_id\">";
         scanner = [[NSScanner alloc] initWithString:data];
         NSString *professor;
@@ -759,7 +784,7 @@ static MyPurdueManager *_sharedInstance = nil;
             
         }
         @finally {
-            NSArray *combinedArray = [[NSArray alloc] initWithObjects:[subjectArray copy], [prof copy], nil];
+            NSArray *combinedArray = [[NSArray alloc] initWithObjects:[subjectArray copy], [prof copy], [scheduleTypeArray copy], nil];
             scanner = nil;
             professor = nil;
             classDes = nil;
