@@ -11,7 +11,7 @@
 #import "Helpers.h"
 #import "MyPurdueManager.h"
 #import "PCCDataManager.h"
-#import "PCCSideMenuViewController.h"
+#import "PCCTabBarController.h"
 #import "PCFNetworkManager.h"
 
 @interface PCCPurdueLoginViewController ()
@@ -74,21 +74,7 @@
         [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:nil];
     }*/
 
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (loginSuccessfull == YES) {
-            if ([self.presentingViewController isKindOfClass:[PCCMenuViewController class]]) {
-                PCCMenuViewController *vc = (PCCMenuViewController*)[self presentingViewController];
-                PCCSideMenuViewController *menu = (PCCSideMenuViewController *)[vc leftViewController];
-                if (self.type == PCCTermTypeSchedule) {
-                    [menu menuItemPressed:@"Schedule"];
-                }else if (self.type == PCCTermTypeRegistration) {
-                    [menu menuItemPressed:@"Register"];
-                }
-            }
-            
-            
-        }
-    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*-(IBAction)whyPressed:(id)sender

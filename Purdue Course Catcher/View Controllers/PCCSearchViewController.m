@@ -55,6 +55,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.scrollView setContentOffset:CGPointZero animated:NO];
     [self fadeTextIn];
 }
 
@@ -119,17 +120,11 @@
     self.sundayButton.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
     self.advancedView.hidden = YES;
     
-    //setup scrollview
-    if ([Helpers isPhone5]) {
-        self.advancedView.frame = CGRectOffset(self.advancedView.frame, 0, 40);
-        self.pageControl.frame = CGRectOffset(self.pageControl.frame, 0, 40);
-        self.detailLabel.frame = CGRectOffset(self.detailLabel.frame, 0, 48);
-    }
     self.scrollView.frame = CGRectMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y, self.scrollView.frame.size.width, self.containerViewSearch.frame.size.height);
     self.advancedView.contentSize = CGSizeMake(self.advancedView.frame.size.width*3, self.advancedView.frame.size.height);
     self.pageControl.numberOfPages = 3;
     self.advancedView.layer.borderColor = [Helpers purdueColor:PurdueColorMidGrey].CGColor;
-    self.advancedView.layer.borderWidth = 1.0f;
+    self.advancedView.layer.borderWidth = 2.0f;
     //init autoCompleteViews
     CGPoint point = self.segmentedControl.center;
     CGRect frame = CGRectMake(10, point.y + 35, 300, 35);
@@ -171,6 +166,17 @@
     //initialize selected segment
     self.segmentedControl.selectedSegmentIndex = 0;
     
+    
+    //setup scrollview
+    if ([Helpers isPhone5]) {
+        //self.advancedView.frame = CGRectOffset(self.advancedView.frame, 0, 40);
+        self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height + 75);
+        self.scheduleTypeTextField.frame = CGRectOffset(self.scheduleTypeTextField.frame, 0, 10);
+        self.scheduleTypeLabel.frame = CGRectOffset(self.scheduleTypeLabel.frame, 0, 10);
+        self.pageControl.frame = CGRectOffset(self.pageControl.frame, 0, 75);
+        self.detailLabel.frame = CGRectOffset(self.detailLabel.frame, 0, 80);
+    }
+    
     //setup the views state
     PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
     if (term) self.termButton.title = term.key;
@@ -180,19 +186,19 @@
     [gesture setNumberOfTouchesRequired:1];
     [gesture setDirection:UISwipeGestureRecognizerDirectionRight];
     [gesture setDelegate:self];
-    [self.containerViewSearch addGestureRecognizer:gesture];
+    [self.scrollView addGestureRecognizer:gesture];
     
     gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
     [gesture setNumberOfTouchesRequired:1];
     [gesture setDirection:UISwipeGestureRecognizerDirectionLeft];
     [gesture setDelegate:self];
-    [self.containerViewSearch addGestureRecognizer:gesture];
+    [self.scrollView addGestureRecognizer:gesture];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
     [tapGesture setNumberOfTapsRequired:1];
     [tapGesture setNumberOfTouchesRequired:1];
     [tapGesture setDelegate:self];
-    [self.containerViewSearch addGestureRecognizer:tapGesture];
+    [self.scrollView addGestureRecognizer:tapGesture];
 
 }
 
@@ -282,6 +288,11 @@
 }
 
 #pragma mark Gesture Delegate
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) return YES;
+    return NO;
+}
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
@@ -290,6 +301,7 @@
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
+    
     if (self.advancedView.hidden == YES) return YES;
     CGPoint touchLocation = [touch locationInView:gestureRecognizer.view];
     if (CGRectContainsPoint(self.advancedView.frame, touchLocation)) return NO;
@@ -614,9 +626,9 @@
             delta = 247;
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, delta) animated:YES];
-                self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height + 120);
-                self.detailLabel.transform = CGAffineTransformMakeTranslation(0, 110);
-                self.pageControl.transform = CGAffineTransformMakeTranslation(0, 110);
+                self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height + 60);
+                self.detailLabel.transform = CGAffineTransformMakeTranslation(0, 50);
+                self.pageControl.transform = CGAffineTransformMakeTranslation(0, 50);
                 //self.containerViewSearch.transform = CGAffineTransformMakeTranslation(0, -delta);
             }completion:^(BOOL finished) {
                 
@@ -645,12 +657,12 @@
             }];
             
         }else if (textField == self.professorTextField) {
-            delta = 190;
+            delta = 160;
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, delta) animated:YES];
-                self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height + 70);
-                self.detailLabel.transform = CGAffineTransformMakeTranslation(0, 66);
-                self.pageControl.transform = CGAffineTransformMakeTranslation(0, 66);
+                //self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height + 70);
+                //self.detailLabel.transform = CGAffineTransformMakeTranslation(0, 66);
+                //self.pageControl.transform = CGAffineTransformMakeTranslation(0, 66);
                 
             }completion:^(BOOL finished) {
                 
@@ -729,10 +741,10 @@
         }else {
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 if (textField == self.scheduleTypeTextField) {
-                    self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height - 120);
+                    self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height - 60);
                     
                 }else if (textField == self.professorTextField) {
-                    self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height - 70);
+                    self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height);
                 }
                 [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
                 self.pageControl.transform = CGAffineTransformIdentity;
@@ -756,7 +768,6 @@
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 if (textField == self.scheduleTypeTextField || textField == self.professorTextField) {
                     self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height - 120);
-                    
                 }
                 [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
                 self.pageControl.transform = CGAffineTransformIdentity;

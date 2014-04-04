@@ -250,7 +250,7 @@
         if ([self.window.rootViewController isKindOfClass:[PCCFTUEViewController class]]) {
             //if the root vc is the ftue, this is the first time lauching the app
             //we should dismiss the ftue view and show the menu
-            PCCMenuViewController *menu = [[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
+            //PCCMenuViewController *menu = [[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
             //this was not presented..replace it with ours
             /*[UIView transitionFromView:self.window.rootViewController.view
                                 toView:menu.view
@@ -260,7 +260,7 @@
              {
                  if (finished) self.window.rootViewController = menu;
              }];*/
-            self.window.rootViewController = menu;
+            self.window.rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCTabBar"];
         }else {
             //the fb controller was displayed..minimize it
             [[PCCFacebookLoginViewController sharedInstance] dismissViewControllerAnimated:YES completion:nil];

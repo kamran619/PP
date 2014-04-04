@@ -20,9 +20,14 @@
 
 @property (nonatomic, strong) IBOutlet UIView *containerViewSearch;
 
-@property (nonatomic, strong) IBOutlet UIButton *doneButton;
+
 
 @property (nonatomic, strong) IBOutlet UILabel *detailLabel;
+
+@property (nonatomic, strong) IBOutlet UIButton *doneButton;
+
+@property (nonatomic, strong) IBOutlet UILabel *scheduleTypeLabel;
+
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic, strong) PCFAutoCompleteTextField *autoCompleteTextField;

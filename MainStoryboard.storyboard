@@ -1304,7 +1304,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="dCP-3M-cle" userLabel="Search View">
                                         <rect key="frame" x="20" y="0.0" width="320" height="503"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NdK-hF-6A7">
                                                 <rect key="frame" x="132" y="147" width="63" height="30"/>
@@ -1318,7 +1318,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                     <action selector="searchPressed:" destination="5I5-K5-Qk0" eventType="touchUpInside" id="lHg-fK-nv5"/>
                                                 </connections>
                                             </button>
-                                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="NGG-49-zGQ">
+                                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsVerticalScrollIndicator="NO" id="NGG-49-zGQ">
                                                 <rect key="frame" x="20" y="176" width="280" height="148"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <subviews>
@@ -1376,7 +1376,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EiN-8B-aES">
-                                                        <rect key="frame" x="31" y="47" width="18" height="18"/>
+                                                        <rect key="frame" x="34" y="41" width="26" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -1392,7 +1392,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MbH-i2-eoH">
-                                                        <rect key="frame" x="71" y="47" width="18" height="18"/>
+                                                        <rect key="frame" x="74" y="41" width="26" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -1409,7 +1409,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qd9-8G-w1i">
-                                                        <rect key="frame" x="111" y="47" width="18" height="18"/>
+                                                        <rect key="frame" x="114" y="41" width="26" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -1426,7 +1426,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UxF-1k-LMr">
-                                                        <rect key="frame" x="151" y="47" width="18" height="18"/>
+                                                        <rect key="frame" x="154" y="41" width="26" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -1443,7 +1443,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qYG-BP-evJ">
-                                                        <rect key="frame" x="191" y="47" width="18" height="18"/>
+                                                        <rect key="frame" x="194" y="41" width="26" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -1454,7 +1454,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Dgw-GN-Swq">
-                                                        <rect key="frame" x="231" y="47" width="18" height="18"/>
+                                                        <rect key="frame" x="234" y="41" width="26" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -1533,6 +1533,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                         <outlet property="fridayButton" destination="qYG-BP-evJ" id="MPL-Qz-pm7"/>
                         <outlet property="mondayButton" destination="EiN-8B-aES" id="5fz-OS-4eq"/>
                         <outlet property="pageControl" destination="TRw-jk-BQz" id="tMi-Sg-Adx"/>
+                        <outlet property="scheduleTypeLabel" destination="vIJ-fb-RdL" id="QnY-qt-cS3"/>
                         <outlet property="scrollView" destination="9gt-dt-UQJ" id="IkY-5r-H8K"/>
                         <outlet property="segmentedControl" destination="xUQ-DV-iPD" id="Fel-Oc-inv"/>
                         <outlet property="sundayButton" destination="Dgw-GN-Swq" id="YpC-hx-PrA"/>
@@ -1962,7 +1963,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled">
-                                                        <color key="titleColor" patternImage="BDB09D0F-435B-41F3-8574-212DB9A5E34A" colorSpace="pattern"/>
+                                                        <color key="titleColor" patternImage="F1EF99D4-9828-4578-A8A7-DA7FBF3AD13D" colorSpace="pattern"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -2359,7 +2360,8 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
         </scene>
     </scenes>
     <resources>
-        <image name="BDB09D0F-435B-41F3-8574-212DB9A5E34A" width="256" height="256">
+        <image name="Debug-Bug-icon.png" width="512" height="512"/>
+        <image name="F1EF99D4-9828-4578-A8A7-DA7FBF3AD13D" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -6801,7 +6803,6 @@ BA6JAAQOkQAEDp4ABA6jAAQOpQAEDqcABA6sAAQOtAAEDrcABA68AAQOxAAEDscABA7ZAAQO3AAEDuEA
 AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
 </mutableData>
         </image>
-        <image name="Debug-Bug-icon.png" width="512" height="512"/>
         <image name="basket.png" width="256" height="256"/>
         <image name="cart.png" width="512" height="512"/>
         <image name="comments.png" width="30" height="30"/>

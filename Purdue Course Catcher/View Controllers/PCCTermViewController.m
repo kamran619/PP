@@ -58,11 +58,11 @@
 -(void)setHeaderForTermType:(PCCTermType)type
 {
     if (type == PCCTermTypeSearch) {
-        [self.headerLabel setText:@"Choose a semester to search in:"];
+        [self.headerLabel setText:@"Choose a semester to search in"];
     }else if (type == PCCTermTypeSchedule) {
-        [self.headerLabel setText:@"Choose a semester to view your schedule for:"];
+        [self.headerLabel setText:@"Choose a semester to view your schedule for"];
     }else if (type == PCCTermTypeRegistration) {
-        [self.headerLabel setText:@"Choose a semester to register for:"];
+        [self.headerLabel setText:@"Choose a semester to register for"];
     }else {
         [self.headerLabel setText:@"The myPurdue portal is currently unavailable!"];
     }
