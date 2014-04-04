@@ -253,7 +253,16 @@ enum AnimationDirection
     currentDay = [headerViewController getCurrentDay];
     for (PCFClassModel *class in scheduleArray) {
         if ([class.days rangeOfString:currentDay options:NSCaseInsensitiveSearch range:NSMakeRange(0, class.days.length)].location != NSNotFound) {
-            [array addObject:class];
+            NSArray *dates = [Helpers splitDate:class.dateRange];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"MMM d, y"];
+            if (dates) {
+                NSString *dateOneStr = [dates objectAtIndex:0];
+                NSString *dateTwoStr = [dates objectAtIndex:1];
+                NSDate *dateOne = [dateFormatter dateFromString:dateOneStr];
+                NSDate *dateTwo = [dateFormatter dateFromString:dateTwoStr];
+                if ([Helpers isDate:[NSDate date] inRangeFirstDate:dateOne lastDate:dateTwo]) [array addObject:class];
+            }
         }
     }
     
@@ -382,11 +391,18 @@ enum AnimationDirection
         [[cell endTime] setText:[timeArray objectAtIndex:1]];
     }
 
+    cell.backgroundView = nil;
+    if (indexPath.row % 2 == 0) {
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+    }else {
+        cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }
+    
     [[cell location] setText:obj.classLocation];
     [[cell courseName] setText:obj.courseNumber];
     [[cell courseTitle] setText:obj.classTitle];
     [[cell courseType] setText:obj.scheduleType];
-    [[cell date] setText:obj.dateRange];
+    [[cell crn] setText:obj.CRN];
     [[cell courseSection] setText:obj.sectionNum];
     [[cell professor] setTitle:obj.instructor forState:UIControlStateNormal];
     
@@ -397,7 +413,7 @@ enum AnimationDirection
     
     
     //Hilight date if it is in the range
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    /*NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM d, y"];
     
     NSArray *dates = [Helpers splitDate:obj.dateRange];
@@ -408,17 +424,8 @@ enum AnimationDirection
         NSDate *dateTwo = [dateFormatter dateFromString:dateTwoStr];
         if ([Helpers isDate:[NSDate date] inRangeFirstDate:dateOne lastDate:dateTwo])
             [[cell date] setTextColor:[cell location].textColor];
-    }
-    
-    /*if (indexPath.row % 2 == 0) {
-        cell.backgroundView.backgroundColor = [UIColor clearColor];
-        cell.backgroundColor = CUSTOM_COLOR;
-        cell.alpha = 0.25;
-         //228 229 248
-    }else {*/
-        cell.backgroundView.backgroundColor = [UIColor clearColor];
-        [cell setBackgroundColor:[UIColor whiteColor]];
-    //}
+    }*/
+
     return cell;
     
 }

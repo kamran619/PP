@@ -124,7 +124,6 @@
     
     cell.backgroundView = nil;
     if (indexPath.row % 2 == 0) {
-        
         cell.contentView.backgroundColor = [UIColor whiteColor];
     }else {
         cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];

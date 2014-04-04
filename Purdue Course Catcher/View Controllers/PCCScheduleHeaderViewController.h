@@ -15,6 +15,8 @@
 
 @interface PCCScheduleHeaderViewController : UIViewController
 
+- (void)initControl;
+
 -(NSString *)getCurrentDay;
 -(NSString *)getDayName:(int)day;
 
