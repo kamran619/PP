@@ -123,7 +123,7 @@
     }
     
     if ([self.delegate respondsToSelector:@selector(dayChangedTo:)]) {
-        self.dayLabel.text = [self getDayName:currentDay];
+        [self transitionDay];
         [self.delegate dayChangedTo:[self getDayName:currentDay]];
     }
 }
@@ -142,9 +142,22 @@
     }
     
     if ([self.delegate respondsToSelector:@selector(dayChangedTo:)]) {
-        self.dayLabel.text = [self getDayName:currentDay];
+        [self transitionDay];
         [self.delegate dayChangedTo:[self getDayName:currentDay]];
     }
+}
+
+-(void)transitionDay
+{
+    CATransition *labelTransition = [CATransition animation];
+    [labelTransition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [labelTransition setFillMode:kCAFillModeBoth];
+    [labelTransition setType:kCATransitionPush];
+    [labelTransition setSubtype:kCATransitionFromBottom];
+    [labelTransition setDuration:.50f];
+    [labelTransition setDelegate:self];
+    self.dayLabel.text = [self getDayName:currentDay];
+    [self.dayLabel.layer addAnimation:labelTransition forKey:@"textChange"];
 }
 
 @end
