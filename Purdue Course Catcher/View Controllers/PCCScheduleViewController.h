@@ -15,9 +15,6 @@
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *termButton;
-
-@property (nonatomic, strong) IBOutlet UIView *containerViewForSchedule;
-
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UINavigationController *termVC;
 @end

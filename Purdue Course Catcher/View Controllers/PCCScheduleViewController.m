@@ -82,7 +82,6 @@ enum AnimationDirection
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [headerViewController springHeader];
 }
 
 - (void)initRefreshView
@@ -105,6 +104,13 @@ enum AnimationDirection
     //force load view
     [headerViewController view];
     headerViewController.delegate = self;
+    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:headerViewController action:@selector(leftArrowPushed:)];
+    [leftSwipe setDirection:UISwipeGestureRecognizerDirectionRight];
+    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:headerViewController action:@selector(rightArrowPushed:)];
+    [rightSwipe setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.view addGestureRecognizer:leftSwipe];
+    [self.view addGestureRecognizer:rightSwipe];
+    
 }
 
 -(void)fetchSchedule
@@ -112,17 +118,13 @@ enum AnimationDirection
         isLoading = YES;
         scheduleArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySchedule WithKey:preferredSchedule.value];
         if (scheduleArray != nil) {
-            //self.containerViewForSchedule.alpha = 0.0f;
-            [headerViewController.headerTitle setText:preferredSchedule.key];
             self.termButton.title = preferredSchedule.key;
             dayArray = [self generateDayArray];
             //reload tableview data
             isLoading = NO;
             //[self.tableView reloadData];
         }else {
-            [headerViewController.headerTitle setText:preferredSchedule.key];
             self.termButton.title = preferredSchedule.key;
-            self.containerViewForSchedule.alpha = 0.0f;
             dayArray = nil;
             isLoading = YES;
             [self.activityIndicator startAnimating];
@@ -199,7 +201,6 @@ enum AnimationDirection
     }else {
         preferredSchedule = [[PCCObject alloc] initWithKey:preferredScheduleToShow.key AndValue:preferredScheduleToShow.value];
         self.termButton.title = preferredSchedule.key;
-        [self.containerViewForSchedule fadeIn];
         //
         [Helpers asyncronousBlockWithName:@"Retreive Terms" AndBlock:^{
             NSMutableArray *tempTerms = [MyPurdueManager getMinimalTerms].mutableCopy;
@@ -210,10 +211,8 @@ enum AnimationDirection
         if (scheduleArray == nil) {
             [self fetchSchedule];
         }else {
-            self.containerViewForSchedule.alpha = 1.0f;
             //reload tableview data
             isLoading = NO;
-            headerViewController.headerTitle.text = preferredSchedule.key;
             dayArray = [self generateDayArray];
             [self.tableView reloadData];
             //reload data
@@ -229,10 +228,8 @@ enum AnimationDirection
 {
     preferredSchedule = [[PCCObject alloc] initWithKey:term.key AndValue:term.value];
     [[PCCDataManager sharedInstance] setObject:preferredSchedule ForKey:kPreferredScheduleToShow InDictionary:DataDictionaryUser];
-    [headerViewController.headerTitle setText:preferredSchedule.key];
     self.termButton.title = preferredSchedule.key;
     animationDirection = AnimationDirectionUp;
-    [self.containerViewForSchedule fadeIn];
     [self performSelectorOnMainThread:@selector(fetchSchedule) withObject:nil waitUntilDone:NO];
     
 }
@@ -447,16 +444,11 @@ enum AnimationDirection
 #pragma mark PCCScheduleHeader Delegate
 -(void)dayChangedTo:(NSString *)day
 {
-    if ([day intValue])
-    currentDay = day;
+    if ([day intValue]) currentDay = day;
     dayArray = [self generateDayArray];
     [self.tableView reloadData];
 }
 
--(void)animationDirectionChangedTo:(int)direction
-{
-    animationDirection = direction;
-}
 #pragma mark Data Source Loading / Reloading Methods
 
 - (void)reloadTableViewDataSource{
@@ -474,7 +466,6 @@ enum AnimationDirection
     [self.activityIndicator stopAnimating];
     dayArray = [self generateDayArray];
 	[refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-    [self.containerViewForSchedule fadeIn];
     [self.tableView reloadData];
 	
 }

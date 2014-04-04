@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
-            timestampString = "417409579.221777"
+            timestampString = "418341948.852667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "482"
-            endingLineNumber = "482"
+            startingLineNumber = "473"
+            endingLineNumber = "473"
             landmarkName = "@implementation PCCScheduleViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -409,11 +409,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
-            timestampString = "417409504.172323"
+            timestampString = "418341948.852667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "-loadSchedule"
             landmarkType = "5">
          </BreakpointContent>
@@ -425,7 +425,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
-            timestampString = "417409579.221777"
+            timestampString = "418341948.852667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "214"
@@ -527,6 +527,70 @@
             startingLineNumber = "298"
             endingLineNumber = "298"
             landmarkName = "-gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
+            timestampString = "418341948.852667"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
+            landmarkName = "-termPressed:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
+            timestampString = "418341948.852667"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "-fetchSchedule"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
+            timestampString = "418341948.852667"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "-fetchSchedule"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.m"
+            timestampString = "418341948.852667"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "-generateDayArray"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
