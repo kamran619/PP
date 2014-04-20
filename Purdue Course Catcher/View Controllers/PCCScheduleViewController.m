@@ -118,21 +118,23 @@ enum AnimationDirection
         isLoading = YES;
         scheduleArray = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySchedule WithKey:preferredSchedule.value];
         if (scheduleArray != nil) {
+            [self.activityIndicator stopAnimating];
             self.termButton.title = preferredSchedule.key;
             dayArray = [self generateDayArray];
             //reload tableview data
             isLoading = NO;
-            //[self.tableView reloadData];
+            [self doneLoadingTableViewData];
         }else {
             self.termButton.title = preferredSchedule.key;
             dayArray = nil;
             isLoading = YES;
-            [self.activityIndicator startAnimating];
             [self.tableView reloadData];
+            [self.activityIndicator startAnimating];
+            [self immediatelyFetchSchedule];
         }
 
     
-    [self immediatelyFetchSchedule];
+    
 }
 
 -(void)immediatelyFetchSchedule
@@ -255,13 +257,14 @@ enum AnimationDirection
             NSArray *dates = [Helpers splitDate:class.dateRange];
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"MMM d, y"];
-            if (dates) {
+            /*if (dates) {
                 NSString *dateOneStr = [dates objectAtIndex:0];
                 NSString *dateTwoStr = [dates objectAtIndex:1];
                 NSDate *dateOne = [dateFormatter dateFromString:dateOneStr];
                 NSDate *dateTwo = [dateFormatter dateFromString:dateTwoStr];
-                if ([Helpers isDate:[NSDate date] inRangeFirstDate:dateOne lastDate:dateTwo]) [array addObject:class];
-            }
+                if ([Helpers isDate:[NSDate date] inRangeFirstDate:dateOne lastDate:dateTwo])
+            }*/
+            [array addObject:class];
         }
     }
     
