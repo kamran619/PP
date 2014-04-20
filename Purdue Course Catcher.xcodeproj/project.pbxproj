@@ -29,6 +29,17 @@
 		FE24FFE2187E1974004D540E /* PCCPurdueLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */; };
 		FE24FFE5187E5F2F004D540E /* PCCFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */; };
 		FE26BA0B18D7F23300FB1E83 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = FE26BA0A18D7F23300FB1E83 /* bubble.png */; };
+		FE2744F219006DFF007088D6 /* star-0.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2744EC19006DFF007088D6 /* star-0.png */; };
+		FE2744F319006DFF007088D6 /* star-1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2744ED19006DFF007088D6 /* star-1.png */; };
+		FE2744F419006DFF007088D6 /* star-2.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2744EE19006DFF007088D6 /* star-2.png */; };
+		FE2744F519006DFF007088D6 /* star-3.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2744EF19006DFF007088D6 /* star-3.png */; };
+		FE2744F619006DFF007088D6 /* star-4.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2744F019006DFF007088D6 /* star-4.png */; };
+		FE2744F719006DFF007088D6 /* star-5.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2744F119006DFF007088D6 /* star-5.png */; };
+		FE2744FA1900711C007088D6 /* PCCourseRatingsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2744F91900711C007088D6 /* PCCourseRatingsCell.m */; };
+		FE2744FD190071CD007088D6 /* PCCProfessorRatingsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2744FC190071CD007088D6 /* PCCProfessorRatingsCell.m */; };
+		FE274500190378D1007088D6 /* PCCRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2744FF190378D1007088D6 /* PCCRating.m */; };
+		FE274503190379AB007088D6 /* PCCCourseRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE274502190379AB007088D6 /* PCCCourseRating.m */; };
+		FE274506190379F0007088D6 /* PCCProfessorRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE274505190379F0007088D6 /* PCCProfessorRating.m */; };
 		FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */; };
 		FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */; };
 		FE50C2DE18E7C39200C82363 /* PCCTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C2DD18E7C39200C82363 /* PCCTabBarController.m */; };
@@ -74,6 +85,7 @@
 		FE7B735518CEA3A3003D9D11 /* Debug-Bug-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7B735418CEA3A3003D9D11 /* Debug-Bug-icon.png */; };
 		FE7B735718CEA40E003D9D11 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7B735618CEA40E003D9D11 /* info.png */; };
 		FE7B735918CEA44A003D9D11 /* Ecommerce-Buy-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7B735818CEA44A003D9D11 /* Ecommerce-Buy-icon.png */; };
+		FE83AEAD18EF8A8A00324E20 /* PCCRatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE83AEAC18EF8A8A00324E20 /* PCCRatingViewController.m */; };
 		FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628BF185ECF9F00F699B5 /* PCCSearchViewController.m */; };
 		FE9628C4185ED75200F699B5 /* MyPurdueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628C3185ED75200F699B5 /* MyPurdueManager.m */; };
 		FE9628C8185ED7D800F699B5 /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628C7185ED7D800F699B5 /* Helpers.m */; };
@@ -164,6 +176,22 @@
 		FE24FFE3187E5F2F004D540E /* PCCFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCFacebookLoginViewController.h; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.h"; sourceTree = "<group>"; };
 		FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCFacebookLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.m"; sourceTree = "<group>"; };
 		FE26BA0A18D7F23300FB1E83 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
+		FE2744EC19006DFF007088D6 /* star-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-0.png"; sourceTree = "<group>"; };
+		FE2744ED19006DFF007088D6 /* star-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-1.png"; sourceTree = "<group>"; };
+		FE2744EE19006DFF007088D6 /* star-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-2.png"; sourceTree = "<group>"; };
+		FE2744EF19006DFF007088D6 /* star-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-3.png"; sourceTree = "<group>"; };
+		FE2744F019006DFF007088D6 /* star-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-4.png"; sourceTree = "<group>"; };
+		FE2744F119006DFF007088D6 /* star-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-5.png"; sourceTree = "<group>"; };
+		FE2744F81900711C007088D6 /* PCCCourseRatingsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCCourseRatingsCell.h; path = "Purdue Course Catcher/Cells/PCCCourseRatingsCell.h"; sourceTree = "<group>"; };
+		FE2744F91900711C007088D6 /* PCCourseRatingsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCourseRatingsCell.m; path = "Purdue Course Catcher/Cells/PCCourseRatingsCell.m"; sourceTree = "<group>"; };
+		FE2744FB190071CD007088D6 /* PCCProfessorRatingsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCProfessorRatingsCell.h; path = "Purdue Course Catcher/Cells/PCCProfessorRatingsCell.h"; sourceTree = "<group>"; };
+		FE2744FC190071CD007088D6 /* PCCProfessorRatingsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCProfessorRatingsCell.m; path = "Purdue Course Catcher/Cells/PCCProfessorRatingsCell.m"; sourceTree = "<group>"; };
+		FE2744FE190378D1007088D6 /* PCCRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCRating.h; sourceTree = "<group>"; };
+		FE2744FF190378D1007088D6 /* PCCRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCRating.m; sourceTree = "<group>"; };
+		FE274501190379AB007088D6 /* PCCCourseRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCCourseRating.h; sourceTree = "<group>"; };
+		FE274502190379AB007088D6 /* PCCCourseRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCCourseRating.m; sourceTree = "<group>"; };
+		FE274504190379F0007088D6 /* PCCProfessorRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCProfessorRating.h; sourceTree = "<group>"; };
+		FE274505190379F0007088D6 /* PCCProfessorRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCProfessorRating.m; sourceTree = "<group>"; };
 		FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		FE4D4C491895F0A900A5DBE1 /* PCCRegistrationError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCRegistrationError.h; sourceTree = "<group>"; };
 		FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCRegistrationError.m; sourceTree = "<group>"; };
@@ -233,6 +261,8 @@
 		FE7B735418CEA3A3003D9D11 /* Debug-Bug-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Debug-Bug-icon.png"; sourceTree = "<group>"; };
 		FE7B735618CEA40E003D9D11 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		FE7B735818CEA44A003D9D11 /* Ecommerce-Buy-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Ecommerce-Buy-icon.png"; sourceTree = "<group>"; };
+		FE83AEAB18EF8A8A00324E20 /* PCCRatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRatingViewController.h; path = "Purdue Course Catcher/View Controllers/PCCRatingViewController.h"; sourceTree = "<group>"; };
+		FE83AEAC18EF8A8A00324E20 /* PCCRatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRatingViewController.m; path = "Purdue Course Catcher/View Controllers/PCCRatingViewController.m"; sourceTree = "<group>"; };
 		FE9628BE185ECF9F00F699B5 /* PCCSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchViewController.h; path = "Purdue Course Catcher/View Controllers/PCCSearchViewController.h"; sourceTree = "<group>"; };
 		FE9628BF185ECF9F00F699B5 /* PCCSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSearchViewController.m"; sourceTree = "<group>"; };
 		FE9628C2185ED75200F699B5 /* MyPurdueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPurdueManager.h; sourceTree = "<group>"; };
@@ -427,6 +457,10 @@
 				FEE89B8918CEB3D60026AB5F /* PCCStoreCell.m */,
 				FE6DD97018D54E3500D033FC /* PCCNicknameTableViewCell.h */,
 				FE6DD97118D54E3500D033FC /* PCCNicknameTableViewCell.m */,
+				FE2744F81900711C007088D6 /* PCCCourseRatingsCell.h */,
+				FE2744F91900711C007088D6 /* PCCourseRatingsCell.m */,
+				FE2744FB190071CD007088D6 /* PCCProfessorRatingsCell.h */,
+				FE2744FC190071CD007088D6 /* PCCProfessorRatingsCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -434,7 +468,6 @@
 		FE50C51A1870C2F600EF24BA /* Segue */ = {
 			isa = PBXGroup;
 			children = (
-				FE50C5101870986300EF24BA /* Cells */,
 			);
 			name = Segue;
 			sourceTree = "<group>";
@@ -442,6 +475,7 @@
 		FE5530CF184D3C4900D13587 = {
 			isa = PBXGroup;
 			children = (
+				FE50C5101870986300EF24BA /* Cells */,
 				FED58A2918908DDE001991F2 /* Assets */,
 				FEA2017018711732009DFE84 /* Transitions */,
 				FE50C51A1870C2F600EF24BA /* Segue */,
@@ -560,6 +594,8 @@
 				FE6DD97418D5509900D033FC /* PCCNicknameTableViewController.m */,
 				FE50C2DC18E7C39200C82363 /* PCCTabBarController.h */,
 				FE50C2DD18E7C39200C82363 /* PCCTabBarController.m */,
+				FE83AEAB18EF8A8A00324E20 /* PCCRatingViewController.h */,
+				FE83AEAC18EF8A8A00324E20 /* PCCRatingViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -642,6 +678,12 @@
 				FE9628D1185ED9A100F699B5 /* PCCObject.m */,
 				FE4D4C491895F0A900A5DBE1 /* PCCRegistrationError.h */,
 				FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */,
+				FE2744FE190378D1007088D6 /* PCCRating.h */,
+				FE2744FF190378D1007088D6 /* PCCRating.m */,
+				FE274501190379AB007088D6 /* PCCCourseRating.h */,
+				FE274502190379AB007088D6 /* PCCCourseRating.m */,
+				FE274504190379F0007088D6 /* PCCProfessorRating.h */,
+				FE274505190379F0007088D6 /* PCCProfessorRating.m */,
 			);
 			name = Models;
 			path = "Purdue Course Catcher/Models";
@@ -674,6 +716,12 @@
 		FED58A2918908DDE001991F2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				FE2744EC19006DFF007088D6 /* star-0.png */,
+				FE2744ED19006DFF007088D6 /* star-1.png */,
+				FE2744EE19006DFF007088D6 /* star-2.png */,
+				FE2744EF19006DFF007088D6 /* star-3.png */,
+				FE2744F019006DFF007088D6 /* star-4.png */,
+				FE2744F119006DFF007088D6 /* star-5.png */,
 				FE50C32B18E7FC1F00C82363 /* comments.png */,
 				FE50C32918E7FBEA00C82363 /* loupe.png */,
 				FE50C32718E7FB8000C82363 /* configuration.png */,
@@ -855,6 +903,7 @@
 				FEE571A2186A4E4A00FE8FA8 /* blueArrow@2x.png in Resources */,
 				FE5530F4184D3C4900D13587 /* Images.xcassets in Resources */,
 				FEB99660188F563F0017C552 /* failure.png in Resources */,
+				FE2744F419006DFF007088D6 /* star-2.png in Resources */,
 				FEAE7FA11897530F001FBC09 /* Ps-x-button.png in Resources */,
 				FE50C32A18E7FBEA00C82363 /* loupe.png in Resources */,
 				FEE571A5186A4E4A00FE8FA8 /* whiteArrow.png in Resources */,
@@ -868,24 +917,29 @@
 				FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */,
 				FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */,
 				FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */,
+				FE2744F719006DFF007088D6 /* star-5.png in Resources */,
 				FE2410551873C6B000AA6328 /* icon-error@2x.png in Resources */,
 				FE7386CA18D617B7004EA448 /* twitter.jpg in Resources */,
 				FED58A361890D76F001991F2 /* shopping-basket.png in Resources */,
 				FEE571A1186A4E4A00FE8FA8 /* blueArrow.png in Resources */,
 				FE24FFDE187E0B57004D540E /* checkmark.png in Resources */,
 				FE7386CB18D617B7004EA448 /* mail.png in Resources */,
+				FE2744F219006DFF007088D6 /* star-0.png in Resources */,
 				FE55311C184D3DF800D13587 /* MainStoryboard.storyboard in Resources */,
 				FE2410581873C6B000AA6328 /* icon-success.png in Resources */,
 				FE24107E187540B600AA6328 /* PCCHUDView.xib in Resources */,
 				FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */,
 				FEB99658188DABFE0017C552 /* PCCHeaderViewController.xib in Resources */,
 				FE26BA0B18D7F23300FB1E83 /* bubble.png in Resources */,
+				FE2744F319006DFF007088D6 /* star-1.png in Resources */,
 				FE7B735718CEA40E003D9D11 /* info.png in Resources */,
 				FE2410561873C6B000AA6328 /* icon-info.png in Resources */,
 				FE24107818753C5600AA6328 /* PCCCatalogViewController.xib in Resources */,
 				FE7B735918CEA44A003D9D11 /* Ecommerce-Buy-icon.png in Resources */,
 				FEE571A6186A4E4A00FE8FA8 /* whiteArrow@2x.png in Resources */,
+				FE2744F619006DFF007088D6 /* star-4.png in Resources */,
 				FE2410541873C6B000AA6328 /* icon-error.png in Resources */,
+				FE2744F519006DFF007088D6 /* star-3.png in Resources */,
 				FEB638F518CFEF720066F982 /* cart.png in Resources */,
 				FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */,
 				FE7B735518CEA3A3003D9D11 /* Debug-Bug-icon.png in Resources */,
@@ -920,6 +974,7 @@
 				FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */,
 				FED58A401890E3B8001991F2 /* PCCLinkedSectionViewController.m in Sources */,
 				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
+				FE83AEAD18EF8A8A00324E20 /* PCCRatingViewController.m in Sources */,
 				FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,
 				FE50C2DE18E7C39200C82363 /* PCCTabBarController.m in Sources */,
@@ -956,7 +1011,10 @@
 				FE6DD97518D5509900D033FC /* PCCNicknameTableViewController.m in Sources */,
 				FE6DD97218D54E3500D033FC /* PCCNicknameTableViewCell.m in Sources */,
 				FE24FFDB187E0622004D540E /* PCCScrollView.m in Sources */,
+				FE274506190379F0007088D6 /* PCCProfessorRating.m in Sources */,
+				FE2744FA1900711C007088D6 /* PCCourseRatingsCell.m in Sources */,
 				FE50C5161870B3FC00EF24BA /* PCCSearchResultsCell.m in Sources */,
+				FE274500190378D1007088D6 /* PCCRating.m in Sources */,
 				FE7B734318CE8C0A003D9D11 /* PCCIAPHelper.m in Sources */,
 				FEE571A9186D00B700FE8FA8 /* PCFAutoCompleteTextField.m in Sources */,
 				FE5530EC184D3C4900D13587 /* PCCAppDelegate.m in Sources */,
@@ -967,9 +1025,11 @@
 				FEA2017D1873AE4D009DFE84 /* UIView+Animations.m in Sources */,
 				FE9628D3185ED9A100F699B5 /* PCFClassModel.m in Sources */,
 				FE9628D4185ED9A100F699B5 /* PCCCourseSlots.m in Sources */,
+				FE274503190379AB007088D6 /* PCCCourseRating.m in Sources */,
 				FED58A2E1890C375001991F2 /* PCCRegistrationAddCell.m in Sources */,
 				FE553118184D3D9A00D13587 /* PCCScheduleViewController.m in Sources */,
 				FE50FF18185E9F190084ED32 /* PCCSideMenuViewController.m in Sources */,
+				FE2744FD190071CD007088D6 /* PCCProfessorRatingsCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

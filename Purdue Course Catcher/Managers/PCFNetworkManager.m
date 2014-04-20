@@ -199,6 +199,7 @@ static PCFNetworkManager *_sharedInstance = nil;
 }
 
 
+//process the server response
 -(void)processServerData:(NSDictionary *)feedback
 {
     [self.timoutTimer invalidate];
@@ -297,11 +298,7 @@ static PCFNetworkManager *_sharedInstance = nil;
             [dictionary setObject:dataDictionary.copy forKey:kData];
             
             NSError *error;
-            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-            const char* newLine = "\r\n";
-            [JSONData appendBytes:(const uint8_t*)newLine length:2];
-            //pass to timer
-            if (!error) [self sendDataToServer:JSONData.copy forCommand:command];
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
         }
             break;
         case ServerCommandInitialization:
@@ -324,11 +321,7 @@ static PCFNetworkManager *_sharedInstance = nil;
             [dictionary setObject:dataDictionary.copy forKey:kData];
             
             NSError *error;
-            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-            const char* newLine = "\r\n";
-            [JSONData appendBytes:(const uint8_t*)newLine length:2];
-            
-            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandInitialization];
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
         }
             break;
             
@@ -349,11 +342,7 @@ static PCFNetworkManager *_sharedInstance = nil;
             [dictionary setObject:dataDictionary.copy forKey:kData];
             
             NSError *error;
-            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-            const char* newLine = "\r\n";
-            [JSONData appendBytes:(const uint8_t*)newLine length:2];
-            
-            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandUpdate];
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
         }
             break;
             
@@ -380,11 +369,7 @@ static PCFNetworkManager *_sharedInstance = nil;
             [dictionary setObject:dataDictionary forKey:kData];
             
             NSError *error;
-            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-            const char* newLine = "\r\n";
-            [JSONData appendBytes:(const uint8_t*)newLine length:2];
-            
-            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandSendSchedule];
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
         }
             break;
             
@@ -401,11 +386,7 @@ static PCFNetworkManager *_sharedInstance = nil;
             [dictionary setObject:dataDictionary.copy forKey:kData];
             
             NSError *error;
-            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-            const char* newLine = "\r\n";
-            [JSONData appendBytes:(const uint8_t*)newLine length:2];
-            
-            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandSettings];
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
         }
             break;
             
@@ -419,17 +400,48 @@ static PCFNetworkManager *_sharedInstance = nil;
             NSDictionary *purchaseDictionary = dict;
             [dataDictionary setObject:[purchaseDictionary objectForKey:kPurchasedItem] forKey:kPurchasedItem];
             NSError *error;
-            NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error].mutableCopy;
-            const char* newLine = "\r\n";
-            [JSONData appendBytes:(const uint8_t*)newLine length:2];
-            
-            if (!error) [self sendDataToServer:JSONData forCommand:ServerCommandPurchase];
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
             break;
         }
+            
+        case ServerCommandViewRatings:
+        {
+            NSError *error;
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
+            break;
+
+        }
+            
+        case ServerCommandViewCourseRating:
+        {
+            NSError *error;
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
+            break;
+            
+        }
+            
+        case ServerCommandViewProfessorRating:
+        {
+            NSError *error;
+            if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
+            break;
+            
+        }
+        
         default:
             break;
     }
 }
+
+-(NSData *)packageCommandIntoJSON:(NSDictionary *)dictionary error:(NSError **)error
+{
+    NSMutableData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:error].mutableCopy;
+    const char* newLine = "\r\n";
+    [JSONData appendBytes:(const uint8_t*)newLine length:2];
+    return JSONData;
+
+}
+
 -(void)sendDataToServer:(NSData *)data forCommand:(ServerCommand)command
 {
     if (!self.initializedSocket) [self initSocket];

@@ -112,8 +112,6 @@
 }
 
 - (void)doneLoadingTableViewData{
-	
-
     isLoading = NO;
 	[refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
 	

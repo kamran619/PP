@@ -229,5 +229,12 @@
     NSString *username = [credentials objectForKey:kUsername];
     return username;
 }
+
++(UIImage *)getImageForStars:(int)stars
+{
+    NSString *imgName = [NSString stringWithFormat:@"star-%d.png", stars];
+    return [UIImage imageNamed:imgName];
+    
+}
 @end
 

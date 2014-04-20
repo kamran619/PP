@@ -129,7 +129,8 @@
     CGPoint point = self.segmentedControl.center;
     CGRect frame = CGRectMake(10, point.y + 35, 300, 35);
     self.autoCompleteTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
-    self.doneButton.frame = CGRectOffset(frame, 0, 70);
+    //CGRect positionFrame = CGRectOffset(frame, 0, 70);
+    //self.doneButton.frame = CGRectMake(positionFrame.origin.x, positionFrame.origin.y, self.doneButton.frame.size.width, self.doneButton.frame.size.height);
     [self.autoCompleteTextField setDataToAutoComplete:nil];
     
     [self.autoCompleteTextField.textField setFont:[UIFont systemFontOfSize:16]];
@@ -305,7 +306,7 @@
     if (self.advancedView.hidden == YES) return YES;
     CGPoint touchLocation = [touch locationInView:gestureRecognizer.view];
     if (CGRectContainsPoint(self.advancedView.frame, touchLocation)) return NO;
-    if (CGRectContainsPoint(self.autoCompleteTextField.frame, touchLocation)) return NO;
+    if (CGRectContainsPoint(self.autoCompleteTextField.textField.frame, touchLocation)) return NO;
     return YES;
 }
 #pragma mark - Utility Methods

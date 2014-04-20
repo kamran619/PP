@@ -214,10 +214,9 @@ enum AnimationDirection
             //reload tableview data
             isLoading = NO;
             dayArray = [self generateDayArray];
-            [self.tableView reloadData];
             //reload data
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.25f];
+                [self doneLoadingTableViewData];
             });
         }
     }
@@ -411,21 +410,6 @@ enum AnimationDirection
     [longGesture setDelegate:self];
     [cell addGestureRecognizer:longGesture];
     
-    
-    //Hilight date if it is in the range
-    /*NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MMM d, y"];
-    
-    NSArray *dates = [Helpers splitDate:obj.dateRange];
-    if (dates) {
-        NSString *dateOneStr = [dates objectAtIndex:0];
-        NSString *dateTwoStr = [dates objectAtIndex:1];
-        NSDate *dateOne = [dateFormatter dateFromString:dateOneStr];
-        NSDate *dateTwo = [dateFormatter dateFromString:dateTwoStr];
-        if ([Helpers isDate:[NSDate date] inRangeFirstDate:dateOne lastDate:dateTwo])
-            [[cell date] setTextColor:[cell location].textColor];
-    }*/
-
     return cell;
     
 }
