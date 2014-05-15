@@ -48,7 +48,8 @@ enum PurdueColor {
     PurdueColorYellow,
     PurdueColorDarkGrey,
     PurdueColorMidGrey,
-    PurdueColorLightGrey
+    PurdueColorLightGrey,
+    PurdueColorLightPink,
 };
 
 +(UIColor *)purdueColor:(enum PurdueColor)color;

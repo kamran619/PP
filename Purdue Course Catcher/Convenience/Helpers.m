@@ -38,6 +38,11 @@
             customColor = [UIColor colorWithRed:.8196f green:.8274f blue:.8314f alpha:1.0f];
             break;
             
+        case PurdueColorLightPink:
+            //217,61,72
+            customColor = [UIColor colorWithRed:.85098f green:.23921f blue:.28235 alpha:1.0f];
+            break;
+            
         default:
             break;
     }

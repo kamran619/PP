@@ -16,13 +16,16 @@
 #import "PCCHUDManager.h"
 #import "PCCCatcherViewController.h"
 #import "PCCTabBarController.h"
-
+#import "PCCSearchViewController.h"
 
 @implementation PCCAppDelegate
 
+-(void)customizeLook
+{
+    [[UIBarButtonItem appearanceWhenContainedIn:[PCCSearchViewController class], nil] setTintColor:[Helpers purdueColor:PurdueColorLightPink]];
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     

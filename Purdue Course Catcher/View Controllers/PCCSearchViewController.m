@@ -20,6 +20,7 @@
 #import "PCCHUDManager.h"
 #import "KPLightBoxManager.h"
 #import "PCCTermViewController.h"
+#import "PCCAppDelegate.h"
 
 
 #define CENTER_FRAME CGPointMake(320, 21);
@@ -118,13 +119,12 @@
     self.sundayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
     self.sundayButton.layer.borderWidth = 1.0f;
     self.sundayButton.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
-    self.advancedView.hidden = YES;
     
     self.scrollView.frame = CGRectMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y, self.scrollView.frame.size.width, self.containerViewSearch.frame.size.height);
     self.advancedView.contentSize = CGSizeMake(self.advancedView.frame.size.width*3, self.advancedView.frame.size.height);
     self.pageControl.numberOfPages = 3;
-    self.advancedView.layer.borderColor = [Helpers purdueColor:PurdueColorMidGrey].CGColor;
-    self.advancedView.layer.borderWidth = 2.0f;
+    self.advancedView.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
+    self.advancedView.layer.borderWidth = 0.5f;
     //init autoCompleteViews
     CGPoint point = self.segmentedControl.center;
     CGRect frame = CGRectMake(10, point.y + 35, 300, 35);
@@ -303,7 +303,7 @@
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     
-    if (self.advancedView.hidden == YES) return YES;
+    if (self.advancedView.alpha == 0.0f) return YES;
     CGPoint touchLocation = [touch locationInView:gestureRecognizer.view];
     if (CGRectContainsPoint(self.advancedView.frame, touchLocation)) return NO;
     if (CGRectContainsPoint(self.autoCompleteTextField.textField.frame, touchLocation)) return NO;
@@ -370,21 +370,56 @@
     [self.autoCompleteTextField.textField setText:@""];
     if (val == searchCourse) {
         [self.autoCompleteTextField setDataToAutoComplete:nil];
-        [self animateAdvancedViewOut];
+        [self hideFilterButton];
+        //[self animateAdvancedViewOut];
         [self.fadeText setText:[self getTextForControl]];
         [self.autoCompleteTextField.textField setPlaceholder:@"Example: SOC 100"];
     }else if (val == searchCRN) {
         [self.autoCompleteTextField setDataToAutoComplete:nil];
-        [self animateAdvancedViewOut];
+        [self hideFilterButton];
+        //[self animateAdvancedViewOut];
         [self.fadeText setText:[self getTextForControl]];
         [self.autoCompleteTextField.textField setPlaceholder:@"Example: A CRN is 5 digits"];
     }else if (val == searchAdvanced) {
         [self.fadeText setText:[self getTextForControl]];
         [self.autoCompleteTextField.textField setPlaceholder:@"Example: SOC"];
-        [self animateAdvancedViewIn];
+        [self showFilterButton];
+        //[self animateAdvancedViewIn];
     }
 }
 
+-(void)showFilterButton
+{
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(showFilter:)];
+    [item setTintColor:[Helpers purdueColor:PurdueColorLightPink]];
+    [self.navigationItem setLeftBarButtonItem:item animated:YES];
+}
+
+-(void)hideFilterButton
+{
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.advancedView fadeOut];
+    [self.pageControl fadeOut];
+}
+
+-(void)showFilter:(id)sender
+{
+    if (self.advancedView.alpha == 0.0f) {
+        [self.advancedView fadeIn];
+        [self.pageControl fadeIn];
+        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStyleDone];
+    }else {
+        [self.advancedView fadeOut];
+        [self.pageControl fadeOut];
+        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStylePlain];
+    }
+    
+}
+
+-(void)hideFilter:(id)sender
+{
+    [self.advancedView fadeOut];
+}
 #pragma mark Animations
 
 -(void)fadeTextIn
