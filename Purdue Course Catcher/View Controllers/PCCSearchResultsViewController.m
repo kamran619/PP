@@ -22,13 +22,15 @@
 #import "PCCDataManager.h"
 #import "PCCRegistrationBasketViewController.h"
 #import "PCCLinkedSectionViewController.h"
-
+#import "PCCSearchFilterViewController.h"
 #import "PCCObject.h"
 
 @interface PCCSearchResultsViewController ()
 {
     PCCCatalogViewController *catalogVC;
+    PCCSearchFilterViewController *filterVC;
     NSArray *linkedCourses;
+    
 }
 @end
 
@@ -77,7 +79,13 @@
     static NSString *identifier = @"kSearchResultsCell";
     PCCSearchResultsCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
-    PCFClassModel *obj = [self.dataSource objectAtIndex:indexPath.row];
+    PCFClassModel *obj;
+    
+    if (self.isFiltered) {
+        obj = [self.filteredDataSource objectAtIndex:indexPath.row];
+    }else {
+        obj = [self.dataSource objectAtIndex:indexPath.row];
+    }
     cell.course = obj;
     
     NSArray *timeArray = [Helpers splitTime:obj.time];
@@ -143,7 +151,13 @@
 -(IBAction)actionButtonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    PCFClassModel *course = [self.dataSource objectAtIndex:button.tag];
+    PCFClassModel *course;
+    if (self.isFiltered) {
+        course = [self.filteredDataSource objectAtIndex:button.tag];
+    }else {
+        course = [self.dataSource objectAtIndex:button.tag];
+    }
+    
         if ([button.titleLabel.text isEqualToString:@"Register"]) {
             BOOL identical = [self containsIdenticalClass:course];
             if ([course.linkedID isEqualToString:@""]) {
@@ -178,9 +192,15 @@
             }else {
                 //calculate linked sections and return
                 if (!identical) {
-                        self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:@""];
-                        self.linkedVC.delegate = self;
-                        [self.linkedVC setDataSource:self.dataSource.mutableCopy];
+                    self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:@""];
+                    self.linkedVC.delegate = self;
+                    NSMutableArray *ds;
+                    if (self.isFiltered) {
+                        ds = self.filteredDataSource.mutableCopy;
+                    }else {
+                        ds = self.dataSource.mutableCopy;
+                    }
+                        [self.linkedVC setDataSource:ds];
                         [self.linkedVC setCourse:course];
                     if (self.searchType == searchCRN) {
                         if (linkedCourses.count > 0) {
@@ -277,12 +297,134 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.isFiltered) return self.filteredDataSource.count;
     return self.dataSource.count;
 }
 
 
 
 #pragma mark Cell Methods
+//1 on, 0 off
+-(void)toggleFilter:(int)toggle
+{
+    if (!filterVC)  {
+        filterVC = (PCCSearchFilterViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCSearchFilterViewController"];
+        filterVC.titles = [Helpers getArrayOfScheduleTypes:self.dataSource];
+        filterVC.savedItem = @"All";
+    }
+    
+    if (toggle == 1) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            filterVC.view.alpha = 0.0f;
+            filterVC.view.frame = CGRectOffset(filterVC.view.frame, 0, -filterVC.view.frame.size.height);
+            CGPoint placement = self.tableView.frame.origin;
+            [self.view insertSubview:filterVC.view atIndex:0];
+            [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.80f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                filterVC.view.frame = CGRectMake(placement.x, placement.y, filterVC.view.frame.size.width, filterVC.view.frame.size.height);
+                filterVC.view.alpha = 1.0f;
+                self.tableView.layer.transform = CATransform3DMakeTranslation(0, filterVC.view.frame.size.height, 0);
+            }completion:^(BOOL finished) {
+                if (!finished) { filterVC.view.frame = CGRectOffset(filterVC.view.frame, 0, -filterVC.view.frame.size.height);
+                }else {
+                    filterVC.view.frame = CGRectMake(placement.x, placement.y, filterVC.view.frame.size.width, filterVC.view.frame.size.height);
+                    filterVC.view.alpha = 1.0f;
+                    self.tableView.layer.transform = CATransform3DMakeTranslation(0, filterVC.view.frame.size.height, 0);
+                }
+            }];
+        });
+    }else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            filterVC.view.alpha = 1.0f;
+            [self.view addSubview:filterVC.view];
+            [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.80f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                filterVC.view.alpha = 0.0f;
+                filterVC.view.frame = CGRectOffset(filterVC.view.frame, 0, -filterVC.view.frame.size.height);
+                self.tableView.layer.transform = CATransform3DIdentity;
+            }completion:^(BOOL finished) {
+                if (finished) {
+                    filterVC.view.alpha = 1.0f;
+                    filterVC.view.frame = CGRectOffset(filterVC.view.frame, 0, -filterVC.view.frame.size.height);
+                    //reload the table now with new data
+                    self.isFiltered = YES;
+                    [self refreshData];
+                }
+            }];
+        });
+    }
+}
+
+-(void)refreshData
+{
+    BOOL showClosedCourses = filterVC.switchShowOpenCourses.selected;
+    NSString *scheduleType = filterVC.savedItem;
+    int fromHours = filterVC.fromLabel.text.intValue;
+    int toHours = filterVC.toLabel.text.intValue;
+    BOOL filterByTime = (filterVC.buttonToggleTime.tag == 1) ? YES : NO;
+    unsigned int flags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:flags fromDate:filterVC.pickerBegin.date];
+    NSDate *toTimeOnly = [calendar dateFromComponents:components];
+    components = [calendar components:flags fromDate:filterVC.pickerEnd.date];
+    NSDate* fromTimeOnly = [calendar dateFromComponents:components];
+    
+    NSMutableArray *filteredDataSource = [NSMutableArray arrayWithCapacity:3];
+    for (PCFClassModel *courses in self.dataSource) {
+        
+        //filter by number of credits
+        if (!(fromHours <= courses.credits.intValue && toHours >= courses.credits.intValue)) {
+            continue;
+        }
+        
+        //filter by schedule itme
+        if (![scheduleType isEqualToString:@"All"]) {
+            if (![courses.scheduleType isEqualToString:scheduleType]) continue;
+        }
+        
+        //filter by timr
+        if (filterByTime == YES) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+            [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+            [dateFormatter setDateFormat:@"h:mm a"];
+            NSArray *time = [Helpers splitTime:courses.time];
+             NSString *timeOneStr = [time objectAtIndex:0];
+             NSString *timeTwoStr = [time objectAtIndex:1];
+             NSDate *courseStartTime = [dateFormatter dateFromString:timeOneStr];
+             NSDate *courseEndTime = [dateFormatter dateFromString:timeTwoStr];
+            components = [calendar components:flags fromDate:courseStartTime];
+            NSDate* courseStartTimeOnly = [calendar dateFromComponents:components];
+            components = [calendar components:flags fromDate:courseEndTime];
+            NSDate* courseEndTimeOnly = [calendar dateFromComponents:components];
+            if (!([Helpers isDate:courseStartTimeOnly inRangeFirstDate:fromTimeOnly lastDate:toTimeOnly] && [Helpers isDate:courseEndTimeOnly inRangeFirstDate:fromTimeOnly lastDate:toTimeOnly])) {
+                continue;
+            }
+        }
+        [filteredDataSource addObject:courses];
+    }
+    
+    self.filteredDataSource = filteredDataSource;
+    [self.tableView reloadData];
+    
+}
+-(IBAction)showFilters:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    
+    /*if ([button tag] == 0) {
+        //show it
+        button.tag = 1;
+        [self toggleFilter:1];
+    }else {
+        //unshow it
+        button.tag = 0;
+        [self toggleFilter:0];
+    }*/
+    NSInteger state = button.tag;
+    int toggleValue = (state == 0) ? 1 : 0;
+    button.tag = toggleValue;
+    [self toggleFilter:toggleValue]
+    ;
+}
 -(IBAction)dismissCatalog:(id)sender
 {
     [UIView animateWithDuration:0.25f delay:0.0f usingSpringWithDamping:0.90f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{

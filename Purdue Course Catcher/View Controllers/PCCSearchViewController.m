@@ -269,7 +269,7 @@
         UINavigationController *controller = segue.destinationViewController;
         PCCSearchResultsViewController *vc = [controller.childViewControllers lastObject];
         vc.dataSource = searchResults;
-        vc.searchType = self.segmentedControl.selectedSegmentIndex;
+        vc.searchType = (int) self.segmentedControl.selectedSegmentIndex;
         vc.transitioningDelegate = self;
     }
 

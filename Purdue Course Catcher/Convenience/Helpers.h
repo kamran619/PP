@@ -92,5 +92,6 @@ enum PurdueColor {
 +(NSString *)getPUID;
 
 +(UIImage *)getImageForStars:(int)stars;
++(NSArray *)getArrayOfScheduleTypes:(NSArray *)classes;
 
 @end

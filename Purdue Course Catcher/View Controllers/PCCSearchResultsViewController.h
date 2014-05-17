@@ -19,7 +19,8 @@
 @property (nonatomic, strong) id<ADVAnimationController> animationController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataSource;
-
+@property (nonatomic, strong) NSArray *filteredDataSource;
+@property (nonatomic, assign) BOOL isFiltered;
 @property (nonatomic, strong) PCCRegistrationBasketViewController *basketVC;
 @property (nonatomic, strong) PCCLinkedSectionViewController *linkedVC;
 @property (nonatomic, assign) search searchType;

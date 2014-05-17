@@ -241,5 +241,17 @@
     return [UIImage imageNamed:imgName];
     
 }
+
++(NSArray *)getArrayOfScheduleTypes:(NSArray *)classes
+{
+    NSMutableSet *set = [NSMutableSet setWithCapacity:2];
+    for (PCFClassModel *class in classes) {
+        [set addObject:class.scheduleType];
+    }
+    
+    NSMutableArray *array = [NSMutableArray arrayWithObject:@"All"];
+    [array addObjectsFromArray:set.allObjects];
+    return array.copy;
+}
 @end
 

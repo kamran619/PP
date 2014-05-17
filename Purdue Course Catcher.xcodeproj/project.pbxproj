@@ -40,6 +40,9 @@
 		FE274500190378D1007088D6 /* PCCRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2744FF190378D1007088D6 /* PCCRating.m */; };
 		FE274503190379AB007088D6 /* PCCCourseRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE274502190379AB007088D6 /* PCCCourseRating.m */; };
 		FE274506190379F0007088D6 /* PCCProfessorRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE274505190379F0007088D6 /* PCCProfessorRating.m */; };
+		FE3FDBEF1925872C00B88731 /* AKPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3FDBEE1925872C00B88731 /* AKPickerView.m */; };
+		FE3FDBF3192587B900B88731 /* PCCSearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3FDBF2192587B900B88731 /* PCCSearchFilterViewController.m */; };
+		FE3FDBF5192591F400B88731 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3FDBF4192591F400B88731 /* QuartzCore.framework */; };
 		FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */; };
 		FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */; };
 		FE50C2DE18E7C39200C82363 /* PCCTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE50C2DD18E7C39200C82363 /* PCCTabBarController.m */; };
@@ -192,6 +195,11 @@
 		FE274502190379AB007088D6 /* PCCCourseRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCCourseRating.m; sourceTree = "<group>"; };
 		FE274504190379F0007088D6 /* PCCProfessorRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCProfessorRating.h; sourceTree = "<group>"; };
 		FE274505190379F0007088D6 /* PCCProfessorRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCProfessorRating.m; sourceTree = "<group>"; };
+		FE3FDBED1925872C00B88731 /* AKPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKPickerView.h; sourceTree = "<group>"; };
+		FE3FDBEE1925872C00B88731 /* AKPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKPickerView.m; sourceTree = "<group>"; };
+		FE3FDBF1192587B900B88731 /* PCCSearchFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchFilterViewController.h; path = "Purdue Course Catcher/Views/PCCSearchFilterViewController.h"; sourceTree = "<group>"; };
+		FE3FDBF2192587B900B88731 /* PCCSearchFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchFilterViewController.m; path = "Purdue Course Catcher/Views/PCCSearchFilterViewController.m"; sourceTree = "<group>"; };
+		FE3FDBF4192591F400B88731 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		FE4D4C491895F0A900A5DBE1 /* PCCRegistrationError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCRegistrationError.h; sourceTree = "<group>"; };
 		FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCRegistrationError.m; sourceTree = "<group>"; };
@@ -342,6 +350,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE3FDBF5192591F400B88731 /* QuartzCore.framework in Frameworks */,
 				FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */,
 				FE5530DE184D3C4900D13587 /* CoreGraphics.framework in Frameworks */,
 				FEE89B8C18CEE4D30026AB5F /* StoreKit.framework in Frameworks */,
@@ -434,6 +443,24 @@
 			name = FTUE;
 			sourceTree = "<group>";
 		};
+		FE3FDBEC1925872C00B88731 /* AKPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				FE3FDBED1925872C00B88731 /* AKPickerView.h */,
+				FE3FDBEE1925872C00B88731 /* AKPickerView.m */,
+			);
+			path = AKPickerView;
+			sourceTree = "<group>";
+		};
+		FE3FDBF01925879800B88731 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FE3FDBF1192587B900B88731 /* PCCSearchFilterViewController.h */,
+				FE3FDBF2192587B900B88731 /* PCCSearchFilterViewController.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		FE50C5101870986300EF24BA /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -483,6 +510,7 @@
 				FE9628C5185ED7D800F699B5 /* Convenience */,
 				FE9628C1185ED75200F699B5 /* Managers */,
 				FE55311B184D3DF800D13587 /* MainStoryboard.storyboard */,
+				FE3FDBF01925879800B88731 /* Views */,
 				FE55311A184D3DA900D13587 /* View Controllers */,
 				FE5530E1184D3C4900D13587 /* Purdue Course Catcher */,
 				FE553100184D3C4900D13587 /* Purdue Course CatcherTests */,
@@ -503,6 +531,7 @@
 		FE5530DA184D3C4900D13587 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE3FDBF4192591F400B88731 /* QuartzCore.framework */,
 				FEE89B8B18CEE4D30026AB5F /* StoreKit.framework */,
 				FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */,
 				FE5530DB184D3C4900D13587 /* Foundation.framework */,
@@ -650,6 +679,7 @@
 		FE9628C5185ED7D800F699B5 /* Convenience */ = {
 			isa = PBXGroup;
 			children = (
+				FE3FDBEC1925872C00B88731 /* AKPickerView */,
 				FE7B734418CE8C13003D9D11 /* IAP */,
 				FE9628C6185ED7D800F699B5 /* Helpers.h */,
 				FE9628C7185ED7D800F699B5 /* Helpers.m */,
@@ -973,7 +1003,9 @@
 				FEE89B8A18CEB3D60026AB5F /* PCCStoreCell.m in Sources */,
 				FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */,
 				FED58A401890E3B8001991F2 /* PCCLinkedSectionViewController.m in Sources */,
+				FE3FDBEF1925872C00B88731 /* AKPickerView.m in Sources */,
 				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
+				FE3FDBF3192587B900B88731 /* PCCSearchFilterViewController.m in Sources */,
 				FE83AEAD18EF8A8A00324E20 /* PCCRatingViewController.m in Sources */,
 				FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,
