@@ -283,6 +283,11 @@
 
 -(void)tapped:(id)sender
 {
+    UITapGestureRecognizer *gesture = (UITapGestureRecognizer *)sender;
+    CGPoint pointTapped = [gesture locationInView:gesture.view];
+    CGPoint convertedPoint = [gesture.view convertPoint:pointTapped toView:self.autoCompleteTextField];
+    CGRect textFieldRect = self.autoCompleteTextField.textField.frame;
+    if (CGRectContainsPoint(textFieldRect, convertedPoint)) return;
     [self.view endEditing:YES];
     [self.courseNumberTextField resignFirstResponder];
     [self.courseTitleTextField resignFirstResponder];
