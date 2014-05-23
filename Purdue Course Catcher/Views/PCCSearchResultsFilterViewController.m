@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Kamran Pirwani. All rights reserved.
 //
 
-#import "PCCSearchFilterViewController.h"
+#import "PCCSearchResultsFilterViewController.h"
 #import "AKPickerView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Helpers.h"
 
-@implementation PCCSearchFilterViewController
+@implementation PCCSearchResultsFilterViewController
 
 -(void)viewDidLoad
 {
@@ -19,7 +19,7 @@
         // Initialization code
         self.pickerViewCourseType = [[AKPickerView alloc] initWithFrame:CGRectMake(-10, self.labelCourseTypes.frame.origin.y + 10, 320, 64)];
         self.pickerViewCourseType.delegate = self;
-        self.buttonToggleTime.layer.cornerRadius = 9.0f;
+        //self.buttonToggleTime.layer.cornerRadius = 9.0f;
         self.buttonToggleTime.layer.borderColor = [Helpers purdueColor:PurdueColorDarkGrey].CGColor;
         self.buttonToggleTime.titleLabel.textColor = [Helpers purdueColor:PurdueColorDarkGrey];
         self.buttonToggleTime.layer.borderWidth = 1.0f;

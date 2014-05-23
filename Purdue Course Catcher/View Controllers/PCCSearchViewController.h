@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PCFAutoCompleteTextField.h"
+#import "PCCSearchFilterViewController.h"
 #import "ADVAnimationController.h"
 #import "PCCTermViewController.h"
 
@@ -21,36 +22,18 @@
 @property (nonatomic, strong) IBOutlet UIView *containerViewSearch;
 
 
-
 @property (nonatomic, strong) IBOutlet UILabel *detailLabel;
 
 @property (nonatomic, strong) IBOutlet UIButton *doneButton;
-
-@property (nonatomic, strong) IBOutlet UILabel *scheduleTypeLabel;
-
+@property (nonatomic, assign) BOOL isFiltered;
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic, strong) PCFAutoCompleteTextField *autoCompleteTextField;
-@property (nonatomic, strong) PCFAutoCompleteTextField *professorTextField;
-@property (nonatomic, strong) PCFAutoCompleteTextField *scheduleTypeTextField;
+
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
 
-@property (nonatomic, strong) IBOutlet UIScrollView *advancedView;
-@property (nonatomic, strong) IBOutlet UIPageControl *pageControl;
-
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *termButton;
-//in view
-@property (nonatomic, strong) IBOutlet UITextField *courseTitleTextField;
-@property (nonatomic, strong) IBOutlet UITextField *courseNumberTextField;
-@property (nonatomic, strong) IBOutlet UIButton *mondayButton;
-@property (nonatomic, strong) IBOutlet UIButton *tuesdayButton;
-@property (nonatomic, strong) IBOutlet UIButton *wednesdayButton;
-@property (nonatomic, strong) IBOutlet UIButton *thursdayButton;
-@property (nonatomic, strong) IBOutlet UIButton *fridayButton;
-@property (nonatomic, strong) IBOutlet UIButton *sundayButton;
 
 @property (nonatomic, strong) id<ADVAnimationController> animationController;
-- (IBAction)dayPressed:(UIButton *)sender;
-@property (nonatomic, strong) NSMutableSet *setOfDays;
 
 @end

@@ -1,4 +1,4 @@
-//
+S//
 //  PCCSearchViewController.m
 //  Purdue Course Catcher
 //
@@ -21,15 +21,12 @@
 #import "KPLightBoxManager.h"
 #import "PCCTermViewController.h"
 #import "PCCAppDelegate.h"
+#import "PCCSearchFilterViewController.h"
 
 
 #define CENTER_FRAME CGPointMake(320, 21);
 
 
-
-#define CUSTOM_PURPLE_COLOR [UIColor colorWithRed:.47843f green:0.4f blue:0.6f alpha:1]
-
-#define BUTTON_CORNER_RADIUS 3.0f
 
 
 @interface PCCSearchViewController ()
@@ -41,7 +38,7 @@
     
     PCCObject *myPreferredSearchTerm;
     NSArray *searchResults;
-    
+    PCCSearchFilterViewController *filterVC;
     CATransition *animationTransition;
 }
 
@@ -92,39 +89,19 @@
 {
 
     //[self.segmentedControl setTintColor:[Helpers purdueColor:PurdueColorYellow]];
+    if (!filterVC)  {
+        filterVC = (PCCSearchFilterViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCSearchFilterViewController"];
+        PCCObject *obj = [[PCCObject alloc] initWithKey:@"All" AndValue:@"%25"];
+        filterVC.savedItem = obj;
+    }
     
     //init animation controller
     self.animationController = [[ZoomAnimationController alloc] init];
     
-    //create set to store days in
-    self.setOfDays = [NSMutableSet setWithCapacity:5];
-    
     //setup subviews appearance
-    self.advancedView.layer.cornerRadius = 9.0f;
-    self.mondayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.mondayButton.layer.borderWidth = 1.0f;
-    self.mondayButton.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
-    self.tuesdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.tuesdayButton.layer.borderWidth = 1.0f;
-    self.tuesdayButton.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
-    self.wednesdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.wednesdayButton.layer.borderWidth = 1.0f;
-    self.wednesdayButton.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
-    self.thursdayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.thursdayButton.layer.borderWidth = 1.0f;
-    self.thursdayButton.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
-    self.fridayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.fridayButton.layer.borderWidth = 1.0f;
-    self.fridayButton.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
-    self.sundayButton.layer.cornerRadius = BUTTON_CORNER_RADIUS;
-    self.sundayButton.layer.borderWidth = 1.0f;
-    self.sundayButton.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
     
     self.scrollView.frame = CGRectMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y, self.scrollView.frame.size.width, self.containerViewSearch.frame.size.height);
-    self.advancedView.contentSize = CGSizeMake(self.advancedView.frame.size.width*3, self.advancedView.frame.size.height);
-    self.pageControl.numberOfPages = 3;
-    self.advancedView.layer.borderColor = [Helpers purdueColor:PurdueColorYellow].CGColor;
-    self.advancedView.layer.borderWidth = 0.5f;
+
     //init autoCompleteViews
     CGPoint point = self.segmentedControl.center;
     CGRect frame = CGRectMake(10, point.y + 35, 300, 35);
@@ -141,29 +118,6 @@
     self.autoCompleteTextField.textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     [self.containerViewSearch addSubview:self.autoCompleteTextField];
     
-    //setup professor autocomplete //15 28 257
-    frame = CGRectMake(572, 45, 257, 35);
-    self.professorTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
-    NSArray *professorDataSource = [PCCDataManager sharedInstance].arrayProfessors;
-    [self.professorTextField setDataToAutoComplete:professorDataSource.copy];
-    [self.professorTextField.textField setFont:[UIFont systemFontOfSize:16]];
-    self.professorTextField.delegate = self;
-    self.professorTextField.useKey = YES;
-    [self.professorTextField.textField setClearsOnBeginEditing:YES];
-    [self.professorTextField.textField setPlaceholder:@"Professor"];
-    [self.advancedView addSubview:self.professorTextField];
-    
-        //add schedule type autocomplete text field
-    frame = CGRectMake(15, 97, 257, 30);
-    self.scheduleTypeTextField = [[PCFAutoCompleteTextField alloc] initWithFrame:frame direction:AUTOCOMPLETE_DIRECTION_BOTTOM];
-    [self.scheduleTypeTextField.textField setFont:[UIFont systemFontOfSize:16]];
-    self.scheduleTypeTextField.delegate = self;
-    self.scheduleTypeTextField.useKey = YES;
-    [self.scheduleTypeTextField.textField setClearsOnBeginEditing:YES];
-    [self.scheduleTypeTextField.textField setPlaceholder:@"All"];
-    NSDictionary *subjectDictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySubject WithKey:myPreferredSearchTerm.value];
-    self.scheduleTypeTextField.dataToAutoComplete = [subjectDictionary objectForKey:kScheduleType];
-    [self.advancedView addSubview:self.scheduleTypeTextField];
     //initialize selected segment
     self.segmentedControl.selectedSegmentIndex = 0;
     
@@ -171,10 +125,10 @@
     //setup scrollview
     if ([Helpers isPhone5]) {
         //self.advancedView.frame = CGRectOffset(self.advancedView.frame, 0, 40);
-        self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height + 75);
-        self.scheduleTypeTextField.frame = CGRectOffset(self.scheduleTypeTextField.frame, 0, 10);
-        self.scheduleTypeLabel.frame = CGRectOffset(self.scheduleTypeLabel.frame, 0, 10);
-        self.pageControl.frame = CGRectOffset(self.pageControl.frame, 0, 75);
+        //self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height + 75);
+        //self.scheduleTypeTextField.frame = CGRectOffset(self.scheduleTypeTextField.frame, 0, 10);
+        //self.scheduleTypeLabel.frame = CGRectOffset(self.scheduleTypeLabel.frame, 0, 10);
+        //self.pageControl.frame = CGRectOffset(self.pageControl.frame, 0, 75);
         self.detailLabel.frame = CGRectOffset(self.detailLabel.frame, 0, 80);
     }
     
@@ -206,7 +160,7 @@
 -(void)swiped:(id)sender
 {
     UISwipeGestureRecognizer *gesture = (UISwipeGestureRecognizer *)sender;
-    int selected = self.segmentedControl.selectedSegmentIndex;
+    int selected = (int) self.segmentedControl.selectedSegmentIndex;
     
     switch (gesture.direction) {
         case UISwipeGestureRecognizerDirectionRight:
@@ -282,15 +236,13 @@
 }*/
 
 -(void)tapped:(id)sender
-{
+{ 
     UITapGestureRecognizer *gesture = (UITapGestureRecognizer *)sender;
     CGPoint pointTapped = [gesture locationInView:gesture.view];
     CGPoint convertedPoint = [gesture.view convertPoint:pointTapped toView:self.autoCompleteTextField];
     CGRect textFieldRect = self.autoCompleteTextField.textField.frame;
     if (CGRectContainsPoint(textFieldRect, convertedPoint)) return;
     [self.view endEditing:YES];
-    [self.courseNumberTextField resignFirstResponder];
-    [self.courseTitleTextField resignFirstResponder];
 }
 
 #pragma mark Gesture Delegate
@@ -307,11 +259,9 @@
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    
-    if (self.advancedView.alpha == 0.0f) return YES;
     CGPoint touchLocation = [touch locationInView:gestureRecognizer.view];
-    if (CGRectContainsPoint(self.advancedView.frame, touchLocation)) return NO;
-    if (CGRectContainsPoint(self.autoCompleteTextField.textField.frame, touchLocation)) return NO;
+    CGPoint convertedTouch = [self.autoCompleteTextField convertPoint:touchLocation fromView:self.scrollView];
+    if (CGRectContainsPoint(self.autoCompleteTextField.tableView.frame, convertedTouch)) return NO;
     return YES;
 }
 #pragma mark - Utility Methods
@@ -345,12 +295,7 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField == self.professorTextField) {
-        if (!self.professorTextField.dataToAutoComplete) {
-            NSArray *professorDataSource = [PCCDataManager sharedInstance].arrayProfessors;
-            [self.professorTextField setDataToAutoComplete:professorDataSource.copy];
-        }
-    }else if (textField == self.autoCompleteTextField) {
+    if (textField == self.autoCompleteTextField) {
         if (self.segmentedControl.selectedSegmentIndex == searchAdvanced) {
             if (!self.autoCompleteTextField.dataToAutoComplete) {
                 NSDictionary *subjectDictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySubject WithKey:myPreferredSearchTerm.value];
@@ -359,12 +304,8 @@
                 [self.autoCompleteTextField setDataToAutoComplete:nil];
             }
         }
-    }else if (textField == self.scheduleTypeTextField) {
-        NSDictionary *subjectDictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySubject WithKey:myPreferredSearchTerm.value];
-        self.scheduleTypeTextField.dataToAutoComplete = [subjectDictionary objectForKey:kScheduleType];
     }
     [self slideViewUp:textField];
-    //}];
 }
 
 
@@ -395,7 +336,7 @@
 
 -(void)showFilterButton
 {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(showFilter:)];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(showFilters:)];
     [item setTintColor:[Helpers purdueColor:PurdueColorLightPink]];
     [self.navigationItem setLeftBarButtonItem:item animated:YES];
 }
@@ -403,73 +344,77 @@
 -(void)hideFilterButton
 {
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    [self.advancedView fadeOut];
-    [self.pageControl fadeOut];
 }
 
--(void)showFilter:(id)sender
+-(IBAction)showFilters:(id)sender
 {
-    if (self.advancedView.alpha == 0.0f) {
-        [self.advancedView fadeIn];
-        [self.pageControl fadeIn];
-        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStyleDone];
-    }else {
-        [self.advancedView fadeOut];
-        [self.pageControl fadeOut];
-        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStylePlain];
+    UIButton *button = (UIButton *)sender;
+    NSInteger state = button.tag;
+    int toggleValue = (state == 0) ? 1 : 0;
+    button.tag = toggleValue;
+    [self toggleFilter:toggleValue];
+}
+
+-(void)toggleFilter:(int)toggle
+{
+    if (toggle == 0) {
+        NSDictionary *subjectDictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySubject WithKey:myPreferredSearchTerm.value];
+        filterVC.scheduleTypes = [subjectDictionary objectForKey:kScheduleType];
+        NSArray *professorDataSource = [PCCDataManager sharedInstance].arrayProfessors;
+        filterVC.professorTextField.dataToAutoComplete = professorDataSource.copy;
     }
+    
+    if (toggle == 1) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            filterVC.view.alpha = 0.0f;
+            filterVC.view.frame = CGRectOffset(filterVC.view.frame, 0, -filterVC.view.frame.size.height);
+            CGPoint placement = CGPointZero;
+            [self.view insertSubview:filterVC.view atIndex:0];
+            [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.80f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                filterVC.view.frame = CGRectMake(placement.x, placement.y, filterVC.view.frame.size.width, filterVC.view.frame.size.height);
+                filterVC.view.alpha = 1.0f;
+                self.scrollView.layer.transform = CATransform3DMakeTranslation(0, filterVC.view.frame.size.height, 0);
+            }completion:^(BOOL finished) {
+                if (!finished) { filterVC.view.frame = CGRectOffset(filterVC.view.frame, 0, -filterVC.view.frame.size.height);
+                }else {
+                    filterVC.view.frame = CGRectMake(placement.x, placement.y, filterVC.view.frame.size.width, filterVC.view.frame.size.height);
+                    filterVC.view.alpha = 1.0f;
+                    self.scrollView.layer.transform = CATransform3DMakeTranslation(0, filterVC.view.frame.size.height, 0);
+                }
+            }];
+        });
+    }else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            filterVC.view.alpha = 1.0f;
+            [self.view addSubview:filterVC.view];
+            [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.80f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                filterVC.view.alpha = 0.0f;
+                filterVC.view.frame = CGRectOffset(filterVC.view.frame, 0, -filterVC.view.frame.size.height);
+                self.scrollView.layer.transform = CATransform3DIdentity;
+            }completion:^(BOOL finished) {
+                if (finished) {
+                    filterVC.view.alpha = 1.0f;
+                    filterVC.view.frame = CGRectOffset(filterVC.view.frame, 0, -filterVC.view.frame.size.height);
+                    //reload the table now with new data
+                    self.isFiltered = YES;
+                    [self refreshData];
+                }
+            }];
+        });
+    }
+}
+
+-(void)refreshData
+{
     
 }
 
--(void)hideFilter:(id)sender
-{
-    [self.advancedView fadeOut];
-}
+
 #pragma mark Animations
 
 -(void)fadeTextIn
 {
     [self fadeText:[self getTextForControl] fromDirection:directionLeft];
-}
-#define ANIMATION_DURATION 0.4f
--(void)animateAdvancedViewIn
-{
-    if (!self.advancedView.hidden) return;
-    //[self moveDoneButton:directionDown WithBlock:^{
-        self.advancedView.transform = CGAffineTransformMakeTranslation(-300, 0);
-        self.advancedView.hidden = NO;
-        [UIView animateWithDuration:ANIMATION_DURATION delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:10.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-            self.advancedView.transform = CGAffineTransformIdentity;
-        }completion:^(BOOL finished) {
-            if (finished) {
-                [UIView animateWithDuration:0.25f animations:^{
-                    self.detailLabel.alpha = 1.0f;
-                    self.pageControl.alpha = 1.0f;
-                }];
-            }
-        }];
-    //}];
-}
--(void)animateAdvancedViewOut
-{
-    if (self.advancedView.hidden) return;
-    [UIView animateWithDuration:0.25f animations:^{
-        self.detailLabel.alpha = 0.0f;
-        self.pageControl.alpha = 0.0f;
-    }completion:^(BOOL finished) {
-        if (finished) {
-            [UIView animateWithDuration:ANIMATION_DURATION delay:0.0f usingSpringWithDamping:0.8f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
-                self.advancedView.transform = CGAffineTransformMakeTranslation(-300, 0);
-            }completion:^(BOOL finished) {
-                if (finished) {
-                    self.advancedView.hidden = YES;
-                    self.advancedView.transform = CGAffineTransformIdentity;
-                    //[self moveDoneButton:directionUp WithBlock:nil];
-                }
-            }];
-
-        }
-    }];
 }
 
 -(NSString *)getTextForControl
@@ -490,29 +435,6 @@
             break;
     }
 }
-
-- (IBAction)dayPressed:(UIButton *)sender
-{
-    if ([self.setOfDays containsObject:sender]) {
-        //in set..take out and animate back to normal
-        [self.setOfDays removeObject:sender];
-        [self pulseButton:sender];
-        [UIView animateWithDuration:0.25f animations:^{
-            [sender setBackgroundColor:[Helpers purdueColor:PurdueColorYellow]];
-            [sender setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        }];
-    }else {
-        //not in set..add to set and animate as a day not counted
-        [self.setOfDays addObject:sender];
-        [self pulseButton:sender];
-        [UIView animateWithDuration:0.25f animations:^{
-            [sender setBackgroundColor:[UIColor whiteColor]];
-            [sender setTitleColor:[Helpers purdueColor:PurdueColorYellow] forState:UIControlStateNormal];
-        }];
-    }
-}
-
-
 
 -(void)showSearchResults
 {
@@ -559,28 +481,31 @@
         [Helpers asyncronousBlockWithName:@"Get Courses" AndBlock:^{
             NSString *className = @"", *courseNumber = @"", *fromHours = @"", *toHours = @"", *professor = @"%25", *scheduleType = @"%25";
             
-            if (self.courseTitleTextField.text.length != 0) className = [self.courseTitleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"%25"];
-            if (self.courseNumberTextField.text.length != 0) courseNumber = self.courseNumberTextField.text;
-            if (self.professorTextField.textField.text.length != 0) professor = self.professorTextField.selectedObject.value;
-            if (self.scheduleTypeTextField.textField.text.length != 0 && ![self.scheduleTypeTextField.textField.text isEqualToString:@"All"]) scheduleType = self.scheduleTypeTextField.selectedObject.value;
+            if (filterVC.courseTitleTextField.text.length != 0) className = [filterVC.courseTitleTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"%25"];
+            if (filterVC.courseNumberTextField.text.length != 0) courseNumber = filterVC.courseNumberTextField.text;
+            if (filterVC.professorTextField.textField.text.length != 0) professor = filterVC.professorTextField.selectedObject.value;
+            if (![filterVC.savedItem.key isEqualToString:@"All"]) {
+                scheduleType = filterVC.savedItem.value;
+            }
+            
             NSString *day=@"";
-            if (self.setOfDays.count != 0) {
-                if (![self.setOfDays containsObject:self.mondayButton]){
+            if (filterVC.setOfDays.count != 0) {
+                if (![filterVC.setOfDays containsObject:filterVC.mondayButton]){
                     day = [day stringByAppendingString:@"&sel_day=m"];
                 }
-                if (![self.setOfDays containsObject:self.tuesdayButton]){
+                if (![filterVC.setOfDays containsObject:filterVC.tuesdayButton]){
                     day = [day stringByAppendingString:@"&sel_day=t"];
                 }
-                if (![self.setOfDays containsObject:self.wednesdayButton]){
+                if (![filterVC.setOfDays containsObject:filterVC.wednesdayButton]){
                     day = [day stringByAppendingString:@"&sel_day=w"];
                 }
-                if (![self.setOfDays containsObject:self.thursdayButton]){
+                if (![filterVC.setOfDays containsObject:filterVC.thursdayButton]){
                     day = [day stringByAppendingString:@"&sel_day=r"];
                 }
-                if (![self.setOfDays containsObject:self.fridayButton]){
+                if (![filterVC.setOfDays containsObject:filterVC.fridayButton]){
                     day = [day stringByAppendingString:@"&sel_day=f"];
                 }
-                if (![self.setOfDays containsObject:self.sundayButton]){
+                if (![filterVC.setOfDays containsObject:filterVC.sundayButton]){
                     day = [day stringByAppendingString:@"&sel_day=u"];
                 }
             }
@@ -637,11 +562,11 @@
             return NO;
         }
         
-        if (![self.scheduleTypeTextField.textField.text isEqualToString:@""]) {
-            if ([self.scheduleTypeTextField.matchingData containsObject:self.scheduleTypeTextField.selectedObject]) {
-                validation = YES;
-            }
-        }
+        //if (![self.scheduleTypeTextField.textField.text isEqualToString:@""]) {
+        //    if ([self.scheduleTypeTextField.matchingData containsObject:self.scheduleTypeTextField.selectedObject]) {
+        //        validation = YES;
+        //    }
+        //}
         if (!validation) {
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Schedule Type" description:@"Pick a schedule type from the drop down box" type:TWMessageBarMessageTypeError];
             return NO;
@@ -657,13 +582,12 @@
     if ([Helpers isPhone5]) {
         if (textField == self.autoCompleteTextField && self.segmentedControl.selectedSegmentIndex == searchAdvanced) {
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                self.fadeText.transform = CGAffineTransformMakeTranslation(0, 100);
-                self.doneButton.transform = CGAffineTransformMakeTranslation(0, 100);
-                self.advancedView.transform = CGAffineTransformMakeTranslation(0, 100);
+                self.fadeText.transform = CGAffineTransformMakeTranslation(0, 120);
+                self.doneButton.transform = CGAffineTransformMakeTranslation(0, 120);
             }completion:^(BOOL finished) {
                 
             }];
-        }else if (textField == self.scheduleTypeTextField) {
+        }/*else if (textField == self.scheduleTypeTextField) {
             delta = 247;
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, delta) animated:YES];
@@ -708,18 +632,17 @@
             }completion:^(BOOL finished) {
                 
             }];
-        }
+        }*/
     }else {
         if (textField == self.autoCompleteTextField && self.segmentedControl.selectedSegmentIndex == searchAdvanced) {
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, 30) animated:YES];
-                self.fadeText.transform = CGAffineTransformMakeTranslation(0, 100);
-                self.doneButton.transform = CGAffineTransformMakeTranslation(0, 100);
-                self.advancedView.transform = CGAffineTransformMakeTranslation(0, 100);
+                self.fadeText.transform = CGAffineTransformMakeTranslation(0, 120);
+                self.doneButton.transform = CGAffineTransformMakeTranslation(0, 120);
             }completion:^(BOOL finished) {
                 
             }];
-        }else if (textField == self.scheduleTypeTextField) {
+        }/*else if (textField == self.scheduleTypeTextField) {
             delta = 247;
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, delta) animated:YES];
@@ -764,7 +687,7 @@
             }completion:^(BOOL finished) {
                 
             }];
-        }
+        }*/
     }
 }
 
@@ -775,22 +698,6 @@
             [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 self.fadeText.transform = CGAffineTransformIdentity;
                 self.doneButton.transform = CGAffineTransformIdentity;
-                self.advancedView.transform = CGAffineTransformIdentity;
-            }completion:^(BOOL finished) {
-                
-            }];
-        }else {
-            [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                if (textField == self.scheduleTypeTextField) {
-                    self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height - 60);
-                    
-                }else if (textField == self.professorTextField) {
-                    self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height);
-                }
-                [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-                self.pageControl.transform = CGAffineTransformIdentity;
-                self.detailLabel.transform = CGAffineTransformIdentity;
-                //self.containerViewSearch.transform = CGAffineTransformIdentity;
             }completion:^(BOOL finished) {
                 
             }];
@@ -801,84 +708,14 @@
                 [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
                 self.fadeText.transform = CGAffineTransformIdentity;
                 self.doneButton.transform = CGAffineTransformIdentity;
-                self.advancedView.transform = CGAffineTransformIdentity;
-            }completion:^(BOOL finished) {
-                
-            }];
-        }else {
-            [UIView animateWithDuration:0.35f delay:0.0 usingSpringWithDamping:0.85f initialSpringVelocity:2.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                if (textField == self.scheduleTypeTextField || textField == self.professorTextField) {
-                    self.advancedView.frame = CGRectMake(self.advancedView.frame.origin.x, self.advancedView.frame.origin.y, self.advancedView.frame.size.width, self.advancedView.frame.size.height - 120);
-                }
-                [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-                self.pageControl.transform = CGAffineTransformIdentity;
-                self.detailLabel.transform = CGAffineTransformIdentity;
-                //self.containerViewSearch.transform = CGAffineTransformIdentity;
             }completion:^(BOOL finished) {
                 
             }];
         }
     }
-    
-}
-/*- (void)registerForKeyboardNotifications {
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
-    
 }
 
-- (void)deregisterFromKeyboardNotifications {
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardDidHideNotification
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardWillHideNotification
-                                                  object:nil];
-    
-}
 
-- (void)keyboardWasShown:(NSNotification *)notification {
-    
-    NSDictionary* info = [notification userInfo];
-    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    [self.scrollView setContentOffset:CGPointMake(0, keyboardSize.height) animated:YES];
-    
-}
-
-- (void)keyboardWillBeHidden:(NSNotification *)notification {
-    
-    [self.scrollView setContentOffset:CGPointZero animated:YES];
-    
-}*/
-
-
-
--(void)moveDoneButton:(direction)dir WithBlock:(void(^)())block
-{
-    if (dir == directionUp) {
-        [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionAllowUserInteraction animations:^{
-            self.doneButton.transform = CGAffineTransformIdentity;
-        }completion:^(BOOL finished) {
-            if (finished) if (block) block();
-        }];
-    }else if (dir == directionDown) {
-        [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:0.7f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction animations:^{
-            self.doneButton.transform = CGAffineTransformMakeTranslation(0, self.advancedView.frame.size.height + 35);
-        }completion:^(BOOL finished) {
-            if (finished) if (block) block();
-        }];
-    }
-}
 -(void)pulseButton:(UIButton *)button
 {
     __block CGAffineTransform state;
@@ -892,14 +729,6 @@
     }];
 }
 
-#pragma mark UIScrollView Delegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat pageWidth = scrollView.frame.size.width;
-    int page = floor((self.advancedView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    if (page < 0 || page > self.pageControl.numberOfPages) return;
-    self.pageControl.currentPage = page;
-}
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented

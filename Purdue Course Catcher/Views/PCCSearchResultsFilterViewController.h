@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AKPickerView.h"
-@interface PCCSearchFilterViewController : UIViewController <AKPickerViewDelegate>
+@interface PCCSearchResultsFilterViewController : UIViewController <AKPickerViewDelegate>
 
 @property (nonatomic, strong) AKPickerView *pickerViewCourseType;
 @property (nonatomic, strong) NSArray *titles;

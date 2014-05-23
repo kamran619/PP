@@ -41,7 +41,7 @@
 		FE274503190379AB007088D6 /* PCCCourseRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE274502190379AB007088D6 /* PCCCourseRating.m */; };
 		FE274506190379F0007088D6 /* PCCProfessorRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE274505190379F0007088D6 /* PCCProfessorRating.m */; };
 		FE3FDBEF1925872C00B88731 /* AKPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3FDBEE1925872C00B88731 /* AKPickerView.m */; };
-		FE3FDBF3192587B900B88731 /* PCCSearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3FDBF2192587B900B88731 /* PCCSearchFilterViewController.m */; };
+		FE3FDBF3192587B900B88731 /* PCCSearchResultsFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3FDBF2192587B900B88731 /* PCCSearchResultsFilterViewController.m */; };
 		FE3FDBF5192591F400B88731 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3FDBF4192591F400B88731 /* QuartzCore.framework */; };
 		FE40F73918A0EAE700612AD0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */; };
 		FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4D4C4A1895F0A900A5DBE1 /* PCCRegistrationError.m */; };
@@ -89,6 +89,7 @@
 		FE7B735718CEA40E003D9D11 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7B735618CEA40E003D9D11 /* info.png */; };
 		FE7B735918CEA44A003D9D11 /* Ecommerce-Buy-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7B735818CEA44A003D9D11 /* Ecommerce-Buy-icon.png */; };
 		FE83AEAD18EF8A8A00324E20 /* PCCRatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE83AEAC18EF8A8A00324E20 /* PCCRatingViewController.m */; };
+		FE8B19A9192E7F83008422F6 /* PCCSearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8B19A8192E7F83008422F6 /* PCCSearchFilterViewController.m */; };
 		FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628BF185ECF9F00F699B5 /* PCCSearchViewController.m */; };
 		FE9628C4185ED75200F699B5 /* MyPurdueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628C3185ED75200F699B5 /* MyPurdueManager.m */; };
 		FE9628C8185ED7D800F699B5 /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628C7185ED7D800F699B5 /* Helpers.m */; };
@@ -197,8 +198,8 @@
 		FE274505190379F0007088D6 /* PCCProfessorRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCProfessorRating.m; sourceTree = "<group>"; };
 		FE3FDBED1925872C00B88731 /* AKPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKPickerView.h; sourceTree = "<group>"; };
 		FE3FDBEE1925872C00B88731 /* AKPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKPickerView.m; sourceTree = "<group>"; };
-		FE3FDBF1192587B900B88731 /* PCCSearchFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchFilterViewController.h; path = "Purdue Course Catcher/Views/PCCSearchFilterViewController.h"; sourceTree = "<group>"; };
-		FE3FDBF2192587B900B88731 /* PCCSearchFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchFilterViewController.m; path = "Purdue Course Catcher/Views/PCCSearchFilterViewController.m"; sourceTree = "<group>"; };
+		FE3FDBF1192587B900B88731 /* PCCSearchResultsFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchResultsFilterViewController.h; path = "Purdue Course Catcher/Views/PCCSearchResultsFilterViewController.h"; sourceTree = "<group>"; };
+		FE3FDBF2192587B900B88731 /* PCCSearchResultsFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchResultsFilterViewController.m; path = "Purdue Course Catcher/Views/PCCSearchResultsFilterViewController.m"; sourceTree = "<group>"; };
 		FE3FDBF4192591F400B88731 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		FE4D4C491895F0A900A5DBE1 /* PCCRegistrationError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCRegistrationError.h; sourceTree = "<group>"; };
@@ -271,6 +272,8 @@
 		FE7B735818CEA44A003D9D11 /* Ecommerce-Buy-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Ecommerce-Buy-icon.png"; sourceTree = "<group>"; };
 		FE83AEAB18EF8A8A00324E20 /* PCCRatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRatingViewController.h; path = "Purdue Course Catcher/View Controllers/PCCRatingViewController.h"; sourceTree = "<group>"; };
 		FE83AEAC18EF8A8A00324E20 /* PCCRatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRatingViewController.m; path = "Purdue Course Catcher/View Controllers/PCCRatingViewController.m"; sourceTree = "<group>"; };
+		FE8B19A7192E7F83008422F6 /* PCCSearchFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchFilterViewController.h; path = "Purdue Course Catcher/View Controllers/PCCSearchFilterViewController.h"; sourceTree = "<group>"; };
+		FE8B19A8192E7F83008422F6 /* PCCSearchFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchFilterViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSearchFilterViewController.m"; sourceTree = "<group>"; };
 		FE9628BE185ECF9F00F699B5 /* PCCSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSearchViewController.h; path = "Purdue Course Catcher/View Controllers/PCCSearchViewController.h"; sourceTree = "<group>"; };
 		FE9628BF185ECF9F00F699B5 /* PCCSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSearchViewController.m"; sourceTree = "<group>"; };
 		FE9628C2185ED75200F699B5 /* MyPurdueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPurdueManager.h; sourceTree = "<group>"; };
@@ -455,8 +458,10 @@
 		FE3FDBF01925879800B88731 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FE3FDBF1192587B900B88731 /* PCCSearchFilterViewController.h */,
-				FE3FDBF2192587B900B88731 /* PCCSearchFilterViewController.m */,
+				FE3FDBF1192587B900B88731 /* PCCSearchResultsFilterViewController.h */,
+				FE3FDBF2192587B900B88731 /* PCCSearchResultsFilterViewController.m */,
+				FE8B19A7192E7F83008422F6 /* PCCSearchFilterViewController.h */,
+				FE8B19A8192E7F83008422F6 /* PCCSearchFilterViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1005,7 +1010,8 @@
 				FED58A401890E3B8001991F2 /* PCCLinkedSectionViewController.m in Sources */,
 				FE3FDBEF1925872C00B88731 /* AKPickerView.m in Sources */,
 				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
-				FE3FDBF3192587B900B88731 /* PCCSearchFilterViewController.m in Sources */,
+				FE3FDBF3192587B900B88731 /* PCCSearchResultsFilterViewController.m in Sources */,
+				FE8B19A9192E7F83008422F6 /* PCCSearchFilterViewController.m in Sources */,
 				FE83AEAD18EF8A8A00324E20 /* PCCRatingViewController.m in Sources */,
 				FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,

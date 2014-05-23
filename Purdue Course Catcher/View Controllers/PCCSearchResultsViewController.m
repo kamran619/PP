@@ -22,13 +22,13 @@
 #import "PCCDataManager.h"
 #import "PCCRegistrationBasketViewController.h"
 #import "PCCLinkedSectionViewController.h"
-#import "PCCSearchFilterViewController.h"
+#import "PCCSearchResultsFilterViewController.h"
 #import "PCCObject.h"
 
 @interface PCCSearchResultsViewController ()
 {
     PCCCatalogViewController *catalogVC;
-    PCCSearchFilterViewController *filterVC;
+    PCCSearchResultsFilterViewController *filterVC;
     NSArray *linkedCourses;
     
 }
@@ -308,7 +308,7 @@
 -(void)toggleFilter:(int)toggle
 {
     if (!filterVC)  {
-        filterVC = (PCCSearchFilterViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCSearchFilterViewController"];
+        filterVC = (PCCSearchResultsViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCSearchResultsFilterViewController"];
         filterVC.titles = [Helpers getArrayOfScheduleTypes:self.dataSource];
         filterVC.savedItem = @"All";
     }
@@ -375,12 +375,12 @@
             continue;
         }
         
-        //filter by schedule itme
+        //filter by schedule item
         if (![scheduleType isEqualToString:@"All"]) {
             if (![courses.scheduleType isEqualToString:scheduleType]) continue;
         }
         
-        //filter by timr
+        //filter by timer
         if (filterByTime == YES) {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
@@ -409,22 +409,12 @@
 -(IBAction)showFilters:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    
-    /*if ([button tag] == 0) {
-        //show it
-        button.tag = 1;
-        [self toggleFilter:1];
-    }else {
-        //unshow it
-        button.tag = 0;
-        [self toggleFilter:0];
-    }*/
     NSInteger state = button.tag;
     int toggleValue = (state == 0) ? 1 : 0;
     button.tag = toggleValue;
-    [self toggleFilter:toggleValue]
-    ;
+    [self toggleFilter:toggleValue];
 }
+
 -(IBAction)dismissCatalog:(id)sender
 {
     [UIView animateWithDuration:0.25f delay:0.0f usingSpringWithDamping:0.90f initialSpringVelocity:1.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
