@@ -1,4 +1,4 @@
-S//
+//
 //  PCCSearchViewController.m
 //  Purdue Course Catcher
 //
@@ -25,9 +25,6 @@ S//
 
 
 #define CENTER_FRAME CGPointMake(320, 21);
-
-
-
 
 @interface PCCSearchViewController ()
 
@@ -338,12 +335,12 @@ S//
 {
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(showFilters:)];
     [item setTintColor:[Helpers purdueColor:PurdueColorLightPink]];
-    [self.navigationItem setLeftBarButtonItem:item animated:YES];
+    [self.navigationItem setRightBarButtonItem:item animated:YES];
 }
 
 -(void)hideFilterButton
 {
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
 }
 
 -(IBAction)showFilters:(id)sender

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="iVT-jd-krc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="9Zt-5S-AiH">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -589,7 +589,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Schedule" id="i8q-lT-qKl">
-                        <barButtonItem key="rightBarButtonItem" title="Term" style="plain" id="zur-4d-mHb">
+                        <barButtonItem key="leftBarButtonItem" title="Term" style="plain" id="zur-4d-mHb">
                             <connections>
                                 <action selector="choosepreferredScheduleValue:" destination="rbY-DC-r3h" id="9RS-QI-voX"/>
                             </connections>
@@ -1292,7 +1292,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" title="Search" id="hFt-nq-4Um">
-                        <barButtonItem key="rightBarButtonItem" title="Term" id="g5g-fg-pO2">
+                        <barButtonItem key="leftBarButtonItem" title="Term" id="g5g-fg-pO2">
                             <connections>
                                 <action selector="choosePreferredTerm:" destination="5I5-K5-Qk0" id="YzJ-Sz-uNl"/>
                             </connections>
@@ -1528,7 +1528,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="zSe-6j-U6o" id="Wqr-Ml-pqZ"/>
-                        <segue destination="NeH-r1-h4Z" kind="push" identifier="SegueLinkedSections" id="7aN-4n-Pd9"/>
+                        <segue destination="NeH-r1-h4Z" kind="modal" identifier="SegueLinkedSections" id="7aN-4n-Pd9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ct-wx-Ibq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1724,19 +1724,19 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
             <objects>
                 <viewController storyboardIdentifier="PCCLinkedSection" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NeH-r1-h4Z" customClass="PCCLinkedSectionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7oY-3K-j96">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsMultipleSelection="YES" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="j9x-er-hAj">
-                                <rect key="frame" x="20" y="140" width="280" height="304"/>
+                                <rect key="frame" x="20" y="140" width="280" height="392"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="kRegistrationCell" rowHeight="66" id="HDv-6B-SHu" customClass="PCCRegistrationCell">
-                                        <rect key="frame" x="0.0" y="86" width="280" height="66"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="kRegistrationCell" rowHeight="66" id="HDv-6B-SHu" customClass="PCCRegistrationCell">
+                                        <rect key="frame" x="0.0" y="22" width="280" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HDv-6B-SHu" id="SiD-TH-Dvf">
-                                            <rect key="frame" x="0.0" y="0.0" width="241" height="66"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="280" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:30am - 12:30pm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v2O-Sh-d98">
@@ -1780,17 +1780,6 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                     <outlet property="delegate" destination="NeH-r1-h4Z" id="1vn-Pj-cUO"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="uCk-ZH-YLN">
-                                <rect key="frame" x="137" y="532" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="dismissPressed:" destination="NeH-r1-h4Z" eventType="touchUpInside" id="HAa-6o-bkb"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" id="AKm-4L-H05" userLabel="Container View">
                                 <rect key="frame" x="20" y="25" width="274" height="92"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1832,9 +1821,23 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="uCk-ZH-YLN">
+                                <rect key="frame" x="0.0" y="538" width="320" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="dismissPressed:" destination="NeH-r1-h4Z" eventType="touchUpInside" id="HAa-6o-bkb"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.85030995239999996" green="0.23940844319999999" blue="0.28358203160000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="courseName" destination="SVI-dg-RuT" id="eSW-1g-sdf"/>
                         <outlet property="courseTitle" destination="ACz-xR-mmH" id="NYl-4J-4dJ"/>
@@ -1917,7 +1920,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled">
-                                                        <color key="titleColor" patternImage="9FA897C8-6E01-4F75-BE4F-EEBCD0EF8EA4" colorSpace="pattern"/>
+                                                        <color key="titleColor" patternImage="4EFE4F2B-602D-4E01-8F66-35407F905714" colorSpace="pattern"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -2491,19 +2494,6 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
             </objects>
             <point key="canvasLocation" x="-422" y="-2783"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="6qQ-7u-MHW">
-            <objects>
-                <viewController id="iVT-jd-krc" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="CA5-FJ-adn">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LJC-bP-tic" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
         <!--Search Results Filter View Controller-->
         <scene sceneID="Hug-7f-mfF">
             <objects>
@@ -2708,7 +2698,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="9FA897C8-6E01-4F75-BE4F-EEBCD0EF8EA4" width="256" height="256">
+        <image name="4EFE4F2B-602D-4E01-8F66-35407F905714" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

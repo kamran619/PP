@@ -195,11 +195,13 @@
                     self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:@""];
                     self.linkedVC.delegate = self;
                     NSMutableArray *ds;
-                    if (self.isFiltered) {
+                    /*if (self.isFiltered) {
                         ds = self.filteredDataSource.mutableCopy;
                     }else {
                         ds = self.dataSource.mutableCopy;
-                    }
+                    }*/
+                    ds =  self.dataSource.mutableCopy;
+                    
                         [self.linkedVC setDataSource:ds];
                         [self.linkedVC setCourse:course];
                     if (self.searchType == searchCRN) {
@@ -308,7 +310,7 @@
 -(void)toggleFilter:(int)toggle
 {
     if (!filterVC)  {
-        filterVC = (PCCSearchResultsViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCSearchResultsFilterViewController"];
+        filterVC = (PCCSearchResultsFilterViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCSearchResultsFilterViewController"];
         filterVC.titles = [Helpers getArrayOfScheduleTypes:self.dataSource];
         filterVC.savedItem = @"All";
     }

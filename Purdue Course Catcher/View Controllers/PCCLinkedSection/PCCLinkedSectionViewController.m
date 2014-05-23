@@ -92,6 +92,7 @@
     
     if ([self.course.linkedSection isEqualToString:class.linkedID]) {
         [[PCCHUDManager sharedInstance] flashHUDWithCaption:@"Linked" andImage:[UIImage imageNamed:@"checkmark.png"] forDuration:1.0f];
+        [self.doneButton setTitle:@"Done" forState:UIControlStateNormal];
         return NO;
     }
     
@@ -176,6 +177,11 @@
 }
 -(IBAction)dismissPressed:(id)sender
 {
+    UIButton *button = (UIButton *)sender;
+    if (![button.titleLabel.text isEqualToString:@"Done"]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
     NSMutableSet *set = [NSMutableSet setWithCapacity:3];
     for (PCFClassModel *class in self.dataSource) {
         [set addObject:class.scheduleType];
@@ -207,7 +213,6 @@
 {
     
     PCFClassModel *class = [[layeredClasses objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    
     PCCRegistrationCell *cell = (PCCRegistrationCell *)[tableView dequeueReusableCellWithIdentifier:@"kRegistrationCell"];
     [cell.days setText:class.days];
     [cell.time setText:class.time];
@@ -219,22 +224,26 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (selectedCells.count > indexPath.section && [selectedCells objectAtIndex:indexPath.section]) {
         //we are clicking a cell when we already have a new one
         NSIndexPath *path = [selectedCells objectAtIndex:indexPath.section];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:path];
+        cell.accessoryType = UITableViewCellAccessoryNone;
         [tableView deselectRowAtIndexPath:path animated:NO];
         [selectedCells removeObject:path];
         NSRange range = NSMakeRange(position, layeredClasses.count-1);
         [layeredClasses removeObjectsInRange:range];
         [tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
         position = indexPath.section;
+        
     }
     if (!layeredClasses.count > indexPath.section) return;
         NSArray *array = [layeredClasses objectAtIndex:indexPath.section];
         PCFClassModel *class = [array objectAtIndex:indexPath.row];
         [selectedCells insertObject:indexPath atIndex:position];
         position++;
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
         if ([self getLinkedLayerForClass:class]) {
             [tableView insertSections:[NSIndexSet indexSetWithIndex:position] withRowAnimation:UITableViewRowAnimationAutomatic];
             [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:position] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -248,11 +257,14 @@
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryNone;
     [selectedCells removeObject:indexPath];
     NSRange range = NSMakeRange(position, layeredClasses.count-1);
     [layeredClasses removeObjectsInRange:range];
     [tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
     position = indexPath.section;
+    [self.doneButton setTitle:@"Cancel" forState:UIControlStateNormal];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
