@@ -24,12 +24,16 @@
 #import "PCCLinkedSectionViewController.h"
 #import "PCCSearchResultsFilterViewController.h"
 #import "PCCObject.h"
+#import "UIView+Animations.h"
 
 @interface PCCSearchResultsViewController ()
 {
     PCCCatalogViewController *catalogVC;
     PCCSearchResultsFilterViewController *filterVC;
     NSArray *linkedCourses;
+    //allow registration or notifications
+    BOOL allowAction;
+    BOOL retreievedValidTerms;
     
 }
 @end
@@ -50,9 +54,27 @@
     [super viewDidLoad];
     self.animationController = [[DropAnimationController alloc] init];
     [self getLinkedCoursesWithBlock:nil];
+    [self initController];
 	// Do any additional setup after loading the view.
 }
 
+-(void)initController
+{
+    allowAction = NO;
+    retreievedValidTerms = NO;
+    //detect if we should register or allow notifications to classes for this term
+    PCCObject *currentSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    [Helpers asyncronousBlockWithName:@"Get registration terms" AndBlock:^{
+        [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
+            NSArray *terms = [[MyPurdueManager sharedInstance] getRegistrationTerms];
+            retreievedValidTerms = YES;
+            if ([terms containsObject:currentSearchTerm]) {
+                allowAction = YES;
+            }
+            [self.tableView reloadData];
+        }andFailure:nil];
+    }];
+}
 -(void)getLinkedCoursesWithBlock:(void(^)())block
 {
     if (self.searchType == searchCRN) {
@@ -128,7 +150,6 @@
     cell.catalogButton.tag = indexPath.row;
     cell.emailProfessor.tag = indexPath.row;
     cell.actionButton.tag = indexPath.row;
-    cell.actionButton.enabled = YES;
     
     cell.backgroundView = nil;
     if (indexPath.row % 2 == 0) {
@@ -159,7 +180,7 @@
     }
     
         if ([button.titleLabel.text isEqualToString:@"Register"]) {
-            BOOL identical = [self containsIdenticalClass:course];
+            /*BOOL identical = [self containsIdenticalClass:course];
             if ([course.linkedID isEqualToString:@""]) {
                 if (!identical) {
                     //no linked id..let register
@@ -172,6 +193,7 @@
                             [self.tableView reloadData];
                         }];
                     }
+                    //let's register
                 }else {
                     __weak PCCSearchResultsViewController *me = self;
                     self.deletionBlock = ^{
@@ -188,10 +210,9 @@
                     
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Course" message:@"You have already added another section of this course into your registration basket. Do you wish to remove the previous course and register for this one?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
                     [alertView show];
-                }
+                }*/
             }else {
                 //calculate linked sections and return
-                if (!identical) {
                     self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:@""];
                     self.linkedVC.delegate = self;
                     NSMutableArray *ds;
@@ -225,7 +246,7 @@
                         }
                     }
                         [self presentViewController:self.linkedVC animated:YES completion:nil];
-                }else {
+                /*else {
                     //contains identical courses
                     __weak PCCSearchResultsViewController *me = self;
                     self.deletionBlock = ^{
@@ -242,7 +263,7 @@
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Course" message:@"You have already added another section of this course into your registration basket. Do you wish to remove the previous course and register for this one?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
                     [alertView show];
                 }
-            }
+            }*/
         }
 }
 
@@ -253,7 +274,7 @@
     
     
 }
--(BOOL)containsIdenticalClass:(PCFClassModel *)class
+/*-(BOOL)containsIdenticalClass:(PCFClassModel *)class
 {
     BOOL sameClasses = NO;
     NSMutableArray *arrayRegister = [PCCDataManager sharedInstance].arrayRegister;
@@ -262,7 +283,7 @@
     }
     
     return sameClasses;
-}
+}*/
 
 - (IBAction)BackPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -273,7 +294,13 @@
 {
     PCCSearchResultsCell *newCell = (PCCSearchResultsCell *)cell;
     [newCell.activityIndicator startAnimating];
-    [newCell.actionButton setAlpha:0.0f];
+    if (retreievedValidTerms == NO) {
+        [newCell.actionActivityIndicator startAnimating];
+        [newCell.actionButton setAlpha:0.0f];
+    }else {
+        [newCell.actionActivityIndicator stopAnimating];
+        [newCell.actionButton fadeIn];
+    }
     [newCell.slots setAlpha:0.0f];
     [Helpers asyncronousBlockWithName:@"Get Slots" AndBlock:^{
         PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
@@ -281,6 +308,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [newCell.activityIndicator stopAnimating];
             [newCell.slots setText:[NSString stringWithFormat:@"SLOTS: %@/%@", slots.enrolled, slots.capacity]];
+            newCell.actionButton.enabled = allowAction;
             if (slots.enrolled.intValue <= 0) {
                 //no slots left
                 [newCell setupCatcherWithCourse:class];

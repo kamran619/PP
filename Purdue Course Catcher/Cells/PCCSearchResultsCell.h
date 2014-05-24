@@ -40,6 +40,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *catalogButton;
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *actionActivityIndicator;
 
 @property (nonatomic, strong) NSString *catalogLink;
 

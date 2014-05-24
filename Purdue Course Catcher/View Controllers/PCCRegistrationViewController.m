@@ -162,12 +162,12 @@
         query = [query stringByAppendingString:innerQuery];
     }
     
-    int count = 10 - [PCCDataManager sharedInstance].arrayRegister.count;
+    int count = 10 - (int)[PCCDataManager sharedInstance].arrayRegister.count;
     for (; count > 0; count--) {
         query = [query stringByAppendingString:@"&RSTS_IN=RW&CRN_IN=&assoc_term_in=&start_date_in=&end_date_in="];
     }
     
-    query = [query stringByAppendingString:[NSString stringWithFormat:@"&regs_row=%d&wait_row=0&add_row=10&REG_BTN=Submit+Changes", self.dataSource.count]];
+    query = [query stringByAppendingString:[NSString stringWithFormat:@"&regs_row=%lu&wait_row=0&add_row=10&REG_BTN=Submit+Changes", (unsigned long)self.dataSource.count]];
     return query;
 }
 #pragma mark UIAlertView Delegate

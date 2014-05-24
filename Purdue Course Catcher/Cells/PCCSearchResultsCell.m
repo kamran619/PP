@@ -67,10 +67,8 @@
         [self.actionButton setTitle:@"Catch" forState:UIControlStateNormal];
     }
     
-    [self.actionButton setEnabled:YES];
     
     [UIView animateWithDuration:0.25f animations:^{
-        self.actionButton.alpha = 1.0f;
         self.slots.alpha = 1.0f;
     }];
 }
@@ -85,7 +83,6 @@
     }
     
     [UIView animateWithDuration:0.25f animations:^{
-        self.actionButton.alpha = 1.0f;
         self.slots.alpha = 1.0f;
     }];
 }
