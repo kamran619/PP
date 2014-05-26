@@ -31,7 +31,7 @@
 +(NSArray *)getMinimalTerms;
 
 -(NSArray *)getRegistrationTerms;
--(NSDictionary *)canRegisterForTerm:(NSString *)term;
+-(NSDictionary *)canRegisterForTerm:(NSString *)term withPin:(NSString *)pin;
 -(NSDictionary *)submitRegistrationChanges:(NSString *)query;
 
 +(NSArray *)getCoursesForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber;

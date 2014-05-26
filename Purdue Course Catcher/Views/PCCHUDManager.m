@@ -91,6 +91,16 @@ static PCCHUDManager *_sharedInstance = nil;
     
 }
 
+-(void)updateHUDWithCaption:(NSString *)caption
+{
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(updateHUDWithCaption:) withObject:caption waitUntilDone:NO];
+        return;
+    }
+    
+    self.hudView.hudLabel.text = caption;
+}
+
 -(void)dismissHUDOnly
 {
     if (![NSThread isMainThread]) {

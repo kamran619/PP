@@ -31,11 +31,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.m"
-            timestampString = "422654798.541593"
+            timestampString = "422837659.25168"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "428"
-            endingLineNumber = "428"
+            startingLineNumber = "478"
+            endingLineNumber = "478"
             landmarkName = "-refreshData"
             landmarkType = "5">
          </BreakpointContent>
@@ -79,12 +79,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.m"
-            timestampString = "422654798.541593"
+            timestampString = "422838532.065893"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "-initController"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,12 +95,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.m"
-            timestampString = "422654798.541593"
+            timestampString = "422837659.25168"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "-initController"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -111,12 +111,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.m"
-            timestampString = "422654798.541593"
+            timestampString = "422837659.25168"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "319"
-            endingLineNumber = "319"
-            landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
+            landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,12 +127,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.m"
-            timestampString = "422654821.763242"
+            timestampString = "422837659.25168"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
-            landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
+            landmarkName = "-alertView:clickedButtonAtIndex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Purdue Course Catcher/Views/PCCHUDManager.m"
+            timestampString = "422838191.032573"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "-dismissHUD"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

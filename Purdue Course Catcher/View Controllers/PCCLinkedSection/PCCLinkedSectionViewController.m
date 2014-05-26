@@ -21,6 +21,7 @@
     NSMutableArray *selectedCells;
     PCFClassModel *lastSelectedClass;
     BOOL extraMatching;
+    NSMutableArray *classesToRegister;
 }
 
 @end
@@ -50,6 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    classesToRegister = [NSMutableArray arrayWithCapacity:3];
     self.courseName.text = self.course.courseNumber;
     self.courseTitle.text = self.course.classTitle;
     self.type.text = self.course.scheduleType;
@@ -203,8 +205,12 @@
     });
     
     [self dismissViewControllerAnimated:YES completion:^{
-        if ([self.delegate respondsToSelector:@selector(completedRegistrationForClass:)]) {
-            [self.delegate completedRegistrationForClass:registrationComplete];
+        if ([self.delegate respondsToSelector:@selector(completedRegistrationForClass:courses:)]) {
+            for (NSIndexPath *indexPath in selectedCells) {
+                PCFClassModel *class = [[layeredClasses objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+                if (![classesToRegister containsObject:class]) [classesToRegister addObject:class];
+            }
+            [self.delegate completedRegistrationForClass:registrationComplete courses:classesToRegister];
         }
     }];
 }

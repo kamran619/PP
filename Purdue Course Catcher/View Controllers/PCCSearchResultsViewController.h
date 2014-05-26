@@ -26,5 +26,7 @@
 @property (nonatomic, assign) search searchType;
 @property (nonatomic, strong) void(^deletionBlock)();
 
--(void)completedRegistrationForClass:(BOOL)success;
+-(void)completedRegistrationForClass:(BOOL)success courses:(NSArray *)courses;
+-(void)validateRegistration:(NSArray *)courses;
+-(void)registerForCourses:(NSArray *)courses;
 @end

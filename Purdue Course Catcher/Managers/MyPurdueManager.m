@@ -1,4 +1,4 @@
- //
+//
 //  MyPurdueManager.m
 //  PurdueLogin
 //
@@ -370,7 +370,7 @@ static MyPurdueManager *_sharedInstance = nil;
     return terms;
 }
 
--(NSDictionary *)canRegisterForTerm:(NSString *)term
+-(NSDictionary *)canRegisterForTerm:(NSString *)term withPin:(NSString *)pin
 {
     /*NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/cp/home/next"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
@@ -413,8 +413,8 @@ static MyPurdueManager *_sharedInstance = nil;
     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/bwskfreg.P_CheckAltPin"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"selfservice.mypurdue.purdue.edu" origin:nil referer:@"https://selfservice.mypurdue.purdue.edu/prod/bwskfreg.P_AltPin"];
     //alt pin post
-    NSMutableDictionary *pinDictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
-    NSString *pin = [pinDictionary objectForKey:term];
+    //NSMutableDictionary *pinDictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+    //NSString *pin = [pinDictionary objectForKey:term];
     //NSString *pin = @"270283";
     form_parameter = [NSString stringWithFormat:@"pin=%@", pin];
     requestBody = [form_parameter dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];

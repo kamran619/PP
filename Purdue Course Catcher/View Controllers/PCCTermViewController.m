@@ -185,67 +185,11 @@
     }
     
     if ([self.delgate respondsToSelector:@selector(termPressed:)]) {
-        if (self.type == PCCTermTypeRegistration) {
-            NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
-            NSString *pin = [dictionary objectForKey:selectedObject.value];
-            if (!pin) {
-                [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Getting pin..."];
-                    [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
-                        NSString *pin = [[MyPurdueManager sharedInstance] getPinForSemester:selectedObject.value];
-                        if (!pin || pin.length != 6) {
-                            [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Failed" success:NO];
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", selectedObject.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
-                                [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-                                UITextField *textField = [alertView textFieldAtIndex:0];
-                                textField.keyboardType = UIKeyboardTypeNumberPad;
-                                [alertView show];
-                            });
-                        }else {
-                            [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Success" success:YES];
-                            //pin receieved from purdue
-                            NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
-                            if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
-                            [dictionary setObject:pin forKey:selectedObject.value];
-                            [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
-                            [self.delgate termPressed:selectedObject];
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                            [self dismissViewControllerAnimated:YES completion:nil];
-                            });
-                        }
-                    }andFailure:nil];
-            }else {
-                [self.delgate termPressed:selectedObject];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-            }
-        }else {
-            //fucked
-            [self.delgate termPressed:selectedObject];
-            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-        }
+        [self.delgate termPressed:selectedObject];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
-#pragma mark UIAlertView Delegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == alertView.cancelButtonIndex) {
-        [alertView show];
-        return;
-    }
-    
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    if (textField.text.length > 0) {
-        NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
-        if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
-        [dictionary setObject:textField.text forKey:selectedObject.value];
-        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
-        [self.delgate termPressed:selectedObject];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }else {
-        [alertView show];
-    }
-}
 #pragma mark UIPickerView Delegate
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {

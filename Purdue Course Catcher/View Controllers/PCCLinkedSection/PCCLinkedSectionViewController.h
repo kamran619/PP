@@ -11,7 +11,7 @@
 @protocol LinkedSectionProtocol <NSObject>
 
 @required
--(void)completedRegistrationForClass:(BOOL)success;
+-(void)completedRegistrationForClass:(BOOL)success courses:(NSArray *)courses;
 @end
 
 

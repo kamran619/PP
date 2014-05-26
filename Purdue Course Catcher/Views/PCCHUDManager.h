@@ -15,6 +15,7 @@
 +(id)sharedInstance;
 -(void)showHUDWithCaption:(NSString *)caption;
 -(void)updateHUDWithCaption:(NSString *)caption andImage:(UIImage *)image;
+-(void)updateHUDWithCaption:(NSString *)caption;
 -(void)flashHUDWithCaption:(NSString *)caption andImage:(UIImage *)image forDuration:(CGFloat)duration;
 -(void)updateHUDWithCaption:(NSString *)caption success:(BOOL)success;
 -(void)dismissHUD;

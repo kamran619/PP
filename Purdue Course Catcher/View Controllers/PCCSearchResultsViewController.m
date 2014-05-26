@@ -34,6 +34,7 @@
     //allow registration or notifications
     BOOL allowAction;
     BOOL retreievedValidTerms;
+    NSArray *coursesToRegister;
     
 }
 @end
@@ -71,9 +72,14 @@
             if ([terms containsObject:currentSearchTerm]) {
                 allowAction = YES;
             }
-            [self.tableView reloadData];
+            [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
         }andFailure:nil];
     }];
+}
+
+-(void)reloadData
+{
+    [self.tableView reloadData];
 }
 -(void)getLinkedCoursesWithBlock:(void(^)())block
 {
@@ -169,6 +175,103 @@
     return cell;
 }
 
+-(void)validateRegistration:(NSArray *)courses
+{
+    if (!courses) courses = coursesToRegister;
+    [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Logging in..."];
+    [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
+        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Retrieving PIN"];
+        NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+        PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+        NSString *pin = [dictionary objectForKey:registrationTerm.value];
+        if (!pin) {
+            NSString *pin = [[MyPurdueManager sharedInstance] getPinForSemester:registrationTerm.value];
+            if (!pin || pin.length != 6) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[PCCHUDManager sharedInstance] dismissHUD];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                    UITextField *textField = [alertView textFieldAtIndex:0];
+                    textField.keyboardType = UIKeyboardTypeNumberPad;
+                    [alertView show];
+                    coursesToRegister = courses;
+                });
+            }else {
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registering..."];
+                //pin receieved from purdue
+                NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+                if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
+                [dictionary setObject:pin forKey:registrationTerm.value];
+                [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+                //register..this is a valid pin
+                [self registerForCourses:courses];
+            }
+        }else {
+            //we have the PIN saved and verified
+            NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value];
+            if ([registrationDict objectForKey:@"response"] == PCCErrorOk) {
+                [self registerForCourses:courses];
+            }else {
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Incorrect PIN" success:NO];
+                NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+                [dictionary removeObjectForKey:registrationTerm.value];
+                [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                    UITextField *textField = [alertView textFieldAtIndex:0];
+                    textField.keyboardType = UIKeyboardTypeNumberPad;
+                    [alertView show];
+                    coursesToRegister = courses;
+                });
+            }
+        }
+        
+    }andFailure:^{
+        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Failed" success:NO];
+    }];
+}
+
+-(void)registerForCourses:(NSArray *)courses
+{
+    [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registered" success:YES];
+}
+#pragma mark UIAlertView Delegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    /*(if (buttonIndex == alertView.cancelButtonIndex) {
+        [alertView show];
+        return;
+    }*/
+    if (buttonIndex == alertView.cancelButtonIndex) return;
+    
+    PCCObject *selectedObject = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    if (textField.text.length == 6) {
+        NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+        if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
+        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+        [[PCCHUDManager sharedInstance] performSelector:@selector(showHUDWithCaption:) withObject:@"Verifying..." afterDelay:1.0f];
+        [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
+            NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:selectedObject.value withPin:textField.text];
+            if ([registrationDict objectForKey:@"response"] == PCCErrorOk) {
+                [dictionary setObject:textField.text forKey:selectedObject.value];
+                [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Valid PIN" success:YES];
+                [self performSelector:@selector(registerForCourses:) withObject:coursesToRegister afterDelay:0.7f];
+            }else {
+                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Incorrect PIN" success:NO];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [alertView show];
+                });
+            }
+        }andFailure:nil];
+    }else {
+        UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"Error" message:@"PIN must be 6 digits" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [view show];
+    }
+}
+
 -(IBAction)actionButtonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
@@ -180,99 +283,45 @@
     }
     
         if ([button.titleLabel.text isEqualToString:@"Register"]) {
-            /*BOOL identical = [self containsIdenticalClass:course];
             if ([course.linkedID isEqualToString:@""]) {
-                if (!identical) {
-                    //no linked id..let register
-                    if (![[PCCDataManager sharedInstance].arrayRegister containsObject:course]) {
-                        [[PCCDataManager sharedInstance].arrayRegister addObject:course];
-                        self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
-                        self.basketVC.transitioningDelegate = self;
-                        [self presentViewController:self.basketVC animated:YES completion:^ {
-                            [button setEnabled:NO];
-                            [self.tableView reloadData];
-                        }];
-                    }
-                    //let's register
-                }else {
-                    __weak PCCSearchResultsViewController *me = self;
-                    self.deletionBlock = ^{
-                        NSMutableArray *registerArray = [PCCDataManager sharedInstance].arrayRegister;
-                        NSMutableArray *deleteArray = [NSMutableArray arrayWithCapacity:3];
-                        for (PCFClassModel *class in registerArray) {
-                            if ([course.courseNumber isEqualToString:class.courseNumber] && [course.classTitle isEqualToString:class.classTitle]) [deleteArray addObject:class];
-                        }
-                        
-                        [registerArray removeObjectsInArray:deleteArray];
-                        
-                        [me actionButtonPressed:sender];
-                    };
-                    
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Course" message:@"You have already added another section of this course into your registration basket. Do you wish to remove the previous course and register for this one?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-                    [alertView show];
-                }*/
+                [self validateRegistration:@[course.CRN]];
             }else {
                 //calculate linked sections and return
-                    self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:@""];
-                    self.linkedVC.delegate = self;
-                    NSMutableArray *ds;
-                    /*if (self.isFiltered) {
-                        ds = self.filteredDataSource.mutableCopy;
+                self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:@""];
+                self.linkedVC.delegate = self;
+                NSMutableArray *ds;
+                /*if (self.isFiltered) {
+                 ds = self.filteredDataSource.mutableCopy;
+                 }else {
+                 ds = self.dataSource.mutableCopy;
+                 }*/
+                ds =  self.dataSource.mutableCopy;
+                
+                [self.linkedVC setDataSource:ds];
+                [self.linkedVC setCourse:course];
+                if (self.searchType == searchCRN) {
+                    if (linkedCourses.count > 0) {
+                        [self.linkedVC setDataSource:linkedCourses.mutableCopy];
                     }else {
-                        ds = self.dataSource.mutableCopy;
-                    }*/
-                    ds =  self.dataSource.mutableCopy;
-                    
-                        [self.linkedVC setDataSource:ds];
-                        [self.linkedVC setCourse:course];
-                    if (self.searchType == searchCRN) {
-                        if (linkedCourses.count > 0) {
-                            [self.linkedVC setDataSource:linkedCourses.mutableCopy];
-                        }else {
-                            [[KPLightBoxManager sharedInstance] showLightBox];
-                            [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Retrieving linked sections..."];
-                            __weak PCCSearchResultsViewController *vc = self;
-                            void (^block)() = ^{
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [[PCCHUDManager sharedInstance] dismissHUD];
-                                    if (linkedCourses.count > 0) {
-                                        [vc.linkedVC setDataSource:linkedCourses.mutableCopy];
-                                        [vc presentViewController:vc.linkedVC animated:YES completion:nil];
-                                    }
-                                });
-                            };
-                            [self getLinkedCoursesWithBlock:block];
-                            return;
-                        }
+                        [[KPLightBoxManager sharedInstance] showLightBox];
+                        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Retrieving linked sections..."];
+                        __weak PCCSearchResultsViewController *vc = self;
+                        void (^block)() = ^{
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[PCCHUDManager sharedInstance] dismissHUD];
+                                if (linkedCourses.count > 0) {
+                                    [vc.linkedVC setDataSource:linkedCourses.mutableCopy];
+                                    [vc presentViewController:vc.linkedVC animated:YES completion:nil];
+                                }
+                            });
+                        };
+                        [self getLinkedCoursesWithBlock:block];
+                        return;
                     }
-                        [self presentViewController:self.linkedVC animated:YES completion:nil];
-                /*else {
-                    //contains identical courses
-                    __weak PCCSearchResultsViewController *me = self;
-                    self.deletionBlock = ^{
-                        NSMutableArray *registerArray = [PCCDataManager sharedInstance].arrayRegister;
-                        NSMutableArray *deleteArray = [NSMutableArray arrayWithCapacity:3];
-                        for (PCFClassModel *class in registerArray) {
-                            if ([course.courseNumber isEqualToString:class.courseNumber] && [course.classTitle isEqualToString:class.classTitle]) [deleteArray addObject:class];
-                        }
-                        
-                        [registerArray removeObjectsInArray:deleteArray];
-
-                        [me actionButtonPressed:sender];
-                    };
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Course" message:@"You have already added another section of this course into your registration basket. Do you wish to remove the previous course and register for this one?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-                    [alertView show];
                 }
-            }*/
+            [self presentViewController:self.linkedVC animated:YES completion:nil];
         }
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == alertView.cancelButtonIndex) return;
-    if (self.deletionBlock) self.deletionBlock();
-    
-    
+    }
 }
 /*-(BOOL)containsIdenticalClass:(PCFClassModel *)class
 {
@@ -551,9 +600,10 @@
 }
 
 #pragma mark - LinkedSection Delegate
--(void)completedRegistrationForClass:(BOOL)success
+-(void)completedRegistrationForClass:(BOOL)success courses:(NSArray *)courses;
 {
     if (success) {
+        [self validateRegistration:courses];
             self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
             self.basketVC.transitioningDelegate = self;
             
