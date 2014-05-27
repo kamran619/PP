@@ -650,7 +650,7 @@ static MyPurdueManager *_sharedInstance = nil;
     NSData *webData = nil;
     int counter = 0;
     while (!webData) {
-        if (counter == 3) return nil;
+        if (counter == 5) return nil;
         webData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
         if ([error code] == -1001) {
             NSLog(@"Retrying\n");

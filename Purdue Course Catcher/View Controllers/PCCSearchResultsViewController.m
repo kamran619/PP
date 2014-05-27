@@ -25,6 +25,7 @@
 #import "PCCSearchResultsFilterViewController.h"
 #import "PCCObject.h"
 #import "UIView+Animations.h"
+#import "PCCPurdueLoginViewController.h"
 
 @interface PCCSearchResultsViewController ()
 {
@@ -55,8 +56,13 @@
     [super viewDidLoad];
     self.animationController = [[DropAnimationController alloc] init];
     [self getLinkedCoursesWithBlock:nil];
-    [self initController];
 	// Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self initController];
 }
 
 -(void)initController
@@ -65,16 +71,23 @@
     retreievedValidTerms = NO;
     //detect if we should register or allow notifications to classes for this term
     PCCObject *currentSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
-    [Helpers asyncronousBlockWithName:@"Get registration terms" AndBlock:^{
         [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
             NSArray *terms = [[MyPurdueManager sharedInstance] getRegistrationTerms];
             retreievedValidTerms = YES;
             if ([terms containsObject:currentSearchTerm]) {
                 allowAction = YES;
             }
-            [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-        }andFailure:nil];
-    }];
+            [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+        }andFailure:^{
+            retreievedValidTerms = YES;
+            allowAction = NO;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Purdue login credentials you have provided are invalid or have changed. Please update these to continue fully using this app." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Update" , nil];
+                alertView.tag = 1;
+                [alertView show];
+            });
+        }];
 }
 
 -(void)reloadData
@@ -208,23 +221,7 @@
             }
         }else {
             //we have the PIN saved and verified
-            NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value];
-            if ([registrationDict objectForKey:@"response"] == PCCErrorOk) {
-                [self registerForCourses:courses];
-            }else {
-                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Incorrect PIN" success:NO];
-                NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
-                [dictionary removeObjectForKey:registrationTerm.value];
-                [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
-                    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-                    UITextField *textField = [alertView textFieldAtIndex:0];
-                    textField.keyboardType = UIKeyboardTypeNumberPad;
-                    [alertView show];
-                    coursesToRegister = courses;
-                });
-            }
+            [self registerForCourses:courses];
         }
         
     }andFailure:^{
@@ -243,6 +240,13 @@
         [alertView show];
         return;
     }*/
+    if (alertView.tag == 1) {
+        if (buttonIndex != alertView.cancelButtonIndex) {
+            PCCPurdueLoginViewController *loginVC = (PCCPurdueLoginViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
+            [self presentViewController:loginVC animated:YES completion:nil];
+        }
+        return;
+    }
     if (buttonIndex == alertView.cancelButtonIndex) return;
     
     PCCObject *selectedObject = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
@@ -250,8 +254,7 @@
     if (textField.text.length == 6) {
         NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
         if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
-        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
-        [[PCCHUDManager sharedInstance] performSelector:@selector(showHUDWithCaption:) withObject:@"Verifying..." afterDelay:1.0f];
+        [[PCCHUDManager sharedInstance] performSelector:@selector(showHUDWithCaption:) withObject:@"Verifying..." afterDelay:0.7f];
         [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
             NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:selectedObject.value withPin:textField.text];
             if ([registrationDict objectForKey:@"response"] == PCCErrorOk) {
@@ -261,7 +264,7 @@
                 [self performSelector:@selector(registerForCourses:) withObject:coursesToRegister afterDelay:0.7f];
             }else {
                 [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Incorrect PIN" success:NO];
-                dispatch_async(dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) 1.0f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     [alertView show];
                 });
             }

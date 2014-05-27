@@ -11,7 +11,7 @@
 #import "EGORefreshTableHeaderView.h"
 #import "PCCTermViewController.h"
 
-@interface PCCScheduleViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PCCScheduleHeaderDelegate, EGORefreshTableHeaderDelegate, UIGestureRecognizerDelegate, PCCTermDelegate>
+@interface PCCScheduleViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PCCScheduleHeaderDelegate, EGORefreshTableHeaderDelegate, UIGestureRecognizerDelegate, PCCTermDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *termButton;

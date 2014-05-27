@@ -93,7 +93,7 @@
     void (^success)() = ^{
         [self.registrationHeader changeMessage:registrationTerm.key message:@"Logged in! Verifying pin..." image:nil];
         [Helpers asyncronousBlockWithName:@"Check valid pin" AndBlock:^{
-            NSDictionary *response = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value];
+            NSDictionary *response = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value withPin:nil];
             NSNumber *canRegister = [response objectForKey:@"response"];
             if (canRegister.intValue == PCCErrorInvalidPin || canRegister.intValue == PCCErrorUnkownError) {
                 [self.registrationHeader changeMessage:registrationTerm.key message:@"Invalid pin" image:@"failure.png"];

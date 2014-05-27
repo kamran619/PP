@@ -26,7 +26,7 @@
 
 #import "PCFNetworkManager.h"
 #import "PCCTermViewController.h"
-
+#import "PCCPurdueLoginViewController.h"
 @interface PCCScheduleViewController ()
 
 @end
@@ -147,7 +147,11 @@ enum AnimationDirection
         password = [credentials objectForKey:kPassword];
         NSDictionary *dictionary;
         if ([[MyPurdueManager sharedInstance] loginWithUsername:username andPassword:password] == NO) {
-            NSLog(@"The login failed");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Purdue login credentials you have provided are invalid or have changed. Please update these to continue fully using this app." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Update" , nil];
+                alertView.tag = 1;
+                [alertView show];
+            });
         }else {
             scheduleArray = [[MyPurdueManager sharedInstance] getCurrentScheduleViaDetailSchedule];
             PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
@@ -503,5 +507,14 @@ enum AnimationDirection
 	
 }
 
+#pragma mark UIAlertView Delegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.cancelButtonIndex != buttonIndex) {
+        PCCPurdueLoginViewController *loginVC = (PCCPurdueLoginViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
+        [self presentViewController:loginVC animated:YES completion:nil];
+        return;
+    }
+}
 
 @end

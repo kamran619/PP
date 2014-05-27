@@ -11,6 +11,7 @@
 #import "PCFNetworkManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "PCFClassModel.h"
+#import "MyPurdueManager.h"
 
 @implementation Helpers
 
@@ -253,5 +254,6 @@
     [array addObjectsFromArray:set.allObjects];
     return array.copy;
 }
+
 @end
 

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "PCFNetworkManager.h"
-@interface PCCAppDelegate : UIResponder <UIApplicationDelegate, PCFNetworkDelegate>
+@interface PCCAppDelegate : UIResponder <UIApplicationDelegate, PCFNetworkDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

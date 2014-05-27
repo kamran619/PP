@@ -77,7 +77,7 @@ static PCCHUDManager *_sharedInstance = nil;
     [self.hudView.imageView setImage:image];
     [self.hudView.imageView fadeInWithDuration:0.15f alpha:1.0f];
     
-    [self performSelector:@selector(dismissHUD) withObject:nil afterDelay:0.35f];
+    [self performSelector:@selector(dismissHUD) withObject:nil afterDelay:0.55f];
     
 }
 

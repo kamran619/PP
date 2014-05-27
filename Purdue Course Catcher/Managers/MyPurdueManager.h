@@ -11,7 +11,7 @@
 
 @class PCCCourseSlots;
 
-@interface MyPurdueManager : NSObject <NSURLConnectionDelegate>
+@interface MyPurdueManager : NSObject <NSURLConnectionDelegate, UIAlertViewDelegate>
 
 + (instancetype)sharedInstance;
 
