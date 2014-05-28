@@ -25,6 +25,7 @@
 @property (nonatomic, strong) PCCLinkedSectionViewController *linkedVC;
 @property (nonatomic, assign) search searchType;
 @property (nonatomic, strong) void(^deletionBlock)();
+@property (nonatomic, strong) NSDictionary *responseDictionary;
 
 -(void)completedRegistrationForClass:(BOOL)success courses:(NSArray *)courses;
 -(void)validateRegistration:(NSArray *)courses;

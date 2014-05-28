@@ -307,7 +307,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nHw-Vz-Etc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1116" y="1611"/>
+            <point key="canvasLocation" x="1946" y="-1433"/>
         </scene>
         <!--Facebook Login View Controller-->
         <scene sceneID="Dg3-pl-1aW">
@@ -1535,6 +1535,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                     <connections>
                         <outlet property="tableView" destination="zSe-6j-U6o" id="Wqr-Ml-pqZ"/>
                         <segue destination="NeH-r1-h4Z" kind="modal" identifier="SegueLinkedSections" id="7aN-4n-Pd9"/>
+                        <segue destination="D64-zy-kOQ" kind="modal" identifier="SegueRegistrationStatus" id="9Oc-ID-zlU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ct-wx-Ibq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1926,7 +1927,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled">
-                                                        <color key="titleColor" patternImage="2E69BB09-EB31-4390-8562-6CEDD9008D92" colorSpace="pattern"/>
+                                                        <color key="titleColor" patternImage="3EE9C3FA-3885-4829-8ED7-4E8F3515B769" colorSpace="pattern"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -2019,7 +2020,6 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                     <connections>
                         <outlet property="submitButton" destination="RMa-Vg-aPz" id="JBw-0X-HP1"/>
                         <outlet property="tableView" destination="wYO-Lb-1jR" id="n3x-H7-lzp"/>
-                        <segue destination="D64-zy-kOQ" kind="modal" identifier="SegueRegistrationStatus" modalTransitionStyle="coverVertical" id="MXn-Lq-Adg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IcV-sL-qJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2704,7 +2704,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="2E69BB09-EB31-4390-8562-6CEDD9008D92" width="256" height="256">
+        <image name="3EE9C3FA-3885-4829-8ED7-4E8F3515B769" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

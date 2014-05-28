@@ -20,6 +20,8 @@
 -(void)loginWithSuccessBlock:(void(^)())success andFailure:(void(^)())failure;
 
 -(NSString *)getPinForSemester:(NSString *)semester;
+//for registration
+-(NSString *)generateQueryString:(NSArray *)currentCourses andRegisteringCourses:(NSArray *)registeringCourses;
 
 -(NSDictionary *)getStudentInformation;
 

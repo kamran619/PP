@@ -429,19 +429,33 @@ static MyPurdueManager *_sharedInstance = nil;
     NSMutableArray *array = [MyPurdueManager parseData:data type:ParseRegistration term:nil];
     
     NSArray *keys = [NSArray arrayWithObjects:@"response", @"data", nil];
+    NSArray *values;
     NSNumber *response;
+    NSString *error;
 
     if (success.location != NSNotFound) {
-        response = [NSNumber numberWithInt:PCCErrorOk];
+        NSString *kLookForError = @"<SPAN class=\"errortext\">";
+        NSRange found = [data rangeOfString:kLookForError options:NSCaseInsensitiveSearch];
+        if (found.location != NSNotFound) {
+            response = [NSNumber numberWithInt:PCCErrorUnkownError];
+            int from = found.location + found.length;
+            NSScanner *lilScanner = [NSScanner scannerWithString:data];
+            [lilScanner setScanLocation:from];
+            [lilScanner scanUpToString:@"</SPAN>" intoString:&error];
+            keys = [NSArray arrayWithObjects:@"response", @"data", @"error", nil];
+            values = [NSArray arrayWithObjects:response, array, error, nil];
+            return [NSDictionary dictionaryWithObjects:values forKeys:keys];
+        }else {
+            response = [NSNumber numberWithInt:PCCErrorOk];
+        }
+        
     }else if (auth.location != NSNotFound) {
         response = [NSNumber numberWithInt:PCCErrorInvalidPin];
     }else {
         response = [NSNumber numberWithInt:PCCErrorUnkownError];
     }
     
-    
-    NSArray *values = [NSArray arrayWithObjects:response, array, nil];
-    
+    values = [NSArray arrayWithObjects:response, array, nil];
     return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 
@@ -1289,7 +1303,9 @@ static MyPurdueManager *_sharedInstance = nil;
         NSString *kLookForTitle = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"TITLE\" VALUE=\"";
         NSString *subject, *course, *credits, *title, *status, *term, *crn, *startDate, *endDate, *section, *level, *gradeMode;
         NSMutableArray *array = [NSMutableArray arrayWithCapacity:4];
+        
         NSScanner *scanner = [NSScanner scannerWithString:data];
+        
         @try {
             while (![scanner isAtEnd]) {
                 [scanner scanUpToString:kLookForStatus intoString:nil];
@@ -1432,6 +1448,41 @@ static MyPurdueManager *_sharedInstance = nil;
             return strPin;
         }
     }
+}
+
+-(NSString *)generateQueryString:(NSArray *)currentCourses andRegisteringCourses:(NSArray *)registeringCourses
+{
+    PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    NSString *query = [NSString stringWithFormat:@"term_in=%@&RSTS_IN=DUMMY&assoc_term_in=DUMMY&CRN_IN=DUMMY&start_date_in=DUMMY&end_date_in=DUMMY&SUBJ=DUMMY&CRSE=DUMMY&SEC=DUMMY&LEVL=DUMMY&CRED=DUMMY&GMOD=DUMMY&TITLE=DUMMY&MESG=DUMMY&REG_BTN=DUMMY&MESG=DUMMY", term.value];
+    for (int i = 0; i < currentCourses.count; i++) {
+        PCFClassModel *class = [currentCourses objectAtIndex:i];
+        NSArray *splitDate = [class.startDate componentsSeparatedByString:@"/"];
+        NSString *startDate = [NSString stringWithFormat:@"%@%%2F%@%%2F%@", splitDate[0], splitDate[1], splitDate[2]];
+        splitDate = [class.endDate componentsSeparatedByString:@"/"];
+        NSString *endDate = [NSString stringWithFormat:@"%@%%2F%@%%2F%@", splitDate[0], splitDate[1], splitDate[2]];
+        //NSString *drop = ([[droppedClasses objectAtIndex:i] isEqualToNumber:@NO]) ? @"" : @"DW";
+        NSString *drop = @"";
+        NSArray *courseSplit = [class.courseNumber componentsSeparatedByString:@" "];
+        NSString *subject = courseSplit[0];
+        NSString *course = [NSString stringWithFormat:@"%@00", courseSplit[1]];
+        NSString *gradeMode = [class.gradeMode stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        NSString *title = [class.classTitle stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        NSString *innerQuery = [NSString stringWithFormat:@"&RSTS_IN=%@&assoc_term_in=%@&CRN_IN=%@&start_date_in=%@&end_date_in=%@&SUBJ=%@&CRSE=%@&SEC=%@&LEVL=%@&CRED=++++%@&GMOD=%@&TITLE=%@&MESG=DUMMY", drop, class.term ,class.CRN, startDate, endDate, subject, course, class.sectionNum, class.level, class.credits, gradeMode, title];
+        query = [query stringByAppendingString:innerQuery];
+    }
+    
+    for (PCFClassModel *class in registeringCourses) {
+        NSString *innerQuery = [NSString stringWithFormat:@"&RSTS_IN=RW&CRN_IN=%@&assoc_term_in=&start_date_in=&end_date_in=", class.CRN];
+        query = [query stringByAppendingString:innerQuery];
+    }
+    
+    int count = 10 - (int)registeringCourses.count;
+    for (; count > 0; count--) {
+        query = [query stringByAppendingString:@"&RSTS_IN=RW&CRN_IN=&assoc_term_in=&start_date_in=&end_date_in="];
+    }
+    
+    query = [query stringByAppendingString:[NSString stringWithFormat:@"&regs_row=%lu&wait_row=0&add_row=10&REG_BTN=Submit+Changes", (unsigned long)currentCourses.count]];
+    return query;
 }
 
 @end

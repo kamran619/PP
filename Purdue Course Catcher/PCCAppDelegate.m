@@ -63,8 +63,8 @@
         [delegate openSession];
         //load the menu and other things
         self.window.rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCTabBar"];
-        //NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"koj", kUsername, @"koj", kPassword, nil];
-        //[[PCCDataManager sharedInstance] setObject:dictionary ForKey:kCredentials InDictionary:DataDictionaryUser];
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"agarwa28", kUsername, @"anuradha12", kPassword, nil];
+        [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kCredentials InDictionary:DataDictionaryUser];
         //[[PCCTabBarController alloc] initWithNibName:@"PCCTabBarController" bundle:nil];
         //[[PCCMenuViewController alloc] initCentralViewControllerWithIdentifier:@"PCCSearch"];
     }

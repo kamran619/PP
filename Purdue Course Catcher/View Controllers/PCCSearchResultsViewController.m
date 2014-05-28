@@ -26,6 +26,7 @@
 #import "PCCObject.h"
 #import "UIView+Animations.h"
 #import "PCCPurdueLoginViewController.h"
+#import "PCCRegistrationStatusViewViewController.h"
 
 @interface PCCSearchResultsViewController ()
 {
@@ -62,6 +63,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.tableView reloadData];
     [self initController];
 }
 
@@ -210,13 +212,11 @@
                     coursesToRegister = courses;
                 });
             }else {
-                [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registering..."];
                 //pin receieved from purdue
                 NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
                 if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
                 [dictionary setObject:pin forKey:registrationTerm.value];
                 [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
-                //register..this is a valid pin
                 [self registerForCourses:courses];
             }
         }else {
@@ -231,8 +231,58 @@
 
 -(void)registerForCourses:(NSArray *)courses
 {
-    [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registered" success:YES];
+    [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registering..."];
+    NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+    PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    NSString *pin = [dictionary objectForKey:registrationTerm.value];
+    
+    [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
+        NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value withPin:pin];
+        int response = [(NSNumber *)[registrationDict objectForKey:@"response"] intValue];
+        if (response == PCCErrorOk) {
+            NSString *query = [[MyPurdueManager sharedInstance] generateQueryString:[registrationDict objectForKey:@"data"] andRegisteringCourses:courses];
+            self.responseDictionary = [[MyPurdueManager sharedInstance] submitRegistrationChanges:query];
+            NSNumber *response = [self.responseDictionary objectForKey:@"response"];
+            int val = response.intValue;
+            if (val == PCCErrorOk) {
+                //register..this is a valid pin
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registered" success:YES];
+                });
+            }else if (val  == PCCErrorUnkownError) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[PCCHUDManager sharedInstance] dismissHUD];
+                    [self performSegueWithIdentifier:@"SegueRegistrationStatus" sender:self];
+                });
+            }
+        }else if (response == PCCErrorUnkownError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[PCCHUDManager sharedInstance] dismissHUD];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[registrationDict objectForKey:@"error"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alertView show];
+            });
+        }else if (response == PCCErrorInvalidPin) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[PCCHUDManager sharedInstance] dismissHUD];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                UITextField *textField = [alertView textFieldAtIndex:0];
+                textField.keyboardType = UIKeyboardTypeNumberPad;
+                [alertView show];
+                coursesToRegister = courses;
+            });
+        }
+    }andFailure:nil];
 }
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"SegueRegistrationStatus"]) {
+        PCCRegistrationStatusViewViewController *vc = segue.destinationViewController;
+        [vc setErrorArray:[self.responseDictionary objectForKey:@"errors"]];
+    }
+}
+
 #pragma mark UIAlertView Delegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -287,7 +337,7 @@
     
         if ([button.titleLabel.text isEqualToString:@"Register"]) {
             if ([course.linkedID isEqualToString:@""]) {
-                [self validateRegistration:@[course.CRN]];
+                [self validateRegistration:@[course]];
             }else {
                 //calculate linked sections and return
                 self.linkedVC = [[PCCLinkedSectionViewController alloc] initWithTitle:@""];
@@ -607,13 +657,16 @@
 {
     if (success) {
         [self validateRegistration:courses];
-            self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
-            self.basketVC.transitioningDelegate = self;
-            
-            [self presentViewController:self.basketVC animated:YES completion:^ {
-                [self.tableView reloadData];
-            }];
     }
 }
+
+/*
+ self.basketVC = (PCCRegistrationBasketViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCRegistrationBasket"];
+ self.basketVC.transitioningDelegate = self;
+ 
+ [self presentViewController:self.basketVC animated:YES completion:^ {
+ [self.tableView reloadData];
+ }];
+*/
 
 @end
