@@ -12,6 +12,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "PCFClassModel.h"
 #import "MyPurdueManager.h"
+#import <MessageUI/MessageUI.h>
 
 @implementation Helpers
 
@@ -255,5 +256,34 @@
     return array.copy;
 }
 
++(void)sendEmail:(PCFClassModel *)course forViewController:(UIViewController *)vc
+{
+    Class mailView = NSClassFromString(@"MFMailComposeViewController");
+    if (mailView) {
+        if ([mailView canSendMail]) {
+            MFMailComposeViewController *mailSender = [[MFMailComposeViewController alloc] init];
+            mailSender.mailComposeDelegate = vc;
+            NSArray *toRecipient = [NSArray arrayWithObject:[course instructorEmail]];
+            [mailSender setToRecipients:toRecipient];
+            NSString *emailBody = [[NSString alloc] initWithFormat:@"Professor %@,\n", [course instructor]];
+            [mailSender setMessageBody:emailBody isHTML:NO];
+            [mailSender setSubject:[NSString stringWithFormat:@"%@: %@", course.courseNumber, course.classTitle]];
+            [vc presentViewController:mailSender animated:YES completion:nil];
+        }else {
+            NSString *recipients = [[NSString alloc] initWithFormat:@"mailto:%@&subject=%@: %@", [course instructorEmail], [course courseNumber], course.classTitle];
+            NSString *body = [[NSString alloc] initWithFormat:@"&body=Professor %@,\n", [course instructor]];
+            NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+            email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+        }
+    }else {
+        NSString *recipients = [[NSString alloc] initWithFormat:@"mailto:%@&subject=%@", [course instructorEmail], [course courseNumber]];
+        NSString *body = [[NSString alloc] initWithFormat:@"&body=Professor %@,\n", [course instructor]];
+        NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+        email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+    }
+
+}
 @end
 

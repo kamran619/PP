@@ -28,10 +28,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.purchasePressed addTarget:self action:@selector(purchaseProduct:) forControlEvents:UIControlEventTouchUpInside];
+    //[self.purchasePressed addTarget:self action:@selector(purchaseProduct:) forControlEvents:UIControlEventTouchUpInside];
     if ([[PCCDataManager sharedInstance].arrayPurchases containsObject:self.productToPurchase.productIdentifier]) {
-        self.purchasePressed.enabled = NO;
-        [self.purchasePressed setTitle:@"Already purchased" forState:UIControlStateNormal];
+        self.purchaseButton.enabled = NO;
+        //self.purchasePressed.enabled = NO;
+        [self.purchaseButton setTitle:@"Already purchased"];
     }
 	// Do any additional setup after loading the view.
 }

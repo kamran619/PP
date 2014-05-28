@@ -21,7 +21,7 @@
 
 -(NSString *)getPinForSemester:(NSString *)semester;
 //for registration
--(NSString *)generateQueryString:(NSArray *)currentCourses andRegisteringCourses:(NSArray *)registeringCourses;
+-(NSString *)generateQueryString:(NSArray *)currentCourses andRegisteringCourses:(NSArray *)registeringCourses andDroppingCourses:(NSArray *)droppingCourses;
 
 -(NSDictionary *)getStudentInformation;
 

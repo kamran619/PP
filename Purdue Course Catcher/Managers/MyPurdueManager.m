@@ -1183,8 +1183,10 @@ static MyPurdueManager *_sharedInstance = nil;
                     NSArray *splitCourse = [course componentsSeparatedByString:@"-"];
                     if ([splitCourse count] == 3) {
                         courseTitle = [splitCourse objectAtIndex:0];
+                        courseTitle = [courseTitle substringToIndex:courseTitle.length - 1];
                         courseName = [splitCourse objectAtIndex:1];
                         courseName = [courseName substringToIndex:courseName.length - 3];
+                        courseName = [courseName substringFromIndex:1];
                         section = [splitCourse objectAtIndex:2];
                     }else {
                         [NSException raise:@"Course name incorrectly formatted" format:@"Please check to see if the course was parsed properly"];
@@ -1450,7 +1452,7 @@ static MyPurdueManager *_sharedInstance = nil;
     }
 }
 
--(NSString *)generateQueryString:(NSArray *)currentCourses andRegisteringCourses:(NSArray *)registeringCourses
+-(NSString *)generateQueryString:(NSArray *)currentCourses andRegisteringCourses:(NSArray *)registeringCourses andDroppingCourses:(NSArray *)droppingCourses;
 {
     PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
     NSString *query = [NSString stringWithFormat:@"term_in=%@&RSTS_IN=DUMMY&assoc_term_in=DUMMY&CRN_IN=DUMMY&start_date_in=DUMMY&end_date_in=DUMMY&SUBJ=DUMMY&CRSE=DUMMY&SEC=DUMMY&LEVL=DUMMY&CRED=DUMMY&GMOD=DUMMY&TITLE=DUMMY&MESG=DUMMY&REG_BTN=DUMMY&MESG=DUMMY", term.value];
@@ -1460,8 +1462,7 @@ static MyPurdueManager *_sharedInstance = nil;
         NSString *startDate = [NSString stringWithFormat:@"%@%%2F%@%%2F%@", splitDate[0], splitDate[1], splitDate[2]];
         splitDate = [class.endDate componentsSeparatedByString:@"/"];
         NSString *endDate = [NSString stringWithFormat:@"%@%%2F%@%%2F%@", splitDate[0], splitDate[1], splitDate[2]];
-        //NSString *drop = ([[droppedClasses objectAtIndex:i] isEqualToNumber:@NO]) ? @"" : @"DW";
-        NSString *drop = @"";
+        NSString *drop = ([droppingCourses containsObject:class] == YES) ? @"DW" : @"";
         NSArray *courseSplit = [class.courseNumber componentsSeparatedByString:@" "];
         NSString *subject = courseSplit[0];
         NSString *course = [NSString stringWithFormat:@"%@00", courseSplit[1]];

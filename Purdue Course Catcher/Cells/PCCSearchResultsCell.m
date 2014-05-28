@@ -15,6 +15,7 @@
 #import "PCCCatalogViewController.h"
 #import "PCFNetworkManager.h"
 #import "PCCDataManager.h"
+#import "PCCObject.h"
 
 @implementation PCCSearchResultsCell
 
@@ -75,8 +76,11 @@
 
 -(void)setupRegister
 {
-    if ([[PCCDataManager sharedInstance].arrayRegister containsObject:self.course]) {
-        [self.actionButton setTitle:@"Register" forState:UIControlStateNormal];
+    PCCObject *obj = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    NSArray *schedule = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionarySchedule WithKey:obj.value];
+    
+    if ([schedule containsObject:self.course]) {
+        [self.actionButton setTitle:@"Registered" forState:UIControlStateNormal];
         [self.actionButton setEnabled:NO];
     }else {
         [self.actionButton setTitle:@"Register" forState:UIControlStateNormal];

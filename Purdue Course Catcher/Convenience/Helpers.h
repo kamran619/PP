@@ -93,4 +93,6 @@ enum PurdueColor {
 
 +(UIImage *)getImageForStars:(int)stars;
 +(NSArray *)getArrayOfScheduleTypes:(NSArray *)classes;
+
++(void)sendEmail:(PCFClassModel *)course forViewController:(UIViewController *)vc;
 @end

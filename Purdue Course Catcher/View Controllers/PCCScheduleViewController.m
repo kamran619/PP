@@ -23,10 +23,12 @@
 #import "EGORefreshTableHeaderView.h"
 
 #import "UIView+Animations.h"
-
 #import "PCFNetworkManager.h"
 #import "PCCTermViewController.h"
 #import "PCCPurdueLoginViewController.h"
+#import "PCCHUDManager.h"
+#import "PCCRegistrationStatusViewViewController.h"
+
 @interface PCCScheduleViewController ()
 
 @end
@@ -75,13 +77,13 @@ enum AnimationDirection
     animationDirection = AnimationDirectionLeft;
     [self initRefreshView];
     [self initHeader];
-    [self loadSchedule];
     // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self loadSchedule];
 }
 
 - (void)initRefreshView
@@ -275,7 +277,7 @@ enum AnimationDirection
     return [Helpers sortArrayUsingTime:array];
 }
 
-
+/*
 -(void)didClickCell:(UILongPressGestureRecognizer *)gesture
 {
     PCCScheduleCell *cell = (PCCScheduleCell *)[gesture view];
@@ -308,9 +310,133 @@ enum AnimationDirection
         }
     }
 }
+*/
 
+-(NSArray *)getLinkedClasses:(PCFClassModel *)ourClass fromClasses:(NSArray *)classes
+{
+    NSMutableSet *setOfLinkedClasses = [[NSMutableSet alloc] initWithCapacity:3];
+    for (PCFClassModel *course in classes) {
+        if ([course.courseNumber isEqualToString:ourClass.courseNumber] && [course.classTitle isEqualToString:ourClass.classTitle]) [setOfLinkedClasses addObject:course];
+    }
+    return [setOfLinkedClasses allObjects];
+}
+
+
+#pragma mark UIActionSheet Delegate
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == actionSheet.cancelButtonIndex) return;
+    
+    PCFClassModel *course = [dayArray objectAtIndex:actionSheet.tag];
+    __block NSArray *arrayOfDroppedCourses = nil;
+    
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
+        //drop class
+        [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Dropping..."];
+        [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
+            NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+            PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+            NSString *pin = [dictionary objectForKey:registrationTerm.value];
+            NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value withPin:pin];
+            int response = [[registrationDict objectForKey:@"response"] intValue];
+            if (response == PCCErrorOk) {
+                if (!arrayOfDroppedCourses) {
+                    arrayOfDroppedCourses = [self getLinkedClasses:course fromClasses:[registrationDict objectForKey:@"data"]];
+                }
+                NSString *query = [[MyPurdueManager sharedInstance] generateQueryString:[registrationDict objectForKey:@"data"] andRegisteringCourses:nil andDroppingCourses:arrayOfDroppedCourses];
+                self.responseDictionary = [[MyPurdueManager sharedInstance] submitRegistrationChanges:query];
+                NSNumber *response = [self.responseDictionary objectForKey:@"response"];
+                int val = response.intValue;
+                if (val == PCCErrorOk) {
+                    //register..this is a valid pin
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Dropped" success:YES];
+                        dayArray = nil;
+                        isLoading = YES;
+                        [self.activityIndicator startAnimating];
+                        [self.tableView reloadData];
+                        [self immediatelyFetchSchedule];
+                    });
+                }else if (val  == PCCErrorUnkownError) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[PCCHUDManager sharedInstance] dismissHUD];
+                        [self performSegueWithIdentifier:@"SegueRegistrationStatus" sender:self];
+                    });
+                }
+            }else if (response == PCCErrorUnkownError) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[PCCHUDManager sharedInstance] dismissHUD];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[registrationDict objectForKey:@"error"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alertView show];
+                });
+            }else if (response == PCCErrorInvalidPin) {
+                /*dispatch_async(dispatch_get_main_queue(), ^{
+                 [[PCCHUDManager sharedInstance] dismissHUD];
+                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                 [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                 UITextField *textField = [alertView textFieldAtIndex:0];
+                 textField.keyboardType = UIKeyboardTypeNumberPad;
+                 [alertView show];
+                 coursesToRegister = courses;
+                 });*/
+            }        }andFailure:^{
+                [[PCCHUDManager sharedInstance] dismissHUD];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Purdue login credentials you have provided are invalid or have changed. Please update these to continue fully using this app." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Update" , nil];
+                alertView.tag = 1;
+                [alertView show];
+            }];
+        return;
+    }
+    
+    switch (buttonIndex) {
+        case 1:
+            //view professor rating
+            break;
+        case 2:
+            //view course rating
+            break;
+        case 3:
+            //email professor
+            [Helpers sendEmail:course forViewController:self];
+            break;
+            
+        default:
+            break;
+    }
+
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"SegueRegistrationStatus"]) {
+        PCCRegistrationStatusViewViewController *vc = segue.destinationViewController;
+        [vc setErrorArray:[self.responseDictionary objectForKey:@"errors"]];
+    }
+}
+
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    if (error) NSLog(@"%@",error.description);
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark UITableView Delegate
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PCFClassModel *obj = [dayArray objectAtIndex:indexPath.row];
+    NSString *professorRating = [NSString stringWithFormat:@"Ratings for %@", obj.instructor];
+    NSString *courseRating = [NSString stringWithFormat:@"Ratings for %@", obj.courseNumber];
+    
+    UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Drop Class" otherButtonTitles:
+                            professorRating,
+                            courseRating,
+                            @"Email Professor",
+                            nil];
+    popup.tag = indexPath.row;
+    [popup showInView:[UIApplication sharedApplication].keyWindow];
+}
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -413,9 +539,10 @@ enum AnimationDirection
     [[cell professor] setTitle:obj.instructor forState:UIControlStateNormal];
     
     
-    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didClickCell:)];
+    /*UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didClickCell:)];
     [longGesture setDelegate:self];
     [cell addGestureRecognizer:longGesture];
+    */
     
     return cell;
     

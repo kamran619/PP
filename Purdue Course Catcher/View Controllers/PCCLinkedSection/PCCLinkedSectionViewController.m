@@ -184,17 +184,15 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     
-    NSMutableSet *set = [NSMutableSet setWithCapacity:3];
+    /*NSMutableSet *set = [NSMutableSet setWithCapacity:3];
     for (PCFClassModel *class in self.dataSource) {
         [set addObject:class.scheduleType];
     }
-    [set removeObject:@"Distance Learning"];
+    [set removeObject:@"Distance Learning"];*/
     //+ 1 for ourself
-    BOOL registrationComplete = (selectedCells.count + 1 == set.count);
-    NSMutableArray *arrayRegister = [PCCDataManager sharedInstance].arrayRegister;
+    BOOL registrationComplete = YES;//(selectedCells.count + 1 == set.count);
     
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (registrationComplete) {
             for (NSIndexPath *indexPath in selectedCells) {
                 PCFClassModel *class = [[layeredClasses objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -202,7 +200,7 @@
             }
             if (![arrayRegister containsObject:self.course])[arrayRegister addObject:self.course];
         }
-    });
+    });*/
     
     [self dismissViewControllerAnimated:YES completion:^{
         if ([self.delegate respondsToSelector:@selector(completedRegistrationForClass:courses:)]) {
@@ -210,6 +208,7 @@
                 PCFClassModel *class = [[layeredClasses objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
                 if (![classesToRegister containsObject:class]) [classesToRegister addObject:class];
             }
+            [classesToRegister addObject:self.course];
             [self.delegate completedRegistrationForClass:registrationComplete courses:classesToRegister];
         }
     }];

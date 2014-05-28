@@ -12,7 +12,7 @@
 #import "Helpers.h"
 #import "MyPurdueManager.h"
 #import "PCCCourseSlots.h"
-
+#import <MessageUI/MessageUI.h>
 #import "KPLightBoxManager.h"
 #import "PCCHUDManager.h"
 #import "PCCCatalogViewController.h"
@@ -57,6 +57,7 @@
     [super viewDidLoad];
     self.animationController = [[DropAnimationController alloc] init];
     [self getLinkedCoursesWithBlock:nil];
+    [self initController];
 	// Do any additional setup after loading the view.
 }
 
@@ -64,7 +65,6 @@
 {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
-    [self initController];
 }
 
 -(void)initController
@@ -240,14 +240,17 @@
         NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value withPin:pin];
         int response = [(NSNumber *)[registrationDict objectForKey:@"response"] intValue];
         if (response == PCCErrorOk) {
-            NSString *query = [[MyPurdueManager sharedInstance] generateQueryString:[registrationDict objectForKey:@"data"] andRegisteringCourses:courses];
+            NSString *query = [[MyPurdueManager sharedInstance] generateQueryString:[registrationDict objectForKey:@"data"] andRegisteringCourses:courses andDroppingCourses:nil];
             self.responseDictionary = [[MyPurdueManager sharedInstance] submitRegistrationChanges:query];
             NSNumber *response = [self.responseDictionary objectForKey:@"response"];
             int val = response.intValue;
             if (val == PCCErrorOk) {
                 //register..this is a valid pin
+                NSArray *schedule = [[MyPurdueManager sharedInstance] getCurrentScheduleViaDetailSchedule];
+                [[PCCDataManager sharedInstance] setObject:schedule ForKey:registrationTerm.value InDictionary:DataDictionarySchedule];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registered" success:YES];
+                    [self.tableView reloadData];
                 });
             }else if (val  == PCCErrorUnkownError) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -598,33 +601,8 @@
 {
     NSInteger row = [sender tag];
     PCFClassModel *course = [self.dataSource objectAtIndex:row];
-
-    Class mailView = NSClassFromString(@"MFMailComposeViewController");
-    if (mailView) {
-        if ([mailView canSendMail]) {
-            MFMailComposeViewController *mailSender = [[MFMailComposeViewController alloc] init];
-            mailSender.mailComposeDelegate = self;
-            NSArray *toRecipient = [NSArray arrayWithObject:[course instructorEmail]];
-            [mailSender setToRecipients:toRecipient];
-            NSString *emailBody = [[NSString alloc] initWithFormat:@"Professor %@,\n", [course instructor]];
-            [mailSender setMessageBody:emailBody isHTML:NO];
-            [mailSender setSubject:[NSString stringWithFormat:@"%@: %@", course.courseNumber, course.classTitle]];
-            [self presentViewController:mailSender animated:YES completion:nil];
-        }else {
-            NSString *recipients = [[NSString alloc] initWithFormat:@"mailto:%@&subject=%@: %@", [course instructorEmail], [course courseNumber], course.classTitle];
-            NSString *body = [[NSString alloc] initWithFormat:@"&body=Professor %@,\n", [course instructor]];
-            NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
-            email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
-        }
-    }else {
-        NSString *recipients = [[NSString alloc] initWithFormat:@"mailto:%@&subject=%@", [course instructorEmail], [course courseNumber]];
-        NSString *body = [[NSString alloc] initWithFormat:@"&body=Professor %@,\n", [course instructor]];
-        NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
-        email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
-    }
-
+    [Helpers sendEmail:course forViewController:self];
+    
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error

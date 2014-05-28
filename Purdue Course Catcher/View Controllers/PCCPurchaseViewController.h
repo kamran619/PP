@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) SKProduct *productToPurchase;
 
-@property (nonatomic, strong) IBOutlet UIButton *purchasePressed;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *purchaseButton;
+-(IBAction)purchaseProduct:(id)sender;
 @end
