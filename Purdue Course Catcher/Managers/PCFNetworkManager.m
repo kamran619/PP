@@ -399,6 +399,7 @@ static PCFNetworkManager *_sharedInstance = nil;
             
             NSDictionary *purchaseDictionary = dict;
             [dataDictionary setObject:[purchaseDictionary objectForKey:kPurchasedItem] forKey:kPurchasedItem];
+            [dictionary setObject:dataDictionary.copy forKey:kData];
             NSError *error;
             if (!error) [self sendDataToServer:[self packageCommandIntoJSON:dictionary error:&error] forCommand:command];
             break;

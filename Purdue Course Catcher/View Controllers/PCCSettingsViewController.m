@@ -26,10 +26,12 @@ enum sections
 @interface PCCSettingsViewController ()
 {
     BOOL loggedIn;
+    BOOL upgraded;
     NSString *nickname;
     NSString *oldNickname;
     NSNumber *findByMajor;
     NSNumber *viewMySchedule;
+    SKProduct *productToPurchase;
 }
 @end
 
@@ -47,7 +49,7 @@ enum sections
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    upgraded = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,7 +91,10 @@ enum sections
     self.findByMajorCell.detail.text = findByMajor.boolValue ? @"YES" : @"NO";
     self.viewMyScheduleCell.detail.text = viewMySchedule.boolValue ? @"YES" : @"NO";
     
-    
+    if ([[PCCDataManager sharedInstance].arrayPurchases containsObject:@"com.kamranpirwani.pcc.gopro"]) {
+        self.upgradeCell.title.text = @"Upgraded to Pro";
+        upgraded = YES;
+    }
 }
 
 -(void)showSaveButton
@@ -130,7 +135,11 @@ enum sections
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self animateGoPro];
+    if (!upgraded) {
+        self.upgradeCell.downArrow.layer.transform = CATransform3DMakeTranslation(0, 15, 0);
+    }else {
+        [self animateGoPro];
+    }
 }
 
 -(void)animateGoPro
@@ -154,6 +163,24 @@ enum sections
 {
     switch (indexPath.section) {
         case sectionUpgrade:
+        {
+            [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
+            [[PCCIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
+                if (success) {
+                    NSArray *_products = products;
+                    for (SKProduct *product in _products) {
+                        if ([product.productIdentifier isEqualToString:@"com.kamranpirwani.pcc.gopro"]) {
+                            [[PCCHUDManager sharedInstance] dismissHUD];
+                            productToPurchase = product;
+                            [self performSegueWithIdentifier:@"SegueGoPro" sender:self];
+                            
+                        }
+                    }
+                }else {
+                    [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Failed" success:NO];
+                }
+            }];
+        }
             break;
         case sectionMyPurdue:
             if (loggedIn) {
@@ -210,6 +237,9 @@ enum sections
         PCCNicknameTableViewController *vc = segue.destinationViewController;
         vc.nickname = self.nicknameCell.detail.text;
         oldNickname = self.nicknameCell.detail.text;
+    }else if ([segue.identifier isEqualToString:@"SegueGoPro"]) {
+        PCCPurchaseViewController *vc = segue.destinationViewController;
+        vc.productToPurchase = productToPurchase;
     }
 }
 

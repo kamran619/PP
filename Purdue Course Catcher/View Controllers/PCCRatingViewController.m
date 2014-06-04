@@ -48,6 +48,11 @@
     //view ratings
     NSError *error;
     NSData *data = [[responseDictionary objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+    if (!data) {
+        [self.activityIndicator stopAnimating];
+        return;
+    }
+    
     NSMutableDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data
                                                                  options:NSJSONReadingMutableContainers
                                                                    error:&error];

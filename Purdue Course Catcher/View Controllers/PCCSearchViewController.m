@@ -333,7 +333,7 @@
 
 -(void)showFilterButton
 {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(showFilters:)];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filter_normal.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(showFilters:)];
     [item setTintColor:[Helpers purdueColor:PurdueColorLightPink]];
     [self.navigationItem setRightBarButtonItem:item animated:YES];
 }
@@ -345,10 +345,15 @@
 
 -(IBAction)showFilters:(id)sender
 {
-    UIButton *button = (UIButton *)sender;
+    UIBarButtonItem *button = (UIBarButtonItem *)sender;
     NSInteger state = button.tag;
     int toggleValue = (state == 0) ? 1 : 0;
     button.tag = toggleValue;
+    if (toggleValue == 1) {
+        [button setImage:[UIImage imageNamed:@"filter_selected.png"]];
+    }else {
+        [button setImage:[UIImage imageNamed:@"filter_normal.png"]];
+    }
     [self toggleFilter:toggleValue];
 }
 

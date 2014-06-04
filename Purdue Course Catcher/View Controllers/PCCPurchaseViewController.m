@@ -9,6 +9,7 @@
 #import "PCCPurchaseViewController.h"
 #import "PCCIAPHelper.h"
 #import "PCCDataManager.h"
+#import "PCCHUDManager.h"
 
 @interface PCCPurchaseViewController ()
 
@@ -28,16 +29,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //[self.purchasePressed addTarget:self action:@selector(purchaseProduct:) forControlEvents:UIControlEventTouchUpInside];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:IAPHelperProductPurchasedNotification object:nil];
     if ([[PCCDataManager sharedInstance].arrayPurchases containsObject:self.productToPurchase.productIdentifier]) {
         self.purchaseButton.enabled = NO;
-        //self.purchasePressed.enabled = NO;
         [self.purchaseButton setTitle:@"Already purchased"];
+    }else {
+        [self.purchaseButton setTitle:[NSString stringWithFormat:@"Purchase $%@", self.productToPurchase.price]];
     }
-	// Do any additional setup after loading the view.
 }
 
+-(void)productPurchased:(NSNotification *)notification
+{
+    self.purchaseButton.enabled = NO;
+}
 
+-(IBAction)restorePressed:(id)sender
+{
+    [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Restoring..."];
+    [[PCCIAPHelper sharedInstance] restoreCompletedTransactions];
+}
 -(void)purchaseProduct:(id)sender
 {
     [[PCCIAPHelper sharedInstance] buyProduct:self.productToPurchase];

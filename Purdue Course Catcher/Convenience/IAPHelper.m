@@ -30,7 +30,6 @@ NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurcha
         
         // Store product identifiers
         _productIdentifiers = productIdentifiers;
-        
         // Check for previously purchased products
         _purchasedProductIdentifiers = [NSMutableSet set];
         for (NSString * productIdentifier in _productIdentifiers) {
@@ -184,5 +183,9 @@ NSString *const IAPHelperProductPurchasedNotification = @"IAPHelperProductPurcha
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }
 
+-(void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
+{
+    [[PCCHUDManager sharedInstance] dismissHUD];
+}
 
 @end

@@ -543,9 +543,14 @@
 }
 -(IBAction)showFilters:(id)sender
 {
-    UIButton *button = (UIButton *)sender;
+    UIBarButtonItem *button = (UIBarButtonItem *)sender;
     NSInteger state = button.tag;
     int toggleValue = (state == 0) ? 1 : 0;
+    if (toggleValue == 0) {
+        [button setImage:[UIImage imageNamed:@"filter_normal.png"]];
+    }else {
+        [button setImage:[UIImage imageNamed:@"filter_selected.png"]];
+    }
     button.tag = toggleValue;
     [self toggleFilter:toggleValue];
 }

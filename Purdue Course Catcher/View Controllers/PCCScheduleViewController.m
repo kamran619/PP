@@ -59,6 +59,9 @@ enum AnimationDirection
     BOOL isLoading;
     EGORefreshTableHeaderView *refreshView;
     AnimationDirection animationDirection;
+    int professorRatingIndex;
+    int courseRatingIndex;
+    int emailIndex;
     
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -388,20 +391,13 @@ enum AnimationDirection
         return;
     }
     
-    switch (buttonIndex) {
-        case 1:
-            //view professor rating
-            break;
-        case 2:
-            //view course rating
-            break;
-        case 3:
-            //email professor
-            [Helpers sendEmail:course forViewController:self];
-            break;
-            
-        default:
-            break;
+    if (buttonIndex == professorRatingIndex) {
+        //view professor rating
+    }else if (buttonIndex == courseRatingIndex) {
+        //view course rating
+    }else if (buttonIndex == emailIndex) {
+        //email professor
+        [Helpers sendEmail:course forViewController:self];
     }
 
 }
@@ -426,14 +422,18 @@ enum AnimationDirection
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PCFClassModel *obj = [dayArray objectAtIndex:indexPath.row];
-    NSString *professorRating = [NSString stringWithFormat:@"Ratings for %@", obj.instructor];
-    NSString *courseRating = [NSString stringWithFormat:@"Ratings for %@", obj.courseNumber];
+    NSString *professorRating = nil, *courseRating = nil;
+    if (obj.instructor && ![obj.instructor isEqualToString:@"TBA"])    professorRating = [NSString stringWithFormat:@"Ratings for %@", obj.instructor];
+    if (obj.courseNumber)  courseRating = [NSString stringWithFormat:@"Ratings for %@", obj.courseNumber];
     
-    UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Drop Class" otherButtonTitles:
-                            professorRating,
-                            courseRating,
-                            @"Email Professor",
-                            nil];
+    UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Drop Class" otherButtonTitles:nil];
+    
+    if (professorRating) professorRatingIndex = (int)[popup addButtonWithTitle:professorRating];
+    if (courseRating) courseRatingIndex = (int)[popup addButtonWithTitle:courseRating];
+    if (professorRating) emailIndex = (int)[popup addButtonWithTitle:@"Email Professor"];
+    
+    popup.cancelButtonIndex = [popup addButtonWithTitle:@"Cancel"];
+    
     popup.tag = indexPath.row;
     [popup showInView:[UIApplication sharedApplication].keyWindow];
 }

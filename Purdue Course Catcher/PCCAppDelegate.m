@@ -24,7 +24,8 @@
 
 -(void)customizeLook
 {
-    [[UIBarButtonItem appearanceWhenContainedIn:[PCCSearchViewController class], nil] setTintColor:[Helpers purdueColor:PurdueColorLightPink]];
+    [[UITabBar appearance] setTintColor:[Helpers purdueColor:PurdueColorYellow]];
+    //[[UITabBar appearance] setSelectedImageTintColor:[Helpers purdueColor:PurdueColorYellow]];
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -39,6 +40,8 @@
     
     //connect to server
     [PCFNetworkManager sharedInstance];
+    
+    [self customizeLook];
     
     //&& !(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)
     //we don't care about the fb state anymore
