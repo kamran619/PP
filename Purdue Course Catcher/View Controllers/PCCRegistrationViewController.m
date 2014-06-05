@@ -43,7 +43,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.submitButton addTarget:self action:@selector(submitTapped:)forControlEvents:UIControlEventTouchUpInside];
+    //[self.submitButton addTarget:self action:@selector(submitTapped:)forControlEvents:UIControlEventTouchUpInside];
 	// Do any additional setup after loading the view.
     [self checkRegistration];
 }
@@ -56,6 +56,7 @@
     }
 }
 
+/*
 -(void)submitTapped:(id)sender
 {
     [[KPLightBoxManager sharedInstance] showLightBox];
@@ -78,7 +79,7 @@
     }];
     
 }
-
+*/
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"SegueRegistrationStatus"]) {
@@ -121,7 +122,7 @@
     };
     
     if (!registrationTerm) {
-        [self showTerms:nil];
+        //[self showTerms:nil];
     }else {
         self.tableView.alpha = 0.0f;
         self.submitButton.alpha = 0.0f;
@@ -134,7 +135,7 @@
     }
     
 }
-
+/*
 -(NSString *)generateQueryString
 {
     PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
@@ -335,5 +336,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+*/
 @end

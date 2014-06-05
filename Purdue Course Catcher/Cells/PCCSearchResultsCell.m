@@ -113,6 +113,8 @@
             break;
         case ServerCommandCatch:
             if (success) {
+                PCCObject *currentSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+                self.course.term = currentSearchTerm.value;
                 [[PCCDataManager sharedInstance].arrayBasket addObject:self.course];
                 [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Complete" success:YES];
                 [self.actionButton setTitle:@"Uncatch" forState:UIControlStateNormal];

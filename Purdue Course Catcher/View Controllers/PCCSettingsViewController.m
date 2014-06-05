@@ -14,6 +14,7 @@
 #import "PCCNicknameTableViewController.h"
 #import "PCFNetworkManager.h"
 #import "PCCHUDManager.h"
+#import "PCCFTUEViewController.h"
 
 enum sections
 {
@@ -187,10 +188,14 @@ enum sections
                 self.myPurdueCell.title.text = @"Username";
                 self.myPurdueCell.detail.text = @"LOG IN";
                 [[PCCDataManager sharedInstance].dictionaryUser removeObjectForKey:kCredentials];
+                [Helpers setCurrentUser:nil];
                 loggedIn = NO;
-            }else {
-                [self performSegueWithIdentifier:@"SegueLoginViewController" sender:self];
+                PCCFTUEViewController *vc = [[PCCFTUEViewController alloc] initWithNibName:@"PCCFTUEViewController" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
             }
+            //}else {
+            //    [self performSegueWithIdentifier:@"SegueLoginViewController" sender:self];
+            //}
             break;
             
         case sectionPrivacy:

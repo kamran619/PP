@@ -127,7 +127,6 @@
 		FEB638F918D000F00066F982 /* PCCPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB638F818D000F00066F982 /* PCCPurchaseViewController.m */; };
 		FEB99657188DABFE0017C552 /* PCCHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB99655188DABFE0017C552 /* PCCHeaderViewController.m */; };
 		FEB99658188DABFE0017C552 /* PCCHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEB99656188DABFE0017C552 /* PCCHeaderViewController.xib */; };
-		FEB9965C188DFDCB0017C552 /* PCCRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB9965B188DFDCB0017C552 /* PCCRegistrationViewController.m */; };
 		FEB99660188F563F0017C552 /* failure.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB9965F188F563F0017C552 /* failure.png */; };
 		FEBC7084188258BE00BCF873 /* PCCCatcherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEBC7083188258BE00BCF873 /* PCCCatcherCell.m */; };
 		FED58A281890647A001991F2 /* PCCRegistrationDropCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FED58A271890647A001991F2 /* PCCRegistrationDropCell.m */; };
@@ -353,8 +352,6 @@
 		FEB99654188DABFE0017C552 /* PCCHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCHeaderViewController.h; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.h"; sourceTree = "<group>"; };
 		FEB99655188DABFE0017C552 /* PCCHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCHeaderViewController.m; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.m"; sourceTree = "<group>"; };
 		FEB99656188DABFE0017C552 /* PCCHeaderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCHeaderViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCHeaderViewController.xib"; sourceTree = "<group>"; };
-		FEB9965A188DFDCB0017C552 /* PCCRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRegistrationViewController.h; path = "Purdue Course Catcher/View Controllers/PCCRegistrationViewController.h"; sourceTree = "<group>"; };
-		FEB9965B188DFDCB0017C552 /* PCCRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationViewController.m; path = "Purdue Course Catcher/View Controllers/PCCRegistrationViewController.m"; sourceTree = "<group>"; };
 		FEB9965F188F563F0017C552 /* failure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failure.png; sourceTree = "<group>"; };
 		FEBC7082188258BE00BCF873 /* PCCCatcherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCCatcherCell.h; path = "Purdue Course Catcher/Cells/PCCCatcherCell.h"; sourceTree = "<group>"; };
 		FEBC7083188258BE00BCF873 /* PCCCatcherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCCatcherCell.m; path = "Purdue Course Catcher/Cells/PCCCatcherCell.m"; sourceTree = "<group>"; };
@@ -658,8 +655,6 @@
 				FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */,
 				FE18308D188AF90C00EC68FC /* PCCTermViewController.h */,
 				FE18308E188AF90C00EC68FC /* PCCTermViewController.m */,
-				FEB9965A188DFDCB0017C552 /* PCCRegistrationViewController.h */,
-				FEB9965B188DFDCB0017C552 /* PCCRegistrationViewController.m */,
 				FEAE7FA218976075001FBC09 /* PCCRegistrationStatusViewViewController.h */,
 				FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */,
 				FE7B734C18CE9746003D9D11 /* PCCStoreViewController.h */,
@@ -1169,7 +1164,6 @@
 				FEE571A9186D00B700FE8FA8 /* PCFAutoCompleteTextField.m in Sources */,
 				FE5530EC184D3C4900D13587 /* PCCAppDelegate.m in Sources */,
 				FE9628C8185ED7D800F699B5 /* Helpers.m in Sources */,
-				FEB9965C188DFDCB0017C552 /* PCCRegistrationViewController.m in Sources */,
 				FE7B734018CE8A0C003D9D11 /* IAPHelper.m in Sources */,
 				FE7B734E18CE9746003D9D11 /* PCCStoreViewController.m in Sources */,
 				FEA2017D1873AE4D009DFE84 /* UIView+Animations.m in Sources */,

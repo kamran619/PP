@@ -48,8 +48,6 @@
     }else {
         firstTime = YES;
         self.animationController = [[DropAnimationController alloc] init];
-        //[self.buttonYes addTarget:self action:@selector(showLogin:) forControlEvents:UIControlEventTouchUpInside];
-        //[self.buttonNo addTarget:self action:@selector(scrollToRight:) forControlEvents:UIControlEventTouchUpInside];
         [self initAnimations];
         [self animateIn];
 

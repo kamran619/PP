@@ -12,7 +12,6 @@
 #import "Helpers.h"
 #import "PCCDataManager.h"
 #import "PCCPurdueLoginViewController.h"
-#import "PCCRegistrationViewController.h"
 #import "PCCSettingsViewController.h"
 #import "PCCStoreViewController.h"
 

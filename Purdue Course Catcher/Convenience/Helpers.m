@@ -166,6 +166,7 @@
     [[PCCDataManager sharedInstance] setObject:[NSNumber numberWithInt:1] ForKey:kInitialized InDictionary:DataDictionaryUser];
 }
 
+
 +(NSDictionary *)getCredentials
 {
     return [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kCredentials];
@@ -285,6 +286,18 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
     }
 
+}
+
++(NSString *)getCurrentUser
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentUser];
+}
+
++(void)setCurrentUser:(NSString *)user
+{
+    if (!user) [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCurrentUser];
+    else [[NSUserDefaults standardUserDefaults] setObject:user forKey:kCurrentUser];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 @end
 

@@ -46,7 +46,7 @@
     //&& !(FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)
     //we don't care about the fb state anymore
     
-    if ([Helpers hasRanAppBefore] == NO) {
+    if ([Helpers hasRanAppBefore] == NO || [Helpers getCurrentUser] == nil) {
         self.window.rootViewController = [[PCCFTUEViewController alloc] initWithNibName:@"PCCFTUEViewController" bundle:nil];
     }else {
         

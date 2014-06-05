@@ -7,7 +7,8 @@
 //
 
 #import "PCCCatcherCell.h"
-
+#import "PCCHUDManager.h"
+#import "MyPurdueManager.h"
 @implementation PCCCatcherCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -25,5 +26,6 @@
 
     // Configure the view for the selected state
 }
+
 
 @end

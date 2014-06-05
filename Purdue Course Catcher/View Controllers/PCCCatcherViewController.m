@@ -13,7 +13,9 @@
 #import "MyPurdueManager.h"
 #import "PCCCourseSlots.h"
 #import "PCCDataManager.h"
-
+#import "UIView+Animations.h"
+#import "PCCHUDManager.h"
+#import "PCCSearchResultsViewController.h"
 @interface PCCCatcherViewController ()
 
 @end
@@ -23,6 +25,7 @@
     BOOL isLoading;
     EGORefreshTableHeaderView *refreshView;
     int numberFetched;
+    NSArray *courses;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -70,6 +73,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)registerPressed:(UIButton *)sender
+{
+    PCFClassModel *class = [self.dataSource objectAtIndex:sender.tag];
+    [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Loading..."];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        courses = [MyPurdueManager getCoursesForTerm:class.term WithCRN:class.CRN];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[PCCHUDManager sharedInstance] dismissHUD];
+            [self performSegueWithIdentifier:@"SearchResultsSegue" sender:self];
+        });
+    });
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"SearchResultsSegue"]) {
+        UINavigationController *controller = segue.destinationViewController;
+        PCCSearchResultsViewController *vc = [controller.childViewControllers lastObject];
+        vc.dataSource = courses;
+        vc.searchType = (int) searchCRN;
+    }
+}
 #pragma mark UITableView Delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -77,18 +101,29 @@
     PCCCatcherCell *cell = (PCCCatcherCell *)[tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
     [cell.courseNumber setText:class.courseNumber];
+    [cell.registerButton addTarget:self action:@selector(registerPressed:) forControlEvents:UIControlEventTouchUpInside];
+    cell.registerButton.tag = indexPath.row;
     [cell.courseTitle setText:class.classTitle];
     [cell.scheduleType setText:class.scheduleType];
     [cell.CRN setText:class.CRN];
     [cell.activityIndicator startAnimating];
+    cell.registerButton.alpha = 0.0f;
     cell.slots.alpha = 0.0f;
     [Helpers asyncronousBlockWithName:@"Get Slots" AndBlock:^{
     PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
     __block PCCCourseSlots *slots = [MyPurdueManager getCourseAvailabilityWithLink:class.classLink];
     dispatch_async(dispatch_get_main_queue(), ^{
         [cell.activityIndicator stopAnimating];
-        cell.slots.alpha = 1.0f;
-        [cell.slots setText:[NSString stringWithFormat:@"SLOTS: %@/%@", slots.enrolled, slots.capacity]];
+        if (slots.enrolled > 0) {
+            [cell.slots fadeOut];
+            [cell.registerButton fadeIn];
+        }else {
+            [cell.registerButton fadeOut];
+            [cell.slots fadeIn];
+            [cell.slots setText:[NSString stringWithFormat:@"SLOTS: %@/%@", slots.enrolled, slots.capacity]];
+            
+        }
+        
         if (++numberFetched == self.dataSource.count) {
             isLoading = NO;
             [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.5f];
@@ -165,5 +200,6 @@
 	return [NSDate date]; // should return date data source was last changed
 	
 }
+
 
 @end

@@ -15,5 +15,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *slots;
 @property (nonatomic, strong) IBOutlet UILabel *scheduleType;
 @property (nonatomic, strong) IBOutlet UILabel *CRN;
+@property (nonatomic, strong) IBOutlet UIButton *registerButton;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) NSString *term;
+
 @end

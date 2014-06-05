@@ -440,12 +440,6 @@
 
 -(void)showSearchResults
 {
-    /*UINavigationController *nc = [self.storyboard instantiateViewControllerWithIdentifier:@"PCCSearchResults"];
-    PCCSearchResultsViewController *vc = [nc.childViewControllers lastObject];
-    nc.transitioningDelegate = self;
-    vc.dataSource = searchResults;
-    vc.searchType = self.segmentedControl.selectedSegmentIndex;
-    [self presentViewController:nc animated:YES completion:nil];*/
     [self performSegueWithIdentifier:@"SegueSearchResults" sender:nil];
 }
 - (IBAction)searchPressed:(id)sender {

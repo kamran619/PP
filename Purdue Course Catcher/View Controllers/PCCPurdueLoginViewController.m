@@ -96,6 +96,7 @@
         BOOL success = [[MyPurdueManager sharedInstance] loginWithUsername:self.username.textField.text andPassword:self.password.textField.text];
         if (success) {
                 [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Logged in..." success:YES];
+                [Helpers setCurrentUser:self.username.textField.text];
                 NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:self.username.textField.text, kUsername, self.password.textField.text, kPassword, nil];
                 [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kCredentials InDictionary:DataDictionaryUser];
                 loginSuccessfull = YES;

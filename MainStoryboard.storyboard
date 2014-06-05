@@ -574,7 +574,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="cellLabel" destination="yYR-9i-GEj" id="8Wj-TM-O0N"/>
                                         </connections>
@@ -687,7 +687,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                     <rect key="frame" x="180" y="12" width="107" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_arrow.png" id="zBk-xl-8sr">
@@ -700,7 +700,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="0.65000000000000002" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="0.40999999999999998" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="cart" destination="jdc-71-5aS" id="qjj-Ez-o23"/>
                                             <outlet property="detail" destination="FGx-B7-0Q9" id="jAZ-4r-ZQg"/>
@@ -1162,58 +1162,66 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" id="LxP-hr-ldo">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="LxP-hr-ldo">
                                 <rect key="frame" x="0.0" y="64" width="320" height="431"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="kCatcherCell" rowHeight="64" id="Kxw-2w-W63" customClass="PCCCatcherCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="64"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="kCatcherCell" rowHeight="62" id="Kxw-2w-W63" customClass="PCCCatcherCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kxw-2w-W63" id="Hba-0g-ox1">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CS 381" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="24P-8e-QDh">
-                                                    <rect key="frame" x="14" y="7" width="118" height="21"/>
+                                                    <rect key="frame" x="14" y="3" width="118" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to Algorithms" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="3pY-xz-wFx">
-                                                    <rect key="frame" x="19" y="20" width="295" height="29"/>
+                                                    <rect key="frame" x="19" y="17" width="295" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SLOTS: 0/40" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UaA-4e-8Yj">
-                                                    <rect key="frame" x="229" y="41" width="83" height="21"/>
+                                                    <rect key="frame" x="229" y="33" width="83" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" id="Weh-Hi-6Ko">
-                                                    <rect key="frame" x="286" y="40" width="20" height="20"/>
+                                                    <rect key="frame" x="286" y="34" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="tintColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="color" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </activityIndicatorView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Laboratory" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cnF-vl-VBm">
-                                                    <rect key="frame" x="20" y="41" width="168" height="21"/>
+                                                    <rect key="frame" x="20" y="38" width="168" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12345" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bAf-Wn-xcp">
-                                                    <rect key="frame" x="280" y="7" width="32" height="21"/>
+                                                    <rect key="frame" x="280" y="3" width="32" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rDV-48-FfW">
+                                                    <rect key="frame" x="248" y="34" width="64" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Register">
+                                                        <color key="titleColor" red="0.85030995239999996" green="0.23940844319999999" blue="0.28358203160000001" alpha="0.60999999999999999" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
@@ -1221,6 +1229,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                             <outlet property="activityIndicator" destination="Weh-Hi-6Ko" id="PCK-y7-Qh2"/>
                                             <outlet property="courseNumber" destination="24P-8e-QDh" id="jME-vI-Uh1"/>
                                             <outlet property="courseTitle" destination="3pY-xz-wFx" id="tVz-h1-Xup"/>
+                                            <outlet property="registerButton" destination="rDV-48-FfW" id="ubS-bs-wtH"/>
                                             <outlet property="scheduleType" destination="cnF-vl-VBm" id="DRa-p8-G0h"/>
                                             <outlet property="slots" destination="UaA-4e-8Yj" id="OeL-Fg-mb9"/>
                                         </connections>
@@ -1237,6 +1246,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                     <navigationItem key="navigationItem" title="Catcher" id="acv-yu-Kbb"/>
                     <connections>
                         <outlet property="tableView" destination="LxP-hr-ldo" id="KPl-rD-CCL"/>
+                        <segue destination="8fq-If-vX5" kind="modal" identifier="SearchResultsSegue" id="cnH-rc-rKR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iL9-YP-wLq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1945,7 +1955,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled">
-                                                        <color key="titleColor" patternImage="E4F28AFC-735D-41A6-A684-0D0889BDA706" colorSpace="pattern"/>
+                                                        <color key="titleColor" patternImage="35508062-FDF7-448A-B39F-EA8EEA8C18AD" colorSpace="pattern"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -2077,7 +2087,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                 <navigationController storyboardIdentifier="PCCCatcher" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="s7A-Gw-puP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Catcher" id="JZG-bG-RnV"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="IW7-02-LFK">
+                    <navigationBar key="navigationBar" alpha="0.69999999999999996" contentMode="scaleToFill" id="IW7-02-LFK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="0.25" colorSpace="calibratedRGB"/>
@@ -2744,8 +2754,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="Debug-Bug-icon.png" width="512" height="512"/>
-        <image name="E4F28AFC-735D-41A6-A684-0D0889BDA706" width="256" height="256">
+        <image name="35508062-FDF7-448A-B39F-EA8EEA8C18AD" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -7187,6 +7196,7 @@ BA6JAAQOkQAEDp4ABA6jAAQOpQAEDqcABA6sAAQOtAAEDrcABA68AAQOxAAEDscABA7ZAAQO3AAEDuEA
 AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
 </mutableData>
         </image>
+        <image name="Debug-Bug-icon.png" width="512" height="512"/>
         <image name="basket.png" width="256" height="256"/>
         <image name="cart.png" width="512" height="512"/>
         <image name="comments.png" width="30" height="30"/>
@@ -7206,6 +7216,7 @@ AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="cnH-rc-rKR"/>
         <segue reference="NOC-ve-nAJ"/>
     </inferredMetricsTieBreakers>
 </document>

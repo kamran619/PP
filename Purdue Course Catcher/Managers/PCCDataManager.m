@@ -9,6 +9,7 @@
 #import "PCCDataManager.h"
 #import "PCCObject.h"
 #import "PCFClassModel.h"
+#import "Helpers.h"
 
 @implementation PCCDataManager
 
@@ -44,6 +45,11 @@ static PCCDataManager *_sharedInstance = nil;
     return self;
 }
 
+-(NSMutableDictionary *)topLevelDictionary
+{
+    if (!_topLevelDictionary) _topLevelDictionary = [NSMutableDictionary dictionaryWithCapacity:4];
+    return _topLevelDictionary;
+}
 -(NSMutableDictionary *)dictionaryUser
 {
     if (!_dictionaryUser) _dictionaryUser = [NSMutableDictionary dictionaryWithCapacity:4];
@@ -72,12 +78,6 @@ static PCCDataManager *_sharedInstance = nil;
     return _arrayBasket;
 }
 
-
--(NSMutableArray *)arrayRegister
-{
-    if (!_arrayRegister) _arrayRegister = [NSMutableArray arrayWithCapacity:4];
-    return _arrayRegister;
-}
 
 -(NSMutableArray *)arrayPurchases
 {
@@ -123,8 +123,7 @@ static PCCDataManager *_sharedInstance = nil;
 
 -(BOOL)saveData
 {
-/*    if (self.arrayBasket || self.arrayFavorites || self.arrayProfessors || self.dictionarySchedule || self.arrayTerms || self.dictionaryUser || self.dictionarySubjects) {
- */
+        if ([Helpers getCurrentUser] == NO) return NO;
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docDir = [paths objectAtIndex:0];
         NSString *fullPath = [docDir stringByAppendingFormat:@"/%@", kFileName];
@@ -139,11 +138,7 @@ static PCCDataManager *_sharedInstance = nil;
         }else {
             [dictionary setObject:_arrayBasket forKey:kBasket];
         }
-        if (!_arrayFavorites) {
-            [dictionary setObject:[NSNull null] forKey:kFavorites];
-        }else {
-            [dictionary setObject:_arrayFavorites forKey:kFavorites];
-        }
+
         if (!_arrayProfessors) {
             [dictionary setObject:[NSNull null] forKey:kProfessors];
         }else {
@@ -172,13 +167,8 @@ static PCCDataManager *_sharedInstance = nil;
             [dictionary setObject:_dictionarySubjects forKey:kSubjects];
         }
     
-        if (!_arrayRegister) {
-            [dictionary setObject:[NSNull null] forKey:kRegister];
-        }else {
-            [dictionary setObject:_arrayRegister forKey:kRegister];
-        }
-    
-            return [NSKeyedArchiver archiveRootObject:[dictionary copy] toFile:fullPath];
+    [self.topLevelDictionary setObject:dictionary forKey:kCurrentUser];
+    return [NSKeyedArchiver archiveRootObject:[self.topLevelDictionary copy] toFile:fullPath];
     
 }
 
@@ -189,28 +179,30 @@ static PCCDataManager *_sharedInstance = nil;
     NSString *fullPath = [docDir stringByAppendingFormat:@"/%@", kFileName];
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
     if (fileExists) {
-        NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+        self.topLevelDictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+        NSDictionary *dictionary = [self.topLevelDictionary objectForKey:[Helpers getCurrentUser]];
         
+        if (!dictionary) return NO;
         _arrayPurchases = [dictionary objectForKey:kPurchases];
         _arrayBasket = [dictionary objectForKey:kBasket];
-        _arrayFavorites = [dictionary objectForKey:kFavorites];
+        //_arrayFavorites = [dictionary objectForKey:kFavorites];
         _arrayProfessors = [dictionary objectForKey:kProfessors];
         
         _dictionarySchedule = [dictionary objectForKey:kSchedule];
         _arrayTerms = [dictionary objectForKey:kTerms];
         _dictionaryUser = [dictionary objectForKey:kUser];
         _dictionarySubjects = [dictionary objectForKey:kSubjects];
-        _arrayRegister = [dictionary objectForKey:kRegister];
+        //_arrayRegister = [dictionary objectForKey:kRegister];
         
         if ([_arrayPurchases isEqual:[NSNull null]]) _arrayPurchases = nil;
         if ([_arrayBasket isEqual:[NSNull null]]) _arrayBasket = nil;
-        if ([_arrayFavorites isEqual:[NSNull null]]) _arrayFavorites = nil;
+        //if ([_arrayFavorites isEqual:[NSNull null]]) _arrayFavorites = nil;
         if ([_arrayProfessors isEqual:[NSNull null]]) _arrayProfessors = nil;
         if ([_dictionarySchedule isEqual:[NSNull null]]) _dictionarySchedule = nil;
         if ([_arrayTerms isEqual:[NSNull null]]) _arrayTerms = nil;
         if ([_dictionaryUser isEqual:[NSNull null]]) _dictionaryUser = nil;
         if ([_dictionarySubjects isEqual:[NSNull null]]) _dictionarySubjects = nil;
-        if ([_arrayRegister isEqual:[NSNull null]]) _arrayRegister = nil;
+        //if ([_arrayRegister isEqual:[NSNull null]]) _arrayRegister = nil;
         return YES;
     }
     

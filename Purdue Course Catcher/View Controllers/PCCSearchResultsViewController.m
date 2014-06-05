@@ -129,6 +129,7 @@
     }else {
         obj = [self.dataSource objectAtIndex:indexPath.row];
     }
+    
     cell.course = obj;
     
     NSArray *timeArray = [Helpers splitTime:obj.time];
@@ -234,6 +235,8 @@
     [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registering..."];
     NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
     PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    PCFClassModel *course = [courses lastObject];
+    if (course.term) registrationTerm.value = course.term;
     NSString *pin = [dictionary objectForKey:registrationTerm.value];
     
     [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
@@ -414,7 +417,7 @@
             [newCell.activityIndicator stopAnimating];
             [newCell.slots setText:[NSString stringWithFormat:@"SLOTS: %@/%@", slots.enrolled, slots.capacity]];
             newCell.actionButton.enabled = allowAction;
-            if (slots.enrolled.intValue <= 0 || 1) {
+            if (slots.enrolled.intValue <= 0) {
                 //no slots left
                 [newCell setupCatcherWithCourse:class];
             }else {

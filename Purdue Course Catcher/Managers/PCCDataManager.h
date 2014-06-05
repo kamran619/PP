@@ -73,18 +73,18 @@ typedef enum
 //withint he subject dictionry
 #define kSubject @"kSubject"
 #define kScheduleType @"kScheduleType"
+#define kCurrentUser @"kCurrentUser"
 
-@property (nonatomic, strong) NSMutableArray *arrayRegister;
-@property (nonatomic, strong) NSMutableArray *arrayFavorites;
+//key:value = user:dictionary
+@property (nonatomic, strong) NSMutableDictionary *topLevelDictionary;
+
 @property (nonatomic, strong) NSMutableArray *arrayBasket;
 @property (nonatomic, strong) NSMutableArray *arrayTerms;
 @property (nonatomic, strong) NSMutableArray *arrayProfessors;
 @property (nonatomic, strong) NSMutableArray *arrayPurchases;
 
 @property (nonatomic, strong) NSMutableDictionary *dictionarySubjects;
-
 @property (nonatomic, strong) NSMutableDictionary *dictionarySchedule;
-
 @property (nonatomic, strong) NSMutableDictionary *dictionaryUser;
 
 @end

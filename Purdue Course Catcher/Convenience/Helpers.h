@@ -82,6 +82,8 @@ enum PurdueColor {
 
 +(BOOL)getInitialization;
 +(void)setInitialization;
++(void)setCurrentUser:(NSString *)user;
++(NSString *)getCurrentUser;
 +(NSDictionary *)getCredentials;
 
 
