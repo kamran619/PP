@@ -12,6 +12,7 @@
 #import "Helpers.h"
 #import "MyPurdueManager.h"
 #import "PCCCourseSlots.h"
+#import "PCCDataManager.h"
 
 @interface PCCCatcherViewController ()
 
@@ -41,6 +42,14 @@
     numberFetched = 0;
 	// Do any additional setup after loading the view.
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self reloadTableViewDataSource];
+}
+
+
 - (void)initRefreshView
 {
     if (refreshView == nil) {
@@ -69,6 +78,8 @@
     PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
     [cell.courseNumber setText:class.courseNumber];
     [cell.courseTitle setText:class.classTitle];
+    [cell.scheduleType setText:class.scheduleType];
+    [cell.CRN setText:class.CRN];
     [cell.activityIndicator startAnimating];
     cell.slots.alpha = 0.0f;
     [Helpers asyncronousBlockWithName:@"Get Slots" AndBlock:^{
@@ -108,6 +119,7 @@
 	//  should be calling your tableviews data source model to reload
     numberFetched = 0;
     isLoading = YES;
+    self.dataSource = [[PCCDataManager sharedInstance] arrayBasket];
 	[self.tableView reloadData];
 }
 

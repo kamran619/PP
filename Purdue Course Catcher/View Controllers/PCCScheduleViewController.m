@@ -54,11 +54,13 @@ enum AnimationDirection
     PCCObject *preferredSchedule;
     NSArray *scheduleArray;
     NSArray *dayArray;
+    NSArray *coursesToRegister;
     PCCScheduleHeaderViewController *headerViewController;
     NSString *currentDay;
     BOOL isLoading;
     EGORefreshTableHeaderView *refreshView;
     AnimationDirection animationDirection;
+    void (^dropBlock)(PCCObject *obj, NSString *pin, NSArray *classesToDrop);
     int professorRatingIndex;
     int courseRatingIndex;
     int emailIndex;
@@ -330,59 +332,86 @@ enum AnimationDirection
 {
     if (buttonIndex == actionSheet.cancelButtonIndex) return;
     
+    
     PCFClassModel *course = [dayArray objectAtIndex:actionSheet.tag];
     __block NSArray *arrayOfDroppedCourses = nil;
-    
+    void (^completionBlock)(PCCObject *registrationTerm, NSString *pin, NSArray *arrayOfDroppedCourses) = ^void(PCCObject *registrationTerm, NSString *pin, NSArray *arrayOfDroppedCourses){
+        NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value withPin:pin];
+        int response = [[registrationDict objectForKey:@"response"] intValue];
+        if (response == PCCErrorOk) {
+            if (!arrayOfDroppedCourses) {
+                arrayOfDroppedCourses = [self getLinkedClasses:course fromClasses:[registrationDict objectForKey:@"data"]];
+            }
+            NSString *query = [[MyPurdueManager sharedInstance] generateQueryString:[registrationDict objectForKey:@"data"] andRegisteringCourses:nil andDroppingCourses:arrayOfDroppedCourses];
+            self.responseDictionary = [[MyPurdueManager sharedInstance] submitRegistrationChanges:query];
+            NSNumber *response = [self.responseDictionary objectForKey:@"response"];
+            int val = response.intValue;
+            if (val == PCCErrorOk) {
+                //register..this is a valid pin
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Dropped" success:YES];
+                    dayArray = nil;
+                    isLoading = YES;
+                    [self.activityIndicator startAnimating];
+                    [self.tableView reloadData];
+                    [self immediatelyFetchSchedule];
+                });
+            }else if (val  == PCCErrorUnkownError) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[PCCHUDManager sharedInstance] dismissHUD];
+                    [self performSegueWithIdentifier:@"SegueRegistrationStatus" sender:self];
+                });
+            }
+        }else if (response == PCCErrorUnkownError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[PCCHUDManager sharedInstance] dismissHUD];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[registrationDict objectForKey:@"error"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alertView show];
+            });
+        }else if (response == PCCErrorInvalidPin) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[PCCHUDManager sharedInstance] dismissHUD];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                UITextField *textField = [alertView textFieldAtIndex:0];
+                textField.keyboardType = UIKeyboardTypeNumberPad;
+                [alertView show];
+                coursesToRegister = arrayOfDroppedCourses;
+            });
+        }
+    };
+
     if (buttonIndex == actionSheet.destructiveButtonIndex) {
         //drop class
         [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Dropping..."];
         [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
             NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
-            PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+            PCCObject *registrationTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
             NSString *pin = [dictionary objectForKey:registrationTerm.value];
-            NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:registrationTerm.value withPin:pin];
-            int response = [[registrationDict objectForKey:@"response"] intValue];
-            if (response == PCCErrorOk) {
-                if (!arrayOfDroppedCourses) {
-                    arrayOfDroppedCourses = [self getLinkedClasses:course fromClasses:[registrationDict objectForKey:@"data"]];
-                }
-                NSString *query = [[MyPurdueManager sharedInstance] generateQueryString:[registrationDict objectForKey:@"data"] andRegisteringCourses:nil andDroppingCourses:arrayOfDroppedCourses];
-                self.responseDictionary = [[MyPurdueManager sharedInstance] submitRegistrationChanges:query];
-                NSNumber *response = [self.responseDictionary objectForKey:@"response"];
-                int val = response.intValue;
-                if (val == PCCErrorOk) {
-                    //register..this is a valid pin
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Dropped" success:YES];
-                        dayArray = nil;
-                        isLoading = YES;
-                        [self.activityIndicator startAnimating];
-                        [self.tableView reloadData];
-                        [self immediatelyFetchSchedule];
-                    });
-                }else if (val  == PCCErrorUnkownError) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[PCCHUDManager sharedInstance] dismissHUD];
-                        [self performSegueWithIdentifier:@"SegueRegistrationStatus" sender:self];
-                    });
-                }
-            }else if (response == PCCErrorUnkownError) {
+            NSArray *validRegistrationTerms = [[MyPurdueManager sharedInstance] getRegistrationTerms];
+            if (![validRegistrationTerms containsObject:registrationTerm]) {
+                [[PCCHUDManager sharedInstance] dismissHUD];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Action" message:[NSString stringWithFormat:@"Purdue is not currently accepting add/drop changes for %@.", [registrationTerm.key substringToIndex:registrationTerm.key.length-1]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[PCCHUDManager sharedInstance] dismissHUD];
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[registrationDict objectForKey:@"error"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     [alertView show];
                 });
-            }else if (response == PCCErrorInvalidPin) {
-                /*dispatch_async(dispatch_get_main_queue(), ^{
-                 [[PCCHUDManager sharedInstance] dismissHUD];
-                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
-                 [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-                 UITextField *textField = [alertView textFieldAtIndex:0];
-                 textField.keyboardType = UIKeyboardTypeNumberPad;
-                 [alertView show];
-                 coursesToRegister = courses;
-                 });*/
-            }        }andFailure:^{
+                return;
+            }
+            if (!pin) pin = [[MyPurdueManager sharedInstance] getPinForSemester:registrationTerm.value];
+                if (pin) completionBlock(registrationTerm, pin, arrayOfDroppedCourses);
+                else {
+                    [[PCCHUDManager sharedInstance] dismissHUD];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Verification" message:[NSString stringWithFormat:@"What is your PIN for %@", registrationTerm.key] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Enter", nil];
+                    alertView.tag = 1;
+                    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+                    UITextField *textField = [alertView textFieldAtIndex:0];
+                    textField.keyboardType = UIKeyboardTypeNumberPad;
+                    [alertView show];
+                    coursesToRegister = arrayOfDroppedCourses;
+                    dropBlock = [completionBlock copy];
+                }
+            
+        }andFailure:^{
                 [[PCCHUDManager sharedInstance] dismissHUD];
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Purdue login credentials you have provided are invalid or have changed. Please update these to continue fully using this app." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Update" , nil];
                 alertView.tag = 1;
@@ -637,6 +666,34 @@ enum AnimationDirection
 #pragma mark UIAlertView Delegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (alertView.tag == 1) {
+        PCCObject *selectedObject = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        if (textField.text.length == 6) {
+            NSMutableDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPinDictionary];
+            if (!dictionary) dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
+            [[PCCHUDManager sharedInstance] performSelector:@selector(showHUDWithCaption:) withObject:@"Verifying..." afterDelay:0.7f];
+            [[MyPurdueManager sharedInstance] loginWithSuccessBlock:^{
+                NSDictionary *registrationDict = [[MyPurdueManager sharedInstance] canRegisterForTerm:selectedObject.value withPin:textField.text];
+                if ([registrationDict objectForKey:@"response"] == PCCErrorOk) {
+                    [dictionary setObject:textField.text forKey:selectedObject.value];
+                    [[PCCDataManager sharedInstance] setObject:dictionary ForKey:kPinDictionary InDictionary:DataDictionaryUser];
+                    [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Valid PIN" success:YES];
+                    if (dropBlock) dropBlock(selectedObject, textField.text, coursesToRegister);
+                }else {
+                    [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Incorrect PIN" success:NO];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) 1.0f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                        [alertView show];
+                    });
+                }
+            }andFailure:nil];
+        }else {
+            UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"Error" message:@"PIN must be 6 digits" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [view show];
+        }
+
+        return;
+    }
     if (alertView.cancelButtonIndex != buttonIndex) {
         PCCPurdueLoginViewController *loginVC = (PCCPurdueLoginViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCPurdueLogin"];
         [self presentViewController:loginVC animated:YES completion:nil];

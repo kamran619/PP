@@ -110,6 +110,12 @@
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
 
+    if (application.applicationState == UIApplicationStateActive) {
+        //app is active
+    }else if (application.applicationState == UIApplicationStateBackground) {
+        //app is in the background
+        
+    }
     /*if (launchOptions)
     {
         launchOptions = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -119,7 +125,7 @@
         PCCMenuViewController *menuVC  = [[PCCMenuViewController alloc] initCentralViewControllerWithViewController:controller];
         self.window.rootViewController = menuVC;
         application.applicationIconBadgeNumber = 0;
-}*/
+    }*/
 
 }
 

@@ -141,6 +141,7 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationReceivedFTUEComplete object:[PCFNetworkManager sharedInstance] userInfo:user];
             }else {
                 NSLog(@"Error getting fbid");
+                NSLog(@"%@", error.description);
             }
 
         }];

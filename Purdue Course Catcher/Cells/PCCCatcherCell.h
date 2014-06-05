@@ -13,5 +13,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *courseTitle;
 @property (nonatomic, strong) IBOutlet UILabel *courseNumber;
 @property (nonatomic, strong) IBOutlet UILabel *slots;
+@property (nonatomic, strong) IBOutlet UILabel *scheduleType;
+@property (nonatomic, strong) IBOutlet UILabel *CRN;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @end
