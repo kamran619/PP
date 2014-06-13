@@ -50,6 +50,7 @@ static PCCDataManager *_sharedInstance = nil;
     if (!_topLevelDictionary) _topLevelDictionary = [NSMutableDictionary dictionaryWithCapacity:4];
     return _topLevelDictionary;
 }
+
 -(NSMutableDictionary *)dictionaryUser
 {
     if (!_dictionaryUser) _dictionaryUser = [NSMutableDictionary dictionaryWithCapacity:4];
@@ -123,7 +124,7 @@ static PCCDataManager *_sharedInstance = nil;
 
 -(BOOL)saveData
 {
-        if ([Helpers getCurrentUser] == NO) return NO;
+        if ([Helpers getCurrentUser] == nil) return NO;
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docDir = [paths objectAtIndex:0];
         NSString *fullPath = [docDir stringByAppendingFormat:@"/%@", kFileName];
@@ -167,8 +168,9 @@ static PCCDataManager *_sharedInstance = nil;
             [dictionary setObject:_dictionarySubjects forKey:kSubjects];
         }
     
-    [self.topLevelDictionary setObject:dictionary forKey:kCurrentUser];
-    return [NSKeyedArchiver archiveRootObject:[self.topLevelDictionary copy] toFile:fullPath];
+    
+    [self.topLevelDictionary setObject:dictionary forKey:[Helpers getCurrentUser]];
+    return [NSKeyedArchiver archiveRootObject:[self.topLevelDictionary mutableCopy] toFile:fullPath];
     
 }
 
@@ -179,10 +181,20 @@ static PCCDataManager *_sharedInstance = nil;
     NSString *fullPath = [docDir stringByAppendingFormat:@"/%@", kFileName];
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
     if (fileExists) {
-        self.topLevelDictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
-        NSDictionary *dictionary = [self.topLevelDictionary objectForKey:[Helpers getCurrentUser]];
+        _topLevelDictionary = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+        NSDictionary *dictionary = [_topLevelDictionary objectForKey:[Helpers getCurrentUser]];
         
-        if (!dictionary) return NO;
+        if (!dictionary) {
+            _arrayPurchases = nil;
+            _arrayBasket = nil;
+            _arrayProfessors = nil;
+            _dictionarySchedule = nil;
+            _arrayTerms = nil;
+            _dictionaryUser = nil;
+            _dictionarySubjects = nil;
+            return NO;
+        }
+        
         _arrayPurchases = [dictionary objectForKey:kPurchases];
         _arrayBasket = [dictionary objectForKey:kBasket];
         //_arrayFavorites = [dictionary objectForKey:kFavorites];

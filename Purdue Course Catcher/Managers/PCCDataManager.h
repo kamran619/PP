@@ -87,4 +87,6 @@ typedef enum
 @property (nonatomic, strong) NSMutableDictionary *dictionarySchedule;
 @property (nonatomic, strong) NSMutableDictionary *dictionaryUser;
 
+@property (nonatomic, strong) NSString *currentUser;
+
 @end

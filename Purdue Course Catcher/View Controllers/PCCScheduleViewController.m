@@ -82,13 +82,13 @@ enum AnimationDirection
     animationDirection = AnimationDirectionLeft;
     [self initRefreshView];
     [self initHeader];
+    [self loadSchedule];
     // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self loadSchedule];
 }
 
 - (void)initRefreshView
@@ -156,7 +156,7 @@ enum AnimationDirection
         if ([[MyPurdueManager sharedInstance] loginWithUsername:username andPassword:password] == NO) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Purdue login credentials you have provided are invalid or have changed. Please update these to continue fully using this app." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Update" , nil];
-                alertView.tag = 1;
+                alertView.tag = 2;
                 [alertView show];
             });
         }else {
@@ -414,7 +414,7 @@ enum AnimationDirection
         }andFailure:^{
                 [[PCCHUDManager sharedInstance] dismissHUD];
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Purdue login credentials you have provided are invalid or have changed. Please update these to continue fully using this app." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Update" , nil];
-                alertView.tag = 1;
+                alertView.tag = 2;
                 [alertView show];
             }];
         return;

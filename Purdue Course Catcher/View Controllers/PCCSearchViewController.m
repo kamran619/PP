@@ -68,7 +68,7 @@
     PCCObject *preferredSearchTerm = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
     
     if (!preferredSearchTerm) {
-        [self choosePreferredTerm:nil];
+        //[self choosePreferredTerm:nil];
     }else {
         //we have the preferred search term saved..lets let them directly search
         myPreferredSearchTerm = [[PCCObject alloc] initWithKey:preferredSearchTerm.key AndValue:preferredSearchTerm.value];
@@ -519,6 +519,15 @@
 
 -(BOOL)validateInput
 {
+    
+    PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredSearchTerm];
+    if (!term) {
+        //[[TWMessageBarManager sharedInstance] showMessageWithTitle:@"No Search Term" description:@"Click on the top left button to select a term to search from" type:TWMessageBarMessageTypeError];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Search Term" message:@"Click on the top left button to select a term to search from" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+        return NO;
+    }
+    
     BOOL validation = YES;
     
     if (self.segmentedControl.selectedSegmentIndex == searchCourse) {

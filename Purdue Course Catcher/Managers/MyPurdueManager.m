@@ -115,17 +115,20 @@ static MyPurdueManager *_sharedInstance = nil;
     [request setHTTPBody:requestBody];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     data = [[self class] queryServerWithRequest:request];
-    //login response received
+    //login respo/Users/kamranpirwani/Desktop/Git/PCC/Purdue Course Catcher.xcodeprojnse received
     //validate it
     NSRange range = [data rangeOfString:@"loginok.html" options:NSCaseInsensitiveSearch];
     
     //lets get their information if we have never gotten it
     if (range.location != NSNotFound) {
+        [Helpers setCurrentUser:user];
         if (![[PCCDataManager sharedInstance].dictionaryUser objectForKey:kEducationInfoDictionary]) {
             [Helpers asyncronousBlockWithName:@"Get Student Info" AndBlock:^{
                 NSDictionary *studentDictionary = [[MyPurdueManager sharedInstance] getStudentInformation];
-                
                 [[PCCDataManager sharedInstance] setObject:studentDictionary ForKey:kEducationInfoDictionary InDictionary:DataDictionaryUser];
+                if (![Helpers getInitialization]) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationReceivedFTUEComplete object:nil];
+                }
                 //no longer need to send here, sent at the end of the FTUE
                 //[[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandUpdate withDictionary:studentDictionary];
             }];

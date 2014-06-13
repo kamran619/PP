@@ -295,8 +295,17 @@
 
 +(void)setCurrentUser:(NSString *)user
 {
-    if (!user) [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCurrentUser];
-    else [[NSUserDefaults standardUserDefaults] setObject:user forKey:kCurrentUser];
+    if (!user) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCurrentUser];
+        [[PCCDataManager sharedInstance] loadData];
+    }else  {
+        NSString *oldUser = [[self class] getCurrentUser];
+        if ([oldUser isEqualToString:user]) return;
+        [[PCCDataManager sharedInstance] saveData];
+        [[NSUserDefaults standardUserDefaults] setObject:user forKey:kCurrentUser];
+        [[PCCDataManager sharedInstance] loadData];
+    }
+    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 @end

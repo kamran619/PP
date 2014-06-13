@@ -187,11 +187,11 @@ enum sections
             if (loggedIn) {
                 self.myPurdueCell.title.text = @"Username";
                 self.myPurdueCell.detail.text = @"LOG IN";
-                [[PCCDataManager sharedInstance].dictionaryUser removeObjectForKey:kCredentials];
                 [Helpers setCurrentUser:nil];
+                //zero everything out
                 loggedIn = NO;
-                PCCFTUEViewController *vc = [[PCCFTUEViewController alloc] initWithNibName:@"PCCFTUEViewController" bundle:nil];
-                [self presentViewController:vc animated:YES completion:nil];
+                PCCFTUEViewController *vc = (PCCFTUEViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCFTUEViewController"];
+                [self presentViewController:vc animated:NO completion:nil];
             }
             //}else {
             //    [self performSegueWithIdentifier:@"SegueLoginViewController" sender:self];

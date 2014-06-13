@@ -15,18 +15,18 @@
 #import "PCCPurdueLoginViewController.h"
 #import "PCCFacebookLoginViewController.h"
 #import "DropAnimationController.h"
+#import "UIView+Animations.h"
 
 @interface PCCFTUEViewController ()
 
 @end
 
-#define NUMBER_OF_PAGES 4
+#define NUMBER_OF_PAGES 5
 
 @implementation PCCFTUEViewController
 {
     NSInteger currentPage;
     BOOL firstTime;
-    BOOL animating;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -42,74 +42,100 @@
 {
     [super viewDidLoad];
     [self initFTUE];
-    if (self.fbLaunched == 1) {
-        [self.scrollView setContentOffset:CGPointMake(320*NUMBER_OF_PAGES, 0) animated:NO];
-        self.scrollView.scrollEnabled = NO;
-    }else {
-        firstTime = YES;
-        self.animationController = [[DropAnimationController alloc] init];
-        [self initAnimations];
-        [self animateIn];
+}
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (firstTime == YES) {
+        firstTime = NO;
+        [self animateIn];
     }
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (!firstTime) {
+        if ([self loggedIn] == YES) {
+            [Helpers setHasRanAppBefore];
+            if ([Helpers getInitialization] == NO) {
+                [[PCCHUDManager sharedInstance] showHUDWithCaption:@"Registering..."];
+            }else {
+                if (!self.presentingViewController) {
+                    [[UIApplication sharedApplication].delegate window].rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCTabBar"];
+                }else {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }
+            }
+        }
+    }
+}
+
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    animating = NO;
-}
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if ([self loggedIn]) {
-        self.scrollView.scrollEnabled = YES;
-        [self scrollToRight:nil];
-    }
-    
-    if (!animating) [self moveBubble];
+    [self.activePageIndicator.layer removeAllAnimations];
 }
 
+-(void)notificationWithName:(NSString *)name object:(id)object
+{
+    
+}
 -(BOOL)loggedIn
 {
-    NSDictionary *dictionary = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kCredentials];
-    return (dictionary!=nil);
+    return [Helpers getCurrentUser] != nil;
 }
 
 - (void)initFTUE
 {
     currentPage = 0;
+    firstTime = YES;
+    self.animationController = [[DropAnimationController alloc] init];
     //init buttons
-    self.purdueButton.layer.cornerRadius = 9.0f;
-    self.facebookButton.layer.cornerRadius = 9.0f;
+    self.loginButton.layer.cornerRadius = 9.0f;
+    //self.facebookButton.layer.cornerRadius = 9.0f;
     //scrollview
-    self.scrollView.backgroundColor = [Helpers purdueColor:PurdueColorMidGrey];
-    [self.scrollView setScrollEnabled:NO];
-    [self.scrollView setContentSize:CGSizeMake(320*(NUMBER_OF_PAGES+1), 0)];
-    [self.pageControl setNumberOfPages:NUMBER_OF_PAGES];
-    UIView *view = [PCCFacebookLoginViewController sharedInstance].view;
-    CGRect offsetFrame = CGRectOffset(view.frame, 0, 0);
-    [view setFrame:offsetFrame];
-    [view setAlpha:0.0f];
-    [[PCCFacebookLoginViewController sharedInstance] willMoveToParentViewController:self];
-    [self.scrollView addSubview:view];
-    [self addChildViewController:[PCCFacebookLoginViewController sharedInstance]];
-    [[PCCFacebookLoginViewController sharedInstance] didMoveToParentViewController:self];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    [self.facebookButton addTarget:[PCCFacebookLoginViewController sharedInstance] action:@selector(loginPushed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.skipButton addTarget:self action:@selector(skipFacebook:) forControlEvents:UIControlEventTouchUpInside];
-#pragma clang diagnostic pop
-    [self.purdueButton setBackgroundColor:[Helpers purdueColor:PurdueColorYellow]];
-    self.mainBody.font = self.thirdLabel.font;
-    self.subBody.font = self.thirdLabel.font;
+    //self.scrollView.backgroundColor = [Helpers purdueColor:PurdueColorMidGrey];
+    [self.scrollView setScrollEnabled:YES];
+    [self.scrollView setContentSize:CGSizeMake(320, self.scrollView.frame.size.height * (NUMBER_OF_PAGES))];
+    //[self.pageControl setNumberOfPages:NUMBER_OF_PAGES];
+    //UIView *view = [PCCFacebookLoginViewController sharedInstance].view;
+    //CGRect offsetFrame = CGRectOffset(view.frame, 0, 0);
+    //[view setFrame:offsetFrame];
+    //[view setAlpha:0.0f];
+    //[[PCCFacebookLoginViewController sharedInstance] willMoveToParentViewController:self];
+    //[self.scrollView addSubview:view];
+    //[self addChildViewController:[PCCFacebookLoginViewController sharedInstance]];
+    //[[PCCFacebookLoginViewController sharedInstance] didMoveToParentViewController:self];
+    //#pragma clang diagnostic push
+    //#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    //[self.facebookButton addTarget:[PCCFacebookLoginViewController sharedInstance] action:@selector(loginPushed:) forControlEvents:UIControlEventTouchUpInside];
+    //[self.skipButton addTarget:self action:@selector(skipFacebook:) forControlEvents:UIControlEventTouchUpInside];
+    //#pragma clang diagnostic pop
+    [self.loginButton setBackgroundColor:[Helpers purdueColor:PurdueColorYellow]];
+    //self.mainBody.font = self.thirdLabel.font;
+    //self.subBody.font = self.thirdLabel.font;
     
     for (UILabel *label in self.scrollView.subviews) {
         if (label.tag == 0) continue;
-        int xPosition = label.tag * 320;
-        label.frame = CGRectOffset(label.frame, xPosition, 0);
+        int yPosition = (label.frame.origin.y + self.scrollView.frame.size.height*label.tag);
+        label.frame = CGRectOffset(label.frame, 0, yPosition);
     }
     
+    CGRect frame = self.loginButton.frame;
+    self.loginButton.frame = CGRectOffset(frame, 0, (NUMBER_OF_PAGES-1) * self.scrollView.frame.size.height);
+    
+    [self initAnimations];
+    
+    [self pageChanged:0];
+    
+    if ([Helpers isPhone5]) {
+
+    }else {
+        
+    }
     //self.facebookButton.frame = CGRectOffset(self.facebookButton.frame, self.facebookButton.tag*320, 0);
 }
 
@@ -130,20 +156,14 @@
     
     CGAffineTransform t = CGAffineTransformMakeTranslation(0, -250);
     
-    self.bigB.transform = t;
-    self.bigBTwo.transform = t;
-    
-    t = CGAffineTransformMakeTranslation(0, 50);
-    
-    self.bubbles.transform = t;
-    //self.bigP.transform = t;
+    self.bigPFirst.transform = t;
+    self.bigPSecond.transform = t;
 
     
 }
 
 -(void)animateIn
 {
-    animating = YES;
     /*
     [UIView animateKeyframesWithDuration:1.75f delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeCubic animations:^{
         [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:0.25 animations:^{
@@ -174,11 +194,11 @@
     */
      
     [UIView animateWithDuration:0.35f delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.bigB.transform = CGAffineTransformIdentity;
+        self.bigPFirst.transform = CGAffineTransformIdentity;
     }completion:^(BOOL finished) {
         if (finished) {
             [UIView animateWithDuration:0.35f delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                self.bigBTwo.transform = CGAffineTransformIdentity;
+                self.bigPSecond.transform = CGAffineTransformIdentity;
             }completion:^(BOOL finished) {
                 if (finished) {
                             [UIView animateWithDuration:0.45f delay:0.0f usingSpringWithDamping:0.2f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -189,15 +209,7 @@
                                 self.thirdLabel.alpha = 1.0f;
                                 self.thirdLabel.transform = CGAffineTransformIdentity;
                             }completion:^(BOOL finished) {
-                                if (finished) {
-                                    self.bubbles.alpha = 0.0f;
-                                    [UIView animateWithDuration:0.45f animations:^{
-                                        self.bubbles.alpha = 1.0f;
-                                        self.bubbles.transform = CGAffineTransformIdentity;
-                                    }completion:^(BOOL finished) {
-                                        if (finished) [self performSelector:@selector(moveContentIn) withObject:nil afterDelay:0.75f];
-                                    }];
-                                }
+                                [self performSelectorOnMainThread:@selector(moveContentIn) withObject:nil waitUntilDone:0.50f];
                             }];
                         }
                     }];
@@ -205,7 +217,33 @@
             }];
 }
 
+-(void)toggleActivePage
+{
+    const int threshhold = 2;
+    CGRect frame = self.activePageIndicator.frame;
+    [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:5.0f options:UIViewAnimationOptionCurveLinear animations:^{
+        self.activePageIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + threshhold);
+    }completion:^(BOOL finished) {
+        if (finished) {
+            [UIView animateWithDuration:0.50f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:5.0f options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveLinear animations:^{
+                    CGRect frame = self.activePageIndicator.frame;
+                    self.activePageIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height - threshhold);
+            }completion:^(BOOL finished) {
+                if (finished) [self toggleActivePage];
+            }];
+        }
+    }];
+}
 -(void)moveContentIn
+{
+    [self.activePageIndicator fadeIn];
+    [self.inactivePageIndicator fadeIn];
+    [self toggleActivePage];
+    [self.scrollView fadeIn];
+    [self transitionText:0 title:@"Welcome! " message:@"Swipe up to proceed"];
+}
+
+-(void)transitionText:(int)page title:(NSString *)titleText message:(NSString *)messageText
 {
     CATransition *transition = [CATransition animation];
     [transition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
@@ -215,21 +253,40 @@
     [transition setDuration:0.75f];
     [transition setDelegate:self];
     //
+    
+    self.mainBody.text = @"";
+    self.subBody.text = @"";
+    
+    if (page == NUMBER_OF_PAGES - 1) {
+        self.mainBody.layer.transform = CATransform3DMakeTranslation(0, self.scrollView.frame.size.height * page, 0);
+        self.subBody.layer.transform = CATransform3DMakeTranslation(0, self.scrollView.frame.size.height * page, 0);
+        /*
+         CGRect frame = self.mainBody.frame;
+         self.mainBody.frame = CGRectMake(frame.origin.x, frame.origin.y + (self.scrollView.frame.size.height * page), frame.size.width, frame.size.height);
+        frame = self.subBody.frame;
+        self.subBody.frame = CGRectMake(frame.origin.x, frame.origin.y + (self.scrollView.frame.size.height * page), frame.size.width, frame.size.height);
+         */
+    }else {
+        self.mainBody.layer.transform = CATransform3DIdentity;
+        self.subBody.layer.transform = CATransform3DIdentity;
+    }
+    [transition setValue:[NSNumber numberWithInt:page] forKey:@"tag"];
     [self.mainBody.layer addAnimation:transition forKey:@"changeTextTransition"];
-    self.mainBody.text = @"Welcome! ";
+    self.mainBody.text = titleText;
     [self.subBody.layer addAnimation:transition forKey:@"changeTextTransition"];
-    self.subBody.text = @"Verify you are affiliated with Purdue to proceed.";
+    self.subBody.text = messageText;
 }
 
 -(void)flashButtons
 {
-    [UIView transitionWithView:self.purdueButton duration:1.0f options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
-        self.purdueButton.alpha = 1.0f;
+    [UIView transitionWithView:self.loginButton duration:1.0f options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+        self.loginButton.alpha = 1.0f;
     }completion:^(BOOL finished) {
-        if (finished) [self moveBubble];
+        //if (finished) [self moveBubble];
     }];
 }
 
+/*
 -(void)moveBubble
 {
     [UIView animateWithDuration:4.0f animations:^{
@@ -244,15 +301,17 @@
         }
     }];
 }
+*/
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     if ([[anim valueForKey:@"animation"] isEqualToString:@"animationID"]) {
         //social animation
-        [self performSelector:@selector(showSocial) withObject:nil afterDelay:2.5f];
     }else {
-        if (flag) {
+        if ([[anim valueForKey:@"tag"] isEqualToNumber:[NSNumber numberWithInt:NUMBER_OF_PAGES-1]]) {
             [self flashButtons];
+        }else {
+            self.loginButton.alpha = 0.0f;
         }
     }
 }
@@ -267,21 +326,51 @@
 }
 
 #pragma mark UIScrollView Delegate
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGFloat pageWidth = scrollView.frame.size.width;
-    int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth);
-    if (page < 0 || page >= self.pageControl.numberOfPages) return;
-    self.pageControl.currentPage = page;
+    CGFloat pageHeight = scrollView.frame.size.height;
+    int page = floor((self.scrollView.contentOffset.y - pageHeight / 2) / pageHeight) + 1;
+    if (page == currentPage) return;
+    currentPage = page;
+    [self pageChanged:page];
+    if (page == 0) {
+        [self transitionText:0 title:@"Welcome! " message:@"Swipe up to proceed"];
+    }else if (page == NUMBER_OF_PAGES - 1) [self transitionText:page title:@"Verify you are affiliated with Purdue to continue." message:@""];
+    else {
+        self.mainBody.text = @"";
+        self.subBody.text = @"";
+        self.loginButton.alpha = 0.0f;
+    }
 }
 
+
+/*
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    CGFloat pageWidth = scrollView.frame.size.width;
-    int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth);
-    if (page ==  self.pageControl.numberOfPages-1) [self showSocial];
+    CGFloat pageHeight = scrollView.frame.size.height;
+    int page = floor((self.scrollView.contentOffset.y - pageHeight / 2) / pageHeight) + 1;
+    [self pageChanged:page];
+    if (page == 0) {
+        [self transitionText:0 title:@"Welcome! " message:@"Swipe up to proceed"];
+    }else if (page == NUMBER_OF_PAGES - 1) [self transitionText:page title:@"" message:@"Verify you are affiliated with Purdue to continue."];
+    //if (page ==  self.pageControl.numberOfPages-1) [self showSocial];
 }
+*/
 
+-(void)pageChanged:(int)page
+{
+    [self.activePageIndicator.layer removeAllAnimations];
+    CGRect frame = self.activePageIndicator.frame;
+    CGFloat activePageSlice = self.view.frame.size.height/NUMBER_OF_PAGES;
+    [UIView animateWithDuration:0.25f delay:0.0f options:UIViewAnimationCurveLinear|UIViewAnimationOptionBeginFromCurrentState  animations:^{
+           self.activePageIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, activePageSlice + (page * activePageSlice));
+    } completion:^(BOOL finished) {
+        if (finished) [self toggleActivePage];
+    }];
+    
+}
+/*
 -(void)skipFacebook:(id)sender
 {
     if (![Helpers hasRanAppBefore])  {
@@ -325,7 +414,7 @@
     [self.socialText setText:strings[counter++ % strings.count]];
 
 }
-
+*/
 -(void)dismissMe
 {
     if ([NSThread isMultiThreaded]) {
@@ -333,12 +422,6 @@
         return;
     }
     [self dismissViewControllerAnimated:YES completion:nil];
-}
--(IBAction)scrollToRight:(id)sender
-{
-    [self.scrollView setContentOffset:CGPointMake(320, 0) animated:YES];
-    self.pageControl.hidden = NO;
-    
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented

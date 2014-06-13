@@ -220,7 +220,17 @@ static PCFNetworkManager *_sharedInstance = nil;
             break;
             
         case ServerCommandInitialization:
-        
+        {
+            [Helpers setInitialization];
+            [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Registered" success:YES];
+            if ([[[UIApplication sharedApplication].delegate window].rootViewController isKindOfClass:[PCCFTUEViewController class]]) {
+                    //FTUE is root vc
+                [[UIApplication sharedApplication].delegate window].rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCTabBar"];
+            }else {
+                //
+                [[[UIApplication sharedApplication].delegate window].rootViewController dismissViewControllerAnimated:YES completion:nil];
+            }
+        }
             break;
         default:
             break;

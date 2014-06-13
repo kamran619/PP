@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-#define SERVER_ADDRESS @"192.168.1.101"//@"PCW.crabdance.com"
+#define SERVER_ADDRESS @"127.0.0.1"//@"PCW.crabdance.com"
 #define PORT 12345
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
 
 #define kNotificationReceivedFacebookIdentifier @"kNotificationReceivedFacebookIdentifier"
 #define kNotificationReceivedFTUEComplete @"kNotificationReceivedFTUEComplete"
-
+#define kNotificationReceivedFTUERegistered @"kNotificationReceivedFTUERegistered"
 
 @class PCFClassModel;
 

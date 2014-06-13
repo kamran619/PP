@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE1234D61949059300DC324B /* planner.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1234D51949059300DC324B /* planner.png */; };
+		FE1234D81949062A00DC324B /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1234D71949062A00DC324B /* book.png */; };
+		FE1234DA1949083D00DC324B /* planner2.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1234D91949083D00DC324B /* planner2.png */; };
 		FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE18308E188AF90C00EC68FC /* PCCTermViewController.m */; };
 		FE2410541873C6B000AA6328 /* icon-error.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104C1873C6B000AA6328 /* icon-error.png */; };
 		FE2410551873C6B000AA6328 /* icon-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104D1873C6B000AA6328 /* icon-error@2x.png */; };
@@ -22,7 +25,6 @@
 		FE241082187545A400AA6328 /* PCCHUDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE241081187545A400AA6328 /* PCCHUDManager.m */; };
 		FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24108718754A2200AA6328 /* KPLightBoxManager.m */; };
 		FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFD4187DF27E004D540E /* PCCFTUEViewController.m */; };
-		FE24FFD7187DF27E004D540E /* PCCFTUEViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFD5187DF27E004D540E /* PCCFTUEViewController.xib */; };
 		FE24FFDB187E0622004D540E /* PCCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFDA187E0622004D540E /* PCCScrollView.m */; };
 		FE24FFDE187E0B57004D540E /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFDC187E0B57004D540E /* checkmark.png */; };
 		FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFDD187E0B57004D540E /* checkmark@2x.png */; };
@@ -171,6 +173,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE1234D51949059300DC324B /* planner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner.png; sourceTree = "<group>"; };
+		FE1234D71949062A00DC324B /* book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = book.png; sourceTree = "<group>"; };
+		FE1234D91949083D00DC324B /* planner2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner2.png; sourceTree = "<group>"; };
 		FE18308D188AF90C00EC68FC /* PCCTermViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCTermViewController.h; path = "Purdue Course Catcher/View Controllers/PCCTermViewController.h"; sourceTree = "<group>"; };
 		FE18308E188AF90C00EC68FC /* PCCTermViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCTermViewController.m; path = "Purdue Course Catcher/View Controllers/PCCTermViewController.m"; sourceTree = "<group>"; };
 		FE24104C1873C6B000AA6328 /* icon-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-error.png"; sourceTree = "<group>"; };
@@ -193,7 +198,6 @@
 		FE24108718754A2200AA6328 /* KPLightBoxManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPLightBoxManager.m; sourceTree = "<group>"; };
 		FE24FFD3187DF27E004D540E /* PCCFTUEViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCFTUEViewController.h; path = "Purdue Course Catcher/View Controllers/PCCFTUEViewController.h"; sourceTree = "<group>"; };
 		FE24FFD4187DF27E004D540E /* PCCFTUEViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCFTUEViewController.m; path = "Purdue Course Catcher/View Controllers/PCCFTUEViewController.m"; sourceTree = "<group>"; };
-		FE24FFD5187DF27E004D540E /* PCCFTUEViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCFTUEViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCFTUEViewController.xib"; sourceTree = "<group>"; };
 		FE24FFD9187E0622004D540E /* PCCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScrollView.h; path = "Purdue Course Catcher/Convenience/PCCScrollView.h"; sourceTree = "<group>"; };
 		FE24FFDA187E0622004D540E /* PCCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCScrollView.m; path = "Purdue Course Catcher/Convenience/PCCScrollView.m"; sourceTree = "<group>"; };
 		FE24FFDC187E0B57004D540E /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
@@ -484,7 +488,6 @@
 			children = (
 				FE24FFD3187DF27E004D540E /* PCCFTUEViewController.h */,
 				FE24FFD4187DF27E004D540E /* PCCFTUEViewController.m */,
-				FE24FFD5187DF27E004D540E /* PCCFTUEViewController.xib */,
 				FE24FFD9187E0622004D540E /* PCCScrollView.h */,
 				FE24FFDA187E0622004D540E /* PCCScrollView.m */,
 			);
@@ -832,6 +835,9 @@
 		FED58A2918908DDE001991F2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				FE1234D91949083D00DC324B /* planner2.png */,
+				FE1234D71949062A00DC324B /* book.png */,
+				FE1234D51949059300DC324B /* planner.png */,
 				FE9BD488193EC4C9006BC34B /* Navigation Bar */,
 				FE9BD475193EBDD9006BC34B /* Tab Bar */,
 				FE2744EC19006DFF007088D6 /* star-0.png */,
@@ -1028,6 +1034,7 @@
 				FEE571A5186A4E4A00FE8FA8 /* whiteArrow.png in Resources */,
 				FEE571A4186A4E4A00FE8FA8 /* grayArrow@2x.png in Resources */,
 				FE9BD472193EB8C3006BC34B /* schedule_normal@2x.png in Resources */,
+				FE1234DA1949083D00DC324B /* planner2.png in Resources */,
 				FE50C32818E7FB8000C82363 /* configuration.png in Resources */,
 				FE9BD47B193EBE4A006BC34B /* notification_selected.png in Resources */,
 				FEDEB411193EB42000EC3C92 /* notification_normal.png in Resources */,
@@ -1039,7 +1046,6 @@
 				FE9BD48F193EC4D8006BC34B /* filter_selected.png in Resources */,
 				FE50C32618E7F9CD00C82363 /* student-256.png in Resources */,
 				FE50C32C18E7FC1F00C82363 /* comments.png in Resources */,
-				FE24FFD7187DF27E004D540E /* PCCFTUEViewController.xib in Resources */,
 				FE9BD48D193EC4D8006BC34B /* filter_normal.png in Resources */,
 				FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */,
 				FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */,
@@ -1066,6 +1072,7 @@
 				FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */,
 				FEB99658188DABFE0017C552 /* PCCHeaderViewController.xib in Resources */,
 				FE9BD471193EB8C3006BC34B /* schedule_normal.png in Resources */,
+				FE1234D81949062A00DC324B /* book.png in Resources */,
 				FE26BA0B18D7F23300FB1E83 /* bubble.png in Resources */,
 				FE9BD485193EBFBF006BC34B /* ratings_normal@2x.png in Resources */,
 				FE2744F319006DFF007088D6 /* star-1.png in Resources */,
@@ -1080,6 +1087,7 @@
 				FEDEB405193EA2C600EC3C92 /* search_normal@2x.png in Resources */,
 				FE2410541873C6B000AA6328 /* icon-error.png in Resources */,
 				FE2744F519006DFF007088D6 /* star-3.png in Resources */,
+				FE1234D61949059300DC324B /* planner.png in Resources */,
 				FEB638F518CFEF720066F982 /* cart.png in Resources */,
 				FE6BBCA31866C74700760E7A /* PCCScheduleHeaderViewController.xib in Resources */,
 				FE7B735518CEA3A3003D9D11 /* Debug-Bug-icon.png in Resources */,

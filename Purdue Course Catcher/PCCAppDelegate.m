@@ -47,7 +47,7 @@
     //we don't care about the fb state anymore
     
     if ([Helpers hasRanAppBefore] == NO || [Helpers getCurrentUser] == nil) {
-        self.window.rootViewController = [[PCCFTUEViewController alloc] initWithNibName:@"PCCFTUEViewController" bundle:nil];
+        self.window.rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCFTUEViewController"];
     }else {
         
         if (launchOptions)
@@ -63,7 +63,9 @@
         }
         
         id delegate =  [UIApplication sharedApplication].delegate;
-        [delegate openSession];
+        //fb shit
+        //[delegate openSession];
+        
         //load the menu and other things
         self.window.rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCTabBar"];
         //NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"agarwa28", kUsername, @"anuradha12", kPassword, nil];

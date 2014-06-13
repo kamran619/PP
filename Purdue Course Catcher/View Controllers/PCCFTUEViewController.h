@@ -15,28 +15,21 @@
 -(void)dismissMe;
 
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, strong) IBOutlet UIPageControl *pageControl;
 
+@property (nonatomic, strong) IBOutlet UILabel *activePageIndicator;
+@property (nonatomic, strong) IBOutlet UILabel *inactivePageIndicator;
 @property (nonatomic, strong) IBOutlet UILabel *mainTitle;
 @property (nonatomic, strong) IBOutlet UILabel *mainBody;
 @property (nonatomic, strong) IBOutlet UILabel *subBody;
 
-@property (nonatomic, strong) IBOutlet UILabel *bigB;
-@property (nonatomic, strong) IBOutlet UILabel *bigBTwo;
+@property (nonatomic, strong) IBOutlet UILabel *bigPFirst;
+@property (nonatomic, strong) IBOutlet UILabel *bigPSecond;
 @property (nonatomic, strong) IBOutlet UILabel *firstLabel;
 @property (nonatomic, strong) IBOutlet UILabel *secondLabel;
 @property (nonatomic, strong) IBOutlet UILabel *thirdLabel;
 
-@property (nonatomic, strong) IBOutlet UIImageView *bubbles;
-
-@property (nonatomic, strong) IBOutlet UIButton *facebookButton;
-@property (nonatomic, strong) IBOutlet UIButton *purdueButton;
+@property (nonatomic, strong) IBOutlet UIButton *loginButton;
 @property (nonatomic, strong) IBOutlet UIButton *skipButton;
-
-@property (nonatomic, strong) IBOutlet UILabel *socialLabel;
-@property (nonatomic, strong) IBOutlet UILabel *socialText;
-
-@property (nonatomic, assign) int fbLaunched;
 
 @property (nonatomic, strong) id <ADVAnimationController> animationController;
 
