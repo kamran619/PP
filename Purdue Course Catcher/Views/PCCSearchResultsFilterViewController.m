@@ -67,7 +67,7 @@
 -(IBAction)showTimePushed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    if ([sender tag] == 0) {
+    if (button.tag == 0) {
         //reveal the hidden info
         button.tag = 1;
         [UIView animateWithDuration:0.25f animations:^{

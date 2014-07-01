@@ -33,10 +33,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self refreshWithServer];
+    [self loadContent];
 }
 
--(void)refreshWithServer
+-(void)loadContent
 {
     [self.activityIndicator startAnimating];
     [[PCFNetworkManager sharedInstance] setDelegate:self];
@@ -48,7 +48,7 @@
     //view ratings
     NSError *error;
     NSData *data = [[responseDictionary objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
-    if (!data) {
+    if (!data || !success) {
         [self.activityIndicator stopAnimating];
         return;
     }

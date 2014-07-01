@@ -102,6 +102,7 @@
 		FE9628D8185ED9D500F699B5 /* PCFNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628D7185ED9D500F699B5 /* PCFNetworkManager.m */; };
 		FE9628DB185EDA1700F699B5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628DA185EDA1700F699B5 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FE9628DE185FBCA800F699B5 /* PCCDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE9628DD185FBCA800F699B5 /* PCCDataManager.m */; };
+		FE99D3AB19627C02005E8EC7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE99D3AA19627C02005E8EC7 /* Crashlytics.framework */; };
 		FE9BD471193EB8C3006BC34B /* schedule_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9BD46D193EB8C3006BC34B /* schedule_normal.png */; };
 		FE9BD472193EB8C3006BC34B /* schedule_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9BD46E193EB8C3006BC34B /* schedule_normal@2x.png */; };
 		FE9BD474193EB8C3006BC34B /* schedule_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9BD470193EB8C3006BC34B /* schedule_selected@2x.png */; };
@@ -321,6 +322,7 @@
 		FE9628DA185EDA1700F699B5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		FE9628DC185FBCA800F699B5 /* PCCDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCDataManager.h; sourceTree = "<group>"; };
 		FE9628DD185FBCA800F699B5 /* PCCDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCDataManager.m; sourceTree = "<group>"; };
+		FE99D3AA19627C02005E8EC7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		FE9BD46D193EB8C3006BC34B /* schedule_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schedule_normal.png; sourceTree = "<group>"; };
 		FE9BD46E193EB8C3006BC34B /* schedule_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "schedule_normal@2x.png"; sourceTree = "<group>"; };
 		FE9BD470193EB8C3006BC34B /* schedule_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "schedule_selected@2x.png"; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				FEE89B8C18CEE4D30026AB5F /* StoreKit.framework in Frameworks */,
 				FE5530E0184D3C4900D13587 /* UIKit.framework in Frameworks */,
 				FE5530DC184D3C4900D13587 /* Foundation.framework in Frameworks */,
+				FE99D3AB19627C02005E8EC7 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +587,7 @@
 		FE5530DA184D3C4900D13587 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE99D3AA19627C02005E8EC7 /* Crashlytics.framework */,
 				FE3FDBF4192591F400B88731 /* QuartzCore.framework */,
 				FEE89B8B18CEE4D30026AB5F /* StoreKit.framework */,
 				FE40F73818A0EAE700612AD0 /* FacebookSDK.framework */,
@@ -947,6 +951,7 @@
 				FE5530D4184D3C4900D13587 /* Sources */,
 				FE5530D5184D3C4900D13587 /* Frameworks */,
 				FE5530D6184D3C4900D13587 /* Resources */,
+				FE99D3A919627BC8005E8EC7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1110,6 +1115,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FE99D3A919627BC8005E8EC7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run acbda7ad78e1388eba5cbc6510a0a2e29911259b d70303f211c5c8b46612bf50abb63591b6d80817f3c975aaad497671ab9a9682";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FE5530D4184D3C4900D13587 /* Sources */ = {
@@ -1304,8 +1325,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/kamranpirwani/Desktop/Git/Purdue\\ Course\\ Catcher",
+					/Users/kamranpirwani/Desktop/Git/Purdue,
+					Course,
+					Catcher,
 					/Users/kamranpirwani/Documents/FacebookSDK,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
@@ -1326,8 +1350,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/kamranpirwani/Desktop/Git/Purdue\\ Course\\ Catcher",
+					/Users/kamranpirwani/Desktop/Git/Purdue,
+					Course,
+					Catcher,
 					/Users/kamranpirwani/Documents/FacebookSDK,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";

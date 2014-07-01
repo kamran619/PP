@@ -1157,17 +1157,24 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
         <!--Catcher View Controller - Catcher-->
         <scene sceneID="owA-1m-jtu">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7qq-ip-0d5" customClass="PCCCatcherViewController" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7qq-ip-0d5" customClass="PCCCatcherViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DwF-fv-oZd">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="LxP-hr-ldo">
-                                <rect key="frame" x="0.0" y="64" width="320" height="431"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When a course is full, you can catch it to recieve alerts when it opens up!  Search for a course to begin" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DeJ-Lx-SAP" userLabel="Intro label">
+                                <rect key="frame" x="0.0" y="230" width="320" height="106"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="LxP-hr-ldo">
+                                <rect key="frame" x="0.0" y="64" width="320" height="480"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="kCatcherCell" rowHeight="62" id="Kxw-2w-W63" customClass="PCCCatcherCell">
+                                    <tableViewCell alpha="0.0" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kCatcherCell" rowHeight="62" id="Kxw-2w-W63" customClass="PCCCatcherCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kxw-2w-W63" id="Hba-0g-ox1">
@@ -1215,7 +1222,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rDV-48-FfW">
-                                                    <rect key="frame" x="248" y="34" width="64" height="21"/>
+                                                    <rect key="frame" x="248" y="40" width="64" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Register">
                                                         <color key="titleColor" red="0.85030995239999996" green="0.23940844319999999" blue="0.28358203160000001" alpha="0.60999999999999999" colorSpace="calibratedRGB"/>
@@ -1245,6 +1252,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                     </view>
                     <navigationItem key="navigationItem" title="Catcher" id="acv-yu-Kbb"/>
                     <connections>
+                        <outlet property="infoLabel" destination="DeJ-Lx-SAP" id="Xct-4f-uVK"/>
                         <outlet property="tableView" destination="LxP-hr-ldo" id="KPl-rD-CCL"/>
                         <segue destination="8fq-If-vX5" kind="modal" identifier="SearchResultsSegue" id="cnH-rc-rKR"/>
                     </connections>
@@ -1955,7 +1963,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled">
-                                                        <color key="titleColor" patternImage="CE5C736B-C3DB-4002-A748-1F1E478E00C8" colorSpace="pattern"/>
+                                                        <color key="titleColor" patternImage="80FE14B6-577F-4E2E-9270-6B5A747517B5" colorSpace="pattern"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -2091,7 +2099,6 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="0.25" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="0.25" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -2297,7 +2304,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kTI-v7-ADx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1334" y="435"/>
+            <point key="canvasLocation" x="1340" y="499"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lXQ-6Q-iOw">
@@ -2600,47 +2607,35 @@ No more registration headaches.</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <tableView clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Cvq-XM-C1w">
+                            <tableView clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="22" id="Cvq-XM-C1w">
                                 <rect key="frame" x="0.0" y="64" width="320" height="366"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search for a professor or course" id="ZXy-Kg-Ca1">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="barTintColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <scopeButtonTitles>
-                                        <string>Professor</string>
-                                        <string>Courses</string>
-                                    </scopeButtonTitles>
-                                    <connections>
-                                        <outlet property="delegate" destination="JHZ-AN-6rw" id="xbs-Wa-tsa"/>
-                                    </connections>
-                                </searchBar>
+                                <color key="sectionIndexBackgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kProfessorRatingCell" rowHeight="49" id="wXv-OJ-duz" customClass="PCCProfessorRatingsCell">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="49"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kProfessorRatingCell" rowHeight="49" id="wXv-OJ-duz" customClass="PCCProfessorRatingsCell">
+                                        <rect key="frame" x="0.0" y="1" width="320" height="49"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wXv-OJ-duz" id="tKK-db-azW">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="48"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thomas A. Carney" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kbx-rj-6a0">
-                                                    <rect key="frame" x="20" y="9" width="280" height="21"/>
+                                                    <rect key="frame" x="6" y="4" width="280" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star-0.png" id="oWP-WO-wqp">
-                                                    <rect key="frame" x="25" y="29" width="78" height="17"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star-3.png" id="oWP-WO-wqp">
+                                                    <rect key="frame" x="9" y="27" width="71" height="13"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 reviews" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="app-z4-cFM">
-                                                    <rect key="frame" x="210" y="13" width="90" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 reviews" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="app-z4-cFM">
+                                                    <rect key="frame" x="227" y="23" width="84" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -2652,35 +2647,36 @@ No more registration headaches.</string>
                                             <outlet property="stars" destination="oWP-WO-wqp" id="8Lk-13-5M7"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kCourseRatingCell" rowHeight="61" id="FIi-wl-tyG" customClass="PCCCourseRatingsCell">
-                                        <rect key="frame" x="0.0" y="115" width="320" height="61"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kCourseRatingCell" rowHeight="61" id="FIi-wl-tyG" customClass="PCCCourseRatingsCell">
+                                        <rect key="frame" x="0.0" y="50" width="320" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FIi-wl-tyG" id="J1A-bf-UH2">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Problem Solving and Object-Oriented Programming" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cIF-yj-z9n">
-                                                    <rect key="frame" x="20" y="24" width="280" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Problem Solving and Object-Oriented Programming" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" id="cIF-yj-z9n">
+                                                    <rect key="frame" x="12" y="24" width="295" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                    <color key="textColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CS180" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9m9-lB-9Tg">
                                                     <rect key="frame" x="12" y="7" width="280" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star-0.png" id="YkL-Y8-18H">
-                                                    <rect key="frame" x="20" y="42" width="78" height="17"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star-3.png" id="YkL-Y8-18H">
+                                                    <rect key="frame" x="12" y="45" width="71" height="13"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 reviews" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WRi-5x-ou2">
-                                                    <rect key="frame" x="232" y="7" width="83" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 reviews" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WRi-5x-ou2">
+                                                    <rect key="frame" x="228" y="41" width="83" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -2702,24 +2698,15 @@ No more registration headaches.</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Ratings" id="FkG-1e-nug">
+                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="t4b-mP-mez"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="WTk-Ba-70L"/>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="B6e-Fl-hm0" id="yVt-bk-2GU"/>
-                        <outlet property="searchDisplayController" destination="Ypx-yJ-3zX" id="SEr-yE-sbZ"/>
                         <outlet property="tableView" destination="Cvq-XM-C1w" id="Fyr-0i-kvz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yZ-Cd-d62" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="Ypx-yJ-3zX">
-                    <connections>
-                        <outlet property="delegate" destination="JHZ-AN-6rw" id="Eyc-TZ-ezm"/>
-                        <outlet property="searchBar" destination="ZXy-Kg-Ca1" id="RLa-Rn-3eH"/>
-                        <outlet property="searchContentsController" destination="JHZ-AN-6rw" id="AE8-Xs-CRW"/>
-                        <outlet property="searchResultsDataSource" destination="JHZ-AN-6rw" id="koz-MU-dgW"/>
-                        <outlet property="searchResultsDelegate" destination="JHZ-AN-6rw" id="2NL-ws-EJq"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="-422" y="-2783"/>
         </scene>
@@ -2927,7 +2914,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="CE5C736B-C3DB-4002-A748-1F1E478E00C8" width="256" height="256">
+        <image name="80FE14B6-577F-4E2E-9270-6B5A747517B5" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -7379,7 +7366,7 @@ AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
         <image name="info.png" width="258" height="258"/>
         <image name="mail.png" width="512" height="512"/>
         <image name="search_line.png" width="30" height="30"/>
-        <image name="star-0.png" width="198" height="38"/>
+        <image name="star-3.png" width="198" height="38"/>
         <image name="twitter.jpg" width="225" height="225"/>
     </resources>
     <color key="tintColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>

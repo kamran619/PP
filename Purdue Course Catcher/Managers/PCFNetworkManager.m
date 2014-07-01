@@ -107,7 +107,6 @@ static PCFNetworkManager *_sharedInstance = nil;
     [self.outputStream setDelegate:self];
     [self.outputStream open];
     [self.outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-    self.initializedSocket = YES;
 }
 
 -(void)registerForNotifications
@@ -149,6 +148,7 @@ static PCFNetworkManager *_sharedInstance = nil;
     switch (streamEvent) {
             
         case NSStreamEventOpenCompleted:
+            if (theStream == self.outputStream) self.initializedSocket = YES;
             break;
         case NSStreamEventEndEncountered:
         {
@@ -455,7 +455,17 @@ static PCFNetworkManager *_sharedInstance = nil;
 
 -(void)sendDataToServer:(NSData *)data forCommand:(ServerCommand)command
 {
-    if (!self.initializedSocket) [self initSocket];
+    if (!self.initializedSocket) {
+        [self initSocket];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[self class] instanceMethodSignatureForSelector:@selector(sendDataToServer:forCommand:)]];
+        [invocation setSelector:@selector(sendDataToServer:forCommand:)];
+        [invocation setTarget:self];
+        [invocation setArgument:&data atIndex:2];
+        [invocation setArgument:&command atIndex:3];
+        [invocation retainArguments];
+        [invocation performSelector:@selector(invoke) withObject:nil afterDelay:1.0f];
+        return;
+    }
     
     [Helpers asyncronousBlockWithName:@"Send Data" AndBlock:^{
         

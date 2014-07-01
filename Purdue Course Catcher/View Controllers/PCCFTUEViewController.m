@@ -129,6 +129,10 @@
     
     [self initAnimations];
     
+    CGFloat height = self.view.frame.size.height/NUMBER_OF_PAGES;
+    frame = self.activePageIndicator.frame;
+    self.activePageIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, height);
+    
     [self pageChanged:0];
     
     if ([Helpers isPhone5]) {
@@ -361,15 +365,16 @@
 -(void)pageChanged:(int)page
 {
     [self.activePageIndicator.layer removeAllAnimations];
-    CGRect frame = self.activePageIndicator.frame;
     CGFloat activePageSlice = self.view.frame.size.height/NUMBER_OF_PAGES;
     [UIView animateWithDuration:0.25f delay:0.0f options:UIViewAnimationCurveLinear|UIViewAnimationOptionBeginFromCurrentState  animations:^{
-           self.activePageIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, activePageSlice + (page * activePageSlice));
+            CGRect frame = self.activePageIndicator.frame;
+            CGFloat height = activePageSlice + (page * activePageSlice);
+            self.activePageIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, height);
     } completion:^(BOOL finished) {
         if (finished) [self toggleActivePage];
     }];
-    
 }
+
 /*
 -(void)skipFacebook:(id)sender
 {

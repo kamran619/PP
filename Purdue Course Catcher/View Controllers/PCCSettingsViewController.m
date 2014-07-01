@@ -136,7 +136,7 @@ enum sections
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (!upgraded) {
+    if (upgraded) {
         self.upgradeCell.downArrow.layer.transform = CATransform3DMakeTranslation(0, 15, 0);
     }else {
         [self animateGoPro];

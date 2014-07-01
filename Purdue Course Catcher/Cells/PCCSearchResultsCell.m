@@ -118,6 +118,11 @@
                 [[PCCDataManager sharedInstance].arrayBasket addObject:self.course];
                 [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Complete" success:YES];
                 [self.actionButton setTitle:@"Uncatch" forState:UIControlStateNormal];
+                UITabBarController *controller = (UITabBarController *)[[UIApplication sharedApplication].delegate window].rootViewController;
+                UITabBarItem *item = [[[controller tabBar] items] objectAtIndex:3];
+                NSString *currentBadgeValue = item.badgeValue;
+                int newBadgeValue = [currentBadgeValue intValue] + 1;
+                [item setBadgeValue:[NSString stringWithFormat:@"%d", newBadgeValue]];
             }else {
                 [[PCCHUDManager sharedInstance] updateHUDWithCaption:@"Error" success:NO];
             }

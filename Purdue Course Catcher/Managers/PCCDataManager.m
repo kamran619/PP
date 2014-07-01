@@ -16,6 +16,7 @@
 static NSString *kFileName = @"data.bin";
 static PCCDataManager *_sharedInstance = nil;
 
+#define kNotifications @"kNotifications"
 #define kBasket @"kBasket"
 #define kFavorites @"kFavorites"
 #define kProfessors @"kProfessors"
@@ -79,6 +80,12 @@ static PCCDataManager *_sharedInstance = nil;
     return _arrayBasket;
 }
 
+-(NSMutableArray *)arrayNotifications
+{
+    if (!_arrayNotifications) _arrayNotifications = [NSMutableArray arrayWithCapacity:4];
+    return _arrayNotifications;
+}
+
 
 -(NSMutableArray *)arrayPurchases
 {
@@ -139,7 +146,11 @@ static PCCDataManager *_sharedInstance = nil;
         }else {
             [dictionary setObject:_arrayBasket forKey:kBasket];
         }
-
+        if (!_arrayNotifications) {
+            [dictionary setObject:[NSNull null] forKey:kNotifications];
+        }else {
+            [dictionary setObject:_arrayNotifications forKey:kNotifications];
+        }
         if (!_arrayProfessors) {
             [dictionary setObject:[NSNull null] forKey:kProfessors];
         }else {
@@ -187,6 +198,7 @@ static PCCDataManager *_sharedInstance = nil;
         if (!dictionary) {
             _arrayPurchases = nil;
             _arrayBasket = nil;
+            _arrayNotifications = nil;
             _arrayProfessors = nil;
             _dictionarySchedule = nil;
             _arrayTerms = nil;
@@ -197,6 +209,7 @@ static PCCDataManager *_sharedInstance = nil;
         
         _arrayPurchases = [dictionary objectForKey:kPurchases];
         _arrayBasket = [dictionary objectForKey:kBasket];
+        _arrayNotifications = [dictionary objectForKey:kNotifications];
         //_arrayFavorites = [dictionary objectForKey:kFavorites];
         _arrayProfessors = [dictionary objectForKey:kProfessors];
         
@@ -208,6 +221,7 @@ static PCCDataManager *_sharedInstance = nil;
         
         if ([_arrayPurchases isEqual:[NSNull null]]) _arrayPurchases = nil;
         if ([_arrayBasket isEqual:[NSNull null]]) _arrayBasket = nil;
+        if ([_arrayNotifications isEqual:[NSNull null]]) _arrayNotifications = nil;
         //if ([_arrayFavorites isEqual:[NSNull null]]) _arrayFavorites = nil;
         if ([_arrayProfessors isEqual:[NSNull null]]) _arrayProfessors = nil;
         if ([_dictionarySchedule isEqual:[NSNull null]]) _dictionarySchedule = nil;

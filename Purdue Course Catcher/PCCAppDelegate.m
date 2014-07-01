@@ -19,12 +19,18 @@
 #import "PCCSearchViewController.h"
 #import "MyPurdueManager.h"
 #import "Helpers.h"
+#import <Crashlytics/Crashlytics.h>
 
 @implementation PCCAppDelegate
 
 -(void)customizeLook
 {
     [[UITabBar appearance] setTintColor:[Helpers purdueColor:PurdueColorYellow]];
+    //[[UINavigationBar appearance] setOpaque:YES];
+    //[[UINavigationBar appearance] setTranslucent:YES];
+    //[[UINavigationBar appearance] setTintColor:[UIColor clearColor]];
+    //[[UINavigationBar appearance] setBackgroundColor:[UIColor clearColor]];
+
     //[[UITabBar appearance] setSelectedImageTintColor:[Helpers purdueColor:PurdueColorYellow]];
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -37,6 +43,8 @@
 
     //register for PN
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound];
+    
+    [Crashlytics startWithAPIKey:@"acbda7ad78e1388eba5cbc6510a0a2e29911259b"];
     
     //connect to server
     [PCFNetworkManager sharedInstance];
@@ -53,12 +61,13 @@
         if (launchOptions)
         {
             launchOptions = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-            UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];
-            PCCCatcherViewController *vc = [controller.childViewControllers lastObject];
-            [vc setDataSource:[PCCDataManager sharedInstance].arrayBasket.copy];
-            PCCMenuViewController *menuVC  = [[PCCMenuViewController alloc] initCentralViewControllerWithViewController:controller];
-            self.window.rootViewController = menuVC;
-            application.applicationIconBadgeNumber = 0;
+            //UINavigationController *controller = (UINavigationController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCCatcher"];
+            //PCCCatcherViewController *vc = [controller.childViewControllers lastObject];
+            //[vc setDataSource:[PCCDataManager sharedInstance].arrayBasket.copy];
+            //PCCMenuViewController *menuVC  = [[PCCMenuViewController alloc] initCentralViewControllerWithViewController:controller];
+            //self.window.rootViewController = menuVC;
+            //application.applicationIconBadgeNumber = 0;
+            [self processPushNotification:launchOptions forApplicationState:UIApplicationStateBackground];
             return YES;
         }
         
@@ -112,12 +121,7 @@
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
 
-    if (application.applicationState == UIApplicationStateActive) {
-        //app is active
-    }else if (application.applicationState == UIApplicationStateBackground) {
-        //app is in the background
-        
-    }
+    [self processPushNotification:userInfo forApplicationState:application.applicationState];
     /*if (launchOptions)
     {
         launchOptions = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -129,6 +133,17 @@
         application.applicationIconBadgeNumber = 0;
     }*/
 
+}
+
+-(void)processPushNotification:(NSDictionary *)userInfo forApplicationState:(UIApplicationState)state
+{
+    if (state == UIApplicationStateActive) {
+        //app is active
+        
+    }else if (state == UIApplicationStateBackground) {
+        //app is in the background
+        
+    }
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
