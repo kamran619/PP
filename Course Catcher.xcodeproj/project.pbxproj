@@ -246,20 +246,20 @@
 		FE50C5181870BBFB00EF24BA /* PCCSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSearchResultsViewController.m; path = "Purdue Course Catcher/View Controllers/PCCSearchResultsViewController.m"; sourceTree = "<group>"; };
 		FE50FF16185E9F190084ED32 /* PCCSideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCSideMenuViewController.h; sourceTree = "<group>"; };
 		FE50FF17185E9F190084ED32 /* PCCSideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCSideMenuViewController.m; sourceTree = "<group>"; };
-		FE5530D8184D3C4900D13587 /* Purdue Course Catcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Purdue Course Catcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE5530D8184D3C4900D13587 /* Course Catcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Course Catcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE5530DB184D3C4900D13587 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FE5530DD184D3C4900D13587 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FE5530DF184D3C4900D13587 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		FE5530E3184D3C4900D13587 /* Purdue Course Catcher-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Purdue Course Catcher-Info.plist"; sourceTree = "<group>"; };
+		FE5530E3184D3C4900D13587 /* Course Catcher-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Course Catcher-Info.plist"; sourceTree = "<group>"; };
 		FE5530E5184D3C4900D13587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE5530E7184D3C4900D13587 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FE5530E9184D3C4900D13587 /* Purdue Course Catcher-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Purdue Course Catcher-Prefix.pch"; sourceTree = "<group>"; };
+		FE5530E9184D3C4900D13587 /* Course Catcher-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Course Catcher-Prefix.pch"; sourceTree = "<group>"; };
 		FE5530EA184D3C4900D13587 /* PCCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCCAppDelegate.h; sourceTree = "<group>"; };
 		FE5530EB184D3C4900D13587 /* PCCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCCAppDelegate.m; sourceTree = "<group>"; };
 		FE5530F3184D3C4900D13587 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		FE5530F9184D3C4900D13587 /* Purdue Course CatcherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Purdue Course CatcherTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE5530F9184D3C4900D13587 /* Course CatcherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Course CatcherTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE5530FA184D3C4900D13587 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		FE553102184D3C4900D13587 /* Purdue Course CatcherTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Purdue Course CatcherTests-Info.plist"; sourceTree = "<group>"; };
+		FE553102184D3C4900D13587 /* Course CatcherTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Course CatcherTests-Info.plist"; sourceTree = "<group>"; };
 		FE553104184D3C4900D13587 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE553106184D3C4900D13587 /* Purdue_Course_CatcherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Purdue_Course_CatcherTests.m; sourceTree = "<group>"; };
 		FE553115184D3D9A00D13587 /* PCCScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCScheduleViewController.h; path = "Purdue Course Catcher/View Controllers/PCCScheduleViewController.h"; sourceTree = "<group>"; };
@@ -578,8 +578,8 @@
 		FE5530D9184D3C4900D13587 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FE5530D8184D3C4900D13587 /* Purdue Course Catcher.app */,
-				FE5530F9184D3C4900D13587 /* Purdue Course CatcherTests.xctest */,
+				FE5530D8184D3C4900D13587 /* Course Catcher.app */,
+				FE5530F9184D3C4900D13587 /* Course CatcherTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -613,10 +613,10 @@
 		FE5530E2184D3C4900D13587 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FE5530E3184D3C4900D13587 /* Purdue Course Catcher-Info.plist */,
+				FE5530E3184D3C4900D13587 /* Course Catcher-Info.plist */,
 				FE5530E4184D3C4900D13587 /* InfoPlist.strings */,
 				FE5530E7184D3C4900D13587 /* main.m */,
-				FE5530E9184D3C4900D13587 /* Purdue Course Catcher-Prefix.pch */,
+				FE5530E9184D3C4900D13587 /* Course Catcher-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -633,7 +633,7 @@
 		FE553101184D3C4900D13587 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FE553102184D3C4900D13587 /* Purdue Course CatcherTests-Info.plist */,
+				FE553102184D3C4900D13587 /* Course CatcherTests-Info.plist */,
 				FE553103184D3C4900D13587 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -944,9 +944,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FE5530D7184D3C4900D13587 /* Purdue Course Catcher */ = {
+		FE5530D7184D3C4900D13587 /* Course Catcher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FE55310A184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Purdue Course Catcher" */;
+			buildConfigurationList = FE55310A184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Course Catcher" */;
 			buildPhases = (
 				FE5530D4184D3C4900D13587 /* Sources */,
 				FE5530D5184D3C4900D13587 /* Frameworks */,
@@ -957,14 +957,14 @@
 			);
 			dependencies = (
 			);
-			name = "Purdue Course Catcher";
+			name = "Course Catcher";
 			productName = "Purdue Course Catcher";
-			productReference = FE5530D8184D3C4900D13587 /* Purdue Course Catcher.app */;
+			productReference = FE5530D8184D3C4900D13587 /* Course Catcher.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FE5530F8184D3C4900D13587 /* Purdue Course CatcherTests */ = {
+		FE5530F8184D3C4900D13587 /* Course CatcherTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FE55310D184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Purdue Course CatcherTests" */;
+			buildConfigurationList = FE55310D184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Course CatcherTests" */;
 			buildPhases = (
 				FE5530F5184D3C4900D13587 /* Sources */,
 				FE5530F6184D3C4900D13587 /* Frameworks */,
@@ -975,9 +975,9 @@
 			dependencies = (
 				FE5530FF184D3C4900D13587 /* PBXTargetDependency */,
 			);
-			name = "Purdue Course CatcherTests";
+			name = "Course CatcherTests";
 			productName = "Purdue Course CatcherTests";
-			productReference = FE5530F9184D3C4900D13587 /* Purdue Course CatcherTests.xctest */;
+			productReference = FE5530F9184D3C4900D13587 /* Course CatcherTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1003,7 +1003,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FE5530D3184D3C4900D13587 /* Build configuration list for PBXProject "Purdue Course Catcher" */;
+			buildConfigurationList = FE5530D3184D3C4900D13587 /* Build configuration list for PBXProject "Course Catcher" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1016,8 +1016,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FE5530D7184D3C4900D13587 /* Purdue Course Catcher */,
-				FE5530F8184D3C4900D13587 /* Purdue Course CatcherTests */,
+				FE5530D7184D3C4900D13587 /* Course Catcher */,
+				FE5530F8184D3C4900D13587 /* Course CatcherTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1219,7 +1219,7 @@
 /* Begin PBXTargetDependency section */
 		FE5530FF184D3C4900D13587 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FE5530D7184D3C4900D13587 /* Purdue Course Catcher */;
+			target = FE5530D7184D3C4900D13587 /* Course Catcher */;
 			targetProxy = FE5530FE184D3C4900D13587 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1332,10 +1332,10 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
-				INFOPLIST_FILE = "Purdue Course Catcher/Purdue Course Catcher-Info.plist";
+				GCC_PREFIX_HEADER = "Purdue Course Catcher/Course Catcher-Prefix.pch";
+				INFOPLIST_FILE = "Purdue Course Catcher/Course Catcher-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Course Catcher";
 				PROVISIONING_PROFILE = "B533E649-62F4-4A7C-9664-AAD14DF31A3D";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1357,10 +1357,10 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
-				INFOPLIST_FILE = "Purdue Course Catcher/Purdue Course Catcher-Info.plist";
+				GCC_PREFIX_HEADER = "Purdue Course Catcher/Course Catcher-Prefix.pch";
+				INFOPLIST_FILE = "Purdue Course Catcher/Course Catcher-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Course Catcher";
 				PROVISIONING_PROFILE = "B533E649-62F4-4A7C-9664-AAD14DF31A3D";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1382,8 +1382,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Purdue Course CatcherTests/Purdue Course CatcherTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Purdue Course CatcherTests/Course CatcherTests-Info.plist";
+				PRODUCT_NAME = "Course CatcherTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1401,8 +1401,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Purdue Course Catcher/Purdue Course Catcher-Prefix.pch";
-				INFOPLIST_FILE = "Purdue Course CatcherTests/Purdue Course CatcherTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Purdue Course CatcherTests/Course CatcherTests-Info.plist";
+				PRODUCT_NAME = "Course CatcherTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1411,7 +1411,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FE5530D3184D3C4900D13587 /* Build configuration list for PBXProject "Purdue Course Catcher" */ = {
+		FE5530D3184D3C4900D13587 /* Build configuration list for PBXProject "Course Catcher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE553108184D3C4900D13587 /* Debug */,
@@ -1420,7 +1420,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FE55310A184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Purdue Course Catcher" */ = {
+		FE55310A184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Course Catcher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE55310B184D3C4900D13587 /* Debug */,
@@ -1429,7 +1429,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FE55310D184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Purdue Course CatcherTests" */ = {
+		FE55310D184D3C4900D13587 /* Build configuration list for PBXNativeTarget "Course CatcherTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE55310E184D3C4900D13587 /* Debug */,

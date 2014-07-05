@@ -22,6 +22,7 @@
 #import "PCCTermViewController.h"
 #import "PCCAppDelegate.h"
 #import "PCCSearchFilterViewController.h"
+#import <Crashlytics/Crashlytics.h>
 
 
 #define CENTER_FRAME CGPointMake(320, 21);

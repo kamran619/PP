@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FE5530D7184D3C4900D13587"
-               BuildableName = "Purdue Course Catcher.app"
-               BlueprintName = "Purdue Course Catcher"
-               ReferencedContainer = "container:Purdue Course Catcher.xcodeproj">
+               BuildableName = "Course Catcher.app"
+               BlueprintName = "Course Catcher"
+               ReferencedContainer = "container:Course Catcher.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FE5530F8184D3C4900D13587"
-               BuildableName = "Purdue Course CatcherTests.xctest"
-               BlueprintName = "Purdue Course CatcherTests"
-               ReferencedContainer = "container:Purdue Course Catcher.xcodeproj">
+               BuildableName = "Course CatcherTests.xctest"
+               BlueprintName = "Course CatcherTests"
+               ReferencedContainer = "container:Course Catcher.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FE5530D7184D3C4900D13587"
-            BuildableName = "Purdue Course Catcher.app"
-            BlueprintName = "Purdue Course Catcher"
-            ReferencedContainer = "container:Purdue Course Catcher.xcodeproj">
+            BuildableName = "Course Catcher.app"
+            BlueprintName = "Course Catcher"
+            ReferencedContainer = "container:Course Catcher.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FE5530D7184D3C4900D13587"
-            BuildableName = "Purdue Course Catcher.app"
-            BlueprintName = "Purdue Course Catcher"
-            ReferencedContainer = "container:Purdue Course Catcher.xcodeproj">
+            BuildableName = "Course Catcher.app"
+            BlueprintName = "Course Catcher"
+            ReferencedContainer = "container:Course Catcher.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FE5530D7184D3C4900D13587"
-            BuildableName = "Purdue Course Catcher.app"
-            BlueprintName = "Purdue Course Catcher"
-            ReferencedContainer = "container:Purdue Course Catcher.xcodeproj">
+            BuildableName = "Course Catcher.app"
+            BlueprintName = "Course Catcher"
+            ReferencedContainer = "container:Course Catcher.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
