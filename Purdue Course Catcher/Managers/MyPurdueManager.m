@@ -713,7 +713,7 @@ static MyPurdueManager *_sharedInstance = nil;
             
         }
         @catch (NSException *exception) {
-            NSLog(@"Error: %@\n", [exception description]);
+            //NSLog(@"Error: %@\n", [exception description]);
         }
         @finally {
             //NSLog(@"%@", [termDict descriptionInStringsFileFormat]);
@@ -942,7 +942,7 @@ static MyPurdueManager *_sharedInstance = nil;
             
         }
         @catch (NSException *exception) {
-            NSLog(@"Error: %@\n", [exception description]);
+            //NSLog(@"Error: %@\n", [exception description]);
         }
         @finally {
             //NSLog(@"%@", [termDict descriptionInStringsFileFormat]);
@@ -989,7 +989,7 @@ static MyPurdueManager *_sharedInstance = nil;
             return arr;
         }
         @catch (NSException *exception) {
-            NSLog(@"Error: %@\n", [exception description]);
+            //NSLog(@"Error: %@\n", [exception description]);
         }
         @finally {
             //NSLog(@"%@", [termDict descriptionInStringsFileFormat]);
@@ -1014,7 +1014,7 @@ static MyPurdueManager *_sharedInstance = nil;
             desc = courseCatalogDescription;
         }
         @catch (NSException *exception) {
-            NSLog(@"Error: %@\n", [exception description]);
+            //NSLog(@"Error: %@\n", [exception description]);
         }
         @finally {
             scanner = nil;
@@ -1101,7 +1101,7 @@ static MyPurdueManager *_sharedInstance = nil;
             
         }
         @catch (NSException *exception) {
-            NSLog(@"Error: %@\n", [exception description]);
+            //NSLog(@"Error: %@\n", [exception description]);
         }
         @finally {
             //NSLog(@"%@", [termDict descriptionInStringsFileFormat]);
@@ -1139,7 +1139,7 @@ static MyPurdueManager *_sharedInstance = nil;
                 if (![array containsObject:scheduledCourse]) [array addObject:scheduledCourse];
             }
         }@catch (NSException *exception) {
-            NSLog(@"%@", exception.description);
+            //NSLog(@"%@", exception.description);
         }
         @finally {
             scanner = nil;
@@ -1168,7 +1168,7 @@ static MyPurdueManager *_sharedInstance = nil;
                 if (![array containsObject:scheduledCourse]) [array addObject:scheduledCourse];
             }
         }@catch (NSException *exception) {
-            NSLog(@"%@", exception.description);
+            //NSLog(@"%@", exception.description);
         }
         @finally {
             scanner = nil;
@@ -1254,7 +1254,7 @@ static MyPurdueManager *_sharedInstance = nil;
                     if (![array containsObject:scheduledCourse]) [array addObject:scheduledCourse];
                 }
             }@catch (NSException *exception) {
-                NSLog(@"%@", exception.description);
+                //NSLog(@"%@", exception.description);
             }
             @finally {
                 scanner = nil;
@@ -1375,7 +1375,7 @@ static MyPurdueManager *_sharedInstance = nil;
                 [array addObject:class];
             }
         }@catch (NSException *e) {
-            NSLog(@"%@", e.description);
+            //NSLog(@"%@", e.description);
         }@finally {
             return array;
         }
@@ -1418,7 +1418,7 @@ static MyPurdueManager *_sharedInstance = nil;
                 [regErrors addObject:regError];
             }
         }@catch (NSException *exception) {
-            NSLog(@"%@", exception.description);
+            //NSLog(@"%@", exception.description);
         }@finally {
             return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:title, regErrors.copy, nil] forKeys:[NSArray arrayWithObjects:@"title", @"errors", nil]];
         }
@@ -1435,7 +1435,7 @@ static MyPurdueManager *_sharedInstance = nil;
             [scanner scanUpToString:@"<" intoString:&pin];
             
         }@catch (NSException *exception) {
-            NSLog(@"%@", exception.description);
+            //NSLog(@"%@", exception.description);
         }@finally {
             return pin;
         }
@@ -1448,7 +1448,7 @@ static MyPurdueManager *_sharedInstance = nil;
             [scanner setScanLocation:scanner.scanLocation + 48];
             [scanner scanUpToString:@"\"" intoString:&strPin];
         }@catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            //NSLog(@"%@", exception);
         }@finally {
             return strPin;
         }

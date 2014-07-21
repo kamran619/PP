@@ -16,6 +16,13 @@
 #import "UIView+Animations.h"
 #import "PCCHUDManager.h"
 #import "PCCSearchResultsViewController.h"
+
+typedef enum {
+    TableViewSectionCatching = 0,
+    TableViewSectionNotifications,
+    TableViewSectionCustom = 99
+} TableViewSection;
+
 @interface PCCCatcherViewController ()
 
 @end
@@ -104,52 +111,96 @@
 {
     static NSString *identifier = @"kCatcherCell";
     PCCCatcherCell *cell = (PCCCatcherCell *)[tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
+    PCFClassModel *class = (indexPath.section == TableViewSectionNotifications) ? [[PCCDataManager sharedInstance].arrayNotifications objectAtIndex:indexPath.row] : [self.dataSource objectAtIndex:indexPath.row];
     [cell.courseNumber setText:class.courseNumber];
     [cell.registerButton addTarget:self action:@selector(registerPressed:) forControlEvents:UIControlEventTouchUpInside];
     cell.registerButton.tag = indexPath.row;
     [cell.courseTitle setText:class.classTitle];
     [cell.scheduleType setText:class.scheduleType];
     [cell.CRN setText:class.CRN];
-    [cell.activityIndicator startAnimating];
-    cell.registerButton.alpha = 0.0f;
-    cell.slots.alpha = 0.0f;
-    [Helpers asyncronousBlockWithName:@"Get Slots" AndBlock:^{
-    PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
-    __block PCCCourseSlots *slots = [MyPurdueManager getCourseAvailabilityWithLink:class.classLink];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [cell.activityIndicator stopAnimating];
-        if ([slots.enrolled intValue] > 0) {
-            [cell.slots fadeOut];
-            [cell.registerButton fadeIn];
-        }else {
-            [cell.registerButton fadeOut];
-            [cell.slots fadeIn];
-            [cell.slots setText:[NSString stringWithFormat:@"SLOTS: %@/%@", slots.enrolled, slots.capacity]];
-            
-        }
-        
-        if (++numberFetched == self.dataSource.count) {
-            isLoading = NO;
-            [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.5f];
-       }
-    });
-}];
-
+    
+    if (indexPath.section == TableViewSectionNotifications) {
+        //notifications
+        cell.registerButton.alpha = 1.0f;
+        cell.slots.alpha = 0.0f;
+        //cell.contentView.backgroundColor = [Helpers purdueColor:PurdueColorYellow alpha:0.45f];//[UIColor colorWithRed:0 green:122 blue:255 alpha:.20];
+    }else if (indexPath.section == TableViewSectionCatching) {
+        //catching
+        [cell.activityIndicator startAnimating];
+        cell.registerButton.alpha = 0.0f;
+        cell.slots.alpha = 0.0f;
+        [Helpers asyncronousBlockWithName:@"Get Slots" AndBlock:^{
+            PCFClassModel *class = [self.dataSource objectAtIndex:indexPath.row];
+            __block PCCCourseSlots *slots = [MyPurdueManager getCourseAvailabilityWithLink:class.classLink];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [cell.activityIndicator stopAnimating];
+                if ([slots.enrolled intValue] > 0) {
+                    [cell.slots fadeOut];
+                    [cell.registerButton fadeIn];
+                }else {
+                    [cell.registerButton fadeOut];
+                    [cell.slots fadeIn];
+                    [cell.slots setText:[NSString stringWithFormat:@"SLOTS: %@/%@", slots.enrolled, slots.capacity]];
+                    
+                }
+                
+                if (++numberFetched == self.dataSource.count) {
+                    isLoading = NO;
+                    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.5f];
+                }
+            });
+        }];
+    }
+    
     return cell;
 
 }
 
 #pragma mark UITableView Data Source
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == TableViewSectionNotifications) {
+        return @"Notifications";
+    }else if (section == TableViewSectionCatching) {
+        return @"Catching";
+    }
+    
+    return nil;
+}
+
+/*- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 25)];
+    [view setBackgroundColor:[Helpers purdueColor:PurdueColorDarkGrey]];//[Helpers purdueColor:PurdueColorYellow]];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 25)];
+    [label setTintColor:[Helpers purdueColor:PurdueColorYellow]];
+    [view addSubview:label];
+    
+    if (section == 0) {
+        [label setText:@"Notifications"];
+        return view;
+    }else if (section == 1) {
+        [label setText:@"Catching"];
+        return view;
+    }
+    
+    return nil;
+}*/
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataSource.count;
+    if (section == TableViewSectionNotifications) return [[PCCDataManager sharedInstance].arrayNotifications count];
+    if (section == TableViewSectionCatching) return [[PCCDataManager sharedInstance].arrayBasket count];
+    return 0;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    int numberOfSections = 1;
+    if ([[PCCDataManager sharedInstance].arrayNotifications count] > 0) numberOfSections++;
+    //if ([[PCCDataManager sharedInstance].arrayBasket count] > 0) numberOfSections++;
+    return numberOfSections;
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -159,8 +210,17 @@
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSMutableArray *dataSource = (indexPath.section == 0) ? [self.dataSource mutableCopy] : [PCCDataManager sharedInstance].arrayNotifications;
+    PCFClassModel *course = [dataSource objectAtIndex:indexPath.row];
+    
+    if (indexPath.section != 0) {
+        [dataSource removeObject:course];
+        [self reloadTableViewDataSource];
+        return;
+    }
+ 
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        PCFClassModel *course = [self.dataSource objectAtIndex:indexPath.row];
         NSArray *keys = [NSArray arrayWithObjects:@"crn" , @"term",  nil];
         NSArray *objects = [NSArray arrayWithObjects:course.CRN, course.term, nil];
         NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
@@ -208,8 +268,9 @@
     numberFetched = 0;
     isLoading = YES;
     self.dataSource = [[PCCDataManager sharedInstance] arrayBasket];
+    NSArray *notificationsArray = [[PCCDataManager sharedInstance] arrayNotifications];
     
-    if (!self.dataSource || self.dataSource.count == 0) {
+    if ((!self.dataSource || self.dataSource.count == 0) && (!notificationsArray || notificationsArray.count == 0)) {
         [self.tableView fadeOut];
         self.infoLabel.transform = CGAffineTransformMakeScale(0.001, 0.001);
         self.infoLabel.alpha = 1.0f;

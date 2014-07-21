@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#define SERVER_ADDRESS @"127.0.0.1"//@"PCW.crabdance.com"
+#if TARGET_IPHONE_SIMULATOR
+    #define SERVER_ADDRESS @"127.0.0.1"//@"PCW.crabdance.com"
+#else
+    #define SERVER_ADDRESS @"192.168.1.3"
+#endif
+
 #define PORT 12345
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
@@ -53,6 +58,8 @@ enum PurdueColor {
 };
 
 +(UIColor *)purdueColor:(enum PurdueColor)color;
++(UIColor *)purdueColor:(enum PurdueColor)color alpha:(CGFloat)alpha;
+
 
 /*Get details of the type of devices we are working with */
 +(BOOL)isiPhone;

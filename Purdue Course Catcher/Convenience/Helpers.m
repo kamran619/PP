@@ -18,31 +18,31 @@
 
 #pragma mark UI Colors
 
-+(UIColor *)purdueColor:(enum PurdueColor)color
++(UIColor *)purdueColor:(enum PurdueColor)color alpha:(CGFloat)alpha
 {
     UIColor *customColor;
     
     switch (color) {
         case PurdueColorYellow:
-            customColor = [UIColor colorWithRed:.890f green:.6824f blue:.1411f alpha:1.0f];
+            customColor = [UIColor colorWithRed:.890f green:.6824f blue:.1411f alpha:alpha];
             break;
         case PurdueColorDarkGrey:
-            customColor = [UIColor colorWithRed:.455f green:.4235f blue:.4f alpha:1.0f];
+            customColor = [UIColor colorWithRed:.455f green:.4235f blue:.4f alpha:alpha];
             break;
             
         case PurdueColorMidGrey:
             //167 169 172
-            customColor = [UIColor colorWithRed:.655f green:.6627f blue:.6745f alpha:1.0f];
+            customColor = [UIColor colorWithRed:.655f green:.6627f blue:.6745f alpha:alpha];
             break;
             
         case PurdueColorLightGrey:
             //209 211 212
-            customColor = [UIColor colorWithRed:.8196f green:.8274f blue:.8314f alpha:1.0f];
+            customColor = [UIColor colorWithRed:.8196f green:.8274f blue:.8314f alpha:alpha];
             break;
             
         case PurdueColorLightPink:
             //217,61,72
-            customColor = [UIColor colorWithRed:.85098f green:.23921f blue:.28235 alpha:1.0f];
+            customColor = [UIColor colorWithRed:.85098f green:.23921f blue:.28235 alpha:alpha];
             break;
             
         default:
@@ -50,6 +50,11 @@
     }
     
     return customColor;
+}
+
++(UIColor *)purdueColor:(enum PurdueColor)color
+{
+    return [[self class] purdueColor:color alpha:1.0f];
 }
 
 +(BOOL)isiPhone

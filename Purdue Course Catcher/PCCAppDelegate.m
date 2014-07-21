@@ -20,9 +20,15 @@
 #import "MyPurdueManager.h"
 #import "Helpers.h"
 #import <Crashlytics/Crashlytics.h>
+#import "PCCNotificationViewController.h"
+#import "PCFClassModel.h"
+#import "KPNotificationCenter.h"
+
 
 @implementation PCCAppDelegate
+{
 
+}
 -(void)customizeLook
 {
     [[UITabBar appearance] setTintColor:[Helpers purdueColor:PurdueColorYellow]];
@@ -67,7 +73,7 @@
             //PCCMenuViewController *menuVC  = [[PCCMenuViewController alloc] initCentralViewControllerWithViewController:controller];
             //self.window.rootViewController = menuVC;
             //application.applicationIconBadgeNumber = 0;
-            [self processPushNotification:launchOptions forApplicationState:UIApplicationStateBackground];
+            [self processPushNotification:launchOptions forApplicationState:UIApplicationStateInactive];
             return YES;
         }
         
@@ -84,8 +90,7 @@
     }
     
     [self.window makeKeyAndVisible];
-    
-
+    //[self processPushNotification:@{@"crn": @"42842"} forApplicationState:UIApplicationStateInactive];
     return YES;
 }
 
@@ -138,14 +143,54 @@
 
 -(void)processPushNotification:(NSDictionary *)userInfo forApplicationState:(UIApplicationState)state
 {
-    if (state == UIApplicationStateActive) {
-        //app is active
-        
-    }else if (state == UIApplicationStateBackground) {
-        //app is in the background
-        
+    if (!self.window.rootViewController) {
+        self.window.rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCTabBar"];
+        [self.window makeKeyAndVisible];
     }
+
+    PCFClassModel *ourClass = nil;
+    //Check if we are currently catching a course with this information
+    for (PCFClassModel *course in [[PCCDataManager sharedInstance] arrayBasket]) {
+        if (course.CRN.intValue == (long)[userInfo[@"crn"] intValue]) {
+            ourClass = course;
+            break;
+        }
+    }
+    //If we are, delete it and turn it into a notification
+    if (ourClass) {
+        [[PCCDataManager sharedInstance].arrayBasket removeObject:ourClass];
+        if (![[PCCDataManager sharedInstance].arrayNotifications containsObject:ourClass]) [[PCCDataManager sharedInstance].arrayNotifications addObject:ourClass];
+    }else {
+        PCFClassModel *course = [[PCFClassModel alloc] initWithClassTitle:userInfo[@"classTitle"] crn:userInfo[@"crn"] courseNumber:userInfo[@"courseNumber"] Time:nil Days:nil DateRange:nil ScheduleType:userInfo[@"scheduleType"] Instructor:nil Credits:nil ClassLink:nil CatalogLink:nil SectionNum:nil ClassLocation:nil Email:nil linkedID:nil linkedSection:nil term:userInfo[@"term"]];
+        if (![[PCCDataManager sharedInstance].arrayNotifications containsObject:ourClass]) [[PCCDataManager sharedInstance].arrayNotifications addObject:course];
+    }
+    
+    [[PCCDataManager sharedInstance] saveData];
+
+    NSString *message = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    message = [message stringByAppendingString:[NSString stringWithFormat:@"\nCRN:%@", [userInfo objectForKey:@"crn"]]];
+    NSString *title = @"Course Catcher";
+    PCCNotificationViewController *_notificationVC = [[PCCNotificationViewController alloc] initWithTitle:title andMessage:message andLeftButton:@"Dismiss" andRightButton:@"Register now!"];
+    //persist notification
+    _notificationVC.leftButtonCompletionBlock = ^(){
+        return YES;
+    };
+    
+    __weak __typeof__(self) weakSelf = self;
+    _notificationVC.rightButtonCompletionBlock = ^(){
+        
+        //two popups = memory crash
+        //if course search is open do something else
+        //if (self.window.rootViewController
+        UITabBarController *controller = (UITabBarController *)weakSelf.window.rootViewController;
+        [controller setSelectedIndex:3];
+
+        return YES;
+    };
+    
+    [[KPNotificationCenter sharedInstance] addNotification:_notificationVC];
 }
+
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {

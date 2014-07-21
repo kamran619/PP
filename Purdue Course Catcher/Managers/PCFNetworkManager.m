@@ -131,6 +131,9 @@ static PCFNetworkManager *_sharedInstance = nil;
     if ([self.delegate respondsToSelector:@selector(responseFromServer:initialRequest:wasSuccessful:)]) {
         [self.delegate responseFromServer:nil initialRequest:timer.userInfo wasSuccessful:NO];
     }
+    
+    [timer invalidate];
+    _timoutTimer = nil;
 }
 
 -(void)tearDownSocket
@@ -453,8 +456,13 @@ static PCFNetworkManager *_sharedInstance = nil;
 
 }
 
+const double timeoutValue = 6.0f;
+
 -(void)sendDataToServer:(NSData *)data forCommand:(ServerCommand)command
 {
+    if (!self.timoutTimer) self.timoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeoutValue target:self selector:@selector(fireTimeout:) userInfo:nil repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:self.timoutTimer forMode:NSDefaultRunLoopMode];
+    
     if (!self.initializedSocket) {
         [self initSocket];
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[self class] instanceMethodSignatureForSelector:@selector(sendDataToServer:forCommand:)]];
@@ -470,8 +478,6 @@ static PCFNetworkManager *_sharedInstance = nil;
     [Helpers asyncronousBlockWithName:@"Send Data" AndBlock:^{
         
         if ([self.outputStream hasSpaceAvailable]) {
-            self.timoutTimer = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(fireTimeout:) userInfo:nil repeats:NO];
-            [[NSRunLoop mainRunLoop] addTimer:self.timoutTimer forMode:NSDefaultRunLoopMode];
                 [self.outputStream write:[data bytes] maxLength:[data length]];
                 [self.outputStream write:@"\n".UTF8String maxLength:1];
         }else {

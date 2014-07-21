@@ -50,7 +50,7 @@
     if (firstTime == YES) {
         firstTime = NO;
         [self animateIn];
-    }
+    }GI
 }
 
 -(void)viewDidAppear:(BOOL)animated

@@ -43,8 +43,8 @@
     [PCFNetworkManager sharedInstance].delegate = self;
     
     if ([button.titleLabel.text isEqualToString:@"Catch"]) {
-        NSArray *keys = [NSArray arrayWithObjects:@"crn", @"classLink", @"courseNumber" , @"term",  nil];
-        NSArray *objects = [NSArray arrayWithObjects:self.course.CRN, self.course.classLink, self.course.courseNumber, self.course.term , nil];
+        NSArray *keys = [NSArray arrayWithObjects:@"crn", @"classLink", @"courseNumber" , @"term", @"courseTitle", @"scheduleType",  nil];
+        NSArray *objects = [NSArray arrayWithObjects:self.course.CRN, self.course.classLink, self.course.courseNumber, self.course.term, self.course.classTitle, self.course.scheduleType, nil];
         NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
         [[PCFNetworkManager sharedInstance] setDelegate:self];
         [[PCFNetworkManager sharedInstance] prepareDataForCommand:ServerCommandCatch withDictionary:dictionary];

@@ -11,6 +11,9 @@
 		FE1234D81949062A00DC324B /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1234D71949062A00DC324B /* book.png */; };
 		FE1234DA1949083D00DC324B /* planner2.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1234D91949083D00DC324B /* planner2.png */; };
 		FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE18308E188AF90C00EC68FC /* PCCTermViewController.m */; };
+		FE2356C0196A002B003841FE /* PCCNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2356BE196A002B003841FE /* PCCNotificationViewController.m */; };
+		FE2356C1196A002B003841FE /* PCCNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE2356BF196A002B003841FE /* PCCNotificationViewController.xib */; };
+		FE2356C8196F98B3003841FE /* KPNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2356C7196F98B3003841FE /* KPNotificationCenter.m */; };
 		FE2410541873C6B000AA6328 /* icon-error.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104C1873C6B000AA6328 /* icon-error.png */; };
 		FE2410551873C6B000AA6328 /* icon-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104D1873C6B000AA6328 /* icon-error@2x.png */; };
 		FE2410561873C6B000AA6328 /* icon-info.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24104E1873C6B000AA6328 /* icon-info.png */; };
@@ -179,6 +182,11 @@
 		FE1234D91949083D00DC324B /* planner2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner2.png; sourceTree = "<group>"; };
 		FE18308D188AF90C00EC68FC /* PCCTermViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCTermViewController.h; path = "Purdue Course Catcher/View Controllers/PCCTermViewController.h"; sourceTree = "<group>"; };
 		FE18308E188AF90C00EC68FC /* PCCTermViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCTermViewController.m; path = "Purdue Course Catcher/View Controllers/PCCTermViewController.m"; sourceTree = "<group>"; };
+		FE2356BD196A002B003841FE /* PCCNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCNotificationViewController.h; path = "Purdue Course Catcher/View Controllers/PCCNotificationViewController.h"; sourceTree = "<group>"; };
+		FE2356BE196A002B003841FE /* PCCNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCNotificationViewController.m; path = "Purdue Course Catcher/View Controllers/PCCNotificationViewController.m"; sourceTree = "<group>"; };
+		FE2356BF196A002B003841FE /* PCCNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PCCNotificationViewController.xib; path = "Purdue Course Catcher/View Controllers/PCCNotificationViewController.xib"; sourceTree = "<group>"; };
+		FE2356C6196F98B3003841FE /* KPNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KPNotificationCenter.h; path = "Purdue Course Catcher/Shared/KPNotificationCenter.h"; sourceTree = "<group>"; };
+		FE2356C7196F98B3003841FE /* KPNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KPNotificationCenter.m; path = "Purdue Course Catcher/Shared/KPNotificationCenter.m"; sourceTree = "<group>"; };
 		FE24104C1873C6B000AA6328 /* icon-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-error.png"; sourceTree = "<group>"; };
 		FE24104D1873C6B000AA6328 /* icon-error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-error@2x.png"; sourceTree = "<group>"; };
 		FE24104E1873C6B000AA6328 /* icon-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-info.png"; sourceTree = "<group>"; };
@@ -427,6 +435,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FE2356BC1969FFF3003841FE /* Notification View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FE2356BD196A002B003841FE /* PCCNotificationViewController.h */,
+				FE2356BE196A002B003841FE /* PCCNotificationViewController.m */,
+				FE2356BF196A002B003841FE /* PCCNotificationViewController.xib */,
+			);
+			name = "Notification View Controller";
+			sourceTree = "<group>";
+		};
+		FE2356C5196F9853003841FE /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				FE2356C6196F98B3003841FE /* KPNotificationCenter.h */,
+				FE2356C7196F98B3003841FE /* KPNotificationCenter.m */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
 		FE24104B1873C6B000AA6328 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,10 +536,6 @@
 		FE3FDBF01925879800B88731 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FE3FDBF1192587B900B88731 /* PCCSearchResultsFilterViewController.h */,
-				FE3FDBF2192587B900B88731 /* PCCSearchResultsFilterViewController.m */,
-				FE8B19A7192E7F83008422F6 /* PCCSearchFilterViewController.h */,
-				FE8B19A8192E7F83008422F6 /* PCCSearchFilterViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -558,6 +581,7 @@
 		FE5530CF184D3C4900D13587 = {
 			isa = PBXGroup;
 			children = (
+				FE2356C5196F9853003841FE /* Shared */,
 				FE50C5101870986300EF24BA /* Cells */,
 				FED58A2918908DDE001991F2 /* Assets */,
 				FEA2017018711732009DFE84 /* Transitions */,
@@ -642,6 +666,10 @@
 		FE55311A184D3DA900D13587 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FE3FDBF1192587B900B88731 /* PCCSearchResultsFilterViewController.h */,
+				FE3FDBF2192587B900B88731 /* PCCSearchResultsFilterViewController.m */,
+				FE8B19A7192E7F83008422F6 /* PCCSearchFilterViewController.h */,
+				FE8B19A8192E7F83008422F6 /* PCCSearchFilterViewController.m */,
 				FE24FFE3187E5F2F004D540E /* PCCFacebookLoginViewController.h */,
 				FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */,
 				FE24FFE0187E1974004D540E /* PCCPurdueLoginViewController.h */,
@@ -680,6 +708,7 @@
 				FE50C2DD18E7C39200C82363 /* PCCTabBarController.m */,
 				FE83AEAB18EF8A8A00324E20 /* PCCRatingViewController.h */,
 				FE83AEAC18EF8A8A00324E20 /* PCCRatingViewController.m */,
+				FE2356BC1969FFF3003841FE /* Notification View Controller */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1054,6 +1083,7 @@
 				FE9BD48D193EC4D8006BC34B /* filter_normal.png in Resources */,
 				FE5530E6184D3C4900D13587 /* InfoPlist.strings in Resources */,
 				FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */,
+				FE2356C1196A002B003841FE /* PCCNotificationViewController.xib in Resources */,
 				FE9BD490193EC4D8006BC34B /* filter_selected@2x.png in Resources */,
 				FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */,
 				FE9BD487193EBFBF006BC34B /* ratings_selected@2x.png in Resources */,
@@ -1137,6 +1167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE2356C0196A002B003841FE /* PCCNotificationViewController.m in Sources */,
 				FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */,
 				FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */,
 				FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */,
@@ -1164,6 +1195,7 @@
 				FE6BBC9B1866777600760E7A /* PCCScheduleCell.m in Sources */,
 				FEBC7084188258BE00BCF873 /* PCCCatcherCell.m in Sources */,
 				FEB638F918D000F00066F982 /* PCCPurchaseViewController.m in Sources */,
+				FE2356C8196F98B3003841FE /* KPNotificationCenter.m in Sources */,
 				FE7B735118CE992F003D9D11 /* PCCSettingsCell.m in Sources */,
 				FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */,
 				FE9628D5185ED9A100F699B5 /* PCCObject.m in Sources */,
