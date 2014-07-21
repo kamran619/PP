@@ -1970,7 +1970,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled">
-                                                        <color key="titleColor" patternImage="E0907096-988A-4AA6-87C7-549B7CBEF9CA" colorSpace="pattern"/>
+                                                        <color key="titleColor" patternImage="031541B1-D54C-404E-8024-37BD855A2921" colorSpace="pattern"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -2921,8 +2921,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="Debug-Bug-icon.png" width="512" height="512"/>
-        <image name="E0907096-988A-4AA6-87C7-549B7CBEF9CA" width="256" height="256">
+        <image name="031541B1-D54C-404E-8024-37BD855A2921" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -7364,6 +7363,7 @@ BA6JAAQOkQAEDp4ABA6jAAQOpQAEDqcABA6sAAQOtAAEDrcABA68AAQOxAAEDscABA7ZAAQO3AAEDuEA
 AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
 </mutableData>
         </image>
+        <image name="Debug-Bug-icon.png" width="512" height="512"/>
         <image name="basket.png" width="256" height="256"/>
         <image name="cart.png" width="512" height="512"/>
         <image name="comments.png" width="30" height="30"/>
