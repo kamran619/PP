@@ -32,6 +32,14 @@
 -(void)customizeLook
 {
     [[UITabBar appearance] setTintColor:[Helpers purdueColor:PurdueColorYellow]];
+    NSShadow *shadow = [NSShadow new];
+    shadow.shadowOffset = CGSizeMake(0.0f, 1.0f);
+     shadow.shadowColor = [UIColor whiteColor];
+     NSDictionary *attributes = @{
+                                    NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f],
+                                    NSShadowAttributeName: shadow
+                                };
+    [[UINavigationBar appearance] setTitleTextAttributes:attributes];
     //[[UINavigationBar appearance] setOpaque:YES];
     //[[UINavigationBar appearance] setTranslucent:YES];
     //[[UINavigationBar appearance] setTintColor:[UIColor clearColor]];

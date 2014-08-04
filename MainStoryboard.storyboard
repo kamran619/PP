@@ -1970,7 +1970,7 @@ Don't worry, this information is encrypted, and only sent to Purdue</string>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled">
-                                                        <color key="titleColor" patternImage="031541B1-D54C-404E-8024-37BD855A2921" colorSpace="pattern"/>
+                                                        <color key="titleColor" patternImage="B78B1959-4B9A-477A-8965-77DBB95FF798" colorSpace="pattern"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -2706,7 +2706,11 @@ No more registration headaches.</string>
                     </view>
                     <navigationItem key="navigationItem" title="Ratings" id="FkG-1e-nug">
                         <barButtonItem key="leftBarButtonItem" systemItem="search" id="t4b-mP-mez"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="WTk-Ba-70L"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="WTk-Ba-70L">
+                            <connections>
+                                <action selector="addRating:" destination="JHZ-AN-6rw" id="2KA-Li-Pxh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="B6e-Fl-hm0" id="yVt-bk-2GU"/>
@@ -2716,6 +2720,225 @@ No more registration headaches.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yZ-Cd-d62" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-422" y="-2783"/>
+        </scene>
+        <!--Rating Type View Controller - Who would you like to rate?-->
+        <scene sceneID="Lwr-hB-TFP">
+            <objects>
+                <viewController id="OS5-Np-4JA" customClass="PCCRatingTypeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ICP-43-WWm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4nJ-ir-lCv">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kAddRatingCell" textLabel="C3G-AR-CaP" style="IBUITableViewCellStyleDefault" id="m6p-Gc-idI">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m6p-Gc-idI" id="BDi-fH-EKj">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Professor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C3G-AR-CaP">
+                                                    <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="OS5-Np-4JA" id="fz7-Hw-UV4"/>
+                                    <outlet property="delegate" destination="OS5-Np-4JA" id="6rD-wa-r1v"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                    </view>
+                    <navigationItem key="navigationItem" title="Who would you like to rate?" id="QoS-Fb-Sm8">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="tEH-zS-eAG"/>
+                    </navigationItem>
+                    <size key="freeformSize" width="320" height="300"/>
+                    <connections>
+                        <outlet property="tableView" destination="4nJ-ir-lCv" id="1X3-Qb-mgY"/>
+                        <segue destination="IaR-XF-2nS" kind="push" identifier="segueChooseSemester" id="jog-a7-Rpw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bY6-cl-M4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="490" y="-2783"/>
+        </scene>
+        <!--Add Rating Choose Semester View Controller - From which semester?-->
+        <scene sceneID="6Za-eB-4B1">
+            <objects>
+                <viewController storyboardIdentifier="PCCAddRatingChooseSemester" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IaR-XF-2nS" customClass="PCCAddRatingChooseSemesterViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8HM-xS-0yA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="f6h-c6-6q9">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kAddRatingSemesterCell" textLabel="8ia-GB-WbG" style="IBUITableViewCellStyleDefault" id="jdc-vq-cMS">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jdc-vq-cMS" id="vgt-lT-4Fc">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Spring 2014" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8ia-GB-WbG">
+                                                    <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="IaR-XF-2nS" id="k1x-6O-cEh"/>
+                                    <outlet property="delegate" destination="IaR-XF-2nS" id="jJd-Yw-aXo"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="From which semester?" id="AhW-hC-c8W"/>
+                    <connections>
+                        <outlet property="tableView" destination="f6h-c6-6q9" id="18k-xr-12x"/>
+                        <segue destination="Enb-2m-64h" kind="push" identifier="segueAddChooseProfessor" id="p5g-Iy-chv"/>
+                        <segue destination="avt-zM-8ie" kind="push" identifier="segueAddChooseCourse" id="Mfy-cf-xay"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MeL-26-CP3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="911" y="-2783"/>
+        </scene>
+        <!--Add Rating Choose Professor View Controller - Which professor?-->
+        <scene sceneID="o7L-dl-Lkp">
+            <objects>
+                <viewController id="Enb-2m-64h" customClass="PCCAddRatingChooseProfessorViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="z61-LL-Ype">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VWE-G8-B9O">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kAddRatingProfessorCell" textLabel="x1d-hT-4tQ" style="IBUITableViewCellStyleDefault" id="7Hp-Wz-LXq">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Hp-Wz-LXq" id="DAM-8Z-ejX">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Mikhail A Gustavo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="x1d-hT-4tQ">
+                                                    <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="14"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="avt-zM-8ie" kind="push" identifier="segueAddChooseCourse" id="Lwf-BM-KaQ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Enb-2m-64h" id="QI7-Wy-NYE"/>
+                                    <outlet property="delegate" destination="Enb-2m-64h" id="RZb-c8-I0u"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Which professor?" id="9wA-A1-2bS"/>
+                    <connections>
+                        <outlet property="tableView" destination="VWE-G8-B9O" id="hm6-db-3vv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nQm-7t-lyw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1203" y="-3525"/>
+        </scene>
+        <!--Add Rating Choose Course View Controller - Which course?-->
+        <scene sceneID="IDI-cx-gFf">
+            <objects>
+                <viewController id="avt-zM-8ie" customClass="PCCAddRatingChooseCourseViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Zng-3I-b48">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="67" sectionHeaderHeight="22" sectionFooterHeight="22" id="qCV-ze-8BX">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kAddRatingCourseCell" rowHeight="67" id="Aq5-vp-6wy" customClass="PCCUserCourseCell">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="67"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Aq5-vp-6wy" id="ofq-S4-fcx">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="66"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to Analysis of Algorithms" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="11" id="1Mh-yC-HMa">
+                                                    <rect key="frame" x="20" y="14" width="244" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="H1B-A9-NSZ">
+                                                    <rect key="frame" x="20" y="35" width="211" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                    <color key="textColor" red="0.89019607840000003" green="0.68235294120000001" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 credit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1h5-or-XOm">
+                                                    <rect key="frame" x="223" y="35" width="60" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="courseTitle" destination="1Mh-yC-HMa" id="qv2-CC-kA4"/>
+                                            <outlet property="credit" destination="1h5-or-XOm" id="Fsd-3h-S6C"/>
+                                            <outlet property="type" destination="H1B-A9-NSZ" id="Xsc-xD-atU"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="avt-zM-8ie" id="Xay-1N-ren"/>
+                                    <outlet property="delegate" destination="avt-zM-8ie" id="Lht-pf-tN2"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                    </view>
+                    <navigationItem key="navigationItem" title="Which course?" id="C3s-vt-9BX"/>
+                    <connections>
+                        <outlet property="tableView" destination="qCV-ze-8BX" id="ifo-fA-RSp"/>
+                        <segue destination="48C-Il-zex" kind="push" id="aPB-fC-Z03"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NxB-fA-mAm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1522" y="-2751"/>
         </scene>
         <!--Search Results Filter View Controller-->
         <scene sceneID="Hug-7f-mfF">
@@ -2919,9 +3142,74 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="475" y="-854"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="FBT-w9-3UW">
+            <objects>
+                <navigationController storyboardIdentifier="PCCAddRatings" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="UKt-1d-QwK" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Cvf-q0-Qsf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OS5-Np-4JA" kind="relationship" relationship="rootViewController" id="g0v-Bb-n3s"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xJi-Vx-59h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="39" y="-2783"/>
+        </scene>
+        <!--Leave Rating View Controller - Introduction To The Analysis Of Algorithms-->
+        <scene sceneID="5qi-Fw-gwU">
+            <objects>
+                <viewController id="48C-Il-zex" customClass="PCCLeaveRatingViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cqB-il-7i0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="bmL-fP-HxQ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overall" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sym-b5-l7b">
+                                        <rect key="frame" x="20" y="87" width="280" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What do you think of this X overall" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cGb-lD-Sss">
+                                        <rect key="frame" x="20" y="238" width="280" height="93"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star-0.png" id="cTD-oq-vys">
+                                        <rect key="frame" x="40" y="161" width="240" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Introduction To The Analysis Of Algorithms" id="MQ6-C2-tfH"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="detailLabel" destination="cGb-lD-Sss" id="dFF-aI-F1D"/>
+                        <outlet property="mainLabel" destination="sym-b5-l7b" id="FY4-dA-mvF"/>
+                        <outlet property="stars" destination="cTD-oq-vys" id="d64-Oq-xEx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l3N-wk-Q5n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1935" y="-2751"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="031541B1-D54C-404E-8024-37BD855A2921" width="256" height="256">
+        <image name="B78B1959-4B9A-477A-8965-77DBB95FF798" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -7373,6 +7661,7 @@ AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
         <image name="info.png" width="258" height="258"/>
         <image name="mail.png" width="512" height="512"/>
         <image name="search_line.png" width="30" height="30"/>
+        <image name="star-0.png" width="198" height="38"/>
         <image name="star-3.png" width="198" height="38"/>
         <image name="twitter.jpg" width="225" height="225"/>
     </resources>
@@ -7383,7 +7672,8 @@ AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="cnH-rc-rKR"/>
         <segue reference="NOC-ve-nAJ"/>
+        <segue reference="cnH-rc-rKR"/>
+        <segue reference="Mfy-cf-xay"/>
     </inferredMetricsTieBreakers>
 </document>

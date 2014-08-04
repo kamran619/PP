@@ -152,6 +152,13 @@
 		FEDEB412193EB42000EC3C92 /* notification_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEDEB40A193EB42000EC3C92 /* notification_normal@2x.png */; };
 		FEDEB415193EB42000EC3C92 /* settings_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = FEDEB40D193EB42000EC3C92 /* settings_normal.png */; };
 		FEDEB416193EB42000EC3C92 /* settings_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEDEB40E193EB42000EC3C92 /* settings_normal@2x.png */; };
+		FEE41952198D78D80024F770 /* KPTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE41951198D78D80024F770 /* KPTransitionManager.m */; };
+		FEE41955198DB68E0024F770 /* PCCRatingTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE41954198DB68E0024F770 /* PCCRatingTypeViewController.m */; };
+		FEE41958198F26CA0024F770 /* PCCLeaveRatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE41957198F26CA0024F770 /* PCCLeaveRatingViewController.m */; };
+		FEE4195B198F2D1C0024F770 /* PCCAddRatingChooseProfessorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE4195A198F2D1C0024F770 /* PCCAddRatingChooseProfessorViewController.m */; };
+		FEE4195E198F2DCA0024F770 /* PCCAddRatingChooseCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE4195D198F2DCA0024F770 /* PCCAddRatingChooseCourseViewController.m */; };
+		FEE41961198F30790024F770 /* PCCAddRatingChooseSemesterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE41960198F30790024F770 /* PCCAddRatingChooseSemesterViewController.m */; };
+		FEE41964198F821E0024F770 /* PCCUserCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE41963198F821E0024F770 /* PCCUserCourseCell.m */; };
 		FEE5719E186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FEE5719F186A4E4A00FE8FA8 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57196186A4E4A00FE8FA8 /* blackArrow.png */; };
 		FEE571A0186A4E4A00FE8FA8 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEE57197186A4E4A00FE8FA8 /* blackArrow@2x.png */; };
@@ -390,6 +397,20 @@
 		FEDEB40A193EB42000EC3C92 /* notification_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification_normal@2x.png"; sourceTree = "<group>"; };
 		FEDEB40D193EB42000EC3C92 /* settings_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_normal.png; sourceTree = "<group>"; };
 		FEDEB40E193EB42000EC3C92 /* settings_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_normal@2x.png"; sourceTree = "<group>"; };
+		FEE41950198D78D80024F770 /* KPTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KPTransitionManager.h; path = "Purdue Course Catcher/Shared/KPTransitionManager.h"; sourceTree = "<group>"; };
+		FEE41951198D78D80024F770 /* KPTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KPTransitionManager.m; path = "Purdue Course Catcher/Shared/KPTransitionManager.m"; sourceTree = "<group>"; };
+		FEE41953198DB68E0024F770 /* PCCRatingTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRatingTypeViewController.h; path = "Purdue Course Catcher/View Controllers/PCCRatingTypeViewController.h"; sourceTree = "<group>"; };
+		FEE41954198DB68E0024F770 /* PCCRatingTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRatingTypeViewController.m; path = "Purdue Course Catcher/View Controllers/PCCRatingTypeViewController.m"; sourceTree = "<group>"; };
+		FEE41956198F26CA0024F770 /* PCCLeaveRatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCLeaveRatingViewController.h; path = "Purdue Course Catcher/View Controllers/PCCLeaveRatingViewController.h"; sourceTree = "<group>"; };
+		FEE41957198F26CA0024F770 /* PCCLeaveRatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCLeaveRatingViewController.m; path = "Purdue Course Catcher/View Controllers/PCCLeaveRatingViewController.m"; sourceTree = "<group>"; };
+		FEE41959198F2D1C0024F770 /* PCCAddRatingChooseProfessorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCAddRatingChooseProfessorViewController.h; path = "Purdue Course Catcher/View Controllers/PCCAddRatingChooseProfessorViewController.h"; sourceTree = "<group>"; };
+		FEE4195A198F2D1C0024F770 /* PCCAddRatingChooseProfessorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCAddRatingChooseProfessorViewController.m; path = "Purdue Course Catcher/View Controllers/PCCAddRatingChooseProfessorViewController.m"; sourceTree = "<group>"; };
+		FEE4195C198F2DCA0024F770 /* PCCAddRatingChooseCourseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCAddRatingChooseCourseViewController.h; path = "Purdue Course Catcher/View Controllers/PCCAddRatingChooseCourseViewController.h"; sourceTree = "<group>"; };
+		FEE4195D198F2DCA0024F770 /* PCCAddRatingChooseCourseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCAddRatingChooseCourseViewController.m; path = "Purdue Course Catcher/View Controllers/PCCAddRatingChooseCourseViewController.m"; sourceTree = "<group>"; };
+		FEE4195F198F30790024F770 /* PCCAddRatingChooseSemesterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCAddRatingChooseSemesterViewController.h; path = "Purdue Course Catcher/View Controllers/PCCAddRatingChooseSemesterViewController.h"; sourceTree = "<group>"; };
+		FEE41960198F30790024F770 /* PCCAddRatingChooseSemesterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCAddRatingChooseSemesterViewController.m; path = "Purdue Course Catcher/View Controllers/PCCAddRatingChooseSemesterViewController.m"; sourceTree = "<group>"; };
+		FEE41962198F821E0024F770 /* PCCUserCourseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCUserCourseCell.h; path = "Purdue Course Catcher/Cells/PCCUserCourseCell.h"; sourceTree = "<group>"; };
+		FEE41963198F821E0024F770 /* PCCUserCourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCUserCourseCell.m; path = "Purdue Course Catcher/Cells/PCCUserCourseCell.m"; sourceTree = "<group>"; };
 		FEE57193186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		FEE57194186A4E4A00FE8FA8 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		FEE57196186A4E4A00FE8FA8 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -441,6 +462,14 @@
 				FE2356BD196A002B003841FE /* PCCNotificationViewController.h */,
 				FE2356BE196A002B003841FE /* PCCNotificationViewController.m */,
 				FE2356BF196A002B003841FE /* PCCNotificationViewController.xib */,
+				FEE41956198F26CA0024F770 /* PCCLeaveRatingViewController.h */,
+				FEE41957198F26CA0024F770 /* PCCLeaveRatingViewController.m */,
+				FEE4195C198F2DCA0024F770 /* PCCAddRatingChooseCourseViewController.h */,
+				FEE4195D198F2DCA0024F770 /* PCCAddRatingChooseCourseViewController.m */,
+				FEE41959198F2D1C0024F770 /* PCCAddRatingChooseProfessorViewController.h */,
+				FEE4195A198F2D1C0024F770 /* PCCAddRatingChooseProfessorViewController.m */,
+				FEE4195F198F30790024F770 /* PCCAddRatingChooseSemesterViewController.h */,
+				FEE41960198F30790024F770 /* PCCAddRatingChooseSemesterViewController.m */,
 			);
 			name = "Notification View Controller";
 			sourceTree = "<group>";
@@ -450,6 +479,8 @@
 			children = (
 				FE2356C6196F98B3003841FE /* KPNotificationCenter.h */,
 				FE2356C7196F98B3003841FE /* KPNotificationCenter.m */,
+				FEE41950198D78D80024F770 /* KPTransitionManager.h */,
+				FEE41951198D78D80024F770 /* KPTransitionManager.m */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -567,6 +598,8 @@
 				FE2744F91900711C007088D6 /* PCCourseRatingsCell.m */,
 				FE2744FB190071CD007088D6 /* PCCProfessorRatingsCell.h */,
 				FE2744FC190071CD007088D6 /* PCCProfessorRatingsCell.m */,
+				FEE41962198F821E0024F770 /* PCCUserCourseCell.h */,
+				FEE41963198F821E0024F770 /* PCCUserCourseCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -709,6 +742,8 @@
 				FE83AEAB18EF8A8A00324E20 /* PCCRatingViewController.h */,
 				FE83AEAC18EF8A8A00324E20 /* PCCRatingViewController.m */,
 				FE2356BC1969FFF3003841FE /* Notification View Controller */,
+				FEE41953198DB68E0024F770 /* PCCRatingTypeViewController.h */,
+				FEE41954198DB68E0024F770 /* PCCRatingTypeViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1169,12 +1204,14 @@
 			files = (
 				FE2356C0196A002B003841FE /* PCCNotificationViewController.m in Sources */,
 				FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */,
+				FEE41964198F821E0024F770 /* PCCUserCourseCell.m in Sources */,
 				FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */,
 				FE9628C0185ECF9F00F699B5 /* PCCSearchViewController.m in Sources */,
 				FEAE7FA418976075001FBC09 /* PCCRegistrationStatusViewViewController.m in Sources */,
 				FEE89B8A18CEB3D60026AB5F /* PCCStoreCell.m in Sources */,
 				FE18308F188AF90C00EC68FC /* PCCTermViewController.m in Sources */,
 				FED58A401890E3B8001991F2 /* PCCLinkedSectionViewController.m in Sources */,
+				FEE4195B198F2D1C0024F770 /* PCCAddRatingChooseProfessorViewController.m in Sources */,
 				FE3FDBEF1925872C00B88731 /* AKPickerView.m in Sources */,
 				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
 				FE3FDBF3192587B900B88731 /* PCCSearchResultsFilterViewController.m in Sources */,
@@ -1183,6 +1220,7 @@
 				FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,
 				FE50C2DE18E7C39200C82363 /* PCCTabBarController.m in Sources */,
+				FEE41955198DB68E0024F770 /* PCCRatingTypeViewController.m in Sources */,
 				FE7B734B18CE8D99003D9D11 /* VerificationController.m in Sources */,
 				FEB99657188DABFE0017C552 /* PCCHeaderViewController.m in Sources */,
 				FE50C5131870989A00EF24BA /* PCCEmptyCell.m in Sources */,
@@ -1193,20 +1231,24 @@
 				FE9628C4185ED75200F699B5 /* MyPurdueManager.m in Sources */,
 				FED58A281890647A001991F2 /* PCCRegistrationDropCell.m in Sources */,
 				FE6BBC9B1866777600760E7A /* PCCScheduleCell.m in Sources */,
+				FEE41952198D78D80024F770 /* KPTransitionManager.m in Sources */,
 				FEBC7084188258BE00BCF873 /* PCCCatcherCell.m in Sources */,
 				FEB638F918D000F00066F982 /* PCCPurchaseViewController.m in Sources */,
 				FE2356C8196F98B3003841FE /* KPNotificationCenter.m in Sources */,
 				FE7B735118CE992F003D9D11 /* PCCSettingsCell.m in Sources */,
 				FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */,
 				FE9628D5185ED9A100F699B5 /* PCCObject.m in Sources */,
+				FEE4195E198F2DCA0024F770 /* PCCAddRatingChooseCourseViewController.m in Sources */,
 				FE9628DB185EDA1700F699B5 /* Reachability.m in Sources */,
 				FE9628D8185ED9D500F699B5 /* PCFNetworkManager.m in Sources */,
 				FEA2017618711842009DFE84 /* DropAnimationController.m in Sources */,
 				FE9628DE185FBCA800F699B5 /* PCCDataManager.m in Sources */,
+				FEE41958198F26CA0024F770 /* PCCLeaveRatingViewController.m in Sources */,
 				FE5530E8184D3C4900D13587 /* main.m in Sources */,
 				FE24105A1873C6B000AA6328 /* TWMessageBarManager.m in Sources */,
 				FE7B734A18CE8D99003D9D11 /* NSData+Base64.m in Sources */,
 				FE9628D2185ED9A100F699B5 /* Course.m in Sources */,
+				FEE41961198F30790024F770 /* PCCAddRatingChooseSemesterViewController.m in Sources */,
 				FE24107C1875409900AA6328 /* PCCHUDView.m in Sources */,
 				FEA2017718711842009DFE84 /* ZoomAnimationController.m in Sources */,
 				FE241082187545A400AA6328 /* PCCHUDManager.m in Sources */,

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Helpers.h"
 
-@class PCCCourseSlots;
+@class PCCCourseSlots, PCCObject;
 
 @interface MyPurdueManager : NSObject <NSURLConnectionDelegate, UIAlertViewDelegate>
 
@@ -27,7 +27,10 @@
 
 -(NSArray *)getCurrentScheduleViaWeekAtAGlance;
 -(NSArray *)getCurrentScheduleViaConciseSchedule;
+-(NSArray *)getCurrentScheduleViaConciseScheduleWithTerm:(PCCObject *)term;
 -(NSArray *)getCurrentScheduleViaDetailSchedule;
+-(NSArray *)getCurrentScheduleViaDetailScheduleWithTerm:(PCCObject *)term;
+
 
 +(NSArray *)getTerms;
 +(NSArray *)getMinimalTerms;

@@ -195,7 +195,12 @@ static MyPurdueManager *_sharedInstance = nil;
     return [[self class] parseData:data type:ParseStudentInformation term:nil];
 }
 
--(NSArray *)getCurrentScheduleViaDetailSchedule
+- (NSArray *)getCurrentScheduleViaDetailSchedule {
+    PCCObject *term = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+    return [self getCurrentScheduleViaDetailScheduleWithTerm:term];
+}
+
+-(NSArray *)getCurrentScheduleViaDetailScheduleWithTerm:(PCCObject *)term
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/cp/home/next"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
@@ -205,14 +210,14 @@ static MyPurdueManager *_sharedInstance = nil;
     [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:@"https://wl.mypurdue.purdue.edu" referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
     data = [[self class] queryServerWithRequest:request];
     /*goto Academic
-    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/tag.255ba722eec6462f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
-    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"];
-    data = [[self class] queryServerWithRequest:request];
+     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/tag.255ba722eec6462f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+     [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"];
+     data = [[self class] queryServerWithRequest:request];
      */
     //goto concise schedule
     /*request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.UserLayoutRootNode.uP?uP_tparam=utf&utf=%2fcp%2fip%2flogin%3fsys%3dsctssb%26url%3dhttps://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_DETSCHED"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
-    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/tag.f8d77798926caba4.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="];
-    data = [[self class] queryServerWithRequest:request];
+     [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/tag.f8d77798926caba4.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="];
+     data = [[self class] queryServerWithRequest:request];
      */
     //2
     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm=backLinked&uP_tparam=utf&utf=&/cp/ip/login?sys=sctssb&url=https://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_DETSCHED"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
@@ -233,7 +238,7 @@ static MyPurdueManager *_sharedInstance = nil;
     //final post
     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/bwskfshd.P_CrseSchdDetl"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"selfservice.mypurdue.purdue.edu" origin:@"https://selfservice.mypurdue.purdue.edu" referer:@"https://selfservice.mypurdue.purdue.edu/prod/bwskcrse.P_CrseSchdDetl"];
-    PCCObject *obj = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+    PCCObject *obj = term;
     NSString *form_parameter = [NSString stringWithFormat:@"term_in=%@", obj.value];
     NSData *requestBody = [form_parameter dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[requestBody length]];
@@ -246,23 +251,29 @@ static MyPurdueManager *_sharedInstance = nil;
 
 -(NSArray *)getCurrentScheduleViaConciseSchedule
 {
+    return [self getCurrentScheduleViaConciseScheduleWithTerm:[[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow]];
+}
+
+
+-(NSArray *)getCurrentScheduleViaConciseScheduleWithTerm:(PCCObject *)term
+{
     /*NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/cp/home/next"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
-    [self setupRequest:request type:@"POST" host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
-    NSString *data = [[self class] queryServerWithRequest:request];
-    //return [self gotoUPNP];
-    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
-    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:@"https://wl.mypurdue.purdue.edu" referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
-    data = [[self class] queryServerWithRequest:request];
+     [self setupRequest:request type:@"POST" host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
+     NSString *data = [[self class] queryServerWithRequest:request];
+     //return [self gotoUPNP];
+     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+     [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:@"https://wl.mypurdue.purdue.edu" referer:@"https://wl.mypurdue.purdue.edu/cps/welcome/loginok.html"];
+     data = [[self class] queryServerWithRequest:request];
      */
     /*
-    //goto Academic
-    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/tag.255ba722eec6462f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
-    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"];
-    data = [[self class] queryServerWithRequest:request];
-    //goto concise schedule
-    request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.UserLayoutRootNode.uP?uP_tparam=utf&utf=%2fcp%2fip%2flogin%3fsys%3dsctssb%26url%3dhttps://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_CONCSCHED"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
-    [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/tag.f8d77798926caba4.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="];
-    data = [[self class] queryServerWithRequest:request];
+     //goto Academic
+     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/tag.255ba722eec6462f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+     [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/render.userLayoutRootNode.uP?uP_root=root"];
+     data = [[self class] queryServerWithRequest:request];
+     //goto concise schedule
+     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.UserLayoutRootNode.uP?uP_tparam=utf&utf=%2fcp%2fip%2flogin%3fsys%3dsctssb%26url%3dhttps://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_CONCSCHED"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
+     [self setupRequest:request type:nil host:@"wl.mypurdue.purdue.edu" origin:nil referer:@"https://wl.mypurdue.purdue.edu/tag.f8d77798926caba4.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm="];
+     data = [[self class] queryServerWithRequest:request];
      */
     //2
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://wl.mypurdue.purdue.edu/render.uP?uP_root=root&uP_sparam=activeTab&activeTab=u12l1s2&uP_tparam=frm&frm=backLinked&uP_tparam=utf&utf=&/cp/ip/login?sys=sctssb&url=https://selfservice.mypurdue.purdue.edu/prod/tzwkwbis.P_CheckAgreeAndRedir?ret_code=STU_CONCSCHED"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
@@ -283,7 +294,7 @@ static MyPurdueManager *_sharedInstance = nil;
     //final post
     request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://selfservice.mypurdue.purdue.edu/prod/bwskcrse.P_CrseSchdDetl"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0f];
     [self setupRequest:request type:@"POST" host:@"selfservice.mypurdue.purdue.edu" origin:@"https://selfservice.mypurdue.purdue.edu" referer:@"https://selfservice.mypurdue.purdue.edu/prod/bwskcrse.P_CrseSchdDetl"];
-    PCCObject *obj = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kPreferredScheduleToShow];
+    PCCObject *obj = term;
     NSString *form_parameter = [NSString stringWithFormat:@"term_in=%@", obj.value];
     NSData *requestBody = [form_parameter dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[requestBody length]];
@@ -294,6 +305,7 @@ static MyPurdueManager *_sharedInstance = nil;
     return [[self class] parseData:data type:ParseScheduleDataFromConciseSchedule term:nil];
     return nil;
 }
+
 
 -(NSString *)getPinForSemester:(NSString *)semester
 {

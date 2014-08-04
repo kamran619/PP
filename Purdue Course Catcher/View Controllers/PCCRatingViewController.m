@@ -14,6 +14,8 @@
 #import "PCCCourseRatingsCell.h"
 #import "PCCProfessorRatingsCell.h"
 #import "Helpers.h"
+#import "KPTransitionManager.h"
+#import "PCCRatingTypeViewController.h"
 
 @interface PCCRatingViewController ()
 
@@ -93,6 +95,11 @@
     }completion:^(BOOL finished) {
         if (finished) [self performSelectorOnMainThread:@selector(reloadTableView) withObject:nil waitUntilDone:NO];
     }];
+}
+
+- (IBAction)addRating:(id)sender {
+    PCCRatingTypeViewController *ratingVC = (PCCRatingTypeViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCAddRatings"];
+    [[KPTransitionManager sharedInstance] pushViewControllerToScreen:ratingVC withAnimation:KPTransitionTypeFromBottom];
 }
 
 -(void)reloadTableView
