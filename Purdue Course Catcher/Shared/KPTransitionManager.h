@@ -32,6 +32,8 @@ enum KPTransitionType {
 - (void)popTopViewController;
 
 @property(nonatomic, strong) NSMutableArray *stackOfViewControllers;
+@property(nonatomic, assign) BOOL isAnimating;
+@property(nonatomic, strong) NSMutableArray *queueOfActions;
 
 
 @end

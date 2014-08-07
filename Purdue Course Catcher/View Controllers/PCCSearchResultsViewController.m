@@ -417,7 +417,7 @@
             [newCell.activityIndicator stopAnimating];
             [newCell.slots setText:[NSString stringWithFormat:@"SLOTS: %@/%@", slots.enrolled, slots.capacity]];
             newCell.actionButton.enabled = allowAction;
-            if (1 || slots.enrolled.intValue <= 0) {
+            if (slots.enrolled.intValue <= 0) {
                 //no slots left
                 [newCell setupCatcherWithCourse:class];
             }else {

@@ -36,7 +36,7 @@
     shadow.shadowOffset = CGSizeMake(0.0f, 1.0f);
      shadow.shadowColor = [UIColor whiteColor];
      NSDictionary *attributes = @{
-                                    NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f],
+                                    NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f],
                                     NSShadowAttributeName: shadow
                                 };
     [[UINavigationBar appearance] setTitleTextAttributes:attributes];

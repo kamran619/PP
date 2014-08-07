@@ -25,10 +25,25 @@ static KPTransitionManager *_singleton = nil;
 
 - (id)init {
     if (self = [super init]) {
-        self.stackOfViewControllers = [NSMutableArray array];
+        _stackOfViewControllers = [NSMutableArray array];
+        _isAnimating = NO;
+        _queueOfActions = [[NSMutableArray alloc] init];
+        [self addObserver:self forKeyPath:NSStringFromSelector(@selector(isAnimating)) options:NSKeyValueObservingOptionNew context:nil];
     }
     
     return self;
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:NSStringFromSelector(@selector(isAnimating))]) {
+        if (self.isAnimating == NO || change[NSKeyValueChangeNewKey] == (int)NO) {
+            if (self.queueOfActions.count > 0) {
+                NSBlockOperation *operation = [self.queueOfActions firstObject];
+                [self.queueOfActions removeObject:operation];
+                [operation start];
+            }
+        }
+    }
 }
 
 - (void)pushViewControllerToScreen:(UIViewController *)viewController {
@@ -36,80 +51,122 @@ static KPTransitionManager *_singleton = nil;
 }
 
 - (void)pushViewControllerToScreen:(UIViewController *)viewController withAnimation:(KPTransitionType)animation {
-
-    @synchronized(self.stackOfViewControllers) {
-        UIViewController *viewControllerToScaleBack = [self getTopViewController];
-        CGRect oldViewFrame = viewControllerToScaleBack.view.frame;
-        CGAffineTransform scale = CGAffineTransformMakeScale(0.8, 0.8);
-        UIView *blackroundView = [[UIView alloc] initWithFrame:viewControllerToScaleBack.view.bounds];
-        [blackroundView setAlpha:0.0];
-        [blackroundView setBackgroundColor:[UIColor blackColor]];
-        [blackroundView setTag:TAG_FOR_BLACKGROUND_VIEW];
-        [viewControllerToScaleBack.view addSubview:blackroundView];
-        
-        
-        [self.stackOfViewControllers addObject:viewController];
-        
-        [viewController.view setFrame:[self getFrameForViewController:viewController withAnimationType:animation]];
-        [viewController beginAppearanceTransition:YES animated:YES];
-        [[self getWindow] addSubview:viewController.view];
-        
-        
-        [UIView animateWithDuration:0.35f animations:^{
-            viewControllerToScaleBack.view.transform = scale;
-            blackroundView.alpha = 0.7;
+    
+    if (_isAnimating) {
+        NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self pushViewControllerToScreen:viewController withAnimation:animation];
+            });
         }];
-        
-        [UIView animateWithDuration:0.25f delay:0.05f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            viewController.view.frame = CGRectMake(0, oldViewFrame.size.height - CGRectGetHeight(viewController.view.frame), CGRectGetWidth(viewController.view.frame), CGRectGetHeight(viewController.view.frame));
-        }completion:^(BOOL finished) {
-            if (finished) {
-                [viewController endAppearanceTransition];
-            }
-        }];
+        [self.queueOfActions addObject:operation];
+        return;
     }
+    
+    [self willChangeValueForKey:@"isAnimating"];
+    _isAnimating = YES;
+    [self didChangeValueForKey:@"isAnimating"];
+    
+    UIViewController *viewControllerToScaleBack = [self getTopViewController];
+    
+    [self.stackOfViewControllers addObject:viewControllerToScaleBack];
+    
+    CGRect oldViewFrame = viewControllerToScaleBack.view.frame;
+    CGAffineTransform scale = CGAffineTransformMakeScale(0.8, 0.8);
+    UIView *blackroundView = [[UIView alloc] initWithFrame:viewControllerToScaleBack.view.bounds];
+    [blackroundView setAlpha:0.0];
+    [blackroundView setBackgroundColor:[UIColor blackColor]];
+    [blackroundView setTag:TAG_FOR_BLACKGROUND_VIEW];
+    [viewControllerToScaleBack.view addSubview:blackroundView];
+
+    [viewController.view setFrame:[self getFrameForViewController:viewController withAnimationType:animation]];
+    [viewController beginAppearanceTransition:YES animated:YES];
+    [[self getWindow] addSubview:viewController.view];
+    
+    
+    [UIView animateWithDuration:0.35f animations:^{
+        viewControllerToScaleBack.view.transform = scale;
+        blackroundView.alpha = 0.7;
+    }];
+    
+    [UIView animateWithDuration:0.25f delay:0.05f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        viewController.view.frame = CGRectMake(0, oldViewFrame.size.height - CGRectGetHeight(viewController.view.frame), CGRectGetWidth(viewController.view.frame), CGRectGetHeight(viewController.view.frame));
+    }completion:^(BOOL finished) {
+        if (finished) {
+            [viewController endAppearanceTransition];
+            [self.stackOfViewControllers addObject:viewController];
+            [self willChangeValueForKey:@"isAnimating"];
+            _isAnimating = NO;
+            [self didChangeValueForKey:@"isAnimating"];
+        }
+    }];
 }
 
 
 - (void)popTopViewController {
-    [self popViewController:[self getTopViewController] withAnimationType:KPTransitionTypeToRight];
+    [self popTopViewControllerWithAnimationType:KPTransitionTypeToRight];
 }
 
 - (void)popTopViewControllerWithAnimationType:(KPTransitionType)animationType {
+    if (_isAnimating) {
+        NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIViewController *topVC = [self getTopViewController];
+                [self popViewController:topVC withAnimationType:animationType];
+            });
+        }];
+        [self.queueOfActions addObject:operation];
+        return;
+    }
+    
     [self popViewController:[self getTopViewController] withAnimationType:animationType];
 }
 
 - (void)popViewController:(UIViewController *)viewControllerToPop withAnimationType:(KPTransitionType)animationType {
     
-    @synchronized(self.stackOfViewControllers) {
-        [self.stackOfViewControllers removeObject:viewControllerToPop];
-        
-        [viewControllerToPop beginAppearanceTransition:NO animated:YES];
-        
-        [UIView animateWithDuration:0.25f animations:^{
-            viewControllerToPop.view.frame = [self getFrameForViewController:viewControllerToPop withAnimationType:animationType];
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [viewControllerToPop.view removeFromSuperview];
-                [viewControllerToPop endAppearanceTransition];
-            }
+    if (_isAnimating) {
+        NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self popViewController:viewControllerToPop withAnimationType:animationType];
+            });
         }];
-        
-        UIViewController *viewControllerToScaleUp = [self getTopViewController];
-        CGAffineTransform scale = CGAffineTransformMakeScale(0.8, 0.8);
-        viewControllerToScaleUp.view.transform = scale;
-        
-        UIView *blackgroundView = [self getViewFromTag:TAG_FOR_BLACKGROUND_VIEW forViewController:viewControllerToScaleUp];
-        
-        [UIView animateWithDuration:0.35f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            viewControllerToScaleUp.view.transform = CGAffineTransformIdentity;
-            [blackgroundView setAlpha:0.0f];
-        }completion:^(BOOL finished) {
-            if (finished) {
-                [blackgroundView removeFromSuperview];
-            }
-        }];
+        [self.queueOfActions addObject:operation];
+        return;
     }
+    
+    [self willChangeValueForKey:@"isAnimating"];
+    _isAnimating = YES;
+    [self didChangeValueForKey:@"isAnimating"];
+    
+    [self.stackOfViewControllers removeObject:viewControllerToPop];
+    
+    [viewControllerToPop beginAppearanceTransition:NO animated:YES];
+    
+    [UIView animateWithDuration:0.25f animations:^{
+        viewControllerToPop.view.frame = [self getFrameForViewController:viewControllerToPop withAnimationType:animationType];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [viewControllerToPop.view removeFromSuperview];
+            [viewControllerToPop endAppearanceTransition];
+        }
+    }];
+    
+    UIViewController *viewControllerToScaleUp = [self getTopViewController];
+    CGAffineTransform scale = CGAffineTransformMakeScale(0.8, 0.8);
+    viewControllerToScaleUp.view.transform = scale;
+    
+    UIView *blackgroundView = [self getViewFromTag:TAG_FOR_BLACKGROUND_VIEW forViewController:viewControllerToScaleUp];
+    
+    [UIView animateWithDuration:0.35f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        viewControllerToScaleUp.view.transform = CGAffineTransformIdentity;
+        [blackgroundView setAlpha:0.0f];
+    }completion:^(BOOL finished) {
+        if (finished) {
+            [blackgroundView removeFromSuperview];
+            [self willChangeValueForKey:@"isAnimating"];
+            _isAnimating = NO;
+            [self didChangeValueForKey:@"isAnimating"];
+        }
+    }];
 }
 
 - (UIView *)getViewFromTag:(int)tag forViewController:(UIViewController *)vc {
@@ -123,32 +180,32 @@ static KPTransitionManager *_singleton = nil;
 - (CGRect) getFrameForViewController:(UIViewController *)viewController withAnimationType:(KPTransitionType)animationType {
     CGRect frame = CGRectZero;
     CGRect vcFrame = viewController.view.frame;
-    CGRect windowFrame = [[[[self getWindow] rootViewController] view] frame];
+    //CGRect windowFrame = [[[[self getWindow] rootViewController] view] frame];
     
     switch (animationType) {
         case KPTransitionTypeFromLeft:
-            frame.origin.x = -CGRectGetWidth(windowFrame);
+            frame.origin.x = -CGRectGetWidth(vcFrame);
             break;
         case KPTransitionTypeFromBottom:
-            frame.origin.y = CGRectGetHeight(windowFrame);
+            frame.origin.y = CGRectGetHeight(vcFrame);
             break;
         case KPTransitionTypeFromRight:
-            frame.origin.x = CGRectGetWidth(windowFrame);
+            frame.origin.x = CGRectGetWidth(vcFrame);
             break;
         case KPTransitionTypeFromTop:
-            frame.origin.y = CGRectGetHeight(windowFrame);
+            frame.origin.y = CGRectGetHeight(vcFrame);
             break;
         case KPTransitionTypeToLeft:
-            frame.origin.x = -CGRectGetWidth(windowFrame);
+            frame.origin.x = -CGRectGetWidth(vcFrame);
             break;
         case KPTransitionTypeToBottom:
-            frame.origin.y = CGRectGetHeight(windowFrame);
+            frame.origin.y = CGRectGetHeight(vcFrame);
             break;
         case KPTransitionTypeToTop:
-            frame.origin.y = -CGRectGetHeight(windowFrame);
+            frame.origin.y = -CGRectGetHeight(vcFrame);
             break;
         case KPTransitionTypeToRight:
-            frame.origin.x = CGRectGetWidth(windowFrame);
+            frame.origin.x = CGRectGetWidth(vcFrame);
             break;
         default:
             break;
