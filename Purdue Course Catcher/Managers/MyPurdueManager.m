@@ -561,7 +561,7 @@ static MyPurdueManager *_sharedInstance = nil;
         if (![[val substringFromIndex:[val length] - 2] isEqualToString:@"15"]) [legitimateElements addObject:obj];
     }
     
-    if (legitimateElements.count > 0) term = [legitimateElements subarrayWithRange:NSMakeRange(0, 4)];
+    if (legitimateElements.count > 0) term = [legitimateElements subarrayWithRange:NSMakeRange(0, 6)];
     return [term copy];
 }
 
@@ -653,7 +653,7 @@ static MyPurdueManager *_sharedInstance = nil;
     NSString *webData = nil;
     webData = [[self class] queryServer:courseLink connectionType:nil referer:URL_COURSE_SEARCH arguements:nil];
     NSArray *courseRecord = [[self class] parseData:webData type:ParseSlots term:nil];
-    PCCCourseSlots *record = [courseRecord objectAtIndex:0];
+    PCCCourseSlots *record = [courseRecord firstObject];
     return record;
 }
 

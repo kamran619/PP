@@ -8,10 +8,12 @@
 
 #import "PCCAddRatingChooseProfessorViewController.h"
 #import "PCFClassModel.h"
+#import "PCCAddRatingChooseCourseViewController.h"
 
 @interface PCCAddRatingChooseProfessorViewController ()
 {
     NSArray *_professors;
+    NSString *_selectedProfessor;
 }
 @end
 
@@ -63,6 +65,33 @@
     NSString *professorName = _professors[indexPath.row];
     cell.textLabel.text = professorName;
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    _selectedProfessor = _professors[indexPath.row];
+    [self performSegueWithIdentifier:@"segueAddChooseCourse" sender:self];
+    
+
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"segueAddChooseCourse"]) {
+        PCCAddRatingChooseCourseViewController *vc = segue.destinationViewController;
+        vc.dataSource = [NSOrderedSet orderedSetWithArray:[self getClassesForProfessor:_selectedProfessor]];
+    }
+}
+
+- (NSArray *)getClassesForProfessor:(NSString *)professor {
+    NSMutableArray *courses = [NSMutableArray array];
+    
+    [self.dataSource enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        PCFClassModel *class = (PCFClassModel *)obj;
+        if ([class.instructor isEqualToString:professor])
+            [courses addObject:class];
+    }];
+    
+    return [courses copy];
 }
 
 @end

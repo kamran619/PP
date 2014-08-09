@@ -100,20 +100,8 @@
 }
 
 - (IBAction)addRating:(id)sender {
-    PCCRatingTypeViewController *ratingVC = (PCCRatingTypeViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCAddRatings"];
-    PCCAddRatingChooseSemesterViewController *ratingVC2 = (PCCAddRatingChooseSemesterViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCAddRatingChooseSemester"];
-    PCCAddRatingChooseCourseViewController *ratingVC4 = (PCCAddRatingChooseCourseViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCAddRatingChooseCourse"];
-    
+    PCCRatingTypeViewController *ratingVC = (PCCRatingTypeViewController *)[Helpers viewControllerWithStoryboardIdentifier:@"PCCAddRatings"];    
     [[KPTransitionManager sharedInstance] pushViewControllerToScreen:ratingVC withAnimation:KPTransitionTypeFromBottom];
-    [[KPTransitionManager sharedInstance] pushViewControllerToScreen:ratingVC2 withAnimation:KPTransitionTypeFromLeft];
-    [[KPTransitionManager sharedInstance] pushViewControllerToScreen:ratingVC4 withAnimation:KPTransitionTypeFromRight];
-    
-    [[KPTransitionManager sharedInstance] popTopViewControllerWithAnimationType:KPTransitionTypeFromRight];
-    [[KPTransitionManager sharedInstance] popTopViewControllerWithAnimationType:KPTransitionTypeFromLeft];
-    [[KPTransitionManager sharedInstance] popTopViewControllerWithAnimationType:KPTransitionTypeFromBottom];
-    //[[KPTransitionManager sharedInstance] popTopViewController];
-
-
 }
 
 -(void)reloadTableView

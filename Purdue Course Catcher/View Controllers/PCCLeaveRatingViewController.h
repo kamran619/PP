@@ -16,6 +16,7 @@ enum RatingPhase
     RatingPhaseHelpfulness,
     RatingPhaseClarity,
     RatingPhaseEasiness,
+    RatingPhaseMessage,
     RatingPhaseMax
 }typedef RatingPhase;
 
