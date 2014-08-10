@@ -564,9 +564,10 @@ static MyPurdueManager *_sharedInstance = nil;
     NSDictionary *educationInfo = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary];
     PCCObject *firstTerm = educationInfo[kAdmitTerm];
     NSUInteger position = [term indexOfObject:firstTerm];
+    position = (position == -1) ? 6 : position;
     if (legitimateElements.count > 0) term = [legitimateElements subarrayWithRange:NSMakeRange(0, position)];
-    return [term copy];
-}
+    return [legitimateElements copy];
+}b
 
 //General Search
 +(NSArray *)getCoursesWithParametersForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber AndSubject:(NSString *)subject FromHours:(NSString *)fromHours ToHours:(NSString *)toHours AndProfessor:(NSString *)professor AndDays:(NSString *)days scheduleType:(NSString *)scheduleType
