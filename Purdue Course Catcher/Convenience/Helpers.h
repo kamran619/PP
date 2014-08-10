@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PCCObject.h"
 
 #if TARGET_IPHONE_SIMULATOR
     #define SERVER_ADDRESS @"127.0.0.1"//@"PCW.crabdance.com"
@@ -104,4 +105,8 @@ enum PurdueColor {
 +(NSArray *)getArrayOfScheduleTypes:(NSArray *)classes;
 
 +(void)sendEmail:(PCFClassModel *)course forViewController:(UIViewController *)vc;
+
++(PCCObject *)termToPCCObject:(NSString *)term;
+
+    
 @end

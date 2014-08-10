@@ -313,5 +313,25 @@
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
++ (PCCObject *)termToPCCObject:(NSString *)term {
+    NSArray *array = [term componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (array.count != 2) return nil;
+    NSString *termName = array[0];
+    NSString *year = array[1];
+    
+    NSString *finalTerm;
+    int yearNum = [year intValue];
+    if ([termName isEqualToString:@"Fall"]) {
+        yearNum++;
+        finalTerm = [NSString stringWithFormat:@"%d10", yearNum];
+    }else if ([termName isEqualToString:@"Spring"]) {
+        finalTerm = [NSString stringWithFormat:@"%d20", yearNum];
+    }else if ([termName isEqualToString:@"Summer"]) {
+        finalTerm = [NSString stringWithFormat:@"%d30", yearNum];
+    }
+    
+    return [[PCCObject alloc] initWithKey:term AndValue:finalTerm];
+}
 @end
 

@@ -561,7 +561,10 @@ static MyPurdueManager *_sharedInstance = nil;
         if (![[val substringFromIndex:[val length] - 2] isEqualToString:@"15"]) [legitimateElements addObject:obj];
     }
     
-    if (legitimateElements.count > 0) term = [legitimateElements subarrayWithRange:NSMakeRange(0, 6)];
+    NSDictionary *educationInfo = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary];
+    PCCObject *firstTerm = educationInfo[kAdmitTerm];
+    NSUInteger position = [term indexOfObject:firstTerm];
+    if (legitimateElements.count > 0) term = [legitimateElements subarrayWithRange:NSMakeRange(0, position)];
     return [term copy];
 }
 
@@ -1294,6 +1297,32 @@ static MyPurdueManager *_sharedInstance = nil;
         NSArray *arr = [classification componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         classification = [arr objectAtIndex:0];
         
+        NSString *kLookForAdmitTerm = @"Admit Term";
+        NSString *admitTerm;
+        [scanner scanUpToString:kLookForAdmitTerm intoString:nil];
+        [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
+        [scanner setScanLocation:scanner.scanLocation + 21];
+        [scanner scanUpToString:@"<" intoString:&admitTerm];
+        
+        PCCObject *admitTermObject = [Helpers termToPCCObject:admitTerm];
+        
+        NSString *kLookForCatalogTerm = @"Catalog Term";
+        NSString *catalogTerm;
+        [scanner scanUpToString:kLookForAdmitTerm intoString:nil];
+        [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
+        [scanner setScanLocation:scanner.scanLocation + 21];
+        [scanner scanUpToString:@"<" intoString:&catalogTerm];
+        
+        PCCObject *catalogTermObject = [Helpers termToPCCObject:catalogTerm];
+        
+        NSArray *arrayOfObjects = @[admitTermObject, catalogTermObject];
+        
+        arrayOfObjects = [arrayOfObjects sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return [obj1 compare:obj2];
+        }];
+        
+        PCCObject *earlierTerm = [arrayOfObjects firstObject];
+        
         NSString *kLookForMajor = @"Major:";
         [scanner scanUpToString:kLookForMajor intoString:nil];
         [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
@@ -1302,8 +1331,8 @@ static MyPurdueManager *_sharedInstance = nil;
         
         //remove & from major
         major = [major stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
-        NSArray *objects = [NSArray arrayWithObjects:name, classification, major, nil];
-        NSArray *keys = [NSArray arrayWithObjects:kName, kClassification, kMajor, nil];
+        NSArray *objects = [NSArray arrayWithObjects:name, classification, major, earlierTerm, nil];
+        NSArray *keys = [NSArray arrayWithObjects:kName, kClassification, kMajor, kAdmitTerm, nil];
         return [NSDictionary dictionaryWithObjects:objects forKeys:keys];
     }else if (type == ParseRegistration) {
         NSString *kLookForStatus = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"MESG\"";

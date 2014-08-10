@@ -52,6 +52,7 @@ typedef enum
 #define kName @"kName"
 #define kClassification @"kClassification"
 #define kMajor @"kMajor"
+#define kAdmitTerm @"kAdmitTerm"
 
 #define kSettings @"kSettings"
 #define kNickname @"kNickname"

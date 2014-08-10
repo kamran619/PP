@@ -48,4 +48,9 @@ NSString *const kEncodeValue = @"kEncodeValue";
     return NO;
 }
 
+-(NSComparisonResult)compare:(id)object {
+    PCCObject *obj = (PCCObject *)object;
+    return [self.value compare:obj.value];
+}
+
 @end
