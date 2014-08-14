@@ -555,10 +555,11 @@ static MyPurdueManager *_sharedInstance = nil;
 +(NSArray *)getMinimalTerms
 {
     NSMutableArray *legitimateElements = [NSMutableArray arrayWithCapacity:3];
+    NSString *kBGRTerm = @"15";
     NSArray *term = [[self class] getTerms];
     for (PCCObject *obj in term) {
         NSString *val = obj.value;
-        if (![[val substringFromIndex:[val length] - 2] isEqualToString:@"15"]) [legitimateElements addObject:obj];
+        if (![[val substringFromIndex:[val length] - 2] isEqualToString:kBGRTerm]) [legitimateElements addObject:obj];
     }
     
     NSDictionary *educationInfo = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary];
@@ -567,7 +568,7 @@ static MyPurdueManager *_sharedInstance = nil;
     position = (position == -1) ? 6 : position;
     if (legitimateElements.count > 0) term = [legitimateElements subarrayWithRange:NSMakeRange(0, position)];
     return [legitimateElements copy];
-}b
+}
 
 //General Search
 +(NSArray *)getCoursesWithParametersForTerm:(NSString *)term WithClassName:(NSString *)className AndCourseNumber:(NSString *)courseNumber AndSubject:(NSString *)subject FromHours:(NSString *)fromHours ToHours:(NSString *)toHours AndProfessor:(NSString *)professor AndDays:(NSString *)days scheduleType:(NSString *)scheduleType

@@ -8,22 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PCCLeaveRatingViewController : UIViewController
+@interface PCCLeaveRatingViewController : UIViewController<UIScrollViewDelegate>
 
-enum RatingPhase
-{
-    RatingPhaseOverall = 0,
-    RatingPhaseHelpfulness,
-    RatingPhaseClarity,
-    RatingPhaseEasiness,
-    RatingPhaseMessage,
-    RatingPhaseMax
-}typedef RatingPhase;
 
 @property(nonatomic, assign) RatingPhase phase;
-@property(nonatomic, strong) IBOutlet UILabel *mainLabel;
-@property(nonatomic, strong) IBOutlet UILabel *detailLabel;
-@property(nonatomic, strong) IBOutlet UIImageView *stars;
+@property(nonatomic, strong) IBOutlet UILabel *overallHeader;
+@property(nonatomic, strong) IBOutlet UILabel* overallDetailLabel;
+@property(nonatomic, strong) IBOutlet UIImageView *overallStart;
 @property(nonatomic, strong) UISwipeGestureRecognizer *swipeGestureRecognizer;
 
 @end
