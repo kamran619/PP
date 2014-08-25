@@ -8,24 +8,24 @@
 
 #import "PCFClassModel.h"
 
-NSString *const kEncodeClassTitle = @"kEncodeClassTitle";
-NSString *const kEncodeCRN = @"kEncodeCRN";
-NSString *const kEncodeCourseNumber = @"kEncodeCourseNumber";
-NSString *const kEncodeTime = @"kEncodeTime";
-NSString *const kEncodeDays = @"kEncodeDays";
-NSString *const kEncodeDateRange = @"kEncodeDateRange";
-NSString *const kEncodeClassType = @"kEncodeClassType";
-NSString *const kEncodescheduleType = @"kEncodeScheduleType";
-NSString *const kEncodeInstructor = @"kEncodeInstructor";
-NSString *const kEncodeCredits = @"kEncodeCredits";
-NSString *const kEncodeClassLink = @"kEncodeClassLink";
-NSString *const kEncodeCatalogLink = @"kEncodeCatalogLink";
-NSString *const kEncodeSectionNum = @"kEncodeSectionNum";
-NSString *const kEncodeClassLocation = @"kEncodeClassLocation";
-NSString *const kEncodeInstructorEmail = @"kEncodeInstructorEmail";
-NSString *const kEncodeLinkedID = @"kEncodeLinkedID";
-NSString *const kEncodeLinkedSection = @"kEncodeLinkedSection";
-NSString *const kEncodeTerm = @"kEncodeTerm";
+static NSString *const kEncodeClassTitle = @"kEncodeClassTitle";
+static NSString *const kEncodeCRN = @"kEncodeCRN";
+static NSString *const kEncodeCourseNumber = @"kEncodeCourseNumber";
+static NSString *const kEncodeTime = @"kEncodeTime";
+static NSString *const kEncodeDays = @"kEncodeDays";
+static NSString *const kEncodeDateRange = @"kEncodeDateRange";
+static NSString *const kEncodeClassType = @"kEncodeClassType";
+static NSString *const kEncodescheduleType = @"kEncodeScheduleType";
+static NSString *const kEncodeInstructor = @"kEncodeInstructor";
+static NSString *const kEncodeCredits = @"kEncodeCredits";
+static NSString *const kEncodeClassLink = @"kEncodeClassLink";
+static NSString *const kEncodeCatalogLink = @"kEncodeCatalogLink";
+static NSString *const kEncodeSectionNum = @"kEncodeSectionNum";
+static NSString *const kEncodeClassLocation = @"kEncodeClassLocation";
+static NSString *const kEncodeInstructorEmail = @"kEncodeInstructorEmail";
+static NSString *const kEncodeLinkedID = @"kEncodeLinkedID";
+static NSString *const kEncodeLinkedSection = @"kEncodeLinkedSection";
+static NSString *const kEncodeTerm = @"kEncodeTerm";
 @implementation PCFClassModel
 
 -(id)initWithClassTitle:(NSString *)classTitle crn:(NSString *)crn courseNumber:(NSString *)courseNumber Time:(NSString *)Time Days:(NSString *)Days DateRange:(NSString *)daterange ScheduleType:(NSString *)scheduletype Instructor:(NSString *)Instructor Credits:(NSString *)Credits ClassLink:(NSString *)ClassLink CatalogLink:(NSString *)CatalogLink SectionNum:(NSString *)SectionNum ClassLocation:(NSString *)ClassLocation Email:(NSString *)InstructorEmail linkedID:(NSString *)linkedID linkedSection:(NSString *)linkedSection term:(NSString *)term

@@ -7,14 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PCCLeaveRatingViewController.h"
 @interface PCCLeaveRatingViewController : UIViewController<UIScrollViewDelegate>
 
-
-@property(nonatomic, assign) RatingPhase phase;
-@property(nonatomic, strong) IBOutlet UILabel *overallHeader;
-@property(nonatomic, strong) IBOutlet UILabel* overallDetailLabel;
-@property(nonatomic, strong) IBOutlet UIImageView *overallStart;
-@property(nonatomic, strong) UISwipeGestureRecognizer *swipeGestureRecognizer;
-
+//This is going to be an array of PCCGenericRating Objects
+@property(nonatomic, strong) NSArray *dataSource;
+@property(nonatomic, strong) UIScrollView *scrollView;
 @end

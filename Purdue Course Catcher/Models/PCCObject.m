@@ -10,8 +10,8 @@
 
 @implementation PCCObject
 
-NSString *const kEncodeKey = @"kEncodeKey";
-NSString *const kEncodeValue = @"kEncodeValue";
+static NSString *const kEncodeKey = @"kEncodeKey";
+static NSString *const kEncodeValue = @"kEncodeValue";
 
 -(id)initWithKey:(NSString *)key AndValue:(NSString *)value
 {

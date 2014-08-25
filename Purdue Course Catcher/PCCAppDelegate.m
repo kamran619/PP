@@ -69,7 +69,8 @@
     //we don't care about the fb state anymore
     
     if ([Helpers hasRanAppBefore] == NO || [Helpers getCurrentUser] == nil) {
-        self.window.rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCFTUEViewController"];
+        //PCCFTUEViewController
+        self.window.rootViewController = [Helpers viewControllerWithStoryboardIdentifier:@"PCCTabBar"];
     }else {
         
         if (launchOptions)

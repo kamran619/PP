@@ -33,6 +33,8 @@
 		FE24FFDF187E0B57004D540E /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE24FFDD187E0B57004D540E /* checkmark@2x.png */; };
 		FE24FFE2187E1974004D540E /* PCCPurdueLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */; };
 		FE24FFE5187E5F2F004D540E /* PCCFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */; };
+		FE25B23719A820AD00C32EE1 /* PCCGenericRating.m in Sources */ = {isa = PBXBuildFile; fileRef = FE25B23619A820AD00C32EE1 /* PCCGenericRating.m */; };
+		FE25B23A19A8419900C32EE1 /* PCCGenericRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE25B23919A8419900C32EE1 /* PCCGenericRatingView.m */; };
 		FE26BA0B18D7F23300FB1E83 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = FE26BA0A18D7F23300FB1E83 /* bubble.png */; };
 		FE2744F219006DFF007088D6 /* star-0.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2744EC19006DFF007088D6 /* star-0.png */; };
 		FE2744F319006DFF007088D6 /* star-1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE2744ED19006DFF007088D6 /* star-1.png */; };
@@ -222,6 +224,10 @@
 		FE24FFE1187E1974004D540E /* PCCPurdueLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCPurdueLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCPurdueLoginViewController.m"; sourceTree = "<group>"; };
 		FE24FFE3187E5F2F004D540E /* PCCFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCFacebookLoginViewController.h; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.h"; sourceTree = "<group>"; };
 		FE24FFE4187E5F2F004D540E /* PCCFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCFacebookLoginViewController.m; path = "Purdue Course Catcher/View Controllers/PCCFacebookLoginViewController.m"; sourceTree = "<group>"; };
+		FE25B23519A820AD00C32EE1 /* PCCGenericRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCGenericRating.h; sourceTree = "<group>"; };
+		FE25B23619A820AD00C32EE1 /* PCCGenericRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCGenericRating.m; sourceTree = "<group>"; };
+		FE25B23819A8419900C32EE1 /* PCCGenericRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCGenericRatingView.h; path = "Purdue Course Catcher/Views/PCCGenericRatingView.h"; sourceTree = "<group>"; };
+		FE25B23919A8419900C32EE1 /* PCCGenericRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCGenericRatingView.m; path = "Purdue Course Catcher/Views/PCCGenericRatingView.m"; sourceTree = "<group>"; };
 		FE26BA0A18D7F23300FB1E83 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		FE2744EC19006DFF007088D6 /* star-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-0.png"; sourceTree = "<group>"; };
 		FE2744ED19006DFF007088D6 /* star-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-1.png"; sourceTree = "<group>"; };
@@ -567,6 +573,8 @@
 		FE3FDBF01925879800B88731 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FE25B23819A8419900C32EE1 /* PCCGenericRatingView.h */,
+				FE25B23919A8419900C32EE1 /* PCCGenericRatingView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -833,6 +841,8 @@
 				FE274502190379AB007088D6 /* PCCCourseRating.m */,
 				FE274504190379F0007088D6 /* PCCProfessorRating.h */,
 				FE274505190379F0007088D6 /* PCCProfessorRating.m */,
+				FE25B23519A820AD00C32EE1 /* PCCGenericRating.h */,
+				FE25B23619A820AD00C32EE1 /* PCCGenericRating.m */,
 			);
 			name = Models;
 			path = "Purdue Course Catcher/Models";
@@ -1203,6 +1213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE2356C0196A002B003841FE /* PCCNotificationViewController.m in Sources */,
+				FE25B23719A820AD00C32EE1 /* PCCGenericRating.m in Sources */,
 				FE50C5191870BBFB00EF24BA /* PCCSearchResultsViewController.m in Sources */,
 				FEE41964198F821E0024F770 /* PCCUserCourseCell.m in Sources */,
 				FE24108818754A2200AA6328 /* KPLightBoxManager.m in Sources */,
@@ -1216,6 +1227,7 @@
 				FE24FFD6187DF27E004D540E /* PCCFTUEViewController.m in Sources */,
 				FE3FDBF3192587B900B88731 /* PCCSearchResultsFilterViewController.m in Sources */,
 				FE8B19A9192E7F83008422F6 /* PCCSearchFilterViewController.m in Sources */,
+				FE25B23A19A8419900C32EE1 /* PCCGenericRatingView.m in Sources */,
 				FE83AEAD18EF8A8A00324E20 /* PCCRatingViewController.m in Sources */,
 				FE4D4C4B1895F0A900A5DBE1 /* PCCRegistrationError.m in Sources */,
 				FE55311F184D446A00D13587 /* PCCCatcherViewController.m in Sources */,

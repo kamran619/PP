@@ -565,7 +565,7 @@ static MyPurdueManager *_sharedInstance = nil;
     NSDictionary *educationInfo = [[PCCDataManager sharedInstance] getObjectFromDictionary:DataDictionaryUser WithKey:kEducationInfoDictionary];
     PCCObject *firstTerm = educationInfo[kAdmitTerm];
     NSUInteger position = [term indexOfObject:firstTerm];
-    position = (position == -1) ? 6 : position;
+    position = (position == NSNotFound) ? 6 : position;
     if (legitimateElements.count > 0) term = [legitimateElements subarrayWithRange:NSMakeRange(0, position)];
     return [legitimateElements copy];
 }
@@ -1278,64 +1278,71 @@ static MyPurdueManager *_sharedInstance = nil;
                 return array;
             }
     }else if (type == ParseStudentInformation) {
-        NSScanner *scanner = [NSScanner scannerWithString:data];
-        [scanner setCaseSensitive:YES];
-        NSString *name, *classification, *major;
-        
-        NSString *kLookForName = @"Welcome";
-        
-        //get name by searching for Welcome message
-        [scanner scanUpToString:kLookForName intoString:nil];
-        [scanner setScanLocation:scanner.scanLocation + 8];
-        [scanner scanUpToString:@"<" intoString:&name];
-        
-        NSString *kLookForClassStanding = @"Class Standing";
-        
-        [scanner scanUpToString:kLookForClassStanding intoString:nil];
-        [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
-        [scanner setScanLocation:scanner.scanLocation + 21];
-        [scanner scanUpToString:@"<" intoString:&classification];
-        //remove hours
-        NSArray *arr = [classification componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        classification = [arr objectAtIndex:0];
-        
-        NSString *kLookForAdmitTerm = @"Admit Term";
-        NSString *admitTerm;
-        [scanner scanUpToString:kLookForAdmitTerm intoString:nil];
-        [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
-        [scanner setScanLocation:scanner.scanLocation + 21];
-        [scanner scanUpToString:@"<" intoString:&admitTerm];
-        
-        PCCObject *admitTermObject = [Helpers termToPCCObject:admitTerm];
-        
-        NSString *kLookForCatalogTerm = @"Catalog Term";
-        NSString *catalogTerm;
-        [scanner scanUpToString:kLookForAdmitTerm intoString:nil];
-        [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
-        [scanner setScanLocation:scanner.scanLocation + 21];
-        [scanner scanUpToString:@"<" intoString:&catalogTerm];
-        
-        PCCObject *catalogTermObject = [Helpers termToPCCObject:catalogTerm];
-        
-        NSArray *arrayOfObjects = @[admitTermObject, catalogTermObject];
-        
-        arrayOfObjects = [arrayOfObjects sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [obj1 compare:obj2];
-        }];
-        
-        PCCObject *earlierTerm = [arrayOfObjects firstObject];
-        
-        NSString *kLookForMajor = @"Major:";
-        [scanner scanUpToString:kLookForMajor intoString:nil];
-        [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
-        [scanner setScanLocation:scanner.scanLocation + 21];
-        [scanner scanUpToString:@"<" intoString:&major];
-        
-        //remove & from major
-        major = [major stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
-        NSArray *objects = [NSArray arrayWithObjects:name, classification, major, earlierTerm, nil];
-        NSArray *keys = [NSArray arrayWithObjects:kName, kClassification, kMajor, kAdmitTerm, nil];
-        return [NSDictionary dictionaryWithObjects:objects forKeys:keys];
+        NSArray *objects, *keys;
+        @try {
+            NSScanner *scanner = [NSScanner scannerWithString:data];
+            [scanner setCaseSensitive:YES];
+            NSString *name, *classification, *major;
+            
+            NSString *kLookForName = @"Welcome";
+            
+            //get name by searching for Welcome message
+            [scanner scanUpToString:kLookForName intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 8];
+            [scanner scanUpToString:@"<" intoString:&name];
+            
+            NSString *kLookForClassStanding = @"Class Standing";
+            
+            [scanner scanUpToString:kLookForClassStanding intoString:nil];
+            [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 21];
+            [scanner scanUpToString:@"<" intoString:&classification];
+            //remove hours
+            NSArray *arr = [classification componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            classification = [arr objectAtIndex:0];
+            
+            NSString *kLookForAdmitTerm = @"Admit Term";
+            NSString *admitTerm;
+            [scanner scanUpToString:kLookForAdmitTerm intoString:nil];
+            [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 21];
+            [scanner scanUpToString:@"<" intoString:&admitTerm];
+            
+            PCCObject *admitTermObject = [Helpers termToPCCObject:admitTerm];
+            
+            NSString *kLookForCatalogTerm = @"Catalog Term";
+            NSString *catalogTerm;
+            [scanner scanUpToString:kLookForAdmitTerm intoString:nil];
+            [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 21];
+            [scanner scanUpToString:@"<" intoString:&catalogTerm];
+            
+            PCCObject *catalogTermObject = [Helpers termToPCCObject:catalogTerm];
+            
+            NSArray *arrayOfObjects = @[admitTermObject, catalogTermObject];
+            
+            arrayOfObjects = [arrayOfObjects sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                return [obj1 compare:obj2];
+            }];
+            
+            PCCObject *earlierTerm = [arrayOfObjects firstObject];
+            
+            NSString *kLookForMajor = @"Major:";
+            [scanner scanUpToString:kLookForMajor intoString:nil];
+            [scanner scanUpToString:@"class=\"uportal-text\">" intoString:nil];
+            [scanner setScanLocation:scanner.scanLocation + 21];
+            [scanner scanUpToString:@"<" intoString:&major];
+            
+            //remove & from major
+            major = [major stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+            objects = [NSArray arrayWithObjects:name, classification, major, earlierTerm, nil];
+            keys = [NSArray arrayWithObjects:kName, kClassification, kMajor, kAdmitTerm, nil];
+    }@catch (NSException *exception) {
+        //NSLog(@"%@", exception.description);
+    }
+    @finally {
+        return [NSDictionary dictionaryWithObjects:objects forKeys:keys];;
+    }
     }else if (type == ParseRegistration) {
         NSString *kLookForStatus = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"MESG\"";
         NSString *kLookForTerm = @"<TD CLASS=\"dddefault\"><INPUT TYPE=\"hidden\" NAME=\"assoc_term_in\" VALUE=\"";

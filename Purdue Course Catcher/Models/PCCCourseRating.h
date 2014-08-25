@@ -10,8 +10,8 @@
 
 @interface PCCCourseRating : PCCRating
 
-@property (nonatomic, strong) NSString *subject;
-@property (nonatomic, strong) NSString *title;
+@property (nonatomic, copy) NSString *subject;
+@property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) int courseNumber;
 @property (nonatomic, assign) int rating;
 @property (nonatomic, assign) int numberOfRatings;

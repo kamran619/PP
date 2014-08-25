@@ -10,7 +10,7 @@
 
 @interface PCCProfessorRating : PCCRating
 
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) int rating;
 @property (nonatomic, assign) int numberOfRatings;
 
