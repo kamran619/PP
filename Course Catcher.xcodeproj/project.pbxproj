@@ -130,6 +130,7 @@
 		FEAE7FA11897530F001FBC09 /* Ps-x-button.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAE7FA01897530F001FBC09 /* Ps-x-button.png */; };
 		FEAE7FA418976075001FBC09 /* PCCRegistrationStatusViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */; };
 		FEB4D5D01890EE4600386C86 /* PCCRegistrationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */; };
+		FEB56DE619AF029900C6EB50 /* PCCSliderRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB56DE519AF029900C6EB50 /* PCCSliderRatingView.m */; };
 		FEB638F518CFEF720066F982 /* cart.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB638F318CFEF720066F982 /* cart.png */; };
 		FEB638F618CFEF720066F982 /* down_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB638F418CFEF720066F982 /* down_arrow.png */; };
 		FEB638F918D000F00066F982 /* PCCPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB638F818D000F00066F982 /* PCCPurchaseViewController.m */; };
@@ -372,6 +373,8 @@
 		FEAE7FA318976075001FBC09 /* PCCRegistrationStatusViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationStatusViewViewController.m; path = "Purdue Course Catcher/View Controllers/PCCRegistrationStatusViewViewController.m"; sourceTree = "<group>"; };
 		FEB4D5CE1890EE4600386C86 /* PCCRegistrationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCRegistrationCell.h; path = "Purdue Course Catcher/Cells/PCCRegistrationCell.h"; sourceTree = "<group>"; };
 		FEB4D5CF1890EE4600386C86 /* PCCRegistrationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCRegistrationCell.m; path = "Purdue Course Catcher/Cells/PCCRegistrationCell.m"; sourceTree = "<group>"; };
+		FEB56DE419AF029900C6EB50 /* PCCSliderRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCSliderRatingView.h; path = "Purdue Course Catcher/Views/PCCSliderRatingView.h"; sourceTree = "<group>"; };
+		FEB56DE519AF029900C6EB50 /* PCCSliderRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCCSliderRatingView.m; path = "Purdue Course Catcher/Views/PCCSliderRatingView.m"; sourceTree = "<group>"; };
 		FEB638F318CFEF720066F982 /* cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cart.png; sourceTree = "<group>"; };
 		FEB638F418CFEF720066F982 /* down_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down_arrow.png; sourceTree = "<group>"; };
 		FEB638F718D000F00066F982 /* PCCPurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCCPurchaseViewController.h; path = "Purdue Course Catcher/View Controllers/PCCPurchaseViewController.h"; sourceTree = "<group>"; };
@@ -575,6 +578,8 @@
 			children = (
 				FE25B23819A8419900C32EE1 /* PCCGenericRatingView.h */,
 				FE25B23919A8419900C32EE1 /* PCCGenericRatingView.m */,
+				FEB56DE419AF029900C6EB50 /* PCCSliderRatingView.h */,
+				FEB56DE519AF029900C6EB50 /* PCCSliderRatingView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1249,6 +1254,7 @@
 				FE2356C8196F98B3003841FE /* KPNotificationCenter.m in Sources */,
 				FE7B735118CE992F003D9D11 /* PCCSettingsCell.m in Sources */,
 				FE6BBC9E1866C10600760E7A /* PCCSettingsViewController.m in Sources */,
+				FEB56DE619AF029900C6EB50 /* PCCSliderRatingView.m in Sources */,
 				FE9628D5185ED9A100F699B5 /* PCCObject.m in Sources */,
 				FEE4195E198F2DCA0024F770 /* PCCAddRatingChooseCourseViewController.m in Sources */,
 				FE9628DB185EDA1700F699B5 /* Reachability.m in Sources */,

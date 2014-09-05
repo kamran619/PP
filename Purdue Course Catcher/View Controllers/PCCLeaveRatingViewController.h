@@ -12,5 +12,7 @@
 
 //This is going to be an array of PCCGenericRating Objects
 @property(nonatomic, strong) NSArray *dataSource;
-@property(nonatomic, strong) UIScrollView *scrollView;
+@property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, strong) IBOutlet UIView *containerView;
+
 @end

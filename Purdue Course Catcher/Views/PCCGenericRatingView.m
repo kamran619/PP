@@ -18,9 +18,6 @@
         _titleLabel.text = title;
         _messageLabel.text = message;
         
-        [self addSubview:_titleLabel];
-        [self addSubview:_messageLabel];
-        
         [self customizeView];
     }
     
@@ -28,6 +25,9 @@
 }
 
 - (void)customizeView {
+    [self addSubview:_titleLabel];
+    [self addSubview:_messageLabel];
+    
     [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_messageLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
@@ -39,7 +39,7 @@
     [_messageLabel setTextAlignment:NSTextAlignmentCenter];
     [_titleLabel setTextAlignment:NSTextAlignmentCenter];
     
-    [_titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:24.0f]];
+    [_titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:24.0f]];
     [_messageLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0f]];
 }
 
@@ -56,14 +56,13 @@
 }
 
 -(void)updateConstraints {
-    
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
                                                      attribute:NSLayoutAttributeTop
                                                      relatedBy:NSLayoutRelationEqual
                                                         toItem:self
                                                      attribute:NSLayoutAttributeTop
                                                     multiplier:1.0f
-                                                      constant:25.0f]];
+                                                      constant:35.0f]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
                                                      attribute:NSLayoutAttributeCenterX
@@ -95,7 +94,7 @@
                                                         toItem:self
                                                      attribute:NSLayoutAttributeBottom
                                                     multiplier:1.0f
-                                                      constant:0.0f]];
+                                                      constant:-40.0f]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_messageLabel
                                                      attribute:NSLayoutAttributeCenterX
